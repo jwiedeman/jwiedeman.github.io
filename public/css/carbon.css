@@ -209,6 +209,23 @@ main {
   color: #f5f5f5;
 }
 
+
+/* Services page layout helpers */
+.services-page section {
+  margin-bottom: 2rem;
+}
+
+.services-page section > h2 {
+  margin: 1.5rem 0 1rem;
+}
+
+.services-page .bx--progress {
+  margin-top: 2rem;
+}
+
+.services-page .bx--toast-notification {
+  margin-top: 1rem;
+}
 @media (min-width: 768px) {
   /* Show nav links inline on larger screens */
   .bx--header__menu-trigger {
@@ -233,4 +250,5 @@ main {
     width: auto;
     padding: 0 0.5rem;
   }
+
 }
