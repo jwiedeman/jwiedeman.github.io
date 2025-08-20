@@ -1,5 +1,5 @@
 ---
-const { title, tagline } = Astro.props;
+const { title } = Astro.props;
 ---
 <section class="topo-hero">
   <canvas id="topo-canvas" aria-hidden="true"></canvas>
@@ -14,10 +14,33 @@ const { title, tagline } = Astro.props;
       <span class="compass w mono">W</span>
     </div>
   </div>
-  <div class="hero-text">
-    <h1>{title}</h1>
-    <p class="subhead mono">{tagline}</p>
-  </div>
+  <nav class="hero-nav">
+    <a href="/" class="brand">{title}</a>
+    <ul>
+      <li><a href="/work">Work</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/experiments">Experiments</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+    <button class="mode mono" data-theme-toggle>MODE: NASA</button>
+  </nav>
+  <script type="module" src="/topo.js"></script>
+  <script type="module">
+    const hero = document.querySelector('.topo-hero');
+    const nav = hero.querySelector('.hero-nav');
+    const navHeight = nav.offsetHeight;
+    hero.style.setProperty('--nav-height', `${navHeight}px`);
+    function onScroll() {
+      if (window.scrollY > hero.offsetHeight - navHeight) {
+        hero.classList.add('collapsed');
+        nav.classList.add('sticky');
+      } else {
+        hero.classList.remove('collapsed');
+        nav.classList.remove('sticky');
+      }
+    }
+    window.addEventListener('scroll', onScroll);
+  </script>
   <style>
     .topo-hero {
       position: relative;
@@ -29,6 +52,7 @@ const { title, tagline } = Astro.props;
       --grid-major: color-mix(in srgb, var(--color-accent) 30%, transparent);
       --grid-minor: color-mix(in srgb, var(--color-accent) 15%, transparent);
       --contour-color: var(--color-text);
+      --nav-height: 56px;
       background: var(--color-bg);
     }
     :global(.theme-light) .topo-hero {
@@ -78,32 +102,38 @@ const { title, tagline } = Astro.props;
     .topo-hero .hud .s { bottom: -16px; left: 50%; transform: translateX(-50%); }
     .topo-hero .hud .e { right: -16px; top: 50%; transform: translateY(-50%); }
     .topo-hero .hud .w { left: -16px; top: 50%; transform: translateY(-50%); }
-    .topo-hero .hero-text {
+    .hero-nav {
       position: absolute;
       bottom: var(--space-2);
       left: var(--space-2);
+      right: var(--space-2);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
       color: var(--frame-color);
     }
-    .topo-hero .hero-text h1 {
+    .hero-nav ul {
+      display: flex;
+      gap: var(--space-2);
+      list-style: none;
       margin: 0;
-      font-size: var(--text-48);
+      padding: 0;
     }
-    .topo-hero .hero-text .subhead {
-      font-size: var(--text-16);
-      margin: 0;
+    .hero-nav.sticky {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--frame-color);
+      padding: var(--space-2);
+      justify-content: space-between;
+      z-index: 1000;
     }
-    .topo-hero .toggle {
-      position: absolute;
-      bottom: 4px;
-      right: 4px;
-      padding: 2px 6px;
-      font-size: var(--text-12);
-      border: 1px solid var(--frame-color);
-      background: transparent;
-      color: var(--frame-color);
-      cursor: pointer;
+    .topo-hero.collapsed {
+      height: var(--nav-height);
+      max-height: var(--nav-height);
+      aspect-ratio: auto;
     }
   </style>
-<script type="module" src="/topo.js"></script>
 </section>
-
