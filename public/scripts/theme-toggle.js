@@ -2,7 +2,7 @@ const root = document.documentElement;
 const update = () => {
   const label = root.classList.contains('theme-dark') ? 'MODE: CRT' : 'MODE: NASA';
   document.querySelectorAll('[data-theme-toggle]').forEach(btn => {
-    (btn as HTMLElement).textContent = label;
+    btn.textContent = label;
   });
 };
 update();
@@ -15,4 +15,3 @@ document.querySelectorAll('[data-theme-toggle]').forEach(el => {
     update();
   });
 });
-
