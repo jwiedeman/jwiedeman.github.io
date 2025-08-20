@@ -1,0 +1,7 @@
+# AGENTS instructions
+Before submitting a pull request:
+- Run any available tests via `npm test`.
+- Run any available linters via `npm run lint`.
+- Build the site with `npm run build`.
+- Attempt to run the site locally with `npm run preview` or `npm run dev` and watch for console errors.
+If a script is missing or fails, note it in the PR.
