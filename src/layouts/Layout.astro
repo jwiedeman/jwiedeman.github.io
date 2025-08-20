@@ -5,7 +5,8 @@ import Footer from '../components/Footer.astro';
 const {
   title = 'Retro Site',
   description = 'Interstellar web projects by Joshua Wiedeman.',
-  showNav = true
+  showNav = true,
+  showFooter = true
 } = Astro.props;
 ---
 <!DOCTYPE html>
@@ -22,7 +23,7 @@ const {
     <main>
       <slot />
     </main>
-    <Footer />
+    {showFooter && <Footer />}
     <script type="module" src="/scripts/theme-toggle.js"></script>
   </body>
 </html>
