@@ -4,8 +4,8 @@ const { label, title, blurb, href } = Astro.props;
 <article class="card">
   <div class="label mono">{label}</div>
   <div>
-    <h3>{title}</h3>
+    <h2>{title}</h2>
     <p>{blurb}</p>
-    <a href={href}>Read more</a>
+    <a href={href}>Read more about {title}</a>
   </div>
 </article>
