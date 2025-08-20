@@ -5,7 +5,6 @@ let thresholdIncrement = 5;
 let thickLineThresholdMultiple = 3;
 let res = 8; // grid resolution
 let baseZOffset = 0.0001; // noise evolution speed
-let zDirection = 1; // oscillates noise for looping morph
 
 const canvas = document.getElementById('topo-canvas');
 const ctx = canvas?.getContext('2d');
@@ -47,8 +46,10 @@ function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   const lineColor = getComputedStyle(canvas).getPropertyValue('--contour-color').trim() || '#EDEDED';
 
-  zOffset += baseZOffset * zDirection;
-  if (zOffset > 1 || zOffset < 0) zDirection *= -1;
+  // Slowly evolve the noise field over time.  Incrementing the Z
+  // offset produces a gentle, continuous morphing effect instead of the
+  // previous back‑and‑forth oscillation.
+  zOffset += baseZOffset;
   generateNoise();
 
   const roundedNoiseMin = Math.floor(noiseMin / thresholdIncrement) * thresholdIncrement;
