@@ -69,12 +69,6 @@ const { title, tagline } = Astro.props;
       left: 4px;
       font-size: var(--text-12);
       color: color-mix(in srgb, var(--frame-color) 60%, transparent);
-      animation: coord-spin 2s linear forwards;
-      transform-origin: center;
-    }
-    @keyframes coord-spin {
-      from { transform: rotateX(0deg); }
-      to { transform: rotateX(360deg); }
     }
     .topo-hero .hud .compass {
       position: absolute;
