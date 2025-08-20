@@ -22,7 +22,6 @@ const { title } = Astro.props;
       <li><a href="/experiments">Experiments</a></li>
       <li><a href="/about">About</a></li>
     </ul>
-    <button class="mode mono" data-theme-toggle>MODE: NASA</button>
   </nav>
   <script type="module" src="/topo.js"></script>
   <script type="module">
@@ -44,22 +43,15 @@ const { title } = Astro.props;
   <style>
     .topo-hero {
       position: relative;
-      width: 100%;
-      aspect-ratio: 4/3;
-      max-height: 72vh;
+      width: calc(100% - var(--space-4));
+      height: 40vh;
       margin: var(--space-2);
       --frame-color: var(--color-text);
       --grid-major: color-mix(in srgb, var(--color-accent) 30%, transparent);
       --grid-minor: color-mix(in srgb, var(--color-accent) 15%, transparent);
-      --contour-color: var(--color-text);
+      --contour-color: #000;
       --nav-height: 56px;
       background: var(--color-bg);
-    }
-    :global(.theme-light) .topo-hero {
-      --contour-color: #000;
-    }
-    :global(.theme-dark) .topo-hero {
-      --contour-color: #fff;
     }
     .topo-hero canvas {
       width: 100%;
