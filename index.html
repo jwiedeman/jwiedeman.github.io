@@ -25,14 +25,14 @@
 html,body{height:100%}
 body{
   margin:0; background:var(--bg); color:var(--fg);
-  font-family: Inter, Helvetica, Arial, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Liberation Sans", sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Liberation Sans", sans-serif;
   line-height:var(--lh); font-size:var(--fs-16);
   letter-spacing:0.01em;
 }
 
 /* Swap to mono if CRT theme for the 90s look */
 .theme-crt body, .mono{
-  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
 /* =============== 2) LAYOUT GRID =============== */
@@ -152,7 +152,7 @@ nav{ border-bottom:1px solid var(--rule); margin-bottom:16px; }
 nav .container{ display:flex; gap:16px; align-items:baseline }
 nav a{ text-decoration:none; padding:8px 4px; border-bottom:2px solid transparent }
 nav a:hover{ background:none; color:var(--accent); border-bottom-color:var(--accent) }
-.brand{ font-weight:700; font-size:var(--fs-16); letter-spacing:.06em }
+.brand{ font-weight:700; font-size:var(--fs-32); letter-spacing:.06em }
 
 footer{ margin-top:48px; border-top:1px solid var(--rule); padding:16px 0; color:var(--muted) }
 </style>
@@ -160,8 +160,8 @@ footer{ margin-top:48px; border-top:1px solid var(--rule); padding:16px 0; color
 <body>
 <nav>
   <div class="container">
-    <div class="brand upper">BLUE FROG // JOSHUA</div>
-    <a href="#">Work</a><a href="#">Blog</a><a href="#">Experiments</a><a href="#">About</a>
+    <a href="/" class="brand upper">BLUE FROG // JOSHUA</a>
+    <a href="#work">Work</a><a href="#blog">Blog</a><a href="#experiments">Experiments</a><a href="#about">About</a>
     <span class="right badge mono">MODE: <span id="mode">NASA</span></span>
   </div>
 </nav>
@@ -176,8 +176,9 @@ footer{ margin-top:48px; border-top:1px solid var(--rule); padding:16px 0; color
   </div>
 </header>
 
-<main class="container grid grid-paper">
-  <section class="span-8">
+<main>
+  <section id="work" class="container grid grid-paper">
+    <div class="span-8">
     <div class="tabs">
       <div class="tab is-active">Case Studies</div>
       <div class="tab">Experiments</div>
@@ -191,7 +192,7 @@ footer{ margin-top:48px; border-top:1px solid var(--rule); padding:16px 0; color
       <div>
         <h2>DSAS vs custom metrics — enterprise AA rollout</h2>
         <p>Implementation patterns, data contracts, and <span class="code">spec-to-QA</span> automation.</p>
-        <a href="#">Read the brief →</a>
+        <a href="/work">Read the brief →</a>
       </div>
     </article>
 
@@ -211,23 +212,39 @@ footer{ margin-top:48px; border-top:1px solid var(--rule); padding:16px 0; color
         </g>
       </svg>
     </div>
-  </section>
+    </div>
 
-  <aside class="span-4">
+    <aside class="span-4">
     <h3 class="upper">This week</h3>
     <div class="rule"></div>
     <div class="mono">
-      <div>WED 27/06  <a href="#">New Makers — G. Kerbosch</a></div>
+      <div>WED 27/06  <a href="/blog">New Makers — G. Kerbosch</a></div>
       <div>FRI 29/06  Workshop / <span class="badge">Tickets</span></div>
       <div>SAT 30/06  Session II / Room A</div>
-      <div>MON 01/07  <a href="#">Full program →</a></div>
+      <div>MON 01/07  <a href="/experiments">Full program →</a></div>
     </div>
-  </aside>
+    </aside>
+  </section>
+
+  <section id="blog" class="container">
+    <h2>Blog</h2>
+    <p class="mono">Articles coming soon.</p>
+  </section>
+
+  <section id="experiments" class="container">
+    <h2>Experiments</h2>
+    <p class="mono">Projects under development.</p>
+  </section>
+
+  <section id="about" class="container">
+    <h2>About</h2>
+    <p>Blue Frog Analytics explores rare-tech and simulation.</p>
+  </section>
 </main>
 
 <footer class="container flex">
   <div>© 2025 Blue Frog Analytics</div>
-  <div class="right"><a href="#" onclick="toggleTheme(event)">toggle theme</a></div>
+  <div class="right"><a href="#mode" onclick="toggleTheme(event)">toggle theme</a></div>
 </footer>
 
 <script>

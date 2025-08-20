@@ -1,5 +1,5 @@
 /* Global styles and design system */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap');
+/* Using system fonts for performance */
 
 /* Design tokens */
 :root {
@@ -12,8 +12,8 @@
   --space-6: 48px;
 
   /* typography */
-  --font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
+  --font-sans: 'Helvetica Neue', Helvetica, Arial, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Liberation Sans', sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
 
   --text-12: 12px;
   --text-14: 14px;
@@ -195,8 +195,10 @@ nav a {
 }
 
 nav .brand {
-  font-weight: 600;
+  font-weight: 700;
+  font-size: var(--text-32);
   text-transform: uppercase;
+  text-decoration: none;
 }
 
 nav .mode {
