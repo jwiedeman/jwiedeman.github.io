@@ -126,7 +126,7 @@ function drawSegments(segs: number[][]) {
 function drawField(segsArray: number[][][], alpha: number) {
   ctx!.globalAlpha = alpha;
   segsArray.forEach((segs, idx) => {
-    ctx!.lineWidth = idx % 3 === 0 ? 2 : 1;
+    ctx!.lineWidth = idx % 3 === 0 ? 1.5 : 0.5;
     ctx!.beginPath();
     drawSegments(segs);
     ctx!.stroke();
@@ -146,9 +146,9 @@ let running = true;
 function loop() {
   if (!running) return;
   frame++;
-  if (frame % 3 === 0) recompute();
+  if (frame % 5 === 0) recompute();
   draw();
-  t += 0.0025;
+  t += 0.001;
   requestAnimationFrame(loop);
 }
 
