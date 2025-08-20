@@ -1,8 +1,292 @@
 ---
 const { title, tagline } = Astro.props;
 ---
-<section class="hero">
-  <h1>{title}</h1>
-  <p class="subhead mono">{tagline}</p>
-  <hr />
+<section class="topo-hero">
+  <canvas id="topo-canvas" aria-hidden="true"></canvas>
+  <div class="overlay">
+    <div class="grid" aria-hidden="true"></div>
+    <div class="frame" aria-hidden="true"></div>
+    <div class="hud" aria-hidden="true">
+      <span id="coord" class="coord mono">0,0</span>
+      <span class="compass n mono">N</span>
+      <span class="compass e mono">E</span>
+      <span class="compass s mono">S</span>
+      <span class="compass w mono">W</span>
+    </div>
+  </div>
+  <div class="hero-text">
+    <h1>{title}</h1>
+    <p class="subhead mono">{tagline}</p>
+  </div>
+  <button id="toggle" class="toggle mono" aria-pressed="false">Pause</button>
+  <style>
+    .topo-hero {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      max-height: 80vh;
+      margin-bottom: var(--space-3);
+      --frame-color: var(--color-text);
+      --grid-major: color-mix(in srgb, var(--color-accent) 80%, transparent);
+      --grid-minor: color-mix(in srgb, var(--color-accent) 40%, transparent);
+      --contour-color: #5ef7a6;
+      background: var(--color-bg);
+    }
+    .topo-hero canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: var(--color-bg);
+    }
+    .topo-hero .overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .topo-hero .grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(var(--grid-minor) 0 1px, transparent 1px 8px),
+        repeating-linear-gradient(90deg, var(--grid-minor) 0 1px, transparent 1px 8px),
+        repeating-linear-gradient(var(--grid-major) 0 1px, transparent 1px 40px),
+        repeating-linear-gradient(90deg, var(--grid-major) 0 1px, transparent 1px 40px);
+    }
+    .topo-hero .frame {
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--frame-color);
+    }
+    .topo-hero .hud .coord {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      font-size: var(--text-12);
+      color: var(--frame-color);
+    }
+    .topo-hero .hud .compass {
+      position: absolute;
+      font-size: var(--text-12);
+      color: var(--frame-color);
+    }
+    .topo-hero .hud .n { top: -16px; left: 50%; transform: translateX(-50%); }
+    .topo-hero .hud .s { bottom: -16px; left: 50%; transform: translateX(-50%); }
+    .topo-hero .hud .e { right: -16px; top: 50%; transform: translateY(-50%); }
+    .topo-hero .hud .w { left: -16px; top: 50%; transform: translateY(-50%); }
+    .topo-hero .hero-text {
+      position: absolute;
+      bottom: var(--space-2);
+      left: var(--space-2);
+      color: var(--frame-color);
+    }
+    .topo-hero .hero-text h1 {
+      margin: 0;
+      font-size: var(--text-48);
+    }
+    .topo-hero .hero-text .subhead {
+      font-size: var(--text-16);
+      margin: 0;
+    }
+    .topo-hero .toggle {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      padding: 2px 6px;
+      font-size: var(--text-12);
+      border: 1px solid var(--frame-color);
+      background: transparent;
+      color: var(--frame-color);
+      cursor: pointer;
+    }
+  </style>
+  <script>
+    const canvas = document.getElementById('topo-canvas');
+    const ctx = canvas.getContext('2d');
+    const coord = document.getElementById('coord');
+    const toggle = document.getElementById('toggle');
+
+    const dpr = window.devicePixelRatio || 1;
+    let width, height;
+    function resize() {
+      width = canvas.offsetWidth;
+      height = canvas.offsetHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.scale(dpr, dpr);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function mulberry32(a) {
+      return function() {
+        let t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      }
+    }
+
+    class Perlin {
+      constructor(seed = 1) {
+        const rand = mulberry32(seed);
+        this.p = new Uint8Array(512);
+        const perm = new Uint8Array(256);
+        for (let i=0;i<256;i++) perm[i]=i;
+        for (let i=255;i>0;i--) {
+          const j = Math.floor(rand()* (i+1));
+          [perm[i], perm[j]] = [perm[j], perm[i]];
+        }
+        for (let i=0;i<512;i++) this.p[i]=perm[i & 255];
+      }
+      fade(t){ return t*t*t*(t*(t*6-15)+10); }
+      lerp(a,b,t){ return a + t*(b-a); }
+      grad(hash, x, y, z){
+        const h = hash & 15;
+        const u = h<8 ? x : y;
+        const v = h<4 ? y : h===12||h===14 ? x : z;
+        return ((h&1)===0?u:-u) + ((h&2)===0?v:-v);
+      }
+      noise(x,y,z){
+        const X = Math.floor(x) & 255;
+        const Y = Math.floor(y) & 255;
+        const Z = Math.floor(z) & 255;
+        x -= Math.floor(x);
+        y -= Math.floor(y);
+        z -= Math.floor(z);
+        const u=this.fade(x), v=this.fade(y), w=this.fade(z);
+        const A = this.p[X]+Y, AA=this.p[A]+Z, AB=this.p[A+1]+Z;
+        const B = this.p[X+1]+Y, BA=this.p[B]+Z, BB=this.p[B+1]+Z;
+        return this.lerp(w,
+          this.lerp(v,
+            this.lerp(u, this.grad(this.p[AA], x, y, z),
+                        this.grad(this.p[BA], x-1, y, z)),
+            this.lerp(u, this.grad(this.p[AB], x, y-1, z),
+                        this.grad(this.p[BB], x-1, y-1, z))
+          ),
+          this.lerp(v,
+            this.lerp(u, this.grad(this.p[AA+1], x, y, z-1),
+                        this.grad(this.p[BA+1], x-1, y, z-1)),
+            this.lerp(u, this.grad(this.p[AB+1], x, y-1, z-1),
+                        this.grad(this.p[BB+1], x-1, y-1, z-1))
+          )
+        );
+      }
+    }
+
+    const noise = new Perlin(1);
+
+    const cases = {
+      0: [],
+      1: [[3,0]],
+      2: [[0,1]],
+      3: [[3,1]],
+      4: [[1,2]],
+      5: [[3,2],[0,1]],
+      6: [[0,2]],
+      7: [[3,2]],
+      8: [[2,3]],
+      9: [[0,2]],
+      10: [[1,3],[0,2]],
+      11: [[1,3]],
+      12: [[2,1]],
+      13: [[0,1]],
+      14: [[3,0]],
+      15: []
+    };
+
+    function interp(a, b, t) { return a + (t) * (b - a); }
+    function edgePos(edge, x, y, v0, v1, v2, v3, level) {
+      switch(edge) {
+        case 0: return [interp(x, x+1, (level - v0)/(v1 - v0)), y];
+        case 1: return [x+1, interp(y, y+1, (level - v1)/(v2 - v1))];
+        case 2: return [interp(x+1, x, (level - v3)/(v2 - v3)), y+1];
+        case 3: return [x, interp(y+1, y, (level - v0)/(v3 - v0))];
+      }
+    }
+
+    function marchingSquares(field, cols, rows, level) {
+      const segs = [];
+      for (let y=0;y<rows;y++) {
+        for (let x=0;x<cols;x++) {
+          const v0 = field[y][x];
+          const v1 = field[y][x+1];
+          const v2 = field[y+1][x+1];
+          const v3 = field[y+1][x];
+          let idx=0;
+          if (v0>level) idx|=1;
+          if (v1>level) idx|=2;
+          if (v2>level) idx|=4;
+          if (v3>level) idx|=8;
+          const c = cases[idx];
+          for (const pair of c) {
+            const p1 = edgePos(pair[0], x, y, v0,v1,v2,v3, level);
+            const p2 = edgePos(pair[1], x, y, v0,v1,v2,v3, level);
+            segs.push(p1.concat(p2));
+          }
+        }
+      }
+      return segs;
+    }
+
+    const cols = 64;
+    const rows = 64;
+    let t = 0;
+    let running = true;
+    let probeX = 0, probeY = 0;
+
+    function draw() {
+      ctx.clearRect(0,0,width,height);
+      const field = [];
+      for (let y=0;y<=rows;y++) {
+        const row=[];
+        for (let x=0;x<=cols;x++) {
+          row.push(noise.noise(x*0.1, y*0.1, t));
+        }
+        field.push(row);
+      }
+      const scaleX = width/cols;
+      const scaleY = height/rows;
+      const levels = [];
+      for (let i=1;i<=10;i++) levels.push(-1 + i*0.2);
+      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = getComputedStyle(canvas).getPropertyValue('--contour-color');
+      ctx.lineCap = ctx.lineJoin = 'round';
+      for (const level of levels) {
+        const segs = marchingSquares(field, cols, rows, level);
+        ctx.beginPath();
+        for (const s of segs) {
+          ctx.moveTo(s[0]*scaleX, s[1]*scaleY);
+          ctx.lineTo(s[2]*scaleX, s[3]*scaleY);
+        }
+        ctx.stroke();
+      }
+      probeX += 0.005;
+      probeY += 0.003;
+      const v = noise.noise(probeX, probeY, t);
+      coord.textContent = `${probeX.toFixed(2)},${probeY.toFixed(2)}`;
+    }
+
+    function loop() {
+      if (!running) return;
+      draw();
+      t += 0.003;
+      requestAnimationFrame(loop);
+    }
+
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!media.matches) {
+      loop();
+    } else {
+      draw();
+    }
+
+    toggle.addEventListener('click', () => {
+      running = !running;
+      toggle.textContent = running ? 'Pause' : 'Play';
+      toggle.setAttribute('aria-pressed', (!running).toString());
+      if (running) requestAnimationFrame(loop);
+    });
+  </script>
 </section>
+
