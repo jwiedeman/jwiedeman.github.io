@@ -18,7 +18,19 @@ const { title = 'Retro Site' } = Astro.props;
     </main>
     <Footer />
     <script>
-      const toggle = () => document.documentElement.classList.toggle('theme-dark');
+      const root = document.documentElement;
+      const apply = (mode) => {
+        root.classList.toggle('theme-dark', mode === 'dark');
+        root.classList.toggle('theme-light', mode === 'light');
+      };
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      apply(stored || (prefersDark ? 'dark' : 'light'));
+      const toggle = () => {
+        const next = root.classList.contains('theme-dark') ? 'light' : 'dark';
+        apply(next);
+        localStorage.setItem('theme', next);
+      };
       document.querySelectorAll('[data-theme-toggle]').forEach(el => el.addEventListener('click', toggle));
     </script>
   </body>
