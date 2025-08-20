@@ -17,7 +17,18 @@ const pageColors = {
   Lab:    ["#34c759","#5ac8fa"],  // green → cyan
   Contact:["#af52de","#5856d6"],  // purple → indigo
   About:  ["#ffd60a","#ff9f0a"],  // yellow → orange
+  Blog:   ["#0a84ff","#5ac8fa"],  // blue → cyan
+  Experiments: ["#ff2d55","#ffcc00"], // pink → yellow
 };
+
+function getPageColors(name){
+  if (pageColors[name]) return pageColors[name];
+  const hue = [...name].reduce((h,c)=>h+c.charCodeAt(0),0) % 360;
+  const c1 = `hsl(${hue},70%,60%)`;
+  const c2 = `hsl(${(hue+60)%360},70%,60%)`;
+  pageColors[name] = [c1,c2];
+  return pageColors[name];
+}
 
 /* =================== Canvas Setup =================== */
 const canvas = document.getElementById("topo-canvas");
@@ -71,7 +82,15 @@ function shuffle(arr){
   return arr;
 }
 
-let pagePool = buildPagePool();
+let pagePool = [];
+function initPagePool(){
+  pagePool = buildPagePool();
+}
+if (document.readyState === "loading"){
+  document.addEventListener("DOMContentLoaded", initPagePool);
+} else {
+  initPagePool();
+}
 
 /* =================== Entities (by slice) =================== */
 const entityTTL = 12; // frames of grace when a slice yields no segments
@@ -221,7 +240,7 @@ function drawThresholdContours(threshold, emphasize = false){
       const [p0, p1] = seg;
 
       if (hasPage){
-        const [c1, c2] = pageColors[ent.page] || [lineColor, lineColor];
+        const [c1, c2] = getPageColors(ent.page);
         const grad = ctx.createLinearGradient(p0[0], p0[1], p1[0], p1[1]);
         grad.addColorStop(0, c1); grad.addColorStop(1, c2);
         ctx.strokeStyle = grad;
