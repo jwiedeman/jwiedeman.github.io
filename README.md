@@ -1,2 +1,3 @@
 # jwiedeman.github.io
-Portfolio and fun
+
+Retro-themed portfolio powered by [Astro](https://astro.build).
