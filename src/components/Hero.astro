@@ -1,5 +1,5 @@
 ---
-import topoScript from '../scripts/topo.ts?url';
+import topoInit from '../scripts/topo-init.ts?url';
 const { title, tagline } = Astro.props;
 ---
 <section class="topo-hero">
@@ -105,6 +105,6 @@ const { title, tagline } = Astro.props;
       cursor: pointer;
     }
   </style>
-<script type="module" src={topoScript}></script>
+<script type="module" src={topoInit}></script>
 </section>
 
