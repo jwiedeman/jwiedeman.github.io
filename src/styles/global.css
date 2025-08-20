@@ -196,6 +196,7 @@ nav .mode {
   outline-offset: -1px;
   background: transparent;
   cursor: pointer;
+  text-transform: uppercase;
 }
 
 /* Hero */
@@ -310,10 +311,6 @@ footer {
   padding-top: var(--space-2);
   padding-bottom: var(--space-2);
   color: var(--color-muted);
-}
-
-footer .theme-toggle {
-  float: right;
 }
 
 /* Scanlines overlay for CRT theme */
