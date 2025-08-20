@@ -4,7 +4,7 @@ let MAX_FPS = 30; // limit frames for smoother rendering
 let thresholdIncrement = 5;
 let thickLineThresholdMultiple = 3;
 let res = 8; // grid resolution
-let baseZOffset = 0.0001; // noise evolution speed
+let baseZOffset = 0.00015; // noise evolution speed
 
 const canvas = document.getElementById('topo-canvas');
 const ctx = canvas?.getContext('2d');
