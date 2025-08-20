@@ -1,0 +1,8 @@
+---
+const { items = [], active = 0 } = Astro.props;
+---
+<div class="tabs">
+  {items.map((item, i) => (
+    <button class={`tab${i === active ? ' active' : ''}`}>{item}</button>
+  ))}
+</div>
