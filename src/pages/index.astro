@@ -1,34 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
-import Tabs from '../components/Tabs.astro';
-import Card from '../components/Card.astro';
-import Panel from '../components/Panel.astro';
-import Schedule from '../components/Schedule.astro';
-
-const tabItems = ['Work','Blog','Experiments','About'];
-const scheduleItems = [
-  { day: 'WED 27/06', label: 'Launch', href: '/work' },
-  { day: 'THU 28/06', label: 'Review', href: '/blog' }
-];
 ---
-<Layout title="jwiedeman retro site" description="Interstellar web projects and experiments by Joshua Wiedeman." showNav={false}>
+<Layout title="jwiedeman retro site" description="Interstellar web projects and experiments by Joshua Wiedeman." showNav={false} showFooter={false}>
   <Hero title="JWIEDEMAN" />
-  <div class="container">
-    <ul class="credibility">
-      <li>Analytics implementation</li>
-      <li>Compliance scanning</li>
-      <li>Retro hardware R&D</li>
-    </ul>
-    <Tabs items={tabItems} active={0} />
-    <div class="grid">
-      <div class="span-6">
-        <Card label="2024" title="Mission Control" blurb="New design system." href="/work" />
-      </div>
-      <div class="span-6">
-        <Panel />
-      </div>
-    </div>
-    <Schedule items={scheduleItems} />
-  </div>
 </Layout>
