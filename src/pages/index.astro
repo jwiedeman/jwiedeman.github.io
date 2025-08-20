@@ -14,19 +14,21 @@ const scheduleItems = [
 ---
 <Layout title="jwiedeman retro site">
   <Hero title="JWIEDEMAN" tagline="interstellar web projects" />
-  <ul class="credibility">
-    <li>Analytics implementation</li>
-    <li>Compliance scanning</li>
-    <li>Retro hardware R&D</li>
-  </ul>
-  <Tabs items={tabItems} active={0} />
-  <div class="grid">
-    <div class="span-6">
-      <Card label="2024" title="Mission Control" blurb="New design system." href="#" />
+  <div class="container">
+    <ul class="credibility">
+      <li>Analytics implementation</li>
+      <li>Compliance scanning</li>
+      <li>Retro hardware R&D</li>
+    </ul>
+    <Tabs items={tabItems} active={0} />
+    <div class="grid">
+      <div class="span-6">
+        <Card label="2024" title="Mission Control" blurb="New design system." href="#" />
+      </div>
+      <div class="span-6">
+        <Panel />
+      </div>
     </div>
-    <div class="span-6">
-      <Panel />
-    </div>
+    <Schedule items={scheduleItems} />
   </div>
-  <Schedule items={scheduleItems} />
 </Layout>
