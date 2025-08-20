@@ -7,7 +7,7 @@ const { title, tagline } = Astro.props;
     <div class="grid" aria-hidden="true"></div>
     <div class="frame" aria-hidden="true"></div>
     <div class="hud" aria-hidden="true">
-      <span id="coord" class="coord mono">0,0</span>
+      <span id="coord" class="coord mono">37.7749, -122.4194</span>
       <span class="compass n mono">N</span>
       <span class="compass e mono">E</span>
       <span class="compass s mono">S</span>
@@ -28,7 +28,7 @@ const { title, tagline } = Astro.props;
       --frame-color: var(--color-text);
       --grid-major: color-mix(in srgb, var(--color-accent) 30%, transparent);
       --grid-minor: color-mix(in srgb, var(--color-accent) 15%, transparent);
-      --contour-color: rgba(94,247,166,0.85);
+      --contour-color: var(--color-text);
       background: var(--color-bg);
     }
     .topo-hero canvas {
@@ -103,6 +103,9 @@ const { title, tagline } = Astro.props;
     const canvas = document.getElementById('topo-canvas');
     const ctx = canvas.getContext('2d');
     const coord = document.getElementById('coord');
+    if (coord) {
+      coord.textContent = '37.7749, -122.4194';
+    }
 
     const dpr = window.devicePixelRatio || 1;
     let width, height;
@@ -177,7 +180,7 @@ const { title, tagline } = Astro.props;
       return segs;
     }
 
-    const cellSize = 6;
+    const cellSize = 4;
     let cols = 0, rows = 0;
     let segsA = [], segsB = [];
     let frame = 0;
@@ -229,7 +232,6 @@ const { title, tagline } = Astro.props;
       for (const segs of segsB) drawSegments(segs);
       ctx.stroke();
       ctx.globalAlpha = 1;
-      coord.textContent = `${t.toFixed(3)},0`;
     }
 
     let running = true;
