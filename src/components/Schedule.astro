@@ -1,0 +1,11 @@
+---
+const { items = [] } = Astro.props;
+---
+<div class="schedule">
+  {items.map(item => (
+    <div class="schedule-row">
+      <span>{item.day}</span>
+      <a href={item.href}>{item.label}</a>
+    </div>
+  ))}
+</div>
