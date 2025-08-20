@@ -31,6 +31,12 @@ const { title, tagline } = Astro.props;
       --contour-color: var(--color-text);
       background: var(--color-bg);
     }
+    :global(.theme-light) .topo-hero {
+      --contour-color: #000;
+    }
+    :global(.theme-dark) .topo-hero {
+      --contour-color: #fff;
+    }
     .topo-hero canvas {
       width: 100%;
       height: 100%;
@@ -62,6 +68,12 @@ const { title, tagline } = Astro.props;
       left: 4px;
       font-size: var(--text-12);
       color: color-mix(in srgb, var(--frame-color) 60%, transparent);
+      animation: coord-spin 2s linear forwards;
+      transform-origin: center;
+    }
+    @keyframes coord-spin {
+      from { transform: rotateX(0deg); }
+      to { transform: rotateX(360deg); }
     }
     .topo-hero .hud .compass {
       position: absolute;
@@ -103,8 +115,17 @@ const { title, tagline } = Astro.props;
     const canvas = document.getElementById('topo-canvas');
     const ctx = canvas.getContext('2d');
     const coord = document.getElementById('coord');
+    const finalCoord = '37.7749, -122.4194';
     if (coord) {
-      coord.textContent = '37.7749, -122.4194';
+      let cycles = 0;
+      const scramble = setInterval(() => {
+        coord.textContent = finalCoord.replace(/\d/g, () => Math.floor(Math.random()*10).toString());
+        cycles++;
+        if (cycles > 20) {
+          clearInterval(scramble);
+          coord.textContent = finalCoord;
+        }
+      }, 50);
     }
 
     const dpr = window.devicePixelRatio || 1;
@@ -180,7 +201,7 @@ const { title, tagline } = Astro.props;
       return segs;
     }
 
-    const cellSize = 4;
+    const cellSize = 3;
     let cols = 0, rows = 0;
     let segsA = [], segsB = [];
     let frame = 0;
@@ -218,19 +239,22 @@ const { title, tagline } = Astro.props;
       }
     }
 
+    function drawField(segsArray, alpha) {
+      ctx.globalAlpha = alpha;
+      segsArray.forEach((segs, idx) => {
+        ctx.lineWidth = idx % 3 === 0 ? 2 : 1;
+        ctx.beginPath();
+        drawSegments(segs);
+        ctx.stroke();
+      });
+    }
+
     function draw() {
       ctx.clearRect(0, 0, width, height);
       ctx.lineCap = ctx.lineJoin = 'round';
-      ctx.lineWidth = 1;
-      ctx.globalAlpha = 0.85;
       ctx.strokeStyle = getComputedStyle(canvas).getPropertyValue('--contour-color');
-      ctx.beginPath();
-      for (const segs of segsA) drawSegments(segs);
-      ctx.stroke();
-      ctx.globalAlpha = 0.7;
-      ctx.beginPath();
-      for (const segs of segsB) drawSegments(segs);
-      ctx.stroke();
+      drawField(segsA, 1);
+      drawField(segsB, 0.6);
       ctx.globalAlpha = 1;
     }
 
