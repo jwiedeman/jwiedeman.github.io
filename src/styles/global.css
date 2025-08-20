@@ -95,6 +95,9 @@ h1, h2, h3, h4, h5, h6 {
 
 main {
   flex: 1;
+}
+
+main > .container {
   margin-top: var(--space-4);
 }
 
@@ -154,7 +157,7 @@ main {
 }
 
 /* Navigation */
-nav {
+nav .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -314,7 +317,7 @@ nav .mode {
 }
 
 /* Footer */
-footer {
+footer .container {
   font-size: var(--text-12);
   padding-top: var(--space-2);
   padding-bottom: var(--space-2);
