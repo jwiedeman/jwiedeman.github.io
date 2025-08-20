@@ -4,7 +4,8 @@ let MAX_FPS = 30; // limit frames for smoother rendering
 let thresholdIncrement = 5;
 let thickLineThresholdMultiple = 3;
 let res = 8; // grid resolution
-let baseZOffset = 0.00005; // slower noise evolution
+let baseZOffset = 0.0001; // noise evolution speed
+let zDirection = 1; // oscillates noise for looping morph
 
 const canvas = document.getElementById('topo-canvas');
 const ctx = canvas?.getContext('2d');
@@ -46,7 +47,8 @@ function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   const lineColor = getComputedStyle(canvas).getPropertyValue('--contour-color').trim() || '#EDEDED';
 
-  zOffset += baseZOffset;
+  zOffset += baseZOffset * zDirection;
+  if (zOffset > 1 || zOffset < 0) zDirection *= -1;
   generateNoise();
 
   const roundedNoiseMin = Math.floor(noiseMin / thresholdIncrement) * thresholdIncrement;
