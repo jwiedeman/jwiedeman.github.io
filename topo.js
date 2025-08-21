@@ -5,7 +5,7 @@ const MAX_FPS = 30;                 // 0 = uncapped
 const thresholdIncrement = 5;       // contour step: 0..100 by 5
 const thickLineThresholdMultiple = 3; // every Nth line is thicker
 const res = 8;                      // grid cell size (smaller = more detail)
-const baseZOffset = 0.00018;        // field evolution speed
+const baseZOffset = 0.00036;        // field evolution speed
 const lineColor = "#d2d2d2";      // neutral contour color
 const hoverColor = "#FFFFFFCC";     // hover emphasis
 const targetFillRatio = 0.20;       // ~20% of visible slices get pages
