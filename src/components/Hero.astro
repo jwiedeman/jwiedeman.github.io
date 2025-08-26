@@ -15,12 +15,12 @@ const { title } = Astro.props;
     </div>
   </div>
   <nav class="hero-nav">
-    <a href="/" class="brand">{title}</a>
+    <a href="/" class="brand" data-astro-prefetch>{title}</a>
     <ul>
-      <li><a href="/work">Work</a></li>
-      <li><a href="/blog">Blog</a></li>
-      <li><a href="/lab">Lab</a></li>
-      <li><a href="/about">About</a></li>
+      <li><a href="/work" data-astro-prefetch>Work</a></li>
+      <li><a href="/blog" data-astro-prefetch>Blog</a></li>
+      <li><a href="/lab" data-astro-prefetch>Lab</a></li>
+      <li><a href="/about" data-astro-prefetch>About</a></li>
     </ul>
   </nav>
   <script type="module" src="/topo.js"></script>
