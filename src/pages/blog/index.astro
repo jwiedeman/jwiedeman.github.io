@@ -49,57 +49,65 @@ const postsPerPage = 2;
   </div>
 
   <script>
-    const posts = Array.from(document.querySelectorAll('.post-card'));
-    const postsPerPage = {postsPerPage};
-    let currentPage = 1;
-    let activeTag = null;
+    document.addEventListener('DOMContentLoaded', () => {
+      const posts = Array.from(document.querySelectorAll('.post-card'));
+      const postsPerPage = {postsPerPage};
+      let currentPage = 1;
+      const selectedTags = new Set();
 
-    const searchInput = document.getElementById('search');
-    const tagButtons = document.querySelectorAll('.tag');
-    const pagination = document.getElementById('pagination');
+      const searchInput = document.getElementById('search');
+      const tagButtons = document.querySelectorAll('.tag');
+      const pagination = document.getElementById('pagination');
 
-    function filterPosts() {
-      const q = searchInput.value.toLowerCase();
-      posts.forEach(post => {
-        const matchesSearch = post.dataset.title.includes(q) || post.dataset.description.includes(q);
-        const tags = post.dataset.tags.split(',');
-        const matchesTag = !activeTag || tags.includes(activeTag);
-        post.hidden = !(matchesSearch && matchesTag);
-      });
-      currentPage = 1;
-      paginate();
-    }
-
-    function paginate() {
-      const visiblePosts = posts.filter(p => !p.hidden);
-      const totalPages = Math.ceil(visiblePosts.length / postsPerPage) || 1;
-      visiblePosts.forEach((post, index) => {
-        const start = (currentPage - 1) * postsPerPage;
-        const end = start + postsPerPage;
-        post.style.display = index >= start && index < end ? '' : 'none';
-      });
-      pagination.innerHTML = '';
-      for (let i = 1; i <= totalPages; i++) {
-        const btn = document.createElement('button');
-        btn.textContent = i;
-        btn.className = 'page-btn' + (i === currentPage ? ' active' : '');
-        btn.addEventListener('click', () => {
-          currentPage = i;
-          paginate();
+      function filterPosts() {
+        const q = searchInput.value.toLowerCase();
+        posts.forEach(post => {
+          const matchesSearch = post.dataset.title.includes(q) || post.dataset.description.includes(q);
+          const tags = post.dataset.tags.split(',');
+          const matchesTags = [...selectedTags].every(tag => tags.includes(tag));
+          post.hidden = !(matchesSearch && matchesTags);
         });
-        pagination.appendChild(btn);
+        currentPage = 1;
+        paginate();
       }
-    }
 
-    searchInput.addEventListener('input', filterPosts);
-    tagButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        activeTag = activeTag === btn.dataset.tag ? null : btn.dataset.tag;
-        tagButtons.forEach(b => b.classList.toggle('active', b === btn && activeTag));
-        filterPosts();
+      function paginate() {
+        const visiblePosts = posts.filter(p => !p.hidden);
+        const totalPages = Math.ceil(visiblePosts.length / postsPerPage) || 1;
+        visiblePosts.forEach((post, index) => {
+          const start = (currentPage - 1) * postsPerPage;
+          const end = start + postsPerPage;
+          post.style.display = index >= start && index < end ? '' : 'none';
+        });
+        pagination.innerHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement('button');
+          btn.textContent = i;
+          btn.className = 'page-btn' + (i === currentPage ? ' active' : '');
+          btn.addEventListener('click', () => {
+            currentPage = i;
+            paginate();
+          });
+          pagination.appendChild(btn);
+        }
+      }
+
+      searchInput.addEventListener('input', filterPosts);
+      tagButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tag = btn.dataset.tag;
+          if (selectedTags.has(tag)) {
+            selectedTags.delete(tag);
+            btn.classList.remove('active');
+          } else {
+            selectedTags.add(tag);
+            btn.classList.add('active');
+          }
+          filterPosts();
+        });
       });
-    });
 
-    filterPosts();
+      filterPosts();
+    });
   </script>
 </Layout>
