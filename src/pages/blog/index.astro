@@ -32,7 +32,7 @@ const postsPerPage = 2;
       </section>
     )}
 
-    <div id="posts" class="grid">
+    <div id="posts" class="grid" data-posts-per-page={postsPerPage}>
       {posts.map(post => (
         <article class="card post-card span-6" data-tags={post.data.tags.join(',')} data-title={post.data.title.toLowerCase()} data-description={post.data.description.toLowerCase()}>
           <div class="label mono">{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</div>
@@ -51,7 +51,8 @@ const postsPerPage = 2;
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const posts = Array.from(document.querySelectorAll('.post-card'));
-      const postsPerPage = {postsPerPage};
+      const postsContainer = document.getElementById('posts');
+      const POSTS_PER_PAGE = parseInt(postsContainer?.dataset.postsPerPage || '1', 10);
       let currentPage = 1;
       const selectedTags = new Set();
 
@@ -73,10 +74,10 @@ const postsPerPage = 2;
 
       function paginate() {
         const visiblePosts = posts.filter(p => !p.hidden);
-        const totalPages = Math.ceil(visiblePosts.length / postsPerPage) || 1;
+        const totalPages = Math.ceil(visiblePosts.length / POSTS_PER_PAGE) || 1;
         visiblePosts.forEach((post, index) => {
-          const start = (currentPage - 1) * postsPerPage;
-          const end = start + postsPerPage;
+          const start = (currentPage - 1) * POSTS_PER_PAGE;
+          const end = start + POSTS_PER_PAGE;
           post.style.display = index >= start && index < end ? '' : 'none';
         });
         pagination.innerHTML = '';
