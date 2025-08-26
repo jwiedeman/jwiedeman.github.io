@@ -2,12 +2,18 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+
 const {
-  title = 'Retro Site',
-  description = 'Interstellar web projects by Joshua Wiedeman.',
+  title: propTitle,
+  description: propDescription,
   showNav = true,
-  showFooter = true
+  showFooter = true,
+  frontmatter = {}
 } = Astro.props;
+
+const title = propTitle ?? frontmatter.title ?? 'JWiedeman';
+const description =
+  propDescription ?? frontmatter.description ?? 'Interstellar web projects by Joshua Wiedeman.';
 ---
 <!DOCTYPE html>
 <html lang="en" class="theme-light">
