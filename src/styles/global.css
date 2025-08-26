@@ -344,3 +344,45 @@ footer .container {
   z-index: 9999;
 }
 
+
+/* Blog utilities */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: var(--space-2) 0;
+}
+.tag {
+  font-family: var(--font-mono);
+  font-size: var(--text-14);
+  padding: var(--space-1) var(--space-2);
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-1);
+  cursor: pointer;
+}
+.tag.active {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+.pagination {
+  display: flex;
+  gap: var(--space-1);
+  justify-content: center;
+  margin-top: var(--space-3);
+}
+.page-btn {
+  font-family: var(--font-mono);
+  font-size: var(--text-14);
+  padding: var(--space-1) var(--space-2);
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-1);
+  cursor: pointer;
+}
+.page-btn.active {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
