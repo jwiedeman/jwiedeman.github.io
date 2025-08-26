@@ -1,0 +1,32 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+<Layout title="X Pixel">
+  <div class="container">
+    <h1>X Pixel Sandbox</h1>
+    <p>Twitter Pixel base snippet with event tracking.</p>
+    <button id="x-button">Track Button</button>
+    <a href="#" id="x-link">Track Link</a>
+    <form id="x-form">
+      <input type="text" name="example" />
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <script>
+    !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+    twq('config','TW-XXXXXXXXXX');
+    const button = document.getElementById('x-button');
+    const link = document.getElementById('x-link');
+    const form = document.getElementById('x-form');
+    button.addEventListener('click', () => {
+      twq('event','button_click');
+    });
+    link.addEventListener('click', () => {
+      twq('event','link_click');
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      twq('event','form_submit');
+    });
+  </script>
+</Layout>
