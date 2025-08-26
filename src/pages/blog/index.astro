@@ -6,7 +6,7 @@ const allPosts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.val
 const featured = allPosts.find(p => p.data.featured);
 const posts = featured ? allPosts.filter(p => p.id !== featured.id) : allPosts;
 const tags = Array.from(new Set(allPosts.flatMap(p => p.data.tags))).sort();
-const postsPerPage = 2;
+const postsPerPage = 4;
 ---
 <Layout title="Blog">
   <div class="container">
@@ -50,8 +50,8 @@ const postsPerPage = 2;
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const posts = Array.from(document.querySelectorAll('.post-card'));
       const postsContainer = document.getElementById('posts');
+      const posts = Array.from(postsContainer.querySelectorAll('.post-card'));
       const POSTS_PER_PAGE = parseInt(postsContainer?.dataset.postsPerPage || '1', 10);
       let currentPage = 1;
       const selectedTags = new Set();
@@ -64,7 +64,7 @@ const postsPerPage = 2;
         const q = searchInput.value.toLowerCase();
         posts.forEach(post => {
           const matchesSearch = post.dataset.title.includes(q) || post.dataset.description.includes(q);
-          const tags = post.dataset.tags.split(',');
+          const tags = post.dataset.tags.split(',').map(t => t.trim());
           const matchesTags = [...selectedTags].every(tag => tags.includes(tag));
           post.hidden = !(matchesSearch && matchesTags);
         });
