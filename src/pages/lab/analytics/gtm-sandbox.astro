@@ -1,0 +1,39 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+<Layout title="GTM Sandbox">
+  <div class="container">
+    <h1>GTM Sandbox</h1>
+    <p>Google Tag Manager base code with event tracking.</p>
+    <button id="gtm-button">Track Button</button>
+    <a href="#" id="gtm-link">Track Link</a>
+    <form id="gtm-form">
+      <input type="text" name="example" />
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');
+  </script>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>
+    const button = document.getElementById('gtm-button');
+    const link = document.getElementById('gtm-link');
+    const form = document.getElementById('gtm-form');
+    button.addEventListener('click', () => {
+      dataLayer.push({event: 'button_click', label: 'GTM Button'});
+    });
+    link.addEventListener('click', () => {
+      dataLayer.push({event: 'link_click', label: 'GTM Link'});
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      dataLayer.push({event: 'form_submit', label: 'GTM Form'});
+    });
+  </script>
+</Layout>

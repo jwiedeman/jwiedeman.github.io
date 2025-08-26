@@ -1,0 +1,38 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+<Layout title="Meta Pixel">
+  <div class="container">
+    <h1>Meta Pixel Sandbox</h1>
+    <p>Meta Pixel base snippet with event tracking.</p>
+    <button id="meta-button">Track Button</button>
+    <a href="#" id="meta-link">Track Link</a>
+    <form id="meta-form">
+      <input type="text" name="example" />
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'META-PIXEL-ID');
+    fbq('track', 'PageView');
+    const button = document.getElementById('meta-button');
+    const link = document.getElementById('meta-link');
+    const form = document.getElementById('meta-form');
+    button.addEventListener('click', () => {
+      fbq('track','ButtonClick');
+    });
+    link.addEventListener('click', () => {
+      fbq('track','LinkClick');
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      fbq('track','FormSubmit');
+    });
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=META-PIXEL-ID&ev=PageView&noscript=1"/></noscript>
+</Layout>

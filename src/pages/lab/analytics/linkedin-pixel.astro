@@ -1,0 +1,47 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+<Layout title="LinkedIn Pixel">
+  <div class="container">
+    <h1>LinkedIn Pixel Sandbox</h1>
+    <p>LinkedIn Insight Tag base snippet with event tracking.</p>
+    <button id="linkedin-button">Track Button</button>
+    <a href="#" id="linkedin-link">Track Link</a>
+    <form id="linkedin-form">
+      <input type="text" name="example" />
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <script type="text/javascript">
+    _linkedin_partner_id = "LINKEDIN-ID";
+    window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+    window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+  </script>
+  <script type="text/javascript">
+    (function(l) {
+      if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+      window.lintrk.q=[]}
+      var s = document.getElementsByTagName("script")[0];
+      var b = document.createElement("script");
+      b.type = "text/javascript";b.async = true;
+      b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+      s.parentNode.insertBefore(b, s);
+    })(window.lintrk);
+    const button = document.getElementById('linkedin-button');
+    const link = document.getElementById('linkedin-link');
+    const form = document.getElementById('linkedin-form');
+    button.addEventListener('click', () => {
+      lintrk('track', { conversion_id: 1 });
+    });
+    link.addEventListener('click', () => {
+      lintrk('track', { conversion_id: 2 });
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      lintrk('track', { conversion_id: 3 });
+    });
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=LINKEDIN-ID&fmt=gif" />
+  </noscript>
+</Layout>

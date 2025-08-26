@@ -1,0 +1,36 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+<Layout title="Adobe Analytics">
+  <div class="container">
+    <h1>Adobe Analytics Sandbox</h1>
+    <p>Example AppMeasurement setup and link tracking.</p>
+    <button id="adobe-button">Track Button</button>
+    <a href="#" id="adobe-link">Track Link</a>
+    <form id="adobe-form">
+      <input type="text" name="example" />
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <script src="https://example.com/AppMeasurement.js"></script>
+  <script>
+    var s = {
+      tl: function(el, type, name){},
+      t: function(){},
+    };
+    s.t();
+    const button = document.getElementById('adobe-button');
+    const link = document.getElementById('adobe-link');
+    const form = document.getElementById('adobe-form');
+    button.addEventListener('click', () => {
+      s.tl(true, 'o', 'Adobe Button');
+    });
+    link.addEventListener('click', () => {
+      s.tl(true, 'o', 'Adobe Link');
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      s.tl(true, 'o', 'Adobe Form');
+    });
+  </script>
+</Layout>

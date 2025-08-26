@@ -1,0 +1,35 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+<Layout title="GA4 Sandbox">
+  <div class="container">
+    <h1>GA4 Sandbox</h1>
+    <p>Example base snippet and event tracking for Google Analytics 4.</p>
+    <button id="ga4-button">Track Button</button>
+    <a href="#" id="ga4-link">Track Link</a>
+    <form id="ga4-form">
+      <input type="text" name="example" />
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+    const button = document.getElementById('ga4-button');
+    const link = document.getElementById('ga4-link');
+    const form = document.getElementById('ga4-form');
+    button.addEventListener('click', () => {
+      gtag('event', 'button_click', { 'event_label': 'GA4 Button' });
+    });
+    link.addEventListener('click', () => {
+      gtag('event', 'link_click', { 'event_label': 'GA4 Link' });
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      gtag('event', 'form_submit', { 'event_label': 'GA4 Form' });
+    });
+  </script>
+</Layout>

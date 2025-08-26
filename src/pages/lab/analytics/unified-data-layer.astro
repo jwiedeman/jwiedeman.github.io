@@ -1,0 +1,34 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+<Layout title="Unified Data Layer">
+  <div class="container">
+    <h1>Unified Data Layer</h1>
+    <p>Example data layer pattern with custom events.</p>
+    <button id="udl-button">Track Button</button>
+    <a href="#" id="udl-link">Track Link</a>
+    <form id="udl-form">
+      <input type="text" name="example" />
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function track(eventName, detail) {
+      window.dataLayer.push({ event: eventName, ...detail });
+    }
+    const button = document.getElementById('udl-button');
+    const link = document.getElementById('udl-link');
+    const form = document.getElementById('udl-form');
+    button.addEventListener('click', () => {
+      track('button_click', { label: 'UDL Button' });
+    });
+    link.addEventListener('click', () => {
+      track('link_click', { label: 'UDL Link' });
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      track('form_submit', { label: 'UDL Form' });
+    });
+  </script>
+</Layout>
