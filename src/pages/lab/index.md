@@ -1,0 +1,14 @@
+---
+layout: ../../layouts/Layout.astro
+title: "Lab"
+---
+<div class="container">
+  <h1>Lab</h1>
+  <ul>
+    <li><a href="/lab/ai/">AI</a></li>
+    <li><a href="/lab/analytics/">Analytics</a></li>
+    <li><a href="/lab/ads/">Ads</a></li>
+    <li><a href="/lab/marketing/">Marketing</a></li>
+    <li><a href="/lab/art/">Art</a></li>
+  </ul>
+</div>
