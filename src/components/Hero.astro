@@ -43,11 +43,11 @@ const { title } = Astro.props;
   <style>
     .topo-hero {
       position: relative;
-      width: calc(100% - var(--space-4));
+      width: calc(100% - var(--space-4) * 2);
       /* Fill the viewport while preserving space for compass labels */
-      height: calc(100vh - var(--space-4));
-      height: calc(100svh - var(--space-4));
-      margin: var(--space-2);
+      height: calc(100vh - var(--space-4) * 2);
+      height: calc(100svh - var(--space-4) * 2);
+      margin: var(--space-4);
       --frame-color: var(--color-text);
       --grid-major: color-mix(in srgb, var(--color-accent) 30%, transparent);
       --grid-minor: color-mix(in srgb, var(--color-accent) 15%, transparent);
