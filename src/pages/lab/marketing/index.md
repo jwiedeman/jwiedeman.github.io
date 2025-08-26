@@ -4,4 +4,6 @@ title: "Marketing"
 ---
 <div class="container">
   <h1>Marketing</h1>
+  <div class="grid">
+  </div>
 </div>
