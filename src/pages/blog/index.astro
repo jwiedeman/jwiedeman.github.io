@@ -7,6 +7,7 @@ const featured = allPosts.find(p => p.data.featured);
 const posts = featured ? allPosts.filter(p => p.id !== featured.id) : allPosts;
 const tags = Array.from(new Set(allPosts.flatMap(p => p.data.tags))).sort();
 const postsPerPage = 4;
+const totalPostCount = posts.length + (featured ? 1 : 0);
 ---
 <Layout title="Blog">
   <div class="container">
@@ -17,6 +18,16 @@ const postsPerPage = 4;
     <div class="tags">
       {tags.map(tag => <button class="tag" data-tag={tag}>{tag}</button>)}
     </div>
+
+    <p
+      id="results-status"
+      class="mono"
+      role="status"
+      aria-live="polite"
+      data-empty-message="No posts match the current filters."
+    >
+      Showing {totalPostCount} {totalPostCount === 1 ? 'post' : 'posts'}.
+    </p>
 
     {featured && (
       <section class="featured">
@@ -52,7 +63,11 @@ const postsPerPage = 4;
     function init() {
       const postsContainer = document.getElementById('posts');
       if (!postsContainer) return;
+
       const posts = Array.from(postsContainer.querySelectorAll('.post-card'));
+      const featuredSection = document.querySelector('.featured');
+      const featuredCard = featuredSection?.querySelector('.post-card') ?? null;
+      const filterableCards = featuredCard ? [...posts, featuredCard] : [...posts];
       const POSTS_PER_PAGE = parseInt(postsContainer.dataset.postsPerPage || '1', 10);
       let currentPage = 1;
       const selectedTags = new Set();
@@ -60,53 +75,115 @@ const postsPerPage = 4;
       const searchInput = document.getElementById('search');
       const tagButtons = document.querySelectorAll('.tag');
       const pagination = document.getElementById('pagination');
+      const status = document.getElementById('results-status');
+      const emptyMessage = status?.dataset.emptyMessage || 'No posts found.';
+
+      const searchableCache = new Map(
+        filterableCards.map(card => [
+          card,
+          [card.dataset.title || '', card.dataset.description || '', card.dataset.tags || '']
+            .join(' ')
+            .toLowerCase(),
+        ]),
+      );
+
+      function updateFeaturedVisibility() {
+        if (!featuredSection || !featuredCard) return;
+        featuredSection.hidden = featuredCard.hidden;
+      }
+
+      function updateStatus(visiblePostCount) {
+        if (!status) return;
+        const query = (searchInput?.value || '').trim();
+        const activeTags = [...selectedTags];
+        const featuredVisible = featuredCard && !featuredCard.hidden ? 1 : 0;
+        const totalVisible = visiblePostCount + featuredVisible;
+
+        if (totalVisible === 0) {
+          status.textContent = emptyMessage;
+          return;
+        }
+
+        const descriptors = [];
+        if (query) descriptors.push(`matching “${query}”`);
+        if (activeTags.length) descriptors.push(`tagged ${activeTags.join(', ')}`);
+
+        const suffix = descriptors.length ? ` ${descriptors.join(' and ')}` : '';
+        status.textContent = `${totalVisible} ${totalVisible === 1 ? 'post' : 'posts'} found${suffix}.`;
+      }
 
       function filterPosts() {
-        const q = searchInput?.value.toLowerCase() || '';
-        posts.forEach(post => {
-          const matchesSearch = post.dataset.title?.includes(q) || post.dataset.description?.includes(q);
-          const tags = (post.dataset.tags || '').split(',').map(t => t.trim()).filter(Boolean);
-          const matchesTags = [...selectedTags].every(tag => tags.includes(tag));
-          post.hidden = !(matchesSearch && matchesTags);
+        const query = (searchInput?.value || '').trim().toLowerCase();
+
+        filterableCards.forEach(card => {
+          const searchable = searchableCache.get(card) || '';
+          const matchesSearch = !query || searchable.includes(query);
+          const tags = (card.dataset.tags || '')
+            .split(',')
+            .map(t => t.trim())
+            .filter(Boolean);
+          const matchesTags = !selectedTags.size || [...selectedTags].every(tag => tags.includes(tag));
+          card.hidden = !(matchesSearch && matchesTags);
         });
+
+        updateFeaturedVisibility();
         currentPage = 1;
         paginate();
       }
 
       function paginate() {
-        const visiblePosts = posts.filter(p => !p.hidden);
+        const visiblePosts = posts.filter(post => !post.hidden);
         const totalPages = Math.ceil(visiblePosts.length / POSTS_PER_PAGE) || 1;
-        visiblePosts.forEach((post, index) => {
-          const start = (currentPage - 1) * POSTS_PER_PAGE;
-          const end = start + POSTS_PER_PAGE;
-          post.style.display = index >= start && index < end ? '' : 'none';
+        const start = (currentPage - 1) * POSTS_PER_PAGE;
+        const end = start + POSTS_PER_PAGE;
+
+        posts.forEach(post => {
+          post.style.display = post.hidden ? 'none' : '';
         });
+
+        visiblePosts.forEach((post, index) => {
+          if (index < start || index >= end) {
+            post.style.display = 'none';
+          }
+        });
+
         pagination.innerHTML = '';
-        for (let i = 1; i <= totalPages; i++) {
-          const btn = document.createElement('button');
-          btn.textContent = i;
-          btn.className = 'page-btn' + (i === currentPage ? ' active' : '');
-          btn.addEventListener('click', () => {
-            currentPage = i;
-            paginate();
-          });
-          pagination.appendChild(btn);
+
+        if (visiblePosts.length > POSTS_PER_PAGE) {
+          for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.textContent = String(i);
+            btn.className = 'page-btn' + (i === currentPage ? ' active' : '');
+            btn.addEventListener('click', () => {
+              currentPage = i;
+              paginate();
+            });
+            pagination.appendChild(btn);
+          }
         }
+
+        updateStatus(visiblePosts.length);
       }
 
       searchInput?.addEventListener('input', filterPosts);
       tagButtons.forEach(btn => {
         btn.addEventListener('click', () => {
           const tag = btn.dataset.tag;
+          if (!tag) return;
           if (selectedTags.has(tag)) {
             selectedTags.delete(tag);
             btn.classList.remove('active');
+            btn.setAttribute('aria-pressed', 'false');
           } else {
             selectedTags.add(tag);
             btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
           }
           filterPosts();
         });
+        btn.setAttribute('aria-pressed', 'false');
+        btn.setAttribute('type', 'button');
       });
 
       filterPosts();
