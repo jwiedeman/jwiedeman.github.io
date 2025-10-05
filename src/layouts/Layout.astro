@@ -14,6 +14,19 @@ const {
 const title = propTitle ?? frontmatter.title ?? 'JWiedeman';
 const description =
   propDescription ?? frontmatter.description ?? 'Interstellar web projects by Joshua Wiedeman.';
+
+const pathSegments = Astro.url.pathname.split('/').filter(Boolean);
+const slugParts = pathSegments
+  .map((segment) =>
+    decodeURIComponent(segment)
+      .replace(/-/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase()
+  )
+  .filter(Boolean);
+const slugTrail = slugParts.join(' > ');
+const shouldShowSlug = showNav && slugTrail.length > 0;
 ---
 <!DOCTYPE html>
 <html lang="en" class="theme-light">
@@ -25,6 +38,11 @@ const description =
   </head>
   <body>
     {showNav && <Nav />}
+    {shouldShowSlug && (
+      <div class="slug-trail hairline-bottom">
+        <div class="container mono">{slugTrail}</div>
+      </div>
+    )}
     <main>
       <slot />
     </main>

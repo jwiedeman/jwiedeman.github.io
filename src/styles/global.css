@@ -212,6 +212,15 @@ nav .mode {
   text-transform: uppercase;
 }
 
+.slug-trail .container {
+  padding-top: var(--space-1);
+  padding-bottom: var(--space-1);
+  font-size: var(--text-12);
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  text-transform: none;
+}
+
 @media (max-width: 600px) {
   nav .container {
     flex-direction: column;
