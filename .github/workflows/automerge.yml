@@ -1,58 +1,96 @@
-name: Auto Merge
+name: Auto Merge Bot
 
 on:
   pull_request_target:
     types:
-      - opened
-      - reopened
-      - ready_for_review
-      - synchronize
       - labeled
+      - opened
+      - ready_for_review
+      - reopened
+      - synchronize
+      - unlabeled
 
 jobs:
-  automerge:
+  manage-auto-merge:
+    name: Manage auto-merge state
     runs-on: ubuntu-latest
     permissions:
-      pull-requests: write
       contents: write
+      pull-requests: write
     steps:
-      - name: Attempt automatic merge
+      - name: Configure auto-merge
         uses: actions/github-script@v7
         with:
           script: |
+            const AUTO_MERGE_LABEL = 'automerge';
+
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const pull_number = context.payload.pull_request.number;
 
             const { data: pr } = await github.rest.pulls.get({ owner, repo, pull_number });
 
-            const hasLabel = pr.labels.some((label) => label.name.toLowerCase() === 'automerge');
+            const hasLabel = pr.labels.some(
+              (label) => label.name?.toLowerCase() === AUTO_MERGE_LABEL
+            );
+
+            const disableAutoMerge = async () => {
+              if (!pr.auto_merge) {
+                core.info('Auto-merge is already disabled.');
+                return;
+              }
+
+              await github.graphql(
+                `mutation ($pullRequestId: ID!) {
+                  disablePullRequestAutoMerge(input: { pullRequestId: $pullRequestId }) {
+                    clientMutationId
+                  }
+                }`,
+                { pullRequestId: pr.node_id }
+              );
+
+              core.notice('Auto-merge disabled for this pull request.');
+            };
+
             if (!hasLabel) {
-              core.info('Automerge label not present; skipping.');
+              core.info('Automerge label not present; ensuring auto-merge is disabled.');
+              await disableAutoMerge();
               return;
             }
 
             if (pr.draft) {
-              core.notice('Pull request is still a draft; will not attempt to merge.');
+              core.notice('Pull request is still a draft; auto-merge will not be enabled.');
+              await disableAutoMerge();
               return;
             }
 
-            if (!pr.mergeable) {
-              core.notice(`Pull request is not mergeable yet (state: ${pr.mergeable_state}).`);
+            if (pr.state !== 'open') {
+              core.notice(`Pull request state is "${pr.state}"; auto-merge cannot be enabled.`);
+              await disableAutoMerge();
               return;
             }
 
-            const allowedStates = ['clean', 'has_hooks', 'unstable'];
-            if (!allowedStates.includes(pr.mergeable_state)) {
-              core.notice(`Mergeable state "${pr.mergeable_state}" is not ready for auto-merge.`);
+            if (pr.auto_merge) {
+              core.info('Auto-merge already enabled; nothing to do.');
               return;
             }
 
-            await github.rest.pulls.merge({
-              owner,
-              repo,
-              pull_number,
-              merge_method: 'squash',
-            });
+            await github.graphql(
+              `mutation ($pullRequestId: ID!, $mergeMethod: PullRequestMergeMethod!) {
+                enablePullRequestAutoMerge(
+                  input: { pullRequestId: $pullRequestId, mergeMethod: $mergeMethod }
+                ) {
+                  pullRequest {
+                    autoMergeRequest {
+                      enabledAt
+                    }
+                  }
+                }
+              }`,
+              {
+                pullRequestId: pr.node_id,
+                mergeMethod: 'SQUASH',
+              }
+            );
 
-            core.notice('Pull request merged automatically with squash strategy.');
+            core.notice('Auto-merge enabled with squash strategy; GitHub will merge once checks pass.');
