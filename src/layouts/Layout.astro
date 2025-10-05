@@ -52,17 +52,19 @@ const shouldShowBreadcrumbs = showNav && breadcrumbs.length > 0;
     {showNav && <Nav />}
     {shouldShowBreadcrumbs && (
       <nav class="slug-trail hairline-bottom" aria-label="Breadcrumb">
-        <ol class="container mono breadcrumb-list">
-          {breadcrumbs.map((crumb, index) => (
-            <li class="breadcrumb-item" key={crumb.href}>
-              {index < breadcrumbs.length - 1 ? (
-                <a href={crumb.href}>{crumb.label}</a>
-              ) : (
-                <span aria-current="page">{crumb.label}</span>
-              )}
-            </li>
-          ))}
-        </ol>
+        <div class="container mono">
+          <ol class="breadcrumb-list">
+            {breadcrumbs.map((crumb, index) => (
+              <li class="breadcrumb-item" key={crumb.href}>
+                {index < breadcrumbs.length - 1 ? (
+                  <a href={crumb.href}>{crumb.label}</a>
+                ) : (
+                  <span aria-current="page">{crumb.label}</span>
+                )}
+              </li>
+            ))}
+          </ol>
+        </div>
       </nav>
     )}
     <main>
