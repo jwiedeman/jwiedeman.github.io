@@ -2,38 +2,575 @@
 import Layout from '../../../layouts/Layout.astro';
 ---
 <Layout title="GTM Sandbox">
-  <div class="container">
-    <h1>GTM Sandbox</h1>
-    <p>Google Tag Manager base code with event tracking.</p>
-    <button id="gtm-button">Track Button</button>
-    <a href="#" id="gtm-link">Track Link</a>
-    <form id="gtm-form">
-      <input type="text" name="example" />
-      <button type="submit">Submit</button>
-    </form>
-  </div>
+  <article class="sandbox">
+    <header class="intro">
+      <p class="eyebrow">Analytics Lab / GTM</p>
+      <h1>Google Tag Manager Sandbox</h1>
+      <p>
+        This sandbox demonstrates how a universal data layer powers Google Tag Manager implementations.
+        Explore how page context is structured, how elements declare their tracking metadata, and how
+        payloads are staged for GTM delivery.
+      </p>
+    </header>
+
+    <section class="section">
+      <h2>Universal Data Layer Blueprint</h2>
+      <p>
+        Start every implementation with a consistent schema. Capture stable identifiers at the session,
+        user, and page level so GTM can enrich every event automatically. Interaction details are layered
+        on top when visitors engage with tracked components.
+      </p>
+      <div class="blueprint">
+        <div class="card">
+          <h3>Session Context</h3>
+          <p>Generated on first visit and persisted for the session.</p>
+          <pre><code>{`{
+  "session": {
+    "id": "c2c...",
+    "timestamp": "2024-01-01T12:00:00Z",
+    "source": "organic"
+  }
+}`}</code></pre>
+        </div>
+        <div class="card">
+          <h3>User Context</h3>
+          <p>Anonymous profile traits that remain stable across views.</p>
+          <pre><code>{`{
+  "user": {
+    "authState": "anonymous",
+    "persona": "marketer",
+    "role": null
+  }
+}`}</code></pre>
+        </div>
+        <div class="card">
+          <h3>Page Context</h3>
+          <p>Details that describe what is being viewed right now.</p>
+          <pre><code>{`{
+  "page": {
+    "name": "gtm-sandbox",
+    "category": "analytics-lab",
+    "language": "en-US"
+  }
+}`}</code></pre>
+        </div>
+      </div>
+      <p>
+        Each event extends this base payload with an <code>interaction</code> object that captures
+        what happened, where it occurred, and any business-specific values. GTM then routes the data to
+        GA4, ad platforms, or custom endpoints without redefining the structure every time.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Base GTM Container Snippet</h2>
+      <p>
+        Paste the standard GTM bootstrap code near the top of the <code>&lt;head&gt;</code> and mirror the
+        <code>&lt;noscript&gt;</code> iframe immediately after the opening <code>&lt;body&gt;</code>. Replace
+        <code>GTM-XXXXXXX</code> with your container ID.
+      </p>
+      <pre class="snippet"><code>{`&lt;script&gt;
+  (function(w,d,s,l,i){
+    w[l]=w[l]||[];
+    w[l].push({
+      'gtm.start': new Date().getTime(),
+      event: 'gtm.js'
+    });
+    var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),
+      dl=l!='dataLayer'? '&amp;l='+l : '';
+    j.async=true;
+    j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+    f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-XXXXXXX');
+&lt;/script&gt;
+&lt;noscript&gt;
+  &lt;iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+    height="0" width="0" style="display:none;visibility:hidden"&gt;&lt;/iframe&gt;
+&lt;/noscript&gt;`}</code></pre>
+    </section>
+
+    <section class="section">
+      <h2>Interactive Tracking Map</h2>
+      <p>
+        Each element below carries <code>data-gtm-*</code> attributes describing the event name, the
+        module responsible for the action, and optional values. Activate them to see how the universal
+        data layer composes the outbound payload.
+      </p>
+      <div class="playground">
+        <div class="trackable-panel">
+          <figure>
+            <button
+              type="button"
+              class="trackable"
+              data-gtm-event="cta_click"
+              data-gtm-element="Launch Primary CTA"
+              data-gtm-module="gtm-sandbox.cta"
+              data-gtm-value="primary"
+            >
+              Initiate Launch Sequence
+            </button>
+            <figcaption>
+              <strong>Primary CTA</strong>
+              <span>Event: <code>cta_click</code></span>
+              <span>Module: <code>gtm-sandbox.cta</code></span>
+              <span>Value: <code>primary</code></span>
+            </figcaption>
+          </figure>
+
+          <figure>
+            <a
+              href="#"
+              class="trackable link"
+              data-gtm-event="documentation_open"
+              data-gtm-element="Sandbox Documentation Link"
+              data-gtm-module="gtm-sandbox.navigation"
+              data-gtm-trigger="click"
+            >
+              View Implementation Checklist
+            </a>
+            <figcaption>
+              <strong>Reference Link</strong>
+              <span>Event: <code>documentation_open</code></span>
+              <span>Module: <code>gtm-sandbox.navigation</code></span>
+            </figcaption>
+          </figure>
+
+          <figure>
+            <form
+              class="trackable form"
+              data-gtm-event="form_submit"
+              data-gtm-element="Mission Intake Form"
+              data-gtm-module="gtm-sandbox.form"
+              data-gtm-method="POST"
+              data-gtm-trigger="submit"
+            >
+              <label for="mission-objective">Mission Objective</label>
+              <input id="mission-objective" name="missionObjective" placeholder="Calibrate telemetry" />
+              <button type="submit">Submit Request</button>
+            </form>
+            <figcaption>
+              <strong>Intake Form</strong>
+              <span>Event: <code>form_submit</code></span>
+              <span>Module: <code>gtm-sandbox.form</code></span>
+              <span>Method: <code>POST</code></span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <aside class="console" aria-live="polite" aria-label="Mock GTM console">
+          <div class="console-header">
+            <h3>Mock Console</h3>
+            <p>Shows the most recent data layer pushes and the payload staged for GTM endpoints.</p>
+          </div>
+          <div class="console-body" data-console>
+            <p data-console-empty>No events yet. Trigger an interaction to populate the console.</p>
+            <ol data-console-list></ol>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Deployment Checklist</h2>
+      <ul class="checklist">
+        <li><strong>1.</strong> Define the universal data layer schema and publish it for stakeholders.</li>
+        <li><strong>2.</strong> Populate session, user, and page objects server-side (or at first paint).
+        </li>
+        <li><strong>3.</strong> Annotate interactive elements with <code>data-gtm-*</code> metadata.</li>
+        <li><strong>4.</strong> Use a single helper to read those attributes and push structured events into GTM.</li>
+        <li><strong>5.</strong> Map GTM tags to destinations—GA4, ad pixels, or custom webhooks—without changing the schema.</li>
+      </ul>
+    </section>
+  </article>
+
   <script>
-    window.dataLayer = window.dataLayer || [];
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-XXXXXXX');
+    document.addEventListener('DOMContentLoaded', () => {
+      const dataLayer = window.dataLayer || [];
+      window.dataLayer = dataLayer;
+
+      const consoleList = document.querySelector('[data-console-list]');
+      const consoleEmpty = document.querySelector('[data-console-empty]');
+      const transmissions = [];
+      const MAX_ITEMS = 8;
+
+      const baseContext = {
+        session: {
+          id: 'session-' + Math.random().toString(36).slice(2, 10),
+          timestamp: new Date().toISOString(),
+          source: 'direct'
+        },
+        user: {
+          authState: 'anonymous',
+          persona: 'visitor',
+          role: null
+        },
+        page: {
+          name: 'gtm-sandbox',
+          category: 'analytics-lab',
+          language: document.documentElement.lang || 'en-US'
+        }
+      };
+
+      const renderConsole = () => {
+        if (!consoleList) return;
+        consoleEmpty.hidden = transmissions.length > 0;
+        consoleList.innerHTML = '';
+        transmissions.slice(0, MAX_ITEMS).forEach((entry) => {
+          const item = document.createElement('li');
+          item.className = 'console-entry';
+
+          const header = document.createElement('div');
+          header.className = 'console-entry__header';
+          header.textContent = `${entry.timestamp} • ${entry.label}`;
+
+          const badge = document.createElement('span');
+          badge.className = 'console-entry__type';
+          badge.textContent = entry.type;
+          header.appendChild(badge);
+
+          const payload = document.createElement('pre');
+          payload.textContent = JSON.stringify(entry.payload, null, 2);
+
+          item.appendChild(header);
+          item.appendChild(payload);
+          consoleList.appendChild(item);
+        });
+      };
+
+      const recordTransmission = (type, label, payload) => {
+        transmissions.unshift({
+          type,
+          label,
+          payload,
+          timestamp: new Date().toLocaleTimeString()
+        });
+        renderConsole();
+      };
+
+      const buildPayload = ({ eventName, element, module, value, method, formData }) => ({
+        event: eventName,
+        schema: 'universal-data-layer/v1',
+        session: baseContext.session,
+        user: baseContext.user,
+        page: baseContext.page,
+        interaction: {
+          element,
+          module,
+          value: value ?? null,
+          method: method ?? null,
+          formData: formData ?? null
+        }
+      });
+
+      const pushEvent = (detail) => {
+        const payload = buildPayload(detail);
+        dataLayer.push(payload);
+        recordTransmission('dataLayer.push', 'Universal data layer event recorded', payload);
+        recordTransmission('mock.gtm.request', 'Payload prepared for GTM endpoint', {
+          endpoint: 'https://www.googletagmanager.com/collect',
+          body: payload
+        });
+      };
+
+      const attachListeners = () => {
+        const elements = document.querySelectorAll('[data-gtm-event]');
+        elements.forEach((node) => {
+          const eventName = node.dataset.gtmEvent;
+          const elementName = node.dataset.gtmElement || node.textContent?.trim() || node.tagName.toLowerCase();
+          const moduleName = node.dataset.gtmModule || 'unspecified';
+          const value = node.dataset.gtmValue || null;
+          const method = node.dataset.gtmMethod || null;
+          const trigger = node.dataset.gtmTrigger || (node.tagName === 'FORM' ? 'submit' : 'click');
+
+          const handler = (event) => {
+            if (trigger === 'click') {
+              event.preventDefault();
+            }
+            if (trigger === 'submit') {
+              event.preventDefault();
+            }
+
+            const formData = node instanceof HTMLFormElement
+              ? Array.from(new FormData(node).entries()).reduce((acc, [key, val]) => {
+                  acc[key] = val;
+                  return acc;
+                }, {})
+              : null;
+
+            pushEvent({
+              eventName,
+              element: elementName,
+              module: moduleName,
+              value,
+              method: method || trigger,
+              formData
+            });
+
+            if (node instanceof HTMLFormElement) {
+              node.reset();
+            }
+          };
+
+          node.addEventListener(trigger, handler);
+        });
+      };
+
+      pushEvent({
+        eventName: 'page_view',
+        element: 'GTM Sandbox',
+        module: 'gtm-sandbox.page',
+        value: null,
+        method: 'view',
+        formData: null
+      });
+
+      attachListeners();
+    });
   </script>
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <script>
-    const button = document.getElementById('gtm-button');
-    const link = document.getElementById('gtm-link');
-    const form = document.getElementById('gtm-form');
-    button.addEventListener('click', () => {
-      dataLayer.push({event: 'button_click', label: 'GTM Button'});
-    });
-    link.addEventListener('click', () => {
-      dataLayer.push({event: 'link_click', label: 'GTM Link'});
-    });
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      dataLayer.push({event: 'form_submit', label: 'GTM Form'});
-    });
-  </script>
+
+  <style>
+    .sandbox {
+      padding: 4rem 1.5rem 6rem;
+      margin: 0 auto;
+      max-width: 1100px;
+      color: var(--color-text, #181818);
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .intro {
+      display: grid;
+      gap: 1rem;
+      max-width: 720px;
+    }
+
+    .intro .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.75rem;
+      color: #7e2522;
+    }
+
+    .intro h1 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      letter-spacing: 0.04em;
+    }
+
+    .section {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .section h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      letter-spacing: 0.05em;
+    }
+
+    .blueprint {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .card {
+      border: 1px solid rgba(24, 24, 24, 0.18);
+      background: #f3eddf;
+      padding: 1.5rem;
+      display: grid;
+      gap: 0.75rem;
+      box-shadow: 6px 6px 0 0 rgba(24, 24, 24, 0.08);
+    }
+
+    .card pre,
+    .snippet {
+      background: #fffdf7;
+      border: 1px solid rgba(24, 24, 24, 0.2);
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.875rem;
+      line-height: 1.4;
+    }
+
+    .snippet {
+      white-space: pre-wrap;
+    }
+
+    .playground {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    @media (min-width: 900px) {
+      .playground {
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+      }
+    }
+
+    .trackable-panel {
+      display: grid;
+      gap: 2rem;
+    }
+
+    figure {
+      margin: 0;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    figcaption {
+      border-left: 3px solid #7e2522;
+      padding-left: 1rem;
+      display: grid;
+      gap: 0.35rem;
+      font-size: 0.9rem;
+    }
+
+    .trackable {
+      border: 1px solid rgba(24, 24, 24, 0.25);
+      background: #fff;
+      padding: 0.9rem 1.2rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: transform 120ms ease, box-shadow 120ms ease;
+      box-shadow: 4px 4px 0 0 rgba(24, 24, 24, 0.12);
+    }
+
+    .trackable:hover,
+    .trackable:focus {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 0 rgba(24, 24, 24, 0.18);
+      outline: none;
+    }
+
+    .trackable.link {
+      display: inline-block;
+      text-decoration: none;
+      color: inherit;
+      background: #fffdf7;
+    }
+
+    .trackable.form {
+      display: grid;
+      gap: 0.75rem;
+      text-transform: none;
+      letter-spacing: normal;
+      cursor: default;
+    }
+
+    .trackable.form label {
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+
+    .trackable.form input {
+      padding: 0.65rem 0.75rem;
+      border: 1px solid rgba(24, 24, 24, 0.3);
+      background: #fff;
+      font-size: 0.95rem;
+    }
+
+    .trackable.form button {
+      justify-self: start;
+    }
+
+    .console {
+      border: 1px solid rgba(24, 24, 24, 0.3);
+      background: #0f0f0f;
+      color: #f2f0ea;
+      padding: 1.5rem;
+      display: grid;
+      gap: 1rem;
+      min-height: 100%;
+    }
+
+    .console-header h3 {
+      margin: 0;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .console-body {
+      background: #151515;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1rem;
+      display: grid;
+      gap: 0.75rem;
+      min-height: 260px;
+    }
+
+    .console-body p {
+      margin: 0;
+      color: rgba(242, 240, 234, 0.75);
+    }
+
+    .console-body ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .console-entry {
+      display: grid;
+      gap: 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 0.75rem;
+    }
+
+    .console-entry:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .console-entry__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .console-entry__type {
+      background: #7e2522;
+      color: #f3eddf;
+      padding: 0.15rem 0.45rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 999px;
+    }
+
+    .console-entry pre {
+      margin: 0;
+      background: #1d1d1d;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.75rem;
+      overflow-x: auto;
+      font-size: 0.75rem;
+      line-height: 1.45;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 0.65rem;
+      margin: 0;
+      padding-left: 1rem;
+    }
+
+    .checklist li {
+      list-style: none;
+      border-left: 3px solid rgba(24, 24, 24, 0.35);
+      padding-left: 0.75rem;
+      font-size: 0.95rem;
+    }
+  </style>
 </Layout>
