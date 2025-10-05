@@ -1,47 +1,263 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+import '../../../styles/analytics-sandbox.css';
 ---
-<Layout title="LinkedIn Pixel">
-  <div class="container">
-    <h1>LinkedIn Pixel Sandbox</h1>
-    <p>LinkedIn Insight Tag base snippet with event tracking.</p>
-    <button id="linkedin-button">Track Button</button>
-    <a href="#" id="linkedin-link">Track Link</a>
-    <form id="linkedin-form">
-      <input type="text" name="example" />
-      <button type="submit">Submit</button>
-    </form>
+<Layout title="LinkedIn Insight Tag Sandbox">
+  <div class="container analytics-sandbox linkedin-sandbox">
+    <header class="sandbox-header hairline-bottom">
+      <p class="supertitle mono">Analytics Lab / Instrumentation</p>
+      <h1>LinkedIn Insight Tag Sandbox</h1>
+      <p class="intro">
+        Inspect how the LinkedIn Insight Tag records conversions across key interface elements. Activate the
+        controls to see the mock payloads generated for each conversion ID.
+      </p>
+      <dl class="sandbox-meta">
+        <div>
+          <dt>Partner ID</dt>
+          <dd class="mono">LINKEDIN-ID</dd>
+        </div>
+        <div>
+          <dt>Endpoint</dt>
+          <dd class="mono">https://px.ads.linkedin.com/collect</dd>
+        </div>
+      </dl>
+    </header>
+
+    <div class="sandbox-grid">
+      <section class="sandbox-panel">
+        <article class="sandbox-card linkedin-card" data-li-card>
+          <header>
+            <p class="sandbox-card__tag mono">Conversion ID: 1</p>
+            <h3>Primary mission CTA</h3>
+          </header>
+          <p>
+            Represents the highest priority conversion on a landing surface. Includes mission metadata for
+            downstream segmentation.
+          </p>
+          <dl class="sandbox-card__meta">
+            <div>
+              <dt>Interaction</dt>
+              <dd class="mono">click</dd>
+            </div>
+            <div>
+              <dt>Label</dt>
+              <dd class="mono">Mission Brief Request</dd>
+            </div>
+          </dl>
+          <button
+            class="sandbox-action"
+            data-li-event="click"
+            data-li-conversion-id="1"
+            data-li-payload='{"content_type":"cta","cta_label":"Request Mission Brief","priority":"primary"}'
+            data-li-status="li-cta-status"
+            type="button"
+          >
+            Request mission brief
+          </button>
+          <p id="li-cta-status" class="linkedin-status">Idle — waiting for interaction.</p>
+        </article>
+
+        <article class="sandbox-card linkedin-card" data-li-card>
+          <header>
+            <p class="sandbox-card__tag mono">Conversion ID: 2</p>
+            <h3>Reference link</h3>
+          </header>
+          <p>
+            Captures mid-funnel navigation interest. Prevents navigation in this demo so you can review the
+            outbound payload.
+          </p>
+          <dl class="sandbox-card__meta">
+            <div>
+              <dt>Interaction</dt>
+              <dd class="mono">click</dd>
+            </div>
+            <div>
+              <dt>Destination</dt>
+              <dd class="mono">/resources/mission-overview</dd>
+            </div>
+          </dl>
+          <a
+            href="#"
+            class="sandbox-link"
+            data-li-event="click"
+            data-li-conversion-id="2"
+            data-li-prevent-default="true"
+            data-li-payload='{"destination":"/resources/mission-overview","link_type":"supporting"}'
+            data-li-status="li-link-status"
+          >
+            View mission overview
+          </a>
+          <p id="li-link-status" class="linkedin-status">Idle — waiting for interaction.</p>
+        </article>
+
+        <article class="sandbox-card linkedin-card" data-li-card>
+          <header>
+            <p class="sandbox-card__tag mono">Conversion ID: 3</p>
+            <h3>Lead qualification form</h3>
+          </header>
+          <p>
+            Demonstrates a lightweight lead capture flow with hashed identifiers and mission intent fields.
+          </p>
+          <dl class="sandbox-card__meta">
+            <div>
+              <dt>Interaction</dt>
+              <dd class="mono">submit</dd>
+            </div>
+            <div>
+              <dt>Mission focus</dt>
+              <dd class="mono">Dynamic (form value)</dd>
+            </div>
+          </dl>
+          <form
+            class="sandbox-form"
+            data-li-event="submit"
+            data-li-conversion-id="3"
+            data-li-prevent-default="true"
+            data-li-payload='{"lead_type":"enterprise","hashed_email":"4b825dc642cb6eb9a060e54bf8d69288"}'
+            data-li-status="li-form-status"
+          >
+            <label>
+              Mission focus
+              <select name="mission_focus">
+                <option value="orbital">Orbital research</option>
+                <option value="deep-space">Deep space comms</option>
+                <option value="earth-observation">Earth observation</option>
+              </select>
+            </label>
+            <label>
+              Mission identifier
+              <input type="text" name="mission_id" placeholder="mission-041" required />
+            </label>
+            <button type="submit" class="sandbox-action">Transmit lead</button>
+          </form>
+          <p id="li-form-status" class="linkedin-status">Idle — waiting for interaction.</p>
+        </article>
+      </section>
+
+      <aside class="sandbox-console linkedin-console" aria-labelledby="linkedin-console-heading">
+        <h2 id="linkedin-console-heading">Mock Insight Tag console</h2>
+        <p>
+          Displays the payload that would be sent to <code class="mono">https://px.ads.linkedin.com/collect</code>
+          along with a timestamp.
+        </p>
+        <div class="console-stream" data-li-console aria-live="polite">
+          <p class="console-empty" data-li-empty>Awaiting Insight Tag activity…</p>
+        </div>
+        <noscript>
+          <p class="console-empty">Enable JavaScript to observe the simulated conversions.</p>
+        </noscript>
+      </aside>
+    </div>
+
+    <section class="sandbox-snippet" aria-labelledby="linkedin-snippet-heading">
+      <h2 id="linkedin-snippet-heading">LinkedIn Insight Tag snippet</h2>
+      <p>
+        Load the Insight Tag asynchronously and configure the partner ID before firing conversions with
+        <code>lintrk('track', &#123;&#123; conversion_id &#125;&#125;)</code>.
+      </p>
+      <pre class="mono"><code>{`&lt;script type="text/javascript"&gt;
+  _linkedin_partner_id = 'LINKEDIN-ID';
+  window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+  window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  (function(l) {
+    if (!l) {
+      window.lintrk = function(a, b) { window.lintrk.q.push([a, b]); };
+      window.lintrk.q = [];
+    }
+    var s = document.getElementsByTagName('script')[0];
+    var b = document.createElement('script');
+    b.type = 'text/javascript'; b.async = true;
+    b.src = 'https://snap.licdn.com/li.lms-analytics/insight.min.js';
+    s.parentNode.insertBefore(b, s);
+  })(window.lintrk);
+&lt;/script&gt;`}</code></pre>
+    </section>
   </div>
-  <script type="text/javascript">
-    _linkedin_partner_id = "LINKEDIN-ID";
+
+  <script>
+    const partnerId = 'LINKEDIN-ID';
     window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
-    window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+    if (!window._linkedin_data_partner_ids.includes(partnerId)) {
+      window._linkedin_data_partner_ids.push(partnerId);
+    }
+
+    const consoleStream = document.querySelector('[data-li-console]');
+    const emptyState = document.querySelector('[data-li-empty]');
+
+    const pretty = (value) => JSON.stringify(value, null, 2);
+
+    const logConversion = (conversionId, payload) => {
+      if (!consoleStream) return;
+      if (emptyState && emptyState.parentElement) {
+        emptyState.remove();
+      }
+
+      const entry = document.createElement('article');
+      entry.className = 'console-entry';
+      entry.innerHTML = `
+        <header class="console-entry__meta">
+          <span class="console-entry__method">lintrk('track')</span>
+          <span>Conversion ${conversionId}</span>
+          <span>${new Date().toLocaleTimeString()}</span>
+        </header>
+        <pre class="console-entry__body">${pretty({ conversion_id: conversionId, payload })}</pre>
+      `;
+      consoleStream.prepend(entry);
+
+      const maxEntries = 8;
+      while (consoleStream.children.length > maxEntries) {
+        consoleStream.removeChild(consoleStream.lastElementChild);
+      }
+    };
+
+    const updateStatus = (statusId) => {
+      if (!statusId) return;
+      const target = document.getElementById(statusId);
+      if (!target) return;
+      target.textContent = `Last fired at ${new Date().toLocaleTimeString()}`;
+    };
+
+    const registerInteraction = (element) => {
+      const conversionId = element.dataset.liConversionId;
+      const interaction = element.dataset.liEvent || 'click';
+      const preventDefault = element.dataset.liPreventDefault === 'true';
+      const statusId = element.dataset.liStatus;
+      let payload = {};
+
+      try {
+        payload = element.dataset.liPayload ? JSON.parse(element.dataset.liPayload) : {};
+      } catch (error) {
+        payload = { error: 'Unable to parse payload', raw: element.dataset.liPayload };
+      }
+
+      element.addEventListener(interaction, (event) => {
+        if (preventDefault) {
+          event.preventDefault();
+        }
+
+        const enrichedPayload = element.tagName === 'FORM'
+          ? { ...payload, form_values: Object.fromEntries(new FormData(element)) }
+          : payload;
+
+        logConversion(conversionId, enrichedPayload);
+        updateStatus(statusId);
+
+        if (element.tagName === 'FORM') {
+          element.reset();
+        }
+      });
+    };
+
+    document.querySelectorAll('[data-li-conversion-id]').forEach(registerInteraction);
   </script>
-  <script type="text/javascript">
-    (function(l) {
-      if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
-      window.lintrk.q=[]}
-      var s = document.getElementsByTagName("script")[0];
-      var b = document.createElement("script");
-      b.type = "text/javascript";b.async = true;
-      b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
-      s.parentNode.insertBefore(b, s);
-    })(window.lintrk);
-    const button = document.getElementById('linkedin-button');
-    const link = document.getElementById('linkedin-link');
-    const form = document.getElementById('linkedin-form');
-    button.addEventListener('click', () => {
-      lintrk('track', { conversion_id: 1 });
-    });
-    link.addEventListener('click', () => {
-      lintrk('track', { conversion_id: 2 });
-    });
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      lintrk('track', { conversion_id: 3 });
-    });
-  </script>
-  <noscript>
-    <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=LINKEDIN-ID&fmt=gif" />
-  </noscript>
+
+  <style>
+    .linkedin-sandbox .linkedin-status {
+      margin: 0;
+      font-size: var(--text-14);
+      color: var(--color-muted);
+    }
+  </style>
 </Layout>

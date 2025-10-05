@@ -1,34 +1,276 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+import '../../../styles/analytics-sandbox.css';
 ---
 <Layout title="Unified Data Layer">
-  <div class="container">
-    <h1>Unified Data Layer</h1>
-    <p>Example data layer pattern with custom events.</p>
-    <button id="udl-button">Track Button</button>
-    <a href="#" id="udl-link">Track Link</a>
-    <form id="udl-form">
-      <input type="text" name="example" />
-      <button type="submit">Submit</button>
-    </form>
+  <div class="container analytics-sandbox udl-sandbox">
+    <header class="sandbox-header hairline-bottom">
+      <p class="supertitle mono">Analytics Lab / Instrumentation</p>
+      <h1>Unified Data Layer Sandbox</h1>
+      <p class="intro">
+        Prototype a normalized event model that can power any analytics or marketing endpoint. Engage with
+        the controls to observe the structured payloads delivered to <code>window.dataLayer</code>.
+      </p>
+      <dl class="sandbox-meta">
+        <div>
+          <dt>Schema</dt>
+          <dd class="mono">unified-data-layer/v2</dd>
+        </div>
+        <div>
+          <dt>Namespace</dt>
+          <dd class="mono">lab.analytics.udl</dd>
+        </div>
+      </dl>
+    </header>
+
+    <div class="sandbox-grid">
+      <section class="sandbox-panel">
+        <section class="sandbox-card udl-context" aria-labelledby="udl-context-heading">
+          <h2 id="udl-context-heading">Base context snapshot</h2>
+          <p>
+            Session, user, and page objects are seeded once per visit. Every interaction extends this payload
+            so downstream tags inherit a shared vocabulary.
+          </p>
+          <div class="udl-context__grid">
+            <article>
+              <h3>Session</h3>
+              <pre class="mono">{`{
+  "id": "session-0042",
+  "timestamp": "2024-01-01T12:00:00Z",
+  "source": "organic"
+}`}</pre>
+            </article>
+            <article>
+              <h3>User</h3>
+              <pre class="mono">{`{
+  "auth_state": "anonymous",
+  "persona": "analyst",
+  "account_tier": "explorer"
+}`}</pre>
+            </article>
+            <article>
+              <h3>Page</h3>
+              <pre class="mono">{`{
+  "template": "lab-sandbox",
+  "section": "analytics",
+  "language": "en-US"
+}`}</pre>
+            </article>
+          </div>
+        </section>
+
+        <section class="sandbox-card udl-interactions" aria-labelledby="udl-interactions-heading">
+          <h2 id="udl-interactions-heading">Tracked interactions</h2>
+          <p>
+            Buttons, links, and forms declare their instrumentation through data attributes. A helper maps the
+            DOM metadata into normalized payloads pushed into the data layer.
+          </p>
+          <div class="udl-interactions__grid">
+            <button
+              class="sandbox-action"
+              data-udl-event="cta_click"
+              data-udl-element="Launch Primary CTA"
+              data-udl-module="udl-sandbox.cta"
+              data-udl-value="primary"
+            >
+              Initiate launch sequence
+            </button>
+            <a
+              href="#"
+              class="sandbox-link"
+              data-udl-event="documentation_open"
+              data-udl-element="Sandbox Documentation Link"
+              data-udl-module="udl-sandbox.navigation"
+              data-udl-prevent-default="true"
+            >
+              View implementation checklist
+            </a>
+            <form
+              class="sandbox-form"
+              data-udl-event="form_submit"
+              data-udl-element="Mission Intake Form"
+              data-udl-module="udl-sandbox.form"
+              data-udl-trigger="submit"
+            >
+              <label for="udl-mission">Mission objective</label>
+              <input id="udl-mission" name="missionObjective" placeholder="Calibrate telemetry" />
+              <button type="submit" class="sandbox-action">Submit request</button>
+            </form>
+          </div>
+        </section>
+      </section>
+
+      <aside class="sandbox-console udl-console" aria-labelledby="udl-console-heading">
+        <h2 id="udl-console-heading">Data layer stream</h2>
+        <p>
+          Shows the most recent <code>dataLayer.push</code> operations. Newest entries appear first.
+        </p>
+        <div class="console-stream" data-udl-console aria-live="polite">
+          <p class="console-empty" data-udl-empty>No events yet. Trigger an interaction to populate the stream.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="sandbox-snippet" aria-labelledby="udl-snippet-heading">
+      <h2 id="udl-snippet-heading">Bootstrap snippet</h2>
+      <p>
+        Initialize the data layer early and push the session, user, and page context before registering
+        interaction handlers.
+      </p>
+      <pre class="mono"><code>{`&lt;script&gt;
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    schema: 'unified-data-layer/v2',
+    session: {/* ... */},
+    user: {/* ... */},
+    page: {/* ... */}
+  });
+&lt;/script&gt;`}</code></pre>
+    </section>
   </div>
+
   <script>
     window.dataLayer = window.dataLayer || [];
-    function track(eventName, detail) {
-      window.dataLayer.push({ event: eventName, ...detail });
-    }
-    const button = document.getElementById('udl-button');
-    const link = document.getElementById('udl-link');
-    const form = document.getElementById('udl-form');
-    button.addEventListener('click', () => {
-      track('button_click', { label: 'UDL Button' });
-    });
-    link.addEventListener('click', () => {
-      track('link_click', { label: 'UDL Link' });
-    });
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      track('form_submit', { label: 'UDL Form' });
+
+    const consoleStream = document.querySelector('[data-udl-console]');
+    const emptyState = document.querySelector('[data-udl-empty]');
+
+    const baseContext = {
+      schema: 'unified-data-layer/v2',
+      session: {
+        id: 'session-' + Math.random().toString(36).slice(2, 10),
+        timestamp: new Date().toISOString(),
+        source: 'direct',
+      },
+      user: {
+        auth_state: 'anonymous',
+        persona: 'visitor',
+        account_tier: 'explorer',
+      },
+      page: {
+        template: 'lab-sandbox',
+        section: 'analytics',
+        language: document.documentElement.lang || 'en-US',
+      },
+    };
+
+    const pushToDataLayer = (payload) => {
+      window.dataLayer.push(payload);
+      if (!consoleStream) return;
+      if (emptyState && emptyState.parentElement) {
+        emptyState.remove();
+      }
+
+      const entry = document.createElement('article');
+      entry.className = 'console-entry';
+      entry.innerHTML = `
+        <header class="console-entry__meta">
+          <span class="console-entry__method">dataLayer.push</span>
+          <span>${payload.event}</span>
+          <span>${new Date().toLocaleTimeString()}</span>
+        </header>
+        <pre class="console-entry__body">${JSON.stringify(payload, null, 2)}</pre>
+      `;
+      consoleStream.prepend(entry);
+
+      const maxEntries = 8;
+      while (consoleStream.children.length > maxEntries) {
+        consoleStream.removeChild(consoleStream.lastElementChild);
+      }
+    };
+
+    const buildInteractionPayload = (element) => {
+      const eventName = element.dataset.udlEvent;
+      const module = element.dataset.udlModule || 'udl-sandbox.component';
+      const el = element.dataset.udlElement || element.textContent?.trim() || element.tagName.toLowerCase();
+      const value = element.dataset.udlValue || null;
+      const trigger = element.dataset.udlTrigger || (element.tagName === 'FORM' ? 'submit' : 'click');
+
+      const formValues = element.tagName === 'FORM'
+        ? Object.fromEntries(new FormData(element).entries())
+        : null;
+
+      return {
+        event: eventName,
+        schema: baseContext.schema,
+        session: baseContext.session,
+        user: baseContext.user,
+        page: baseContext.page,
+        interaction: {
+          element: el,
+          module,
+          value,
+          trigger,
+          form_values: formValues,
+        },
+      };
+    };
+
+    const registerInteraction = (element) => {
+      const preventDefault = element.dataset.udlPreventDefault === 'true';
+      const trigger = element.dataset.udlTrigger || (element.tagName === 'FORM' ? 'submit' : 'click');
+
+      element.addEventListener(trigger, (event) => {
+        if (preventDefault || element.tagName === 'FORM') {
+          event.preventDefault();
+        }
+
+        const payload = buildInteractionPayload(element);
+        pushToDataLayer(payload);
+
+        if (element.tagName === 'FORM') {
+          element.reset();
+        }
+      });
+    };
+
+    document.querySelectorAll('[data-udl-event]').forEach(registerInteraction);
+
+    pushToDataLayer({
+      event: 'page_view',
+      ...baseContext,
+      interaction: {
+        element: 'Unified Data Layer Sandbox',
+        module: 'udl-sandbox.page',
+        value: null,
+        trigger: 'view',
+        form_values: null,
+      },
     });
   </script>
+
+  <style>
+    .udl-sandbox .udl-context__grid {
+      display: grid;
+      gap: var(--space-3);
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .udl-sandbox .udl-context__grid article {
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .udl-sandbox .udl-context__grid h3 {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .udl-sandbox .udl-context__grid pre {
+      margin: 0;
+      font-size: var(--text-12);
+      overflow-x: auto;
+    }
+
+    .udl-sandbox .udl-interactions__grid {
+      display: grid;
+      gap: var(--space-3);
+    }
+  </style>
 </Layout>
