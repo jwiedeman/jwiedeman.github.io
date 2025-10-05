@@ -2,34 +2,499 @@
 import Layout from '../../../layouts/Layout.astro';
 ---
 <Layout title="GA4 Sandbox">
-  <div class="container">
-    <h1>GA4 Sandbox</h1>
-    <p>Example base snippet and event tracking for Google Analytics 4.</p>
-    <button id="ga4-button">Track Button</button>
-    <a href="#" id="ga4-link">Track Link</a>
-    <form id="ga4-form">
-      <input type="text" name="example" />
-      <button type="submit">Submit</button>
-    </form>
+  <div class="container ga4-sandbox">
+    <header class="sandbox-header hairline-bottom">
+      <p class="supertitle mono">Analytics Lab / Instrumentation</p>
+      <h1>GA4 Sandbox</h1>
+      <p class="intro">
+        Explore how Google Analytics 4 tagging attaches to common interface elements. Interact with the
+        controls to emit events and watch the mock Measurement Protocol payloads stream into the console on
+        the right.
+      </p>
+      <dl class="sandbox-meta">
+        <div>
+          <dt>Measurement ID</dt>
+          <dd class="mono">G-ABCDE12345</dd>
+        </div>
+        <div>
+          <dt>Endpoint</dt>
+          <dd class="mono">https://www.google-analytics.com/mp/collect</dd>
+        </div>
+      </dl>
+    </header>
+
+    <div class="sandbox-grid">
+      <section class="sandbox-playground" aria-labelledby="ga4-playground-heading">
+        <h2 id="ga4-playground-heading">Tracked interface elements</h2>
+        <p class="playground-copy">
+          Each card documents the GA4 event name, trigger, and parameters attached to the component. These
+          map directly to the <code>gtag('event')</code> calls fired when you engage with the UI.
+        </p>
+
+        <article class="tracked-card" data-event="select_content">
+          <header>
+            <p class="tracked-tag mono">Event: select_content</p>
+            <h3>Primary mission CTA</h3>
+          </header>
+          <p>
+            Demonstrates a hero-level call to action capturing content selection. This is a high-intent
+            click, so the payload includes metadata describing the hero placement and label text.
+          </p>
+          <dl class="tracked-definition">
+            <div>
+              <dt>Trigger</dt>
+              <dd>Button click</dd>
+            </div>
+            <div>
+              <dt>Parameters</dt>
+              <dd>
+                <code>&#123;&quot;content_type&quot;:&quot;hero_cta&quot;,&quot;cta_label&quot;:&quot;Request Mission Brief&quot;&#125;</code>
+              </dd>
+            </div>
+          </dl>
+          <button id="ga4-cta" class="tracked-action">Request mission brief</button>
+        </article>
+
+        <article class="tracked-card" data-event="view_promotion">
+          <header>
+            <p class="tracked-tag mono">Event: view_promotion</p>
+            <h3>Research bulletin teaser</h3>
+          </header>
+          <p>
+            Simulates an in-page promotion module. The event communicates the name of the offer and the slot
+            in which it appeared so you can evaluate placement performance.
+          </p>
+          <dl class="tracked-definition">
+            <div>
+              <dt>Trigger</dt>
+              <dd>Link interaction</dd>
+            </div>
+            <div>
+              <dt>Parameters</dt>
+              <dd>
+                <code>&#123;&quot;promotion_name&quot;:&quot;Orbital Research Bulletin&quot;,&quot;creative_slot&quot;:&quot;right_rail&quot;&#125;</code>
+              </dd>
+            </div>
+          </dl>
+          <a id="ga4-promo" class="tracked-link" href="#">Preview bulletin</a>
+        </article>
+
+        <article class="tracked-card" data-event="generate_lead">
+          <header>
+            <p class="tracked-tag mono">Event: generate_lead</p>
+            <h3>Lead qualification form</h3>
+          </header>
+          <p>
+            Captures submissions for a lightweight lead form. The payload returns mission focus data so the
+            downstream pipeline can segment follow-up efforts.
+          </p>
+          <dl class="tracked-definition">
+            <div>
+              <dt>Trigger</dt>
+              <dd>Form submit</dd>
+            </div>
+            <div>
+              <dt>Parameters</dt>
+              <dd>
+                <code>&#123;&quot;form_id&quot;:&quot;ga4-demo-form&quot;,&quot;mission_focus&quot;:&quot;&#123;input value&#125;&quot;&#125;</code>
+              </dd>
+            </div>
+          </dl>
+          <form id="ga4-form" class="tracked-form">
+            <label class="mono" for="ga4-mission">Mission focus</label>
+            <input id="ga4-mission" name="mission" type="text" placeholder="Deep space communications" />
+            <button type="submit" class="tracked-action">Transmit mission details</button>
+          </form>
+        </article>
+      </section>
+
+      <aside class="sandbox-console" aria-labelledby="ga4-console-heading">
+        <h2 id="ga4-console-heading">Mock GA4 console</h2>
+        <p class="console-copy">
+          Payloads are formatted to match Measurement Protocol requests. Newest events appear at the top.
+        </p>
+        <div class="console-stream" data-console-stream aria-live="polite">
+          <p class="console-empty" data-console-empty>Interact with the sandbox to emit GA4 traffic.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="sandbox-snippet" aria-labelledby="ga4-snippet-heading">
+      <h2 id="ga4-snippet-heading">Base instrumentation snippet</h2>
+      <p>
+        The mock console is powered by the same <code>gtag</code> interface used in production. Replace the
+        measurement ID with your own property value when deploying.
+      </p>
+      <pre class="mono"><code>&lt;script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDE12345"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.dataLayer = window.dataLayer || [];
+  function gtag()&#123;dataLayer.push(arguments);&#125;
+  gtag('js', new Date());
+  gtag('config', 'G-ABCDE12345');
+&lt;/script&gt;</code></pre>
+    </section>
   </div>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+
   <script>
+    const measurementId = 'G-ABCDE12345';
+    const mockClientId = '555.4242424242';
+    const endpoint = 'https://www.google-analytics.com/mp/collect';
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+
+    const logContainer = document.querySelector('[data-console-stream]');
+    const emptyState = logContainer ? logContainer.querySelector('[data-console-empty]') : null;
+
+    function formatPayload(args) {
+      const [command, param1, param2] = args;
+      const body = {
+        measurement_id: measurementId,
+        client_id: mockClientId
+      };
+
+      if (command === 'config') {
+        body.config = Object.assign({ send_page_view: true }, param2 || {});
+      } else if (command === 'event') {
+        body.events = [
+          {
+            name: param1,
+            params: param2 || {}
+          }
+        ];
+      } else if (command === 'js') {
+        body.command = 'js';
+        body.value = param1 instanceof Date ? param1.toISOString() : param1;
+      } else {
+        body.command = command;
+        if (param1 !== undefined) {
+          body.value = param1;
+        }
+        if (param2) {
+          body.params = param2;
+        }
+      }
+
+      return {
+        method: 'POST',
+        endpoint,
+        body,
+        preformatted: JSON.stringify(body, null, 2)
+      };
+    }
+
+    function appendLog(args) {
+      if (!logContainer) {
+        return;
+      }
+
+      if (emptyState && emptyState.parentElement) {
+        emptyState.remove();
+      }
+
+      const payload = formatPayload(args);
+      const entry = document.createElement('article');
+      entry.className = 'console-entry';
+      entry.innerHTML = `
+        <header class="console-entry__meta">
+          <span class="console-entry__method">${payload.method}</span>
+          <span class="console-entry__endpoint">${payload.endpoint}</span>
+          <span class="console-entry__timestamp">${new Date().toLocaleTimeString()}</span>
+        </header>
+        <pre class="console-entry__body">${payload.preformatted}</pre>
+      `;
+      logContainer.prepend(entry);
+    }
+
+    function gtag() {
+      const args = Array.from(arguments);
+      window.dataLayer.push(args);
+      appendLog(args);
+    }
+
+    window.gtag = gtag;
+
     gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-    const button = document.getElementById('ga4-button');
-    const link = document.getElementById('ga4-link');
-    const form = document.getElementById('ga4-form');
-    button.addEventListener('click', () => {
-      gtag('event', 'button_click', { 'event_label': 'GA4 Button' });
+    gtag('config', measurementId, { send_page_view: true, page_title: document.title });
+
+    function trackEvent(name, params) {
+      gtag('event', name, params);
+    }
+
+    trackEvent('page_view', {
+      page_location: window.location.href,
+      page_title: document.title
     });
-    link.addEventListener('click', () => {
-      gtag('event', 'link_click', { 'event_label': 'GA4 Link' });
-    });
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      gtag('event', 'form_submit', { 'event_label': 'GA4 Form' });
-    });
+
+    const ctaButton = document.getElementById('ga4-cta');
+    if (ctaButton) {
+      ctaButton.addEventListener('click', () => {
+        trackEvent('select_content', {
+          content_type: 'hero_cta',
+          cta_label: 'Request Mission Brief'
+        });
+      });
+    }
+
+    const promoLink = document.getElementById('ga4-promo');
+    if (promoLink) {
+      promoLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        trackEvent('view_promotion', {
+          promotion_name: 'Orbital Research Bulletin',
+          creative_slot: 'right_rail'
+        });
+      });
+    }
+
+    const leadForm = document.getElementById('ga4-form');
+    if (leadForm) {
+      leadForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const mission = leadForm.querySelector('input[name="mission"]');
+        trackEvent('generate_lead', {
+          form_id: 'ga4-demo-form',
+          mission_focus: mission && mission.value ? mission.value : 'unspecified'
+        });
+        leadForm.reset();
+      });
+    }
   </script>
+
+  <style>
+    .ga4-sandbox {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      padding-bottom: var(--space-5);
+    }
+
+    .sandbox-header {
+      padding-top: var(--space-4);
+      padding-bottom: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .sandbox-header h1 {
+      font-size: var(--text-48);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .supertitle {
+      font-size: var(--text-14);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    .intro {
+      max-width: 720px;
+    }
+
+    .sandbox-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin: 0;
+    }
+
+    .sandbox-meta dt {
+      font-size: var(--text-12);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+    }
+
+    .sandbox-meta dd {
+      margin: 0;
+      font-size: var(--text-16);
+    }
+
+    .sandbox-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: var(--space-4);
+      align-items: start;
+    }
+
+    .sandbox-playground,
+    .sandbox-console {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .playground-copy,
+    .console-copy {
+      margin-top: 0;
+      color: var(--color-muted);
+    }
+
+    .tracked-card {
+      border: 1px solid var(--color-rule);
+      padding: var(--space-3);
+      border-radius: var(--radius-2);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    .tracked-card h3 {
+      margin-bottom: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .tracked-tag {
+      font-size: var(--text-12);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin: 0 0 var(--space-1) 0;
+    }
+
+    .tracked-definition {
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--space-2);
+    }
+
+    .tracked-definition dt {
+      font-size: var(--text-12);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+    }
+
+    .tracked-definition dd {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: var(--text-14);
+    }
+
+    .tracked-action,
+    .tracked-link {
+      align-self: flex-start;
+      padding: var(--space-1) var(--space-2);
+      border: 1px solid var(--color-text);
+      border-radius: var(--radius-2);
+      background: transparent;
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      font-size: var(--text-14);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .tracked-link {
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .tracked-link:hover,
+    .tracked-action:hover,
+    .tracked-link:focus,
+    .tracked-action:focus {
+      background: var(--color-text);
+      color: var(--color-bg);
+    }
+
+    .tracked-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .tracked-form input {
+      padding: var(--space-1);
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-1);
+      font-size: var(--text-16);
+      font-family: var(--font-sans);
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    .sandbox-console {
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      padding: var(--space-3);
+      background: rgba(17, 17, 17, 0.04);
+    }
+
+    .console-stream {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      max-height: 520px;
+      overflow-y: auto;
+      padding-right: var(--space-1);
+    }
+
+    .console-empty {
+      color: var(--color-muted);
+      margin: 0;
+    }
+
+    .console-entry {
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(255, 255, 255, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .console-entry__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1);
+      font-size: var(--text-12);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    .console-entry__method {
+      font-weight: 700;
+    }
+
+    .console-entry__body {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: var(--text-12);
+      white-space: pre-wrap;
+    }
+
+    .sandbox-snippet {
+      border-top: 1px solid var(--color-rule);
+      padding-top: var(--space-3);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .sandbox-snippet pre {
+      margin: 0;
+      padding: var(--space-2);
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      background: rgba(255, 255, 255, 0.6);
+      overflow-x: auto;
+    }
+
+    @media (max-width: 960px) {
+      .sandbox-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .console-stream {
+        max-height: none;
+      }
+    }
+  </style>
 </Layout>
