@@ -1,111 +1,145 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+import '../../../styles/analytics-sandbox.css';
 ---
-<Layout title="X Pixel">
-  <div class="sandbox">
-    <header class="sandbox__intro">
+<Layout title="X Pixel Sandbox">
+  <div class="container analytics-sandbox x-sandbox">
+    <header class="sandbox-header hairline-bottom">
+      <p class="supertitle mono">Analytics Lab / Instrumentation</p>
       <h1>X Pixel Sandbox</h1>
-      <p>
-        Explore how the X (Twitter) Pixel instruments on-page interactions. The left column
-        outlines the tracking metadata applied to each element, while the mock console on the
-        right shows the payloads that would be transmitted to the X endpoint.
+      <p class="intro">
+        Explore how the X (Twitter) Pixel instruments on-page interactions. The left column outlines the
+        tracking metadata applied to each element, while the console on the right shows the payloads that
+        would be transmitted to the X endpoint.
       </p>
-    </header>
-    <div class="sandbox__grid">
-      <section class="panel">
-        <h2>Instrumentation Overview</h2>
-        <p class="panel__lead">
-          Each interactive element is annotated with <code>data-twq-*</code> attributes so that
-          the tracking plan is transparent at a glance.
-        </p>
-        <dl class="tracking-map">
-          <div class="tracking-map__item">
-            <dt>Primary Call-to-Action Button</dt>
-            <dd>
-              <span class="label">Event:</span>
-              <code>button_click</code>
-            </dd>
-            <dd>
-              <span class="label">Parameters:</span>
-              <code>&#123;&quot;content_name&quot;:&quot;Sandbox CTA&quot;,&quot;value&quot;:1&#125;</code>
-            </dd>
-          </div>
-          <div class="tracking-map__item">
-            <dt>Annotated Reference Link</dt>
-            <dd>
-              <span class="label">Event:</span>
-              <code>link_click</code>
-            </dd>
-            <dd>
-              <span class="label">Parameters:</span>
-              <code>&#123;&quot;destination&quot;:&quot;/lab/analytics&quot;&#125;</code>
-            </dd>
-          </div>
-          <div class="tracking-map__item">
-            <dt>Qualification Form Submission</dt>
-            <dd>
-              <span class="label">Event:</span>
-              <code>form_submit</code>
-            </dd>
-            <dd>
-              <span class="label">Parameters:</span>
-              <code>&#123;&quot;form_name&quot;:&quot;interest_capture&quot;&#125;</code>
-            </dd>
-          </div>
-        </dl>
-      </section>
-      <section class="panel sandbox__interactive" aria-labelledby="sandbox-elements">
-        <h2 id="sandbox-elements">Interactive Elements</h2>
-        <p class="panel__lead">
-          Trigger an interaction to see a live payload appear in the mock endpoint console.
-        </p>
-        <div class="interactive-grid">
-          <button
-            id="x-button"
-            class="sandbox-element"
-            type="button"
-            data-twq-event="button_click"
-            data-twq-parameters='{"content_name":"Sandbox CTA","value":1}'
-          >
-            Initiate Launch Sequence
-          </button>
-          <a
-            id="x-link"
-            class="sandbox-element"
-            href="/lab/analytics"
-            data-twq-event="link_click"
-            data-twq-parameters='{"destination":"/lab/analytics"}'
-          >
-            View Analytics Lab Index
-          </a>
-          <form
-            id="x-form"
-            class="sandbox-element sandbox-element--form"
-            data-twq-event="form_submit"
-            data-twq-parameters='{"form_name":"interest_capture"}'
-          >
-            <label for="mission-interest">Mission Interest</label>
-            <input
-              id="mission-interest"
-              name="mission_interest"
-              type="text"
-              placeholder="Telemetry optimization"
-              required
-            />
-            <button type="submit">Submit Signal</button>
-          </form>
+      <dl class="sandbox-meta">
+        <div>
+          <dt>Pixel ID</dt>
+          <dd class="mono">TW-XXXXXXXXXX</dd>
         </div>
+        <div>
+          <dt>Endpoint</dt>
+          <dd class="mono">https://ads-api.twitter.com/</dd>
+        </div>
+      </dl>
+    </header>
+
+    <div class="sandbox-grid">
+      <section class="sandbox-panel">
+        <section class="sandbox-card x-map" aria-labelledby="x-map-heading">
+          <h2 id="x-map-heading">Instrumentation overview</h2>
+          <p>
+            Each interactive element is annotated with <code>data-twq-*</code> attributes so the tracking plan
+            is transparent at a glance.
+          </p>
+          <dl class="x-map__list">
+            <div>
+              <dt>Primary call-to-action</dt>
+              <dd>
+                <span class="label">Event</span>
+                <code>button_click</code>
+              </dd>
+              <dd>
+                <span class="label">Parameters</span>
+                <code>{`{"content_name":"Sandbox CTA","value":1}`}</code>
+              </dd>
+            </div>
+            <div>
+              <dt>Annotated reference link</dt>
+              <dd>
+                <span class="label">Event</span>
+                <code>link_click</code>
+              </dd>
+              <dd>
+                <span class="label">Parameters</span>
+                <code>{`{"destination":"/lab/analytics"}`}</code>
+              </dd>
+            </div>
+            <div>
+              <dt>Qualification form submission</dt>
+              <dd>
+                <span class="label">Event</span>
+                <code>form_submit</code>
+              </dd>
+              <dd>
+                <span class="label">Parameters</span>
+                <code>{`{"form_name":"interest_capture"}`}</code>
+              </dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="sandbox-card x-interactive" aria-labelledby="x-interactive-heading">
+          <h2 id="x-interactive-heading">Interactive elements</h2>
+          <p>Trigger an interaction to see a live payload appear in the mock endpoint console.</p>
+          <div class="x-interactive__grid">
+            <button
+              id="x-button"
+              class="sandbox-action sandbox-element"
+              type="button"
+              data-twq-event="button_click"
+              data-twq-parameters='{"content_name":"Sandbox CTA","value":1}'
+            >
+              Initiate launch sequence
+            </button>
+            <a
+              id="x-link"
+              class="sandbox-link sandbox-element"
+              href="/lab/analytics"
+              data-twq-event="link_click"
+              data-twq-parameters='{"destination":"/lab/analytics"}'
+            >
+              View analytics lab index
+            </a>
+            <form
+              id="x-form"
+              class="sandbox-form sandbox-element sandbox-element--form"
+              data-twq-event="form_submit"
+              data-twq-parameters='{"form_name":"interest_capture"}'
+            >
+              <label for="mission-interest">Mission interest</label>
+              <input
+                id="mission-interest"
+                name="mission_interest"
+                type="text"
+                placeholder="Telemetry optimization"
+                required
+              />
+              <button type="submit" class="sandbox-action">Submit signal</button>
+            </form>
+          </div>
+        </section>
       </section>
-      <aside class="panel panel--console" aria-live="polite">
-        <h2>Mock X Endpoint Payloads</h2>
-        <p class="panel__lead">
-          The payloads below are synthetic representations of what would be transmitted to the X
-          conversion endpoint for each interaction.
+
+      <aside class="sandbox-console x-console" aria-labelledby="x-console-heading">
+        <h2 id="x-console-heading">Mock X endpoint payloads</h2>
+        <p>
+          Payloads below are synthetic representations of what would be transmitted to the X conversion
+          endpoint for each interaction.
         </p>
-        <div id="mock-console" class="console" role="log"></div>
+        <div id="mock-console" class="console-stream" role="log" aria-live="polite"></div>
       </aside>
     </div>
+
+    <section class="sandbox-snippet" aria-labelledby="x-snippet-heading">
+      <h2 id="x-snippet-heading">X Pixel base snippet</h2>
+      <p>
+        Add the bootstrap script before closing <code>&lt;head&gt;</code> and call <code>twq('config')</code>
+        with your pixel ID. This sandbox decorates the queue to expose payloads locally.
+      </p>
+      <pre class="mono"><code>{`&lt;script&gt;
+  !function(e,t,n,s,u,a){
+    e.twq||(s=e.twq=function(){
+      s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments);
+    }, s.version='1.1', s.queue=[], u=t.createElement(n), u.async=!0,
+    u.src='https://static.ads-twitter.com/uwt.js', a=t.getElementsByTagName(n)[0],
+    a.parentNode.insertBefore(u,a));
+  }(window, document, 'script');
+  twq('config', 'TW-XXXXXXXXXX');
+&lt;/script&gt;`}</code></pre>
+    </section>
   </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       !function(e,t,n,s,u,a){
@@ -122,15 +156,15 @@ import Layout from '../../../layouts/Layout.astro';
 
       const createConsoleEntry = (type, name, payload) => {
         const entry = document.createElement('article');
-        entry.className = 'console__entry';
+        entry.className = 'console-entry';
         const timestamp = new Date();
         entry.innerHTML = `
-          <header class="console__entry-header">
-            <span class="console__entry-type">${type}</span>
-            <span class="console__entry-name">${name}</span>
+          <header class="console-entry__meta">
+            <span class="console-entry__method">${type}</span>
+            <span>${name}</span>
             <time datetime="${timestamp.toISOString()}">${timestamp.toLocaleTimeString()}</time>
           </header>
-          <pre class="console__entry-body">${JSON.stringify(payload, null, 2)}</pre>
+          <pre class="console-entry__body">${JSON.stringify(payload, null, 2)}</pre>
         `;
         consolePanel.prepend(entry);
         const maxEntries = 6;
@@ -204,216 +238,63 @@ import Layout from '../../../layouts/Layout.astro';
       });
     });
   </script>
+
   <style>
-    .sandbox {
-      display: flex;
-      flex-direction: column;
-      gap: 3rem;
-      padding-block: 3rem;
-    }
-
-    .sandbox__intro h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .sandbox__grid {
-      display: grid;
-      gap: 2rem;
-      grid-template-columns: 1fr;
-    }
-
-    .panel {
-      background: var(--color-surface, #f6f1e3);
-      border: 1px solid var(--color-border, #d7c9a7);
-      border-radius: 0.5rem;
-      padding: 1.75rem;
-      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
-    }
-
-    .panel__lead {
-      font-size: 0.95rem;
-      color: rgba(24, 24, 24, 0.72);
-      max-width: 60ch;
-    }
-
-    .tracking-map {
-      display: grid;
-      gap: 1.5rem;
-      margin: 2rem 0 0;
-    }
-
-    .tracking-map__item {
-      border-left: 3px solid #7e2522;
-      padding-left: 1rem;
-    }
-
-    .tracking-map__item dt {
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
-
-    .tracking-map__item dd {
-      margin: 0.1rem 0;
-      display: flex;
-      gap: 0.5rem;
-      align-items: baseline;
-      font-family: 'IBM Plex Mono', 'Courier New', monospace;
-      font-size: 0.9rem;
-    }
-
-    .tracking-map__item .label {
-      color: rgba(24, 24, 24, 0.6);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      font-size: 0.75rem;
-    }
-
-    .interactive-grid {
-      display: grid;
-      gap: 1.5rem;
-    }
-
-    .sandbox-element {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      border: 2px solid #181818;
-      border-radius: 0.4rem;
-      padding: 1.25rem;
-      text-align: left;
-      background: #fff;
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    }
-
-    .sandbox-element:focus-visible {
-      outline: 3px solid #7e2522;
-      outline-offset: 2px;
-    }
-
-    .sandbox-element--form {
-      gap: 1rem;
-      text-transform: none;
-      font-weight: 400;
-      letter-spacing: 0;
-    }
-
-    .sandbox-element--form label {
-      font-family: 'IBM Plex Mono', 'Courier New', monospace;
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .sandbox-element--form input {
-      border: 1px solid #b39b74;
-      border-radius: 0.35rem;
-      padding: 0.75rem;
-      font-size: 1rem;
-    }
-
-    .sandbox-element--form button {
-      align-self: flex-start;
-      border: 2px solid #7e2522;
-      background: #7e2522;
-      color: #fff;
-      padding: 0.65rem 1.5rem;
-      border-radius: 999px;
-      font-size: 0.95rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .sandbox-element--active {
-      border-color: #7e2522;
-      box-shadow: 0 0 0 3px rgba(126, 37, 34, 0.2);
-      transform: translateY(-2px);
-    }
-
-    .panel--console {
-      background: #101010;
-      color: #f6f1e3;
-      border-color: #383838;
-    }
-
-    .panel--console .panel__lead {
-      color: rgba(246, 241, 227, 0.78);
-    }
-
-    .console {
-      margin-top: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      max-height: 28rem;
-      overflow-y: auto;
-      padding-right: 0.5rem;
-    }
-
-    .console__entry {
-      border: 1px solid rgba(246, 241, 227, 0.25);
-      border-radius: 0.35rem;
-      padding: 1rem;
-      background: rgba(8, 8, 8, 0.65);
-      font-family: 'IBM Plex Mono', 'Courier New', monospace;
-    }
-
-    .console__entry-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 0.75rem;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.75rem;
-    }
-
-    .console__entry-type {
-      color: #bb8537;
-    }
-
-    .console__entry-name {
-      color: #f6f1e3;
-      font-weight: 600;
-    }
-
-    .console__entry-body {
+    .x-sandbox .x-map__list {
       margin: 0;
-      font-size: 0.85rem;
-      line-height: 1.4;
-      white-space: pre-wrap;
+      display: grid;
+      gap: var(--space-2);
     }
 
-    @media (min-width: 64rem) {
-      .sandbox__grid {
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas:
-          'overview console'
-          'interactive console';
-      }
+    .x-sandbox .x-map__list div {
+      border-left: 3px solid #7e2522;
+      padding-left: var(--space-2);
+      display: grid;
+      gap: 4px;
+    }
 
-      .sandbox__grid > .panel:nth-child(1) {
-        grid-area: overview;
-      }
+    .x-sandbox .x-map__list dt {
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin: 0;
+    }
 
-      .sandbox__grid > .panel:nth-child(2) {
-        grid-area: interactive;
-      }
+    .x-sandbox .x-map__list dd {
+      margin: 0;
+      display: flex;
+      gap: var(--space-1);
+      align-items: baseline;
+      font-family: var(--font-mono);
+      font-size: var(--text-12);
+    }
 
-      .panel--console {
-        grid-area: console;
-        position: sticky;
-        top: 6rem;
-        align-self: start;
-      }
+    .x-sandbox .x-map__list .label {
+      color: var(--color-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: var(--text-12);
+    }
+
+    .x-sandbox .x-interactive__grid {
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .x-sandbox .sandbox-element--form {
+      gap: var(--space-2);
+    }
+
+    .x-sandbox .sandbox-element--form label {
+      font-family: var(--font-mono);
+      font-size: var(--text-12);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .x-sandbox .sandbox-element--active {
+      box-shadow: 0 0 0 2px rgba(126, 37, 34, 0.25);
+      transform: translateY(-2px);
     }
   </style>
 </Layout>

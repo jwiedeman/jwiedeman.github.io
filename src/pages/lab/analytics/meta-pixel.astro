@@ -1,39 +1,50 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+import '../../../styles/analytics-sandbox.css';
 ---
 <Layout title="Meta Pixel Sandbox">
-  <div class="container meta-sandbox">
-    <header class="meta-header">
-      <h1>Meta Pixel Instrumentation Sandbox</h1>
-      <p>
-        A hands-on view of how Meta Pixel events are applied to individual interface elements. Trigger any
-        interaction to inspect the exact payload that would be transmitted to the Meta Events Manager.
+  <div class="container analytics-sandbox meta-sandbox">
+    <header class="sandbox-header hairline-bottom">
+      <p class="supertitle mono">Analytics Lab / Instrumentation</p>
+      <h1>Meta Pixel Sandbox</h1>
+      <p class="intro">
+        Observe how Meta Pixel events bind to common interface elements. Trigger any interaction to inspect
+        the exact payload that would reach Events Manager in a production deployment.
       </p>
-      <div class="meta-header__details">
-        <span class="mono">Pixel ID: META-PIXEL-ID</span>
-        <span class="mono">Test Event Code: META-SANDBOX</span>
-      </div>
+      <dl class="sandbox-meta">
+        <div>
+          <dt>Pixel ID</dt>
+          <dd class="mono">META-PIXEL-ID</dd>
+        </div>
+        <div>
+          <dt>Test event code</dt>
+          <dd class="mono">META-SANDBOX</dd>
+        </div>
+        <div>
+          <dt>Endpoint</dt>
+          <dd class="mono">https://graph.facebook.com/v18.0/&lt;pixel-id&gt;/events</dd>
+        </div>
+      </dl>
     </header>
 
-    <div class="meta-grid">
-      <section class="meta-panel">
-        <h2>Tracked interface elements</h2>
+    <div class="sandbox-grid">
+      <section class="sandbox-panel meta-panel" aria-labelledby="meta-interface-heading">
+        <h2 id="meta-interface-heading">Tracked interface elements</h2>
         <p>
-          Each element below has data attributes that declare the Meta event name, interaction type, and
-          structured payload. These attributes are wired to <code>fbq('track')</code> calls inside the
-          sandbox script.
+          Each component below mirrors a production instrumentation pattern. Data attributes declare the
+          <code>fbq('track')</code> call, action source, and payload blueprint.
         </p>
 
-        <article class="meta-card" data-meta-card>
+        <article class="sandbox-card meta-card" data-meta-card>
           <header>
-            <h3>Primary Call-to-Action</h3>
-            <p class="mono" data-meta-call>fbq('track', 'LaunchCTA')</p>
+            <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'LaunchCTA')</p>
+            <h3>Primary call-to-action</h3>
           </header>
           <p>
-            Simulates the main conversion action on a mission landing page. Useful for validating revenue
-            and priority metadata before launching a campaign.
+            Simulates a mission-critical conversion button. Useful for validating revenue metadata before a
+            high-intent launch.
           </p>
-          <dl class="meta-card__meta">
+          <dl class="sandbox-card__meta">
             <div>
               <dt>Event</dt>
               <dd class="mono">LaunchCTA</dd>
@@ -43,18 +54,19 @@ import Layout from '../../../layouts/Layout.astro';
               <dd class="mono">click</dd>
             </div>
             <div>
-              <dt>Action Source</dt>
+              <dt>Action source</dt>
               <dd class="mono">website</dd>
             </div>
           </dl>
           <button
-            class="meta-action"
+            class="sandbox-action meta-action"
             data-meta-event="LaunchCTA"
             data-meta-interaction="click"
             data-meta-payload='{"component":"cta","cta_label":"Initiate Launch Sequence","priority":"primary","value":1250,"currency":"USD"}'
             data-meta-feedback="cta-status"
+            type="button"
           >
-            Initiate Launch Sequence
+            Initiate launch sequence
           </button>
           <p id="cta-status" class="meta-status">Idle — waiting for interaction.</p>
           <details>
@@ -63,16 +75,16 @@ import Layout from '../../../layouts/Layout.astro';
           </details>
         </article>
 
-        <article class="meta-card" data-meta-card>
+        <article class="sandbox-card meta-card" data-meta-card>
           <header>
-            <h3>Specification Link</h3>
-            <p class="mono" data-meta-call>fbq('track', 'ViewSpecifications')</p>
+            <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'ViewSpecifications')</p>
+            <h3>Specification link</h3>
           </header>
           <p>
-            Represents a mid-funnel click to read a technical PDF. The payload records link context and
-            document classification for downstream attribution.
+            Represents a mid-funnel content click. The payload records link context and document
+            classification for downstream attribution.
           </p>
-          <dl class="meta-card__meta">
+          <dl class="sandbox-card__meta">
             <div>
               <dt>Event</dt>
               <dd class="mono">ViewSpecifications</dd>
@@ -88,14 +100,14 @@ import Layout from '../../../layouts/Layout.astro';
           </dl>
           <a
             href="#"
-            class="meta-action meta-action--link"
+            class="sandbox-link meta-action meta-action--link"
             data-meta-event="ViewSpecifications"
             data-meta-interaction="click"
             data-meta-prevent-default="true"
             data-meta-payload='{"component":"document_link","destination":"mission-brief.pdf","content_category":"mission-overview","position":2}'
             data-meta-feedback="link-status"
           >
-            Download Mission Brief (PDF)
+            Download mission brief (PDF)
           </a>
           <p id="link-status" class="meta-status">Idle — waiting for interaction.</p>
           <details>
@@ -104,16 +116,16 @@ import Layout from '../../../layouts/Layout.astro';
           </details>
         </article>
 
-        <article class="meta-card" data-meta-card>
+        <article class="sandbox-card meta-card" data-meta-card>
           <header>
-            <h3>Qualified Lead Form</h3>
-            <p class="mono" data-meta-call>fbq('track', 'LeadSubmission')</p>
+            <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'LeadSubmission')</p>
+            <h3>Qualified lead form</h3>
           </header>
           <p>
-            Mimics a short lead capture form with hashed identifiers. Submission is intercepted so you can
-            review the outgoing payload without leaving the page.
+            Mimics a short lead capture flow with hashed identifiers. Submission is intercepted so you can
+            review the outbound payload without leaving the page.
           </p>
-          <dl class="meta-card__meta">
+          <dl class="sandbox-card__meta">
             <div>
               <dt>Event</dt>
               <dd class="mono">LeadSubmission</dd>
@@ -128,7 +140,7 @@ import Layout from '../../../layouts/Layout.astro';
             </div>
           </dl>
           <form
-            class="meta-form"
+            class="sandbox-form meta-form meta-action"
             data-meta-event="LeadSubmission"
             data-meta-interaction="submit"
             data-meta-prevent-default="true"
@@ -136,18 +148,18 @@ import Layout from '../../../layouts/Layout.astro';
             data-meta-feedback="form-status"
           >
             <label>
-              Mission Focus
+              Mission focus
               <select name="mission_focus">
-                <option value="orbital">Orbital Research</option>
-                <option value="deep-space">Deep Space Comms</option>
-                <option value="earth-observation">Earth Observation</option>
+                <option value="orbital">Orbital research</option>
+                <option value="deep-space">Deep space comms</option>
+                <option value="earth-observation">Earth observation</option>
               </select>
             </label>
             <label>
-              Mission Email (hashed)
+              Mission email (hashed)
               <input type="text" name="hashed_email" value="4b825dc642cb6eb9a060e54bf8d69288" readonly />
             </label>
-            <button type="submit" class="meta-action">Transmit Lead</button>
+            <button type="submit" class="sandbox-action">Transmit lead</button>
           </form>
           <p id="form-status" class="meta-status">Idle — waiting for interaction.</p>
           <details>
@@ -157,228 +169,41 @@ import Layout from '../../../layouts/Layout.astro';
         </article>
       </section>
 
-      <aside class="meta-console">
-        <h2>Mock transmission console</h2>
+      <aside class="sandbox-console meta-console" aria-labelledby="meta-console-heading">
+        <h2 id="meta-console-heading">Mock transmission console</h2>
         <p>
-          Shows the raw request body that would be delivered to the Meta Events API. Messages are generated
-          locally so no network traffic leaves this sandbox.
+          Displays the synthesized request body delivered to the Meta Events API. No network traffic leaves
+          this sandbox.
         </p>
-        <div class="meta-console__log" data-meta-console aria-live="polite">
-          <div class="meta-console__empty" data-meta-empty>
-            Awaiting transmissions. Trigger any element to populate this feed.
-          </div>
+        <div class="console-stream" data-meta-console aria-live="polite">
+          <p class="console-empty" data-meta-empty>Awaiting transmissions. Trigger any element to populate this feed.</p>
         </div>
       </aside>
     </div>
+
+    <section class="sandbox-snippet" aria-labelledby="meta-snippet-heading">
+      <h2 id="meta-snippet-heading">Meta Pixel base snippet</h2>
+      <p>
+        Deploy the base pixel early in the document head. Replace <code>META-PIXEL-ID</code> with your pixel
+        ID and add advanced matching parameters as needed.
+      </p>
+      <pre class="mono"><code>{`&lt;script&gt;
+  !function(f,b,e,v,n,t,s){
+    if(f.fbq) return;
+    n=f.fbq=function(){ n.callMethod ?
+      n.callMethod.apply(n,arguments) : n.queue.push(arguments);
+    };
+    if(!f._fbq) f._fbq=n;
+    n.push=n; n.loaded=!0; n.version='2.0';
+    n.queue=[]; t=b.createElement(e); t.async=!0;
+    t.src=v; s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s);
+  }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', 'META-PIXEL-ID');
+  fbq('track', 'PageView');
+&lt;/script&gt;`}</code></pre>
+    </section>
   </div>
-
-  <style>
-    .meta-sandbox {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-      padding-top: var(--space-4);
-      padding-bottom: var(--space-5);
-    }
-
-    .meta-header {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-      background: rgba(17, 17, 17, 0.04);
-      border: 1px solid var(--color-rule);
-      padding: var(--space-3);
-    }
-
-    .meta-header__details {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-    }
-
-    .meta-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-      gap: var(--space-4);
-    }
-
-    .meta-panel {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-    }
-
-    .meta-panel > p {
-      margin: 0;
-    }
-
-    .meta-card {
-      border: 1px solid var(--color-rule);
-      background: var(--color-bg);
-      padding: var(--space-3);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-    }
-
-    .meta-card header h3 {
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: var(--space-1);
-    }
-
-    .meta-card__meta {
-      display: grid;
-      gap: var(--space-1);
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      margin: 0;
-    }
-
-    .meta-card__meta dt {
-      font-size: var(--text-12);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--color-muted);
-    }
-
-    .meta-card__meta dd {
-      margin: 0;
-    }
-
-    .meta-action {
-      font-family: var(--font-sans);
-      font-size: var(--text-16);
-      background: var(--color-text);
-      color: var(--color-bg);
-      border: none;
-      padding: var(--space-2);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-      transition: background 0.2s ease, transform 0.2s ease;
-    }
-
-    .meta-action:hover,
-    .meta-action:focus {
-      background: var(--color-accent);
-      outline: none;
-    }
-
-    .meta-action:focus-visible {
-      outline: 2px solid var(--color-accent);
-      outline-offset: 2px;
-    }
-
-    .meta-action--link {
-      display: inline-block;
-      text-decoration: none;
-      text-align: center;
-    }
-
-    .meta-action--fired {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-    }
-
-    .meta-status {
-      font-size: var(--text-14);
-      color: var(--color-muted);
-      margin: 0;
-    }
-
-    .meta-pre {
-      background: rgba(17, 17, 17, 0.06);
-      border: 1px solid var(--color-rule);
-      padding: var(--space-2);
-      overflow-x: auto;
-      font-size: var(--text-14);
-    }
-
-    .meta-form {
-      display: grid;
-      gap: var(--space-2);
-      margin-top: var(--space-1);
-    }
-
-    .meta-form label {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-1);
-      font-size: var(--text-14);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .meta-form select,
-    .meta-form input {
-      padding: var(--space-1);
-      border: 1px solid var(--color-rule);
-      background: #fff;
-      font-size: var(--text-16);
-      font-family: var(--font-sans);
-    }
-
-    .meta-console {
-      border: 1px solid var(--color-rule);
-      background: rgba(17, 17, 17, 0.02);
-      padding: var(--space-3);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-      max-height: 100%;
-      position: sticky;
-      top: var(--space-4);
-      align-self: flex-start;
-    }
-
-    .meta-console__log {
-      display: grid;
-      gap: var(--space-2);
-      max-height: 520px;
-      overflow: auto;
-      padding-right: var(--space-1);
-      border-top: 1px solid var(--color-rule);
-      padding-top: var(--space-2);
-    }
-
-    .meta-console__empty {
-      color: var(--color-muted);
-      font-size: var(--text-14);
-    }
-
-    .console-entry {
-      border: 1px solid var(--color-rule);
-      background: var(--color-bg);
-      padding: var(--space-2);
-      display: grid;
-      gap: var(--space-1);
-    }
-
-    .console-entry__header {
-      font-size: var(--text-14);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .console-entry pre {
-      margin: 0;
-      font-size: var(--text-14);
-      background: rgba(17, 17, 17, 0.04);
-      border: 1px solid var(--color-rule);
-      padding: var(--space-1);
-      overflow-x: auto;
-    }
-
-    @media (max-width: 1024px) {
-      .meta-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .meta-console {
-        position: static;
-      }
-    }
-  </style>
 
   <script>
     const metaPixelId = 'META-PIXEL-ID';
@@ -399,11 +224,12 @@ import Layout from '../../../layouts/Layout.astro';
       entry.className = 'console-entry';
 
       const header = document.createElement('div');
-      header.className = 'console-entry__header mono';
+      header.className = 'console-entry__meta mono';
       const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
       header.textContent = `${timestamp} · ${summary}`;
 
       const payloadBlock = document.createElement('pre');
+      payloadBlock.className = 'console-entry__body';
       payloadBlock.textContent = body;
 
       entry.append(header, payloadBlock);
@@ -516,4 +342,37 @@ import Layout from '../../../layouts/Layout.astro';
       environment: 'lab',
     });
   </script>
+
+  <style>
+    .meta-sandbox .meta-card details {
+      border-top: 1px solid var(--color-rule);
+      padding-top: var(--space-2);
+    }
+
+    .meta-sandbox .meta-status {
+      font-size: var(--text-14);
+      color: var(--color-muted);
+      margin: 0;
+    }
+
+    .meta-sandbox .meta-pre {
+      margin: 0;
+      padding: var(--space-2);
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      background: rgba(0, 0, 0, 0.04);
+      font-size: var(--text-12);
+      overflow-x: auto;
+    }
+
+    .meta-sandbox .meta-form select,
+    .meta-sandbox .meta-form input {
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .meta-sandbox .meta-action--fired {
+      box-shadow: 0 0 0 2px rgba(126, 37, 34, 0.25);
+      transform: translateY(-1px);
+    }
+  </style>
 </Layout>

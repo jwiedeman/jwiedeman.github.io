@@ -1,8 +1,8 @@
----
 import Layout from '../../../layouts/Layout.astro';
+import '../../../styles/analytics-sandbox.css';
 ---
 <Layout title="GA4 Sandbox">
-  <div class="container ga4-sandbox">
+  <div class="container analytics-sandbox ga4-sandbox">
     <header class="sandbox-header hairline-bottom">
       <p class="supertitle mono">Analytics Lab / Instrumentation</p>
       <h1>GA4 Sandbox</h1>
@@ -24,23 +24,23 @@ import Layout from '../../../layouts/Layout.astro';
     </header>
 
     <div class="sandbox-grid">
-      <section class="sandbox-playground" aria-labelledby="ga4-playground-heading">
+      <section class="sandbox-panel" aria-labelledby="ga4-playground-heading">
         <h2 id="ga4-playground-heading">Tracked interface elements</h2>
         <p class="playground-copy">
           Each card documents the GA4 event name, trigger, and parameters attached to the component. These
           map directly to the <code>gtag('event')</code> calls fired when you engage with the UI.
         </p>
 
-        <article class="tracked-card" data-event="select_content">
+        <article class="sandbox-card tracked-card" data-event="select_content">
           <header>
-            <p class="tracked-tag mono">Event: select_content</p>
+            <p class="sandbox-card__tag mono">Event: select_content</p>
             <h3>Primary mission CTA</h3>
           </header>
           <p>
             Demonstrates a hero-level call to action capturing content selection. This is a high-intent
             click, so the payload includes metadata describing the hero placement and label text.
           </p>
-          <dl class="tracked-definition">
+          <dl class="tracked-definition sandbox-card__meta">
             <div>
               <dt>Trigger</dt>
               <dd>Button click</dd>
@@ -52,19 +52,19 @@ import Layout from '../../../layouts/Layout.astro';
               </dd>
             </div>
           </dl>
-          <button id="ga4-cta" class="tracked-action">Request mission brief</button>
+          <button id="ga4-cta" class="sandbox-action">Request mission brief</button>
         </article>
 
-        <article class="tracked-card" data-event="view_promotion">
+        <article class="sandbox-card tracked-card" data-event="view_promotion">
           <header>
-            <p class="tracked-tag mono">Event: view_promotion</p>
+            <p class="sandbox-card__tag mono">Event: view_promotion</p>
             <h3>Research bulletin teaser</h3>
           </header>
           <p>
             Simulates an in-page promotion module. The event communicates the name of the offer and the slot
             in which it appeared so you can evaluate placement performance.
           </p>
-          <dl class="tracked-definition">
+          <dl class="tracked-definition sandbox-card__meta">
             <div>
               <dt>Trigger</dt>
               <dd>Link interaction</dd>
@@ -76,19 +76,19 @@ import Layout from '../../../layouts/Layout.astro';
               </dd>
             </div>
           </dl>
-          <a id="ga4-promo" class="tracked-link" href="#">Preview bulletin</a>
+          <a id="ga4-promo" class="sandbox-link" href="#">Preview bulletin</a>
         </article>
 
-        <article class="tracked-card" data-event="generate_lead">
+        <article class="sandbox-card tracked-card" data-event="generate_lead">
           <header>
-            <p class="tracked-tag mono">Event: generate_lead</p>
+            <p class="sandbox-card__tag mono">Event: generate_lead</p>
             <h3>Lead qualification form</h3>
           </header>
           <p>
             Captures submissions for a lightweight lead form. The payload returns mission focus data so the
             downstream pipeline can segment follow-up efforts.
           </p>
-          <dl class="tracked-definition">
+          <dl class="tracked-definition sandbox-card__meta">
             <div>
               <dt>Trigger</dt>
               <dd>Form submit</dd>
@@ -100,10 +100,10 @@ import Layout from '../../../layouts/Layout.astro';
               </dd>
             </div>
           </dl>
-          <form id="ga4-form" class="tracked-form">
-            <label class="mono" for="ga4-mission">Mission focus</label>
+          <form id="ga4-form" class="sandbox-form tracked-form">
+            <label for="ga4-mission">Mission focus</label>
             <input id="ga4-mission" name="mission" type="text" placeholder="Deep space communications" />
-            <button type="submit" class="tracked-action">Transmit mission details</button>
+            <button type="submit" class="sandbox-action">Transmit mission details</button>
           </form>
         </article>
       </section>
@@ -260,241 +260,21 @@ import Layout from '../../../layouts/Layout.astro';
   </script>
 
   <style>
-    .ga4-sandbox {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-      padding-bottom: var(--space-5);
-    }
-
-    .sandbox-header {
-      padding-top: var(--space-4);
-      padding-bottom: var(--space-4);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-    }
-
-    .sandbox-header h1 {
-      font-size: var(--text-48);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .supertitle {
-      font-size: var(--text-14);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--color-muted);
-    }
-
-    .intro {
-      max-width: 720px;
-    }
-
-    .sandbox-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-3);
-      margin: 0;
-    }
-
-    .sandbox-meta dt {
-      font-size: var(--text-12);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--color-muted);
-    }
-
-    .sandbox-meta dd {
-      margin: 0;
-      font-size: var(--text-16);
-    }
-
-    .sandbox-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-      gap: var(--space-4);
-      align-items: start;
-    }
-
-    .sandbox-playground,
-    .sandbox-console {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-    }
-
-    .playground-copy,
-    .console-copy {
+    .ga4-sandbox .playground-copy,
+    .ga4-sandbox .console-copy {
       margin-top: 0;
       color: var(--color-muted);
     }
 
-    .tracked-card {
-      border: 1px solid var(--color-rule);
-      padding: var(--space-3);
-      border-radius: var(--radius-2);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-      background: rgba(255, 255, 255, 0.45);
+    .ga4-sandbox .tracked-card {
+      background: rgba(255, 255, 255, 0.5);
     }
 
-    .tracked-card h3 {
-      margin-bottom: 0;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .tracked-tag {
-      font-size: var(--text-12);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--color-muted);
-      margin: 0 0 var(--space-1) 0;
-    }
-
-    .tracked-definition {
+    .ga4-sandbox .tracked-definition {
       margin: 0;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: var(--space-2);
-    }
-
-    .tracked-definition dt {
-      font-size: var(--text-12);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--color-muted);
-    }
-
-    .tracked-definition dd {
-      margin: 0;
-      font-family: var(--font-mono);
-      font-size: var(--text-14);
-    }
-
-    .tracked-action,
-    .tracked-link {
-      align-self: flex-start;
-      padding: var(--space-1) var(--space-2);
-      border: 1px solid var(--color-text);
-      border-radius: var(--radius-2);
-      background: transparent;
-      color: var(--color-text);
-      font-family: var(--font-sans);
-      font-size: var(--text-14);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-
-    .tracked-link {
-      display: inline-block;
-      text-decoration: none;
-    }
-
-    .tracked-link:hover,
-    .tracked-action:hover,
-    .tracked-link:focus,
-    .tracked-action:focus {
-      background: var(--color-text);
-      color: var(--color-bg);
-    }
-
-    .tracked-form {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-    }
-
-    .tracked-form input {
-      padding: var(--space-1);
-      border: 1px solid var(--color-rule);
-      border-radius: var(--radius-1);
-      font-size: var(--text-16);
-      font-family: var(--font-sans);
-      background: rgba(255, 255, 255, 0.75);
-    }
-
-    .sandbox-console {
-      border: 1px solid var(--color-rule);
-      border-radius: var(--radius-2);
-      padding: var(--space-3);
-      background: rgba(17, 17, 17, 0.04);
-    }
-
-    .console-stream {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-      max-height: 520px;
-      overflow-y: auto;
-      padding-right: var(--space-1);
-    }
-
-    .console-empty {
-      color: var(--color-muted);
-      margin: 0;
-    }
-
-    .console-entry {
-      border: 1px solid var(--color-rule);
-      border-radius: var(--radius-2);
-      padding: var(--space-2);
-      background: rgba(255, 255, 255, 0.6);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-1);
-    }
-
-    .console-entry__meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-1);
-      font-size: var(--text-12);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--color-muted);
-    }
-
-    .console-entry__method {
-      font-weight: 700;
-    }
-
-    .console-entry__body {
-      margin: 0;
-      font-family: var(--font-mono);
-      font-size: var(--text-12);
-      white-space: pre-wrap;
-    }
-
-    .sandbox-snippet {
-      border-top: 1px solid var(--color-rule);
-      padding-top: var(--space-3);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-    }
-
-    .sandbox-snippet pre {
-      margin: 0;
-      padding: var(--space-2);
-      border: 1px solid var(--color-rule);
-      border-radius: var(--radius-2);
-      background: rgba(255, 255, 255, 0.6);
-      overflow-x: auto;
-    }
-
-    @media (max-width: 960px) {
-      .sandbox-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .console-stream {
-        max-height: none;
-      }
     }
   </style>
 </Layout>
