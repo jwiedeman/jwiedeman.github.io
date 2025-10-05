@@ -2,31 +2,418 @@
 import Layout from '../../../layouts/Layout.astro';
 ---
 <Layout title="X Pixel">
-  <div class="container">
-    <h1>X Pixel Sandbox</h1>
-    <p>Twitter Pixel base snippet with event tracking.</p>
-    <button id="x-button">Track Button</button>
-    <a href="#" id="x-link">Track Link</a>
-    <form id="x-form">
-      <input type="text" name="example" />
-      <button type="submit">Submit</button>
-    </form>
+  <div class="sandbox">
+    <header class="sandbox__intro">
+      <h1>X Pixel Sandbox</h1>
+      <p>
+        Explore how the X (Twitter) Pixel instruments on-page interactions. The left column
+        outlines the tracking metadata applied to each element, while the mock console on the
+        right shows the payloads that would be transmitted to the X endpoint.
+      </p>
+    </header>
+    <div class="sandbox__grid">
+      <section class="panel">
+        <h2>Instrumentation Overview</h2>
+        <p class="panel__lead">
+          Each interactive element is annotated with <code>data-twq-*</code> attributes so that
+          the tracking plan is transparent at a glance.
+        </p>
+        <dl class="tracking-map">
+          <div class="tracking-map__item">
+            <dt>Primary Call-to-Action Button</dt>
+            <dd>
+              <span class="label">Event:</span>
+              <code>button_click</code>
+            </dd>
+            <dd>
+              <span class="label">Parameters:</span>
+              <code>&#123;&quot;content_name&quot;:&quot;Sandbox CTA&quot;,&quot;value&quot;:1&#125;</code>
+            </dd>
+          </div>
+          <div class="tracking-map__item">
+            <dt>Annotated Reference Link</dt>
+            <dd>
+              <span class="label">Event:</span>
+              <code>link_click</code>
+            </dd>
+            <dd>
+              <span class="label">Parameters:</span>
+              <code>&#123;&quot;destination&quot;:&quot;/lab/analytics&quot;&#125;</code>
+            </dd>
+          </div>
+          <div class="tracking-map__item">
+            <dt>Qualification Form Submission</dt>
+            <dd>
+              <span class="label">Event:</span>
+              <code>form_submit</code>
+            </dd>
+            <dd>
+              <span class="label">Parameters:</span>
+              <code>&#123;&quot;form_name&quot;:&quot;interest_capture&quot;&#125;</code>
+            </dd>
+          </div>
+        </dl>
+      </section>
+      <section class="panel sandbox__interactive" aria-labelledby="sandbox-elements">
+        <h2 id="sandbox-elements">Interactive Elements</h2>
+        <p class="panel__lead">
+          Trigger an interaction to see a live payload appear in the mock endpoint console.
+        </p>
+        <div class="interactive-grid">
+          <button
+            id="x-button"
+            class="sandbox-element"
+            type="button"
+            data-twq-event="button_click"
+            data-twq-parameters='{"content_name":"Sandbox CTA","value":1}'
+          >
+            Initiate Launch Sequence
+          </button>
+          <a
+            id="x-link"
+            class="sandbox-element"
+            href="/lab/analytics"
+            data-twq-event="link_click"
+            data-twq-parameters='{"destination":"/lab/analytics"}'
+          >
+            View Analytics Lab Index
+          </a>
+          <form
+            id="x-form"
+            class="sandbox-element sandbox-element--form"
+            data-twq-event="form_submit"
+            data-twq-parameters='{"form_name":"interest_capture"}'
+          >
+            <label for="mission-interest">Mission Interest</label>
+            <input
+              id="mission-interest"
+              name="mission_interest"
+              type="text"
+              placeholder="Telemetry optimization"
+              required
+            />
+            <button type="submit">Submit Signal</button>
+          </form>
+        </div>
+      </section>
+      <aside class="panel panel--console" aria-live="polite">
+        <h2>Mock X Endpoint Payloads</h2>
+        <p class="panel__lead">
+          The payloads below are synthetic representations of what would be transmitted to the X
+          conversion endpoint for each interaction.
+        </p>
+        <div id="mock-console" class="console" role="log"></div>
+      </aside>
+    </div>
   </div>
   <script>
-    !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
-    twq('config','TW-XXXXXXXXXX');
-    const button = document.getElementById('x-button');
-    const link = document.getElementById('x-link');
-    const form = document.getElementById('x-form');
-    button.addEventListener('click', () => {
-      twq('event','button_click');
-    });
-    link.addEventListener('click', () => {
-      twq('event','link_click');
-    });
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      twq('event','form_submit');
+    document.addEventListener('DOMContentLoaded', () => {
+      !function(e,t,n,s,u,a){
+        e.twq||(s=e.twq=function(){
+          s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments);
+        }, s.version='1.1', s.queue=[], u=t.createElement(n), u.async=!0,
+        u.src='https://static.ads-twitter.com/uwt.js', a=t.getElementsByTagName(n)[0],
+        a.parentNode.insertBefore(u,a));
+      }(window, document, 'script');
+
+      const baseTwq = window.twq;
+      const consolePanel = document.getElementById('mock-console');
+      const sandboxElements = document.querySelectorAll('.sandbox-element');
+
+      const createConsoleEntry = (type, name, payload) => {
+        const entry = document.createElement('article');
+        entry.className = 'console__entry';
+        const timestamp = new Date();
+        entry.innerHTML = `
+          <header class="console__entry-header">
+            <span class="console__entry-type">${type}</span>
+            <span class="console__entry-name">${name}</span>
+            <time datetime="${timestamp.toISOString()}">${timestamp.toLocaleTimeString()}</time>
+          </header>
+          <pre class="console__entry-body">${JSON.stringify(payload, null, 2)}</pre>
+        `;
+        consolePanel.prepend(entry);
+        const maxEntries = 6;
+        while (consolePanel.children.length > maxEntries) {
+          consolePanel.removeChild(consolePanel.lastElementChild);
+        }
+      };
+
+      const highlightElement = (element) => {
+        element.classList.add('sandbox-element--active');
+        window.setTimeout(() => element.classList.remove('sandbox-element--active'), 600);
+      };
+
+      const decoratedTwq = function(...args) {
+        const [type, name, payload = {}] = args;
+        if (type === 'config' || type === 'event') {
+          createConsoleEntry(type, name, {
+            pixelId: 'TW-XXXXXXXXXX',
+            timestamp: new Date().toISOString(),
+            ...payload
+          });
+        }
+        return baseTwq.apply(this, args);
+      };
+
+      Object.assign(decoratedTwq, baseTwq);
+      Object.defineProperty(decoratedTwq, 'exe', {
+        get() {
+          return baseTwq.exe;
+        },
+        set(value) {
+          baseTwq.exe = value;
+        }
+      });
+      window.twq = decoratedTwq;
+
+      twq('config', 'TW-XXXXXXXXXX', { page_category: 'lab_sandbox' });
+
+      const buildPayload = (element) => {
+        const { twqParameters } = element.dataset;
+        try {
+          return twqParameters ? JSON.parse(twqParameters) : {};
+        } catch (error) {
+          return { note: 'Unable to parse data-twq-parameters value.' };
+        }
+      };
+
+      sandboxElements.forEach((element) => {
+        const eventName = element.dataset.twqEvent;
+        if (!eventName) return;
+
+        if (element.tagName === 'FORM') {
+          element.addEventListener('submit', (event) => {
+            event.preventDefault();
+            highlightElement(element);
+            twq('event', eventName, {
+              ...buildPayload(element),
+              form_values: Object.fromEntries(new FormData(element))
+            });
+          });
+          return;
+        }
+
+        element.addEventListener('click', (event) => {
+          if (element.tagName === 'A') {
+            event.preventDefault();
+          }
+          highlightElement(element);
+          twq('event', eventName, buildPayload(element));
+        });
+      });
     });
   </script>
+  <style>
+    .sandbox {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      padding-block: 3rem;
+    }
+
+    .sandbox__intro h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .sandbox__grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1fr;
+    }
+
+    .panel {
+      background: var(--color-surface, #f6f1e3);
+      border: 1px solid var(--color-border, #d7c9a7);
+      border-radius: 0.5rem;
+      padding: 1.75rem;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    .panel__lead {
+      font-size: 0.95rem;
+      color: rgba(24, 24, 24, 0.72);
+      max-width: 60ch;
+    }
+
+    .tracking-map {
+      display: grid;
+      gap: 1.5rem;
+      margin: 2rem 0 0;
+    }
+
+    .tracking-map__item {
+      border-left: 3px solid #7e2522;
+      padding-left: 1rem;
+    }
+
+    .tracking-map__item dt {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .tracking-map__item dd {
+      margin: 0.1rem 0;
+      display: flex;
+      gap: 0.5rem;
+      align-items: baseline;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+
+    .tracking-map__item .label {
+      color: rgba(24, 24, 24, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.75rem;
+    }
+
+    .interactive-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .sandbox-element {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      border: 2px solid #181818;
+      border-radius: 0.4rem;
+      padding: 1.25rem;
+      text-align: left;
+      background: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .sandbox-element:focus-visible {
+      outline: 3px solid #7e2522;
+      outline-offset: 2px;
+    }
+
+    .sandbox-element--form {
+      gap: 1rem;
+      text-transform: none;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .sandbox-element--form label {
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .sandbox-element--form input {
+      border: 1px solid #b39b74;
+      border-radius: 0.35rem;
+      padding: 0.75rem;
+      font-size: 1rem;
+    }
+
+    .sandbox-element--form button {
+      align-self: flex-start;
+      border: 2px solid #7e2522;
+      background: #7e2522;
+      color: #fff;
+      padding: 0.65rem 1.5rem;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .sandbox-element--active {
+      border-color: #7e2522;
+      box-shadow: 0 0 0 3px rgba(126, 37, 34, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .panel--console {
+      background: #101010;
+      color: #f6f1e3;
+      border-color: #383838;
+    }
+
+    .panel--console .panel__lead {
+      color: rgba(246, 241, 227, 0.78);
+    }
+
+    .console {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-height: 28rem;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+
+    .console__entry {
+      border: 1px solid rgba(246, 241, 227, 0.25);
+      border-radius: 0.35rem;
+      padding: 1rem;
+      background: rgba(8, 8, 8, 0.65);
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    }
+
+    .console__entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+
+    .console__entry-type {
+      color: #bb8537;
+    }
+
+    .console__entry-name {
+      color: #f6f1e3;
+      font-weight: 600;
+    }
+
+    .console__entry-body {
+      margin: 0;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      white-space: pre-wrap;
+    }
+
+    @media (min-width: 64rem) {
+      .sandbox__grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+          'overview console'
+          'interactive console';
+      }
+
+      .sandbox__grid > .panel:nth-child(1) {
+        grid-area: overview;
+      }
+
+      .sandbox__grid > .panel:nth-child(2) {
+        grid-area: interactive;
+      }
+
+      .panel--console {
+        grid-area: console;
+        position: sticky;
+        top: 6rem;
+        align-self: start;
+      }
+    }
+  </style>
 </Layout>
