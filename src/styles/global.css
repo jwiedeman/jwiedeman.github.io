@@ -221,6 +221,45 @@ nav .mode {
   text-transform: none;
 }
 
+.slug-trail .breadcrumb-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.slug-trail .breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.slug-trail .breadcrumb-item::after {
+  content: '›';
+  margin: 0 var(--space-1);
+  color: var(--color-muted);
+}
+
+.slug-trail .breadcrumb-item:last-child::after {
+  content: none;
+}
+
+.slug-trail .breadcrumb-item a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.slug-trail .breadcrumb-item a:hover,
+.slug-trail .breadcrumb-item a:focus {
+  text-decoration: underline;
+}
+
+.slug-trail [aria-current='page'] {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
 @media (max-width: 600px) {
   nav .container {
     flex-direction: column;

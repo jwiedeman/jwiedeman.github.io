@@ -15,18 +15,30 @@ const title = propTitle ?? frontmatter.title ?? 'JWiedeman';
 const description =
   propDescription ?? frontmatter.description ?? 'Interstellar web projects by Joshua Wiedeman.';
 
-const pathSegments = Astro.url.pathname.split('/').filter(Boolean);
-const slugParts = pathSegments
-  .map((segment) =>
-    decodeURIComponent(segment)
-      .replace(/-/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim()
-      .toLowerCase()
-  )
-  .filter(Boolean);
-const slugTrail = slugParts.join(' > ');
-const shouldShowSlug = showNav && slugTrail.length > 0;
+const rawSegments = Astro.url.pathname.split('/').filter(Boolean);
+
+const formatSegment = (segment: string) => {
+  const cleaned = decodeURIComponent(segment)
+    .replace(/[-_]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  if (!cleaned) return '';
+
+  return cleaned
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
+const breadcrumbs = rawSegments
+  .map((segment, index) => ({
+    label: formatSegment(segment),
+    href: `/${rawSegments.slice(0, index + 1).join('/')}`,
+  }))
+  .filter(({ label }) => label.length > 0);
+
+const shouldShowBreadcrumbs = showNav && breadcrumbs.length > 0;
 ---
 <!DOCTYPE html>
 <html lang="en" class="theme-light">
@@ -38,10 +50,20 @@ const shouldShowSlug = showNav && slugTrail.length > 0;
   </head>
   <body>
     {showNav && <Nav />}
-    {shouldShowSlug && (
-      <div class="slug-trail hairline-bottom">
-        <div class="container mono">{slugTrail}</div>
-      </div>
+    {shouldShowBreadcrumbs && (
+      <nav class="slug-trail hairline-bottom" aria-label="Breadcrumb">
+        <ol class="container mono breadcrumb-list">
+          {breadcrumbs.map((crumb, index) => (
+            <li class="breadcrumb-item" key={crumb.href}>
+              {index < breadcrumbs.length - 1 ? (
+                <a href={crumb.href}>{crumb.label}</a>
+              ) : (
+                <span aria-current="page">{crumb.label}</span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
     )}
     <main>
       <slot />
