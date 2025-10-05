@@ -1,36 +1,669 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 ---
-<Layout title="Adobe Analytics">
-  <div class="container">
-    <h1>Adobe Analytics Sandbox</h1>
-    <p>Example AppMeasurement setup and link tracking.</p>
-    <button id="adobe-button">Track Button</button>
-    <a href="#" id="adobe-link">Track Link</a>
-    <form id="adobe-form">
-      <input type="text" name="example" />
-      <button type="submit">Submit</button>
-    </form>
-  </div>
-  <script src="https://example.com/AppMeasurement.js"></script>
-  <script>
-    var s = {
-      tl: function(el, type, name){},
-      t: function(){},
+<Layout title="Adobe Analytics Sandbox">
+  <section class="container sandbox">
+    <header class="sandbox__header">
+      <p class="sandbox__eyebrow mono">LAB / ANALYTICS</p>
+      <h1>Adobe Analytics Instrumentation Sandbox</h1>
+      <p>
+        Explore how AppMeasurement calls fire across a miniature mission control interface. Trigger the
+        interactions on the left and watch the mock beacon payloads stream into the console on the right.
+      </p>
+    </header>
+
+    <div class="grid sandbox__grid">
+      <section class="span-7 sandbox__panel">
+        <h2>Tracked elements</h2>
+        <p class="sandbox__intro">
+          Each component below mirrors a real implementation pattern. Inline notes surface the link names, link
+          types, and key variables bound to the interaction.
+        </p>
+
+        <article class="tracking-card" aria-labelledby="launch-cta-title">
+          <div class="tracking-card__meta">
+            <p id="launch-cta-title" class="tracking-card__title">Primary CTA &mdash; Launch Sequence</p>
+            <p class="tracking-card__summary mono">linkName: cta:launch-sequence &middot; linkType: o</p>
+          </div>
+          <button
+            id="aa-primary-cta"
+            class="tracking-card__action"
+            data-aa-component="mission-controls"
+            data-aa-role="primary-cta"
+            type="button"
+          >
+            Initiate Launch
+          </button>
+          <dl class="tracking-card__details">
+            <div>
+              <dt>events</dt>
+              <dd class="mono">event5</dd>
+            </div>
+            <div>
+              <dt>prop4</dt>
+              <dd class="mono">launch:cta</dd>
+            </div>
+            <div>
+              <dt>eVar4</dt>
+              <dd class="mono">Launch &mdash; Primary</dd>
+            </div>
+            <div>
+              <dt>contextData</dt>
+              <dd class="mono">component=mission-controls, priority=primary</dd>
+            </div>
+          </dl>
+          <pre class="tracking-card__code mono">
+<span>s.tl(this, 'o', 'cta:launch-sequence', &#123; events: 'event5', prop4: 'launch:cta', eVar4: 'Launch — Primary', contextData: &#123; component: 'mission-controls', priority: 'primary' &#125; &#125;);</span>
+          </pre>
+        </article>
+
+        <article class="tracking-card" aria-labelledby="nav-link-title">
+          <div class="tracking-card__meta">
+            <p id="nav-link-title" class="tracking-card__title">Secondary Link &mdash; Telemetry Logs</p>
+            <p class="tracking-card__summary mono">linkName: nav:telemetry-logs &middot; linkType: o</p>
+          </div>
+          <a
+            id="aa-secondary-link"
+            class="tracking-card__action tracking-card__action--link"
+            href="#"
+            data-aa-component="global-nav"
+            data-aa-role="secondary-link"
+          >
+            View Telemetry Logs
+          </a>
+          <dl class="tracking-card__details">
+            <div>
+              <dt>events</dt>
+              <dd class="mono">event8</dd>
+            </div>
+            <div>
+              <dt>prop6</dt>
+              <dd class="mono">nav:telemetry</dd>
+            </div>
+            <div>
+              <dt>eVar6</dt>
+              <dd class="mono">Navigation Link</dd>
+            </div>
+            <div>
+              <dt>contextData</dt>
+              <dd class="mono">component=global-nav, destination=telemetry</dd>
+            </div>
+          </dl>
+          <pre class="tracking-card__code mono">
+<span>s.tl(this, 'o', 'nav:telemetry-logs', &#123; events: 'event8', prop6: 'nav:telemetry', eVar6: 'Navigation Link', contextData: &#123; component: 'global-nav', destination: 'telemetry' &#125; &#125;);</span>
+          </pre>
+        </article>
+
+        <article class="tracking-card" aria-labelledby="form-title">
+          <div class="tracking-card__meta">
+            <p id="form-title" class="tracking-card__title">Form Submit &mdash; Telemetry Upload</p>
+            <p class="tracking-card__summary mono">linkName: form:telemetry-upload &middot; linkType: o</p>
+          </div>
+          <form
+            id="aa-telemetry-form"
+            class="tracking-card__form"
+            data-aa-component="telemetry"
+            data-aa-role="form"
+          >
+            <label class="mono" for="aa-telemetry-id">Mission ID</label>
+            <input id="aa-telemetry-id" name="missionId" type="text" placeholder="e.g. apollo-204" required />
+            <label class="mono" for="aa-telemetry-channel">Channel</label>
+            <select id="aa-telemetry-channel" name="channel">
+              <option value="orbital">Orbital</option>
+              <option value="lunar">Lunar</option>
+              <option value="deep-space">Deep Space</option>
+            </select>
+            <button class="tracking-card__action" type="submit">Upload Telemetry Packet</button>
+          </form>
+          <dl class="tracking-card__details">
+            <div>
+              <dt>events</dt>
+              <dd class="mono">event12</dd>
+            </div>
+            <div>
+              <dt>prop9</dt>
+              <dd class="mono">form:telemetry</dd>
+            </div>
+            <div>
+              <dt>eVar9</dt>
+              <dd class="mono">Telemetry Upload</dd>
+            </div>
+            <div>
+              <dt>contextData</dt>
+              <dd class="mono">component=telemetry, submission=form</dd>
+            </div>
+          </dl>
+          <pre class="tracking-card__code mono">
+<span>s.tl(this, 'o', 'form:telemetry-upload', &#123; events: 'event12', prop9: 'form:telemetry', eVar9: 'Telemetry Upload', contextData: &#123; component: 'telemetry', submission: 'form' &#125; &#125;);</span>
+          </pre>
+        </article>
+
+        <section class="pageview-card" aria-labelledby="pageview-title">
+          <h2 id="pageview-title">Page load variables</h2>
+          <p>
+            On load, <code class="mono">s.t()</code> seeds core classification variables for this sandbox view.
+            These frame the report suite, channel, and template metadata.
+          </p>
+          <ul class="pageview-card__list mono">
+            <li>pageName = lab:analytics:adobe-analytics</li>
+            <li>channel = lab</li>
+            <li>eVar1 = Adobe Analytics Sandbox</li>
+            <li>prop1 = lab:analytics</li>
+            <li>events = event1</li>
+            <li>contextData.page.missionPhase = demo</li>
+            <li>contextData.page.template = sandbox</li>
+          </ul>
+          <pre class="tracking-card__code mono">
+<span>s.t(&#123; pageName: 'lab:analytics:adobe-analytics', channel: 'lab', events: 'event1', prop1: 'lab:analytics', eVar1: 'Adobe Analytics Sandbox', contextData: &#123; 'page.missionPhase': 'demo', 'page.template': 'sandbox' &#125; &#125;);</span>
+          </pre>
+        </section>
+      </section>
+
+      <aside class="span-5 sandbox__panel sandbox__panel--console" aria-label="Adobe Analytics request console">
+        <div class="console__header">
+          <h2>Beacon payloads</h2>
+          <button type="button" class="console__reset" data-aa-reset>Clear log</button>
+        </div>
+        <p class="console__description">
+          Mock requests to <code class="mono">https://metrics-demo.sc.omtrdc.net/b/ss/jwiedeman.sandbox/1/JS-2.23.0/s</code>.
+          Entries render as the raw query string plus the structured JSON payload for inspection.
+        </p>
+        <div
+          class="console__window mono"
+          data-aa-console
+          role="log"
+          aria-live="polite"
+          aria-relevant="additions"
+        >
+          <p class="console__empty">Awaiting Adobe Analytics activity&hellip;</p>
+        </div>
+        <noscript>
+          <p class="console__noscript">Enable JavaScript to observe the simulated beacon output.</p>
+        </noscript>
+      </aside>
+    </div>
+  </section>
+
+  <script type="module">
+    const consoleWindow = document.querySelector('[data-aa-console]');
+    const resetButton = document.querySelector('[data-aa-reset]');
+    const endpoint = 'https://metrics-demo.sc.omtrdc.net/b/ss/jwiedeman.sandbox/1/JS-2.23.0/s';
+
+    const removeEmptyState = () => {
+      const empty = consoleWindow?.querySelector('.console__empty');
+      if (empty) {
+        empty.remove();
+      }
     };
+
+    const addEmptyState = () => {
+      if (!consoleWindow) return;
+      if (consoleWindow.children.length === 0) {
+        const empty = document.createElement('p');
+        empty.className = 'console__empty';
+        empty.innerHTML = 'Awaiting Adobe Analytics activity&hellip;';
+        consoleWindow.append(empty);
+      }
+    };
+
+    const renderPayload = (method, label, payload) => {
+      if (!consoleWindow) return;
+      removeEmptyState();
+
+      const params = new URLSearchParams();
+      const appendParam = (key, value) => {
+        if (value === undefined || value === null || value === '') return;
+        if (Array.isArray(value)) {
+          if (value.length > 0) {
+            params.append(key, value.join(','));
+          }
+          return;
+        }
+        if (typeof value === 'object') {
+          if (key === 'contextData') {
+            Object.entries(value).forEach(([contextKey, contextValue]) => {
+              appendParam(`c.${contextKey}`, contextValue);
+            });
+            params.append('c.', 'true');
+            params.append('.c', 'true');
+            return;
+          }
+          Object.entries(value).forEach(([childKey, childValue]) => {
+            appendParam(`${key}.${childKey}`, childValue);
+          });
+          return;
+        }
+        params.append(key, value);
+      };
+
+      Object.entries(payload).forEach(([key, value]) => appendParam(key, value));
+
+      const entry = document.createElement('article');
+      entry.className = 'console__entry';
+      const timestamp = new Date().toISOString();
+      const queryString = params.toString();
+      entry.innerHTML = `
+        <header class="console__entry-header">
+          <span class="console__entry-method">${method}</span>
+          <span class="console__entry-label">${label}</span>
+          <span class="console__entry-timestamp">${timestamp}</span>
+        </header>
+        <div class="console__entry-url">GET ${endpoint}?${queryString}</div>
+        <details class="console__entry-details">
+          <summary>Structured payload</summary>
+          <pre>${JSON.stringify(payload, null, 2)}</pre>
+        </details>
+      `;
+      consoleWindow.prepend(entry);
+    };
+
+    const s = {
+      account: 'jwiedeman.sandbox',
+      linkTrackVars: '',
+      linkTrackEvents: '',
+      events: '',
+      contextData: {},
+      t(overrides = {}) {
+        const { contextData: overrideContext = {}, ...rest } = overrides;
+        const payload = {
+          pageName: 'lab:analytics:adobe-analytics',
+          channel: 'lab',
+          events: 'event1',
+          prop1: 'lab:analytics',
+          eVar1: 'Adobe Analytics Sandbox',
+          contextData: {
+            'page.missionPhase': 'demo',
+            'page.template': 'sandbox',
+            ...overrideContext,
+          },
+          ...rest,
+        };
+        renderPayload('s.t()', 'Page View', payload);
+        return payload;
+      },
+      tl(element, linkType, linkName, overrides = {}) {
+        const payload = {
+          linkType,
+          linkName,
+          events: overrides.events ?? '',
+          prop4: overrides.prop4,
+          prop6: overrides.prop6,
+          prop9: overrides.prop9,
+          eVar4: overrides.eVar4,
+          eVar6: overrides.eVar6,
+          eVar9: overrides.eVar9,
+          contextData: overrides.contextData ?? {},
+          ctaLabel: element?.textContent?.trim(),
+        };
+        renderPayload('s.tl()', linkName, payload);
+        return payload;
+      },
+    };
+
+    window.s = s;
+    window.AASandbox = { renderPayload };
+
+    const instrumentation = [
+      {
+        selector: '#aa-primary-cta',
+        eventType: 'click',
+        linkType: 'o',
+        linkName: 'cta:launch-sequence',
+        overrides: {
+          events: 'event5',
+          prop4: 'launch:cta',
+          eVar4: 'Launch — Primary',
+          contextData: {
+            component: 'mission-controls',
+            priority: 'primary',
+          },
+        },
+        preventDefault: true,
+      },
+      {
+        selector: '#aa-secondary-link',
+        eventType: 'click',
+        linkType: 'o',
+        linkName: 'nav:telemetry-logs',
+        overrides: {
+          events: 'event8',
+          prop6: 'nav:telemetry',
+          eVar6: 'Navigation Link',
+          contextData: {
+            component: 'global-nav',
+            destination: 'telemetry',
+          },
+        },
+        preventDefault: true,
+      },
+      {
+        selector: '#aa-telemetry-form',
+        eventType: 'submit',
+        linkType: 'o',
+        linkName: 'form:telemetry-upload',
+        overrides: {
+          events: 'event12',
+          prop9: 'form:telemetry',
+          eVar9: 'Telemetry Upload',
+          contextData: {
+            component: 'telemetry',
+            submission: 'form',
+          },
+        },
+        preventDefault: true,
+      },
+    ];
+
+    instrumentation.forEach((item) => {
+      const element = document.querySelector(item.selector);
+      if (!element) return;
+
+      const handler = (event) => {
+        if (item.preventDefault) {
+          event.preventDefault();
+        }
+        s.tl(element, item.linkType, item.linkName, item.overrides);
+      };
+
+      element.addEventListener(item.eventType, handler);
+    });
+
+    if (resetButton && consoleWindow) {
+      resetButton.addEventListener('click', () => {
+        consoleWindow.replaceChildren();
+        addEmptyState();
+      });
+    }
+
     s.t();
-    const button = document.getElementById('adobe-button');
-    const link = document.getElementById('adobe-link');
-    const form = document.getElementById('adobe-form');
-    button.addEventListener('click', () => {
-      s.tl(true, 'o', 'Adobe Button');
-    });
-    link.addEventListener('click', () => {
-      s.tl(true, 'o', 'Adobe Link');
-    });
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      s.tl(true, 'o', 'Adobe Form');
-    });
   </script>
+
+  <style>
+    .sandbox {
+      padding-top: var(--space-4);
+      padding-bottom: var(--space-5);
+    }
+
+    .sandbox__header {
+      max-width: 720px;
+      margin-bottom: var(--space-4);
+    }
+
+    .sandbox__eyebrow {
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-size: var(--text-12);
+      color: var(--color-muted);
+      margin-bottom: var(--space-1);
+    }
+
+    .sandbox__grid {
+      align-items: flex-start;
+    }
+
+    .sandbox__panel {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid var(--color-rule);
+      padding: var(--space-3);
+      border-radius: var(--radius-2);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      backdrop-filter: blur(3px);
+    }
+
+    .sandbox__panel h2 {
+      font-size: var(--text-24);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: var(--space-2);
+    }
+
+    .sandbox__intro {
+      margin-bottom: var(--space-3);
+      color: var(--color-muted);
+    }
+
+    .tracking-card,
+    .pageview-card {
+      border-top: 1px solid var(--color-rule);
+      padding-top: var(--space-3);
+      margin-top: var(--space-3);
+    }
+
+    .tracking-card:first-of-type {
+      border-top: none;
+      padding-top: 0;
+      margin-top: 0;
+    }
+
+    .tracking-card__meta {
+      margin-bottom: var(--space-2);
+    }
+
+    .tracking-card__title {
+      font-size: var(--text-20);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: var(--space-1);
+    }
+
+    .tracking-card__summary {
+      color: var(--color-muted);
+      font-size: var(--text-14);
+    }
+
+    .tracking-card__action {
+      appearance: none;
+      background: var(--color-text);
+      color: var(--color-bg);
+      border: none;
+      border-radius: var(--radius-2);
+      padding: var(--space-2) var(--space-3);
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .tracking-card__action:hover,
+    .tracking-card__action:focus {
+      background: var(--color-accent);
+      color: var(--color-bg);
+      outline: none;
+    }
+
+    .tracking-card__action--link {
+      display: inline-block;
+      text-decoration: none;
+      border: 1px solid var(--color-text);
+    }
+
+    .tracking-card__form {
+      display: grid;
+      gap: var(--space-1);
+      margin-bottom: var(--space-2);
+    }
+
+    .tracking-card__form input,
+    .tracking-card__form select {
+      padding: var(--space-1);
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      font-size: var(--text-16);
+    }
+
+    .tracking-card__details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--space-2);
+      margin: var(--space-2) 0;
+    }
+
+    .tracking-card__details dt {
+      font-size: var(--text-12);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+      margin-bottom: 4px;
+    }
+
+    .tracking-card__details dd {
+      margin: 0;
+      font-size: var(--text-14);
+    }
+
+    .tracking-card__code {
+      background: rgba(17, 17, 17, 0.06);
+      padding: var(--space-2);
+      border-radius: var(--radius-2);
+      font-size: var(--text-12);
+      overflow-x: auto;
+    }
+
+    .pageview-card h2 {
+      font-size: var(--text-20);
+      margin-bottom: var(--space-1);
+    }
+
+    .pageview-card__list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 var(--space-2) 0;
+      display: grid;
+      gap: 4px;
+    }
+
+    .sandbox__panel--console {
+      background: #111111;
+      color: #f0f0f0;
+      border-color: #2f2f2f;
+    }
+
+    .sandbox__panel--console code,
+    .sandbox__panel--console pre {
+      color: inherit;
+    }
+
+    .console__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-2);
+    }
+
+    .console__header h2 {
+      font-size: var(--text-20);
+      margin: 0;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .console__reset {
+      background: transparent;
+      border: 1px solid #f0f0f0;
+      color: #f0f0f0;
+      padding: 4px 12px;
+      border-radius: var(--radius-2);
+      cursor: pointer;
+      font-size: var(--text-12);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .console__reset:hover,
+    .console__reset:focus {
+      background: #f0f0f0;
+      color: #111111;
+      outline: none;
+    }
+
+    .console__description {
+      font-size: var(--text-14);
+      color: #c7c7c7;
+      margin-bottom: var(--space-2);
+    }
+
+    .console__window {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid #2f2f2f;
+      border-radius: var(--radius-2);
+      min-height: 260px;
+      padding: var(--space-2);
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .console__empty {
+      color: #8c8c8c;
+    }
+
+    .console__entry {
+      border: 1px solid #2f2f2f;
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(10, 10, 10, 0.85);
+      display: grid;
+      gap: var(--space-1);
+    }
+
+    .console__entry-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1);
+      font-size: var(--text-12);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #8bd3dd;
+    }
+
+    .console__entry-method {
+      font-weight: 700;
+    }
+
+    .console__entry-label {
+      color: #f6c177;
+    }
+
+    .console__entry-timestamp {
+      margin-left: auto;
+      color: #6a8e9b;
+    }
+
+    .console__entry-url {
+      font-size: var(--text-12);
+      line-height: 1.4;
+      word-break: break-all;
+      color: #f0f0f0;
+    }
+
+    .console__entry-details summary {
+      cursor: pointer;
+      font-size: var(--text-12);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #8bd3dd;
+    }
+
+    .console__entry-details pre {
+      margin-top: var(--space-1);
+      font-size: var(--text-12);
+      line-height: 1.4;
+      white-space: pre-wrap;
+    }
+
+    .console__noscript {
+      margin-top: var(--space-2);
+      font-size: var(--text-14);
+      color: #f6c177;
+    }
+
+    @media (max-width: 900px) {
+      .sandbox__panel {
+        margin-bottom: var(--space-3);
+      }
+
+      .sandbox__panel--console {
+        order: -1;
+      }
+    }
+  </style>
 </Layout>
