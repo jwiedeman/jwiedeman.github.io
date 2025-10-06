@@ -91,13 +91,14 @@
 
 .sandbox-card,
 .sandbox-callout {
-  border: 1px solid var(--color-rule);
+  border: 1px solid color-mix(in srgb, var(--color-rule) 80%, transparent);
   border-radius: var(--radius-2);
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--surface-raised);
   padding: var(--space-3);
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  box-shadow: 0 10px 24px rgba(24, 24, 24, 0.06);
 }
 
 .sandbox-card header {
@@ -188,27 +189,27 @@
 .sandbox-form select,
 .sandbox-form textarea {
   padding: var(--space-1);
-  border: 1px solid var(--color-rule);
+  border: 1px solid color-mix(in srgb, var(--color-rule) 80%, transparent);
   border-radius: var(--radius-1);
   font-size: var(--text-16);
   font-family: var(--font-sans);
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--surface-raised);
 }
 
 .sandbox-console {
   position: sticky;
   top: clamp(1.5rem, 4vw, 3rem);
   align-self: flex-start;
-  border: 1px solid var(--color-rule);
+  border: 1px solid color-mix(in srgb, var(--color-rule) 80%, transparent);
   border-radius: var(--radius-2);
-  background: rgba(17, 17, 17, 0.04);
+  background: var(--surface-panel);
   padding: var(--space-3);
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
   max-height: calc(100vh - clamp(5rem, 16vw, 10rem));
   overflow: hidden;
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-soft);
 }
 
 .sandbox-console__toolbar {
@@ -219,9 +220,9 @@
 }
 
 .console-control {
-  border: 1px solid var(--color-rule);
+  border: 1px solid color-mix(in srgb, var(--color-rule) 75%, transparent);
   border-radius: var(--radius-1);
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--surface-raised);
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: var(--text-12);
@@ -229,7 +230,7 @@
   text-transform: uppercase;
   padding: calc(var(--space-1) * 0.75) var(--space-2);
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform var(--transition-base);
 }
 
 .console-control:hover,
@@ -237,13 +238,15 @@
   background: var(--color-text);
   color: var(--color-bg);
   border-color: transparent;
+  transform: translateY(-1px);
 }
 
 .console-control:disabled {
   cursor: not-allowed;
-  opacity: 0.4;
-  background: rgba(255, 255, 255, 0.4);
-  color: var(--color-muted);
+  background: color-mix(in srgb, var(--surface-raised) 80%, transparent);
+  color: color-mix(in srgb, var(--color-muted) 70%, transparent);
+  border-color: color-mix(in srgb, var(--color-rule) 50%, transparent);
+  transform: none;
 }
 
 .console-stream {
@@ -265,10 +268,10 @@
 }
 
 .console-entry {
-  border: 1px solid var(--color-rule);
+  border: 1px solid color-mix(in srgb, var(--color-rule) 80%, transparent);
   border-radius: var(--radius-2);
   padding: var(--space-2);
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--surface-raised);
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
@@ -310,9 +313,9 @@
 .sandbox-snippet pre {
   margin: 0;
   padding: var(--space-2);
-  border: 1px solid var(--color-rule);
+  border: 1px solid color-mix(in srgb, var(--color-rule) 80%, transparent);
   border-radius: var(--radius-2);
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--surface-raised);
   overflow-x: auto;
 }
 
@@ -340,22 +343,22 @@
   .sandbox-callout,
   .console-entry,
   .sandbox-snippet pre {
-    background: rgba(13, 13, 13, 0.6);
+    background: var(--surface-raised);
   }
 
   .sandbox-console {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--surface-panel);
   }
 
   .console-control {
-    background: rgba(13, 13, 13, 0.6);
-    border-color: rgba(255, 255, 255, 0.24);
-    color: var(--color-bg);
+    background: var(--surface-raised);
+    border-color: color-mix(in srgb, var(--color-rule) 65%, transparent);
+    color: var(--color-text);
   }
 
   .console-control:hover,
   .console-control:focus-visible {
-    background: var(--color-bg);
+    background: var(--surface-tint);
     color: var(--color-text);
   }
 }

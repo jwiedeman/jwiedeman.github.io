@@ -44,6 +44,10 @@
   --color-accent: #b00000;
   --color-link: var(--color-accent);
   --color-muted: #666666;
+  --surface-raised: color-mix(in srgb, var(--color-bg) 90%, #ffffff 10%);
+  --surface-panel: color-mix(in srgb, var(--color-bg) 86%, #ffffff 14%);
+  --surface-tint: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));
+  --shadow-soft: 0 18px 42px rgba(24, 24, 24, 0.12);
 }
 
 /* dark theme - CRT */
@@ -54,6 +58,10 @@
   --color-accent: #8bd3dd;
   --color-link: var(--color-accent);
   --color-muted: #8899aa;
+  --surface-raised: color-mix(in srgb, #1a1c21 70%, var(--color-bg) 30%);
+  --surface-panel: color-mix(in srgb, #23262d 70%, var(--color-bg) 30%);
+  --surface-tint: color-mix(in srgb, var(--color-accent) 16%, var(--color-bg));
+  --shadow-soft: 0 20px 48px rgba(0, 0, 0, 0.45);
 }
 
 html {
@@ -433,14 +441,15 @@ input[type='search']::placeholder {
   outline: 1px solid var(--color-rule);
   outline-offset: -1px;
   border-radius: var(--radius-1);
-  background: color-mix(in srgb, var(--color-bg) 92%, #ffffff 8%);
-  transition: outline-color var(--transition-base), box-shadow var(--transition-base);
+  background: var(--surface-raised);
+  box-shadow: 0 14px 32px rgba(24, 24, 24, 0.05);
+  transition: outline-color var(--transition-base), box-shadow var(--transition-base), background-color var(--transition-base);
 }
 
 .card:hover,
 .card:focus-within {
   outline-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-rule));
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-soft);
 }
 
 .card .label {
