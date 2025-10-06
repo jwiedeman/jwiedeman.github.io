@@ -273,6 +273,48 @@ const printShareParams = {
   content_name: 'Mission brief 01'
 };
 
+const calendarSelectParams = {
+  interface: 'mission_schedule',
+  schedule_id: 'mission-window',
+  interaction_type: 'calendar_select'
+};
+
+const timelineAdjustParams = {
+  interface: 'mission_schedule',
+  control_type: 'timeline_slider',
+  interaction_type: 'timeline_adjust'
+};
+
+const timeslotSelectParams = {
+  interface: 'mission_schedule',
+  schedule_id: 'mission-window',
+  interaction_type: 'timeslot_select'
+};
+
+const reminderCreateParams = {
+  interface: 'mission_schedule',
+  interaction_type: 'reminder_set',
+  reminder_channel: 'mission_console'
+};
+
+const annotationCommentParams = {
+  content_type: 'annotation',
+  content_id: 'mission-brief-01',
+  content_group: 'mission_documents'
+};
+
+const annotationStatusParams = {
+  content_type: 'annotation',
+  content_id: 'mission-brief-01',
+  interaction_type: 'status_update'
+};
+
+const translationSelectParams = {
+  content_type: 'translation',
+  content_id: 'mission-brief-01',
+  interface: 'document_localization'
+};
+
 const themeToggleParams = {
   content_type: 'preference',
   content_id: 'theme',
@@ -329,6 +371,8 @@ const tutorialBaseParams = {
         <li><a href="#feedback-support">Feedback, consent &amp; support</a></li>
         <li><a href="#interface-overlays">Interface overlays &amp; detail panels</a></li>
         <li><a href="#collaboration-sharing">Collaboration &amp; sharing</a></li>
+        <li><a href="#scheduling-timeline">Mission scheduling &amp; timeline</a></li>
+        <li><a href="#content-authoring">Document authoring &amp; annotation</a></li>
         <li><a href="#account-guidance">Account &amp; guidance flows</a></li>
         <li><a href="#gestures-advanced">Gestures &amp; advanced inputs</a></li>
         <li><a href="#data-tables">Data tables &amp; inline updates</a></li>
@@ -1030,6 +1074,255 @@ const tutorialBaseParams = {
               Log print intent
             </button>
             <p id="ga4-print-status" class="tracked-status">Idle — no print intents logged.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="tracked-group" id="scheduling-timeline">
+        <h3 class="tracked-group__title">Mission scheduling &amp; timeline</h3>
+        <p class="tracked-group__intro">
+          Calendar inputs, shift selectors, and timeline sliders translate operational planning into measurable signals. Use the
+          controls to capture launch windows, sequence progress, and reminder commitments just like a production scheduling
+          surface would.
+        </p>
+        <div class="tracked-grid">
+          <article class="sandbox-card tracked-card" data-event="calendar_select">
+            <header>
+              <p class="sandbox-card__tag mono">Event: calendar_select</p>
+              <h3>Mission window picker</h3>
+            </header>
+            <p>
+              Date inputs are perfect for documenting target launch windows. Changing the field emits the selected ISO date so
+              downstream dashboards can compare planned and actual liftoff schedules.
+            </p>
+            <label class="sandbox-form calendar-select">
+              <span class="mono">Select mission date</span>
+              <input
+                type="date"
+                class="sandbox-calendar"
+                data-ga4-event="calendar_select"
+                data-ga4-trigger="change"
+                data-ga4-dynamic="date"
+                data-ga4-feedback="ga4-calendar-status"
+                data-ga4-params={JSON.stringify(calendarSelectParams)}
+              />
+            </label>
+            <p id="ga4-calendar-status" class="tracked-status">No launch window chosen.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="timeline_adjust">
+            <header>
+              <p class="sandbox-card__tag mono">Event: timeline_adjust</p>
+              <h3>Sequence progress slider</h3>
+            </header>
+            <p>
+              Mission timelines often run through a scrub checklist. The slider mirrors those milestones and pushes the current
+              percentage complete so control rooms can audit sequencing pace.
+            </p>
+            <p class="tracked-readout">Sequence percent: <span id="ga4-timeline-readout" class="mono">50%</span></p>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              step="5"
+              class="timeline-slider"
+              data-ga4-event="timeline_adjust"
+              data-ga4-trigger="input"
+              data-ga4-dynamic="range"
+              data-ga4-range-target="ga4-timeline-readout"
+              data-ga4-feedback="ga4-timeline-status"
+              data-ga4-params={JSON.stringify(timelineAdjustParams)}
+            />
+            <p id="ga4-timeline-status" class="tracked-status">Sequence aligned at 50%.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="schedule_slot">
+            <header>
+              <p class="sandbox-card__tag mono">Event: schedule_slot</p>
+              <h3>Shift slot selector</h3>
+            </header>
+            <p>
+              Rapid-fire buttons simulate how ground crews reserve staffing windows. Each selection records the slot label and
+              handoff crew so staffing systems can reconcile coverage.
+            </p>
+            <div class="tracked-timeslots" role="group" aria-label="Reserve mission slot">
+              <button
+                type="button"
+                class="sandbox-action"
+                data-ga4-event="schedule_slot"
+                data-ga4-trigger="click"
+                data-ga4-dynamic="filter"
+                data-ga4-filter-id="mission_slot"
+                data-ga4-filter-value="0700Z"
+                data-ga4-slot-label="07:00Z Payload integration"
+                data-ga4-feedback="ga4-slot-status"
+                data-ga4-params={JSON.stringify({
+                  ...timeslotSelectParams,
+                  slot_code: '0700Z',
+                  slot_label: '07:00Z • Payload integration',
+                  crew_assignment: 'Payload team'
+                })}
+              >
+                07:00Z Payload integration
+              </button>
+              <button
+                type="button"
+                class="sandbox-action"
+                data-ga4-event="schedule_slot"
+                data-ga4-trigger="click"
+                data-ga4-dynamic="filter"
+                data-ga4-filter-id="mission_slot"
+                data-ga4-filter-value="1100Z"
+                data-ga4-slot-label="11:00Z Systems rehearsal"
+                data-ga4-feedback="ga4-slot-status"
+                data-ga4-params={JSON.stringify({
+                  ...timeslotSelectParams,
+                  slot_code: '1100Z',
+                  slot_label: '11:00Z • Systems rehearsal',
+                  crew_assignment: 'Guidance ops'
+                })}
+              >
+                11:00Z Systems rehearsal
+              </button>
+              <button
+                type="button"
+                class="sandbox-action"
+                data-ga4-event="schedule_slot"
+                data-ga4-trigger="click"
+                data-ga4-dynamic="filter"
+                data-ga4-filter-id="mission_slot"
+                data-ga4-filter-value="1500Z"
+                data-ga4-slot-label="15:00Z Final briefing"
+                data-ga4-feedback="ga4-slot-status"
+                data-ga4-params={JSON.stringify({
+                  ...timeslotSelectParams,
+                  slot_code: '1500Z',
+                  slot_label: '15:00Z • Final briefing',
+                  crew_assignment: 'Flight directors'
+                })}
+              >
+                15:00Z Final briefing
+              </button>
+            </div>
+            <p id="ga4-slot-status" class="tracked-status">No staffing slot reserved.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="reminder_set">
+            <header>
+              <p class="sandbox-card__tag mono">Event: reminder_set</p>
+              <h3>Launch reminder commitment</h3>
+            </header>
+            <p>
+              Operators frequently stage reminders ahead of critical holds. Submit a reminder time to log the commitment and
+              confirm that notification pipelines receive the chosen offset.
+            </p>
+            <p class="tracked-readout">Next reminder: <span id="ga4-reminder-readout" class="mono">None scheduled</span></p>
+            <form
+              class="sandbox-form tracked-inline-form"
+              data-ga4-event="reminder_set"
+              data-ga4-trigger="submit"
+              data-ga4-dynamic="inline"
+              data-ga4-inline-field="reminder_time"
+              data-ga4-inline-target="ga4-reminder-readout"
+              data-ga4-feedback="ga4-reminder-status"
+              data-ga4-params={JSON.stringify({
+                ...reminderCreateParams,
+                reminder_offset: 'PT60M'
+              })}
+            >
+              <label class="mono" for="ga4-reminder-time">Reminder time (UTC)</label>
+              <input id="ga4-reminder-time" type="time" name="reminderTime" data-inline-value />
+              <button type="submit" class="sandbox-action">Schedule reminder</button>
+            </form>
+            <p id="ga4-reminder-status" class="tracked-status">Reminder queue idle.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="tracked-group" id="content-authoring">
+        <h3 class="tracked-group__title">Document authoring &amp; annotation</h3>
+        <p class="tracked-group__intro">
+          Track how mission teams collaborate inside documentation. Inline annotations, resolution toggles, and translation
+          controls surface the editorial lifecycle that precedes every launch.
+        </p>
+        <div class="tracked-grid">
+          <article class="sandbox-card tracked-card" data-event="annotation_create">
+            <header>
+              <p class="sandbox-card__tag mono">Event: annotation_create</p>
+              <h3>Add inline annotation</h3>
+            </header>
+            <p>
+              Submitting a note mirrors what happens when reviewers tag passages inside a mission brief. The sandbox captures
+              the note body and ties it to the source document so analytics can quantify collaboration hotspots.
+            </p>
+            <form
+              class="sandbox-form tracked-inline-form"
+              data-ga4-event="annotation_create"
+              data-ga4-trigger="submit"
+              data-ga4-dynamic="inline"
+              data-ga4-inline-field="annotation_body"
+              data-ga4-feedback="ga4-annotation-status"
+              data-ga4-params={JSON.stringify(annotationCommentParams)}
+            >
+              <label class="mono" for="ga4-annotation-text">Annotation</label>
+              <textarea id="ga4-annotation-text" name="annotation" rows="3" placeholder="Flag telemetry step for revision" data-inline-value></textarea>
+              <button type="submit" class="sandbox-action">Log annotation</button>
+            </form>
+            <p id="ga4-annotation-status" class="tracked-status">No annotations logged.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="annotation_status">
+            <header>
+              <p class="sandbox-card__tag mono">Event: annotation_status</p>
+              <h3>Resolve annotation</h3>
+            </header>
+            <p>
+              Tracking resolution toggles keeps document state honest. Flip the control to log whether the note is still open or
+              has been cleared by mission control.
+            </p>
+            <p class="tracked-readout">Annotation state: <span id="ga4-annotation-state" class="mono">Open</span></p>
+            <button
+              type="button"
+              class="sandbox-action"
+              data-ga4-event="annotation_status"
+              data-ga4-trigger="click"
+              data-ga4-dynamic="status"
+              data-ga4-status-target="ga4-annotation-state"
+              data-ga4-feedback="ga4-status-feedback"
+              data-ga4-params={JSON.stringify(annotationStatusParams)}
+            >
+              Toggle status
+            </button>
+            <p id="ga4-status-feedback" class="tracked-status">Annotation currently open.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="translation_select">
+            <header>
+              <p class="sandbox-card__tag mono">Event: translation_select</p>
+              <h3>Language toggle</h3>
+            </header>
+            <p>
+              Mission briefs are often localized for international crews. Selecting a locale pushes both the language code and
+              presentation layer so localization analytics remain precise.
+            </p>
+            <label class="sandbox-form">
+              <span class="mono">Render language</span>
+              <select
+                id="ga4-translation-select"
+                data-ga4-event="translation_select"
+                data-ga4-trigger="change"
+                data-ga4-dynamic="filter"
+                data-ga4-filter-id="translation_locale"
+                data-ga4-feedback="ga4-translation-status"
+                data-ga4-params={JSON.stringify(translationSelectParams)}
+              >
+                <option value="en-US">English (US)</option>
+                <option value="de-DE">German</option>
+                <option value="ja-JP">Japanese</option>
+              </select>
+            </label>
+            <p id="ga4-translation-status" class="tracked-status">Locale defaulted to English.</p>
           </article>
         </div>
       </div>
@@ -2202,6 +2495,23 @@ const tutorialBaseParams = {
         node.dataset.ga4ToggleState = nextState;
       }
 
+      if (dynamicType === 'status') {
+        const currentState = node.dataset.ga4StatusState || 'open';
+        const nextState = currentState === 'resolved' ? 'open' : 'resolved';
+        node.dataset.ga4StatusState = nextState;
+        nextParams.annotation_status = nextState;
+        nextParams.previous_status = currentState;
+
+        const targetId = node.dataset.ga4StatusTarget;
+        if (targetId) {
+          const target = document.getElementById(targetId);
+          if (target) {
+            const formatted = nextState.charAt(0).toUpperCase() + nextState.slice(1);
+            target.textContent = formatted;
+          }
+        }
+      }
+
       if (dynamicType === 'step') {
         const stepper = node.closest('[data-ga4-stepper]');
         const stepNumber = Number(node.dataset.ga4Step) || 1;
@@ -2330,6 +2640,10 @@ const tutorialBaseParams = {
         nextParams.filter_value = value;
         nextParams.filter_state = state;
 
+        if (node.dataset.ga4SlotLabel) {
+          nextParams.slot_label = nextParams.slot_label || node.dataset.ga4SlotLabel;
+        }
+
         const tableId = node.dataset.ga4FilterTable;
         if (tableId) {
           const table = document.getElementById(tableId);
@@ -2358,6 +2672,16 @@ const tutorialBaseParams = {
           if (target && rawValue) {
             target.textContent = rawValue;
           }
+        }
+      }
+
+      if (dynamicType === 'date') {
+        const rawValue = node.value || node.getAttribute('value') || '';
+        if (rawValue) {
+          nextParams.selected_date = rawValue;
+        } else {
+          const today = new Date().toISOString().split('T')[0];
+          nextParams.selected_date = today;
         }
       }
 
@@ -2590,13 +2914,23 @@ const tutorialBaseParams = {
         if (node.dataset.ga4Dynamic === 'filter') {
           const value = params.filter_value || 'all';
           const state = params.filter_state || 'applied';
-          feedbackMessage = `Filter ${value} ${state} at ${timestamp}.`;
+          const slotLabel = node.dataset.ga4SlotLabel || params.slot_label;
+          if (slotLabel) {
+            feedbackMessage = `${slotLabel} ${state} at ${timestamp}.`;
+          } else {
+            feedbackMessage = `Filter ${value} ${state} at ${timestamp}.`;
+          }
         }
 
         if (node.dataset.ga4Dynamic === 'inline') {
           const field = params.field_name || 'Field';
           const value = params.field_value || 'empty';
           feedbackMessage = `${field} updated to ${value} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'date') {
+          const date = params.selected_date || node.value || 'unspecified date';
+          feedbackMessage = `Launch window set to ${date} at ${timestamp}.`;
         }
 
         if (node.dataset.ga4Dynamic === 'range') {
@@ -2651,6 +2985,11 @@ const tutorialBaseParams = {
         if (node.dataset.ga4Dynamic === 'sync') {
           const count = params.job_count || 0;
           feedbackMessage = `Sync queue length ${count} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'status') {
+          const status = params.annotation_status || 'updated';
+          feedbackMessage = `Annotation marked ${status} at ${timestamp}.`;
         }
 
         updateFeedback(node, feedbackMessage);
@@ -2854,6 +3193,21 @@ const tutorialBaseParams = {
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-2);
+    }
+
+    .ga4-sandbox .tracked-timeslots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .ga4-sandbox .timeline-slider {
+      width: 100%;
+      accent-color: var(--color-text);
+    }
+
+    .ga4-sandbox .sandbox-calendar {
+      max-width: 220px;
     }
 
     .ga4-sandbox .tracked-nav {
