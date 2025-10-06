@@ -359,7 +359,409 @@ import '../../../styles/analytics-sandbox.css';
             </article>
           </div>
         </div>
+
+        <div class="linkedin-section">
+          <h3 class="linkedin-section__title">Experience instrumentation</h3>
+          <p class="linkedin-section__intro">
+            Preference changes, overlays, and satisfaction checkpoints that round out an exhaustive conversion
+            plan for Insight Tag deployments.
+          </p>
+          <div class="linkedin-grid">
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 10</p>
+                <h3>Theme preference toggle</h3>
+              </header>
+              <p>
+                Records interface theme toggles so downstream personalisation can respond. The payload captures
+                previous and next state when the visitor flips the control.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">click</dd>
+                </div>
+                <div>
+                  <dt>Dynamic</dt>
+                  <dd class="mono">toggle state</dd>
+                </div>
+              </dl>
+              <div id="li-theme-preview" class="linkedin-theme" data-theme="light">
+                <p class="linkedin-theme__label">Current theme: <span data-theme-label>Light</span></p>
+              </div>
+              <button
+                class="sandbox-action"
+                data-li-event="click"
+                data-li-conversion-id="10"
+                data-li-payload='{"preference":"interface_theme","previous_state":"light","next_state":"dark"}'
+                data-li-dynamic="toggle"
+                data-li-toggle-target="li-theme-preview"
+                data-li-status="li-theme-status"
+                type="button"
+              >
+                Toggle interface theme
+              </button>
+              <p id="li-theme-status" class="linkedin-status">Theme set to light.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 11</p>
+                <h3>Consent update</h3>
+              </header>
+              <p>
+                Capture optional mission communications preferences with explicit consent state so privacy
+                compliance is auditable within Insight Tag exports.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">change</dd>
+                </div>
+                <div>
+                  <dt>Fields</dt>
+                  <dd class="mono">preference + consent</dd>
+                </div>
+              </dl>
+              <label class="linkedin-consent">
+                <span>Email mission updates</span>
+                <input
+                  type="checkbox"
+                  class="linkedin-consent__toggle"
+                  value="mission-updates"
+                  checked
+                  data-li-event="change"
+                  data-li-conversion-id="11"
+                  data-li-payload='{"preference":"mission-updates","consent":"granted"}'
+                  data-li-dynamic="consent"
+                  data-li-status="li-consent-status"
+                />
+              </label>
+              <p id="li-consent-status" class="linkedin-status">Consent granted.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 12</p>
+                <h3>Mission alert modal</h3>
+              </header>
+              <p>
+                Opening the alert emits a conversion for ID 12. Buttons inside the dialog showcase dismiss and
+                acknowledgement follow-ups as separate conversions.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">click</dd>
+                </div>
+                <div>
+                  <dt>Actions</dt>
+                  <dd class="mono">open / dismiss / acknowledge</dd>
+                </div>
+              </dl>
+              <button
+                class="sandbox-action"
+                data-li-event="click"
+                data-li-conversion-id="12"
+                data-li-payload='{"modal_id":"mission-alert","interaction":"open"}'
+                data-li-modal-target="li-alert-modal"
+                data-li-status="li-modal-status"
+                type="button"
+              >
+                Launch mission alert
+              </button>
+              <p id="li-modal-status" class="linkedin-status">Modal idle — closed.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 13</p>
+                <h3>Inline tooltip</h3>
+              </header>
+              <p>
+                Toggle the contextual helper to log visibility state. Insight Tag receives the content reference
+                plus whether the tooltip is currently displayed.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">click</dd>
+                </div>
+                <div>
+                  <dt>Dynamic</dt>
+                  <dd class="mono">visible / hidden</dd>
+                </div>
+              </dl>
+              <button
+                class="sandbox-action"
+                aria-pressed="false"
+                data-li-event="click"
+                data-li-conversion-id="13"
+                data-li-payload='{"component":"tooltip","content_id":"mission-tooling","visibility":"hidden"}'
+                data-li-dynamic="tooltip"
+                data-li-tooltip-target="li-tooltip-panel"
+                data-li-status="li-tooltip-status"
+                type="button"
+              >
+                Toggle tooling primer
+              </button>
+              <div id="li-tooltip-panel" class="linkedin-tooltip" hidden>
+                <p>The tooling primer highlights tagging order, QA cadence, and roll-out strategy.</p>
+              </div>
+              <p id="li-tooltip-status" class="linkedin-status">Tooltip hidden.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 14</p>
+                <h3>Feedback slider</h3>
+              </header>
+              <p>
+                Capture qualitative sentiment by logging a 1&ndash;5 clarity score. The payload records the
+                selected rating and scale maximum for consistent reporting.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">change</dd>
+                </div>
+                <div>
+                  <dt>Scale</dt>
+                  <dd class="mono">1&ndash;5</dd>
+                </div>
+              </dl>
+              <label class="linkedin-rating">
+                <span>Clarity score</span>
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  value="3"
+                  step="1"
+                  data-li-event="change"
+                  data-li-conversion-id="14"
+                  data-li-payload='{"component":"mission-module","rating":3,"scale_max":5}'
+                  data-li-dynamic="range"
+                  data-li-status="li-rating-status"
+                />
+              </label>
+              <p id="li-rating-status" class="linkedin-status">Awaiting feedback.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+          </div>
+        </div>
+
+        <div class="linkedin-section">
+          <h3 class="linkedin-section__title">Visibility &amp; advocacy</h3>
+          <p class="linkedin-section__intro">
+            Sharing, print, error logging, and scroll-depth checks that show how intelligence propagates beyond
+            the initial session.
+          </p>
+          <div class="linkedin-grid">
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 15</p>
+                <h3>Copy mission brief</h3>
+              </header>
+              <p>
+                Copy-to-clipboard actions reveal organic sharing behaviour. The helper mirrors a custom Insight
+                Tag conversion that tracks copied URLs.
+              </p>
+              <button
+                class="sandbox-action"
+                data-li-event="click"
+                data-li-conversion-id="15"
+                data-li-payload='{"share_method":"copy","content_id":"mission-brief","content_url":"https://intranet.example/missions/briefing-01"}'
+                data-li-dynamic="copy"
+                data-li-copy-text="https://intranet.example/missions/briefing-01"
+                data-li-status="li-copy-status"
+                type="button"
+              >
+                Copy briefing URL
+              </button>
+              <p id="li-copy-status" class="linkedin-status">No copy attempts recorded.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 16</p>
+                <h3>Share to X</h3>
+              </header>
+              <p>
+                Emits a conversion for social propagation when operators share briefing intel to external
+                channels. Swap the channel when mapping to other destinations.
+              </p>
+              <button
+                class="sandbox-action"
+                data-li-event="click"
+                data-li-conversion-id="16"
+                data-li-payload='{"share_method":"social","channel":"x","content_id":"mission-brief","value":0}'
+                data-li-status="li-social-status"
+                type="button"
+              >
+                Stage social share payload
+              </button>
+              <p id="li-social-status" class="linkedin-status">Awaiting share interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 17</p>
+                <h3>Print briefing packet</h3>
+              </header>
+              <p>
+                Printing or saving to PDF still counts as content distribution. Track this behaviour to reconcile
+                offline dissemination with your measurement plan.
+              </p>
+              <button
+                class="sandbox-action"
+                data-li-event="click"
+                data-li-conversion-id="17"
+                data-li-payload='{"share_method":"print","content_id":"mission-brief","value":0}'
+                data-li-status="li-print-status"
+                type="button"
+              >
+                Log print intent
+              </button>
+              <p id="li-print-status" class="linkedin-status">No print intents logged.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 18</p>
+                <h3>Scroll depth sentinel</h3>
+              </header>
+              <p>
+                Intersection Observer fires once when operators reach the footer sentinel, demonstrating how to
+                wire depth milestones into Insight Tag conversions.
+              </p>
+              <div class="linkedin-scroll" role="status">
+                <div
+                  class="linkedin-scroll__sentinel"
+                  data-li-event="observe"
+                  data-li-trigger="observe"
+                  data-li-conversion-id="18"
+                  data-li-payload='{"component":"scroll_sentinel","threshold":0.9}'
+                  data-li-status="li-scroll-status"
+                >
+                  Scroll sentinel — fires once at 90% depth
+                </div>
+              </div>
+              <p id="li-scroll-status" class="linkedin-status">Sentinel armed — scroll to trigger.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 19</p>
+                <h3>Error capture</h3>
+              </header>
+              <p>
+                Non-fatal anomalies deserve visibility. Trigger the helper to log a warning state so operations
+                teams can reconcile support workload with Insight Tag data.
+              </p>
+              <button
+                class="sandbox-action"
+                data-li-event="click"
+                data-li-conversion-id="19"
+                data-li-payload='{"error_code":"mission-timeout","severity":"warning","component":"mission-briefing"}'
+                data-li-status="li-error-status"
+                type="button"
+              >
+                Log non-fatal error
+              </button>
+              <p id="li-error-status" class="linkedin-status">No anomalies detected.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+          </div>
+        </div>
       </section>
+
+      <div
+        id="li-alert-modal"
+        class="linkedin-modal"
+        data-li-modal
+        data-li-modal-feedback="li-modal-status"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="li-alert-title"
+        aria-describedby="li-alert-body"
+        hidden
+        aria-hidden="true"
+      >
+        <div class="linkedin-modal__dialog">
+          <header class="linkedin-modal__header">
+            <h2 id="li-alert-title">Mission readiness alert</h2>
+          </header>
+          <div class="linkedin-modal__body" id="li-alert-body">
+            <p>
+              Telemetry processing latency has exceeded the expected threshold. Dismiss or acknowledge the
+              alert to keep Insight Tag instrumentation aligned with operator response.
+            </p>
+          </div>
+          <footer class="linkedin-modal__actions">
+            <button
+              class="sandbox-action"
+              data-li-event="click"
+              data-li-conversion-id="20"
+              data-li-payload='{"modal_id":"mission-alert","interaction":"dismiss"}'
+              data-li-modal-close="true"
+              data-li-status="li-modal-status"
+              type="button"
+            >
+              Dismiss alert
+            </button>
+            <button
+              class="sandbox-action"
+              data-li-event="click"
+              data-li-conversion-id="21"
+              data-li-payload='{"modal_id":"mission-alert","interaction":"acknowledge"}'
+              data-li-modal-close="true"
+              data-li-status="li-modal-status"
+              type="button"
+            >
+              Acknowledge alert
+            </button>
+          </footer>
+        </div>
+      </div>
 
       <aside class="sandbox-console linkedin-console" data-console-panel aria-labelledby="linkedin-console-heading">
         <h2 id="linkedin-console-heading">Mock Insight Tag console</h2>
@@ -516,71 +918,291 @@ import '../../../styles/analytics-sandbox.css';
     }
 
     const consoleUI = createSandboxConsole({ limit: 8 });
-
     const pretty = (value) => JSON.stringify(value, null, 2);
+    const formatTime = () => new Date().toLocaleTimeString('en-US', { hour12: false });
 
-    const logConversion = (conversionId, payload) => {
-      if (!consoleUI) return;
+    let activeModal = null;
+
+    const findModal = (id) => (id ? document.getElementById(id) : null);
+
+    const openModal = (modal, trigger) => {
+      if (!modal) {
+        return;
+      }
+      modal.hidden = false;
+      modal.setAttribute('aria-hidden', 'false');
+      modal.classList.add('linkedin-modal--visible');
+      activeModal = modal;
+      if (trigger && trigger.id) {
+        modal.dataset.returnFocus = trigger.id;
+      }
+      const focusTarget = modal.querySelector('[data-li-modal-close]') || modal.querySelector('button');
+      if (focusTarget && typeof focusTarget.focus === 'function') {
+        focusTarget.focus();
+      }
+    };
+
+    const closeModal = (modal) => {
+      if (!modal) {
+        return;
+      }
+      modal.hidden = true;
+      modal.setAttribute('aria-hidden', 'true');
+      modal.classList.remove('linkedin-modal--visible');
+      if (activeModal === modal) {
+        activeModal = null;
+      }
+      if (modal.dataset.returnFocus) {
+        const node = document.getElementById(modal.dataset.returnFocus);
+        if (node && typeof node.focus === 'function') {
+          node.focus();
+        }
+        delete modal.dataset.returnFocus;
+      }
+    };
+
+    const appendConsoleEntry = (conversionId, payload) => {
+      if (!consoleUI) {
+        return;
+      }
       const entry = document.createElement('article');
       entry.className = 'console-entry';
       entry.innerHTML = `
         <header class="console-entry__meta">
           <span class="console-entry__method">lintrk('track')</span>
           <span>Conversion ${conversionId}</span>
-          <span>${new Date().toLocaleTimeString()}</span>
+          <span>${formatTime()}</span>
         </header>
         <pre class="console-entry__body">${pretty({ conversion_id: conversionId, payload })}</pre>
       `;
       consoleUI.append(entry);
     };
 
-    const updateStatus = (statusId) => {
-      if (!statusId) return;
+    const logConversion = (conversionId, payload) => {
+      appendConsoleEntry(conversionId, payload);
+      if (typeof window.lintrk === 'function') {
+        try {
+          window.lintrk('track', { conversion_id: Number(conversionId), payload });
+        } catch (error) {
+          // ignore errors in sandbox
+        }
+      }
+    };
+
+    const updateStatus = (statusId, message) => {
+      if (!statusId) {
+        return;
+      }
       const target = document.getElementById(statusId);
-      if (!target) return;
-      target.textContent = `Last fired at ${new Date().toLocaleTimeString()}`;
+      if (target) {
+        target.textContent = message;
+      }
+    };
+
+    const applyPayloadPreview = (element, payload) => {
+      const card = element.closest('[data-li-card]');
+      if (!card) {
+        return;
+      }
+      const preview = card.querySelector('[data-li-payload-preview]');
+      if (preview) {
+        preview.textContent = pretty(payload);
+      }
+    };
+
+    const parsePayload = (element) => {
+      try {
+        return element.dataset.liPayload ? JSON.parse(element.dataset.liPayload) : {};
+      } catch (error) {
+        return { error: 'Unable to parse payload', raw: element.dataset.liPayload };
+      }
+    };
+
+    const buildPayload = (element) => {
+      const basePayload = parsePayload(element);
+      const payload = { ...basePayload };
+      const dynamic = element.dataset.liDynamic;
+
+      if (element.tagName === 'FORM') {
+        payload.form_values = Object.fromEntries(new FormData(element));
+      }
+
+      if (dynamic === 'consent') {
+        payload.preference = element.value || payload.preference || 'unspecified';
+        payload.consent = element.checked ? 'granted' : 'revoked';
+      }
+
+      if (dynamic === 'toggle') {
+        const targetId = element.dataset.liToggleTarget;
+        const target = targetId ? document.getElementById(targetId) : null;
+        let currentState = element.dataset.liToggleState || 'light';
+        if (target && target.dataset.theme) {
+          currentState = target.dataset.theme;
+        }
+        const nextState = currentState === 'dark' ? 'light' : 'dark';
+        payload.previous_state = currentState;
+        payload.next_state = nextState;
+        element.dataset.liToggleState = nextState;
+        if (target) {
+          target.dataset.theme = nextState;
+          target.classList.toggle('linkedin-theme--dark', nextState === 'dark');
+          const label = target.querySelector('[data-theme-label]');
+          if (label) {
+            label.textContent = nextState.charAt(0).toUpperCase() + nextState.slice(1);
+          }
+        }
+      }
+
+      if (dynamic === 'tooltip') {
+        const pressed = element.getAttribute('aria-pressed') === 'true';
+        const nextPressed = !pressed;
+        element.setAttribute('aria-pressed', String(nextPressed));
+        const targetId = element.dataset.liTooltipTarget;
+        const panel = targetId ? document.getElementById(targetId) : null;
+        if (panel) {
+          panel.hidden = !nextPressed;
+        }
+        payload.visibility = nextPressed ? 'visible' : 'hidden';
+      }
+
+      if (dynamic === 'copy') {
+        const text = element.dataset.liCopyText || payload.content_url || '';
+        payload.share_method = payload.share_method || 'copy';
+        payload.content_url = text;
+        if (text && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+          navigator.clipboard.writeText(text).catch(() => {});
+        }
+      }
+
+      if (dynamic === 'range') {
+        const value = Number(element.value);
+        payload.rating = Number.isFinite(value) ? value : element.value;
+        if (!payload.scale_max && element.max) {
+          const max = Number(element.max);
+          if (Number.isFinite(max)) {
+            payload.scale_max = max;
+          }
+        }
+      }
+
+      return payload;
+    };
+
+    const buildStatusMessage = (element, payload, { triggeredByObserver = false } = {}) => {
+      const timestamp = formatTime();
+      const dynamic = element.dataset.liDynamic;
+
+      if (triggeredByObserver || element.dataset.liTrigger === 'observe') {
+        return `Scroll depth reached at ${timestamp}.`;
+      }
+
+      if (element.dataset.liModalTarget) {
+        return `Modal opened at ${timestamp}.`;
+      }
+
+      if (element.dataset.liModalClose === 'true') {
+        const action = payload.interaction || 'modal event';
+        return `${action.charAt(0).toUpperCase()}${action.slice(1)} recorded at ${timestamp}.`;
+      }
+
+      if (dynamic === 'toggle') {
+        return `Theme set to ${payload.next_state} at ${timestamp}.`;
+      }
+
+      if (dynamic === 'consent') {
+        return `Consent ${payload.consent} at ${timestamp}.`;
+      }
+
+      if (dynamic === 'tooltip') {
+        return `Tooltip ${payload.visibility} at ${timestamp}.`;
+      }
+
+      if (dynamic === 'copy') {
+        return `Copied ${payload.content_url} at ${timestamp}.`;
+      }
+
+      if (dynamic === 'range') {
+        const scale = payload.scale_max || element.max || '5';
+        return `Rating ${payload.rating}/${scale} recorded at ${timestamp}.`;
+      }
+
+      return `Conversion ${element.dataset.liConversionId} fired at ${timestamp}.`;
     };
 
     const registerInteraction = (element) => {
       const conversionId = element.dataset.liConversionId;
-      const interaction = element.dataset.liEvent || 'click';
-      const preventDefault = element.dataset.liPreventDefault === 'true';
-      const statusId = element.dataset.liStatus;
-      let payload = {};
+      const trigger = element.dataset.liTrigger || element.dataset.liEvent || (element.tagName === 'FORM' ? 'submit' : 'click');
+      const preventDefault = element.dataset.liPreventDefault === 'true' || trigger === 'submit';
 
-      try {
-        payload = element.dataset.liPayload ? JSON.parse(element.dataset.liPayload) : {};
-      } catch (error) {
-        payload = { error: 'Unable to parse payload', raw: element.dataset.liPayload };
-      }
+      const seedPayload = parsePayload(element);
+      applyPayloadPreview(element, seedPayload);
 
-      const card = element.closest('[data-li-card]');
-      if (card) {
-        const preview = card.querySelector('[data-li-payload-preview]');
-        if (preview) {
-          preview.textContent = pretty(payload);
-        }
-      }
-
-      element.addEventListener(interaction, (event) => {
-        if (preventDefault) {
+      const handle = (event, { triggeredByObserver = false } = {}) => {
+        if (preventDefault && event && typeof event.preventDefault === 'function') {
           event.preventDefault();
         }
 
-        const enrichedPayload = element.tagName === 'FORM'
-          ? { ...payload, form_values: Object.fromEntries(new FormData(element)) }
-          : payload;
+        const payload = buildPayload(element);
+        logConversion(conversionId, payload);
 
-        logConversion(conversionId, enrichedPayload);
-        updateStatus(statusId);
+        const message = buildStatusMessage(element, payload, { triggeredByObserver });
+        updateStatus(element.dataset.liStatus, message);
+
+        if (element.dataset.liModalTarget) {
+          const modal = findModal(element.dataset.liModalTarget);
+          openModal(modal, element);
+        }
+
+        if (element.dataset.liModalClose === 'true') {
+          const modal = element.closest('[data-li-modal]');
+          closeModal(modal);
+        }
+
+        applyPayloadPreview(element, payload);
 
         if (element.tagName === 'FORM') {
           element.reset();
         }
-      });
+      };
+
+      if (trigger === 'observe') {
+        const observer = new IntersectionObserver((entries, obs) => {
+          const visible = entries.some((entry) => entry.isIntersecting);
+          if (visible) {
+            handle(null, { triggeredByObserver: true });
+            obs.unobserve(element);
+            element.classList.add('linkedin-scroll__sentinel--fired');
+          }
+        }, { threshold: 1 });
+
+        observer.observe(element);
+        return;
+      }
+
+      element.addEventListener(trigger, (event) => handle(event));
     };
 
     document.querySelectorAll('[data-li-conversion-id]').forEach(registerInteraction);
+
+    document.querySelectorAll('[data-li-modal]').forEach((modal) => {
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          closeModal(modal);
+          const feedback = modal.dataset.liModalFeedback;
+          updateStatus(feedback, `Modal dismissed at ${formatTime()}.`);
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && activeModal) {
+        const modal = activeModal;
+        closeModal(modal);
+        if (modal && modal.dataset.liModalFeedback) {
+          updateStatus(modal.dataset.liModalFeedback, `Modal dismissed via Escape at ${formatTime()}.`);
+        }
+      }
+    });
   </script>
 
   <style>
@@ -634,6 +1256,117 @@ import '../../../styles/analytics-sandbox.css';
       margin: 0;
       font-size: var(--text-14);
       color: var(--color-muted);
+    }
+
+    .linkedin-sandbox .linkedin-theme {
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(255, 255, 255, 0.85);
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .linkedin-sandbox .linkedin-theme--dark {
+      background: #181818;
+      color: #f3eddf;
+    }
+
+    .linkedin-sandbox .linkedin-theme__label {
+      margin: 0;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .linkedin-sandbox .linkedin-consent {
+      display: grid;
+      gap: var(--space-1);
+      font-weight: 600;
+    }
+
+    .linkedin-sandbox .linkedin-consent__toggle {
+      width: auto;
+    }
+
+    .linkedin-sandbox .linkedin-tooltip {
+      margin-top: var(--space-2);
+      padding: var(--space-2);
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .linkedin-sandbox .linkedin-rating {
+      display: grid;
+      gap: var(--space-1);
+    }
+
+    .linkedin-sandbox .linkedin-rating input[type='range'] {
+      width: 100%;
+    }
+
+    .linkedin-sandbox .linkedin-scroll {
+      border: 1px dashed color-mix(in srgb, var(--color-rule) 70%, transparent);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(0, 0, 0, 0.02);
+    }
+
+    .linkedin-sandbox .linkedin-scroll__sentinel {
+      display: inline-flex;
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-2);
+      border: 1px solid var(--color-rule);
+      background: rgba(255, 255, 255, 0.9);
+      font-family: var(--font-mono);
+      letter-spacing: 0.06em;
+    }
+
+    .linkedin-sandbox .linkedin-scroll__sentinel--fired {
+      border-color: var(--color-accent, #7e2522);
+      background: rgba(126, 37, 34, 0.12);
+    }
+
+    .linkedin-sandbox .linkedin-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+      z-index: 30;
+    }
+
+    .linkedin-sandbox .linkedin-modal[hidden] {
+      display: none;
+    }
+
+    .linkedin-sandbox .linkedin-modal__dialog {
+      background: var(--color-bg);
+      color: var(--color-text);
+      border-radius: var(--radius-2);
+      border: 1px solid var(--color-rule);
+      max-width: 420px;
+      width: 100%;
+      padding: var(--space-3);
+      display: grid;
+      gap: var(--space-2);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+    }
+
+    .linkedin-sandbox .linkedin-modal__header h2 {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: var(--text-16);
+    }
+
+    .linkedin-sandbox .linkedin-modal__actions {
+      display: flex;
+      gap: var(--space-2);
+      justify-content: flex-end;
+      flex-wrap: wrap;
     }
   </style>
 </Layout>
