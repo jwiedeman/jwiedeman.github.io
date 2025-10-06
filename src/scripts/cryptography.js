@@ -64,6 +64,9 @@ const MORSE_TABLE = {
 
 const MORSE_REVERSE = Object.fromEntries(Object.entries(MORSE_TABLE).map(([key, value]) => [value, key]));
 
+const BASE32_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+const BASE58_ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+
 const algorithms = {
   caesar: {
     encode: (input, options) => rotateCipher(input, Number(options.shift ?? 3)),
@@ -97,6 +100,21 @@ const algorithms = {
     decode: (input) => base64Decode(input),
     heuristics: (input) => base64Heuristics(input)
   },
+  base32: {
+    encode: (input) => base32Encode(input),
+    decode: (input) => base32Decode(input),
+    heuristics: (input) => base32Heuristics(input)
+  },
+  base58: {
+    encode: (input) => base58Encode(input),
+    decode: (input) => base58Decode(input),
+    heuristics: (input) => base58Heuristics(input)
+  },
+  ascii85: {
+    encode: (input) => ascii85Encode(input),
+    decode: (input) => ascii85Decode(input),
+    heuristics: (input) => ascii85Heuristics(input)
+  },
   hex: {
     encode: (input) => hexEncode(input),
     decode: (input) => hexDecode(input),
@@ -122,6 +140,20 @@ const algorithms = {
     decode: (input, options) => railFenceDecode(input, Number(options.rails ?? 3)),
     heuristics: (input, options) =>
       heuristicsFromDecode(railFenceDecode(input, Number(options.rails ?? 3)), 'rail fence decode test').withSignal(input)
+  },
+  xor: {
+    encode: (input, options) => xorEncode(input, (options.key || '').toString()),
+    decode: (input, options) => xorDecode(input, (options.key || '').toString()),
+    heuristics: (input, options) => xorHeuristics(input, (options.key || '').toString())
+  },
+  affine: {
+    encode: (input, options) => affineTransform(input, Number(options.a ?? 1), Number(options.b ?? 8), false),
+    decode: (input, options) => affineTransform(input, Number(options.a ?? 1), Number(options.b ?? 8), true),
+    heuristics: (input, options) =>
+      heuristicsFromDecode(
+        affineTransform(input, Number(options.a ?? 1), Number(options.b ?? 8), true),
+        'Affine decode test'
+      ).withSignal(input)
   }
 };
 
@@ -219,6 +251,256 @@ function base64Heuristics(input) {
     return { score: 0.42, reason: 'Mostly base64-safe characters but length is not aligned to 4.' };
   }
   return { score: 0.08, reason: 'Characters fall outside the base64 alphabet.' };
+}
+
+function base32Encode(input) {
+  if (input === undefined || input === null) return '';
+  const bytes = Array.from(new TextEncoder().encode(input));
+  if (!bytes.length) return '';
+  const output = [];
+  for (let i = 0; i < bytes.length; i += 5) {
+    const chunk = bytes.slice(i, i + 5);
+    const chunkLength = chunk.length;
+    while (chunk.length < 5) {
+      chunk.push(0);
+    }
+    const bits = chunk.map((byte) => byte.toString(2).padStart(8, '0')).join('');
+    const charCount = [0, 2, 4, 5, 7, 8][chunkLength] || 0;
+    for (let j = 0; j < charCount; j += 1) {
+      const segment = bits.slice(j * 5, j * 5 + 5);
+      output.push(BASE32_ALPHABET[parseInt(segment, 2)]);
+    }
+    output.push('='.repeat(8 - charCount));
+  }
+  return output.join('');
+}
+
+function base32Decode(input) {
+  if (!input) return '';
+  const cleaned = input.toUpperCase().replace(/\s+/g, '');
+  if (!cleaned) return '';
+  if (/[^A-Z2-7=]/.test(cleaned) || cleaned.length % 8 !== 0) {
+    return '';
+  }
+  const bytes = [];
+  for (let i = 0; i < cleaned.length; i += 8) {
+    const block = cleaned.slice(i, i + 8);
+    let bits = '';
+    for (const char of block) {
+      if (char === '=') {
+        bits += '00000';
+      } else {
+        const value = BASE32_ALPHABET.indexOf(char);
+        if (value === -1) {
+          return '';
+        }
+        bits += value.toString(2).padStart(5, '0');
+      }
+    }
+    let expectedBytes = 5;
+    if (block.endsWith('======')) {
+      expectedBytes = 1;
+    } else if (block.endsWith('====')) {
+      expectedBytes = 2;
+    } else if (block.endsWith('===')) {
+      expectedBytes = 3;
+    } else if (block.endsWith('=')) {
+      expectedBytes = 4;
+    }
+    for (let j = 0; j < expectedBytes; j += 1) {
+      const segment = bits.slice(j * 8, j * 8 + 8);
+      if (segment.length < 8) {
+        continue;
+      }
+      bytes.push(parseInt(segment, 2));
+    }
+  }
+  try {
+    return new TextDecoder().decode(Uint8Array.from(bytes));
+  } catch (error) {
+    return '';
+  }
+}
+
+function base32Heuristics(input) {
+  const cleaned = (input || '').replace(/\s+/g, '').toUpperCase();
+  if (!cleaned) {
+    return { score: 0, reason: 'Awaiting input for base32 analysis.' };
+  }
+  const base32Regex = /^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=|[A-Z2-7]{8})$/;
+  if (base32Regex.test(cleaned)) {
+    return { score: 0.86, reason: 'Base32 alphabet and padding alignment detected.' };
+  }
+  if (/^[A-Z2-7=]+$/.test(cleaned)) {
+    return { score: 0.4, reason: 'Mostly base32-safe characters but unusual length or padding.' };
+  }
+  return { score: 0.12, reason: 'Characters fall outside the base32 alphabet.' };
+}
+
+function base58Encode(input) {
+  if (input === undefined || input === null) return '';
+  const bytes = Array.from(new TextEncoder().encode(input));
+  if (!bytes.length) return '';
+  let zeros = 0;
+  while (zeros < bytes.length && bytes[zeros] === 0) {
+    zeros += 1;
+  }
+  let value = 0n;
+  for (const byte of bytes) {
+    value = (value << 8n) + BigInt(byte);
+  }
+  let encoded = '';
+  while (value > 0n) {
+    const remainder = Number(value % 58n);
+    encoded = BASE58_ALPHABET[remainder] + encoded;
+    value /= 58n;
+  }
+  return '1'.repeat(zeros) + encoded;
+}
+
+function base58Decode(input) {
+  if (!input) return '';
+  const cleaned = input.trim();
+  if (!cleaned) return '';
+  if (/[^123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]/.test(cleaned)) {
+    return '';
+  }
+  let value = 0n;
+  for (const char of cleaned) {
+    const index = BASE58_ALPHABET.indexOf(char);
+    if (index === -1) {
+      return '';
+    }
+    value = value * 58n + BigInt(index);
+  }
+  const bytes = [];
+  while (value > 0n) {
+    bytes.push(Number(value % 256n));
+    value /= 256n;
+  }
+  bytes.reverse();
+  const leadingZeros = cleaned.match(/^1+/);
+  if (leadingZeros) {
+    bytes.unshift(...Array.from({ length: leadingZeros[0].length }, () => 0));
+  }
+  try {
+    return new TextDecoder().decode(Uint8Array.from(bytes));
+  } catch (error) {
+    return '';
+  }
+}
+
+function base58Heuristics(input) {
+  const cleaned = (input || '').trim();
+  if (!cleaned) {
+    return { score: 0, reason: 'Awaiting input for base58 analysis.' };
+  }
+  if (/^[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+$/.test(cleaned)) {
+    const score = Math.min(0.9, 0.45 + cleaned.length * 0.02);
+    return { score, reason: 'Base58 alphabet detected without ambiguous glyphs.' };
+  }
+  return { score: 0.14, reason: 'Characters fall outside the base58 alphabet.' };
+}
+
+function ascii85Encode(input) {
+  if (input === undefined || input === null) return '';
+  const bytes = Array.from(new TextEncoder().encode(input));
+  if (!bytes.length) return '';
+  let output = '';
+  for (let i = 0; i < bytes.length; i += 4) {
+    const chunk = bytes.slice(i, i + 4);
+    const chunkLength = chunk.length;
+    while (chunk.length < 4) {
+      chunk.push(0);
+    }
+    const value =
+      ((chunk[0] << 24) >>> 0) +
+      ((chunk[1] << 16) >>> 0) +
+      ((chunk[2] << 8) >>> 0) +
+      (chunk[3] >>> 0);
+    if (value === 0 && chunkLength === 4) {
+      output += 'z';
+      continue;
+    }
+    let remainder = value;
+    const encoded = [];
+    for (let j = 0; j < 5; j += 1) {
+      encoded.unshift((remainder % 85) + 33);
+      remainder = Math.floor(remainder / 85);
+    }
+    let block = String.fromCharCode(...encoded);
+    if (chunkLength < 4) {
+      block = block.slice(0, chunkLength + 1);
+    }
+    output += block;
+  }
+  return output;
+}
+
+function ascii85Decode(input) {
+  if (!input) return '';
+  const cleaned = input.replace(/\s+/g, '');
+  if (!cleaned) return '';
+  const bytes = [];
+  let group = [];
+  for (let i = 0; i < cleaned.length; i += 1) {
+    const char = cleaned[i];
+    if (char === 'z') {
+      if (group.length !== 0) {
+        return '';
+      }
+      bytes.push(0, 0, 0, 0);
+      continue;
+    }
+    const code = char.charCodeAt(0);
+    if (code < 33 || code > 117) {
+      return '';
+    }
+    group.push(code - 33);
+    if (group.length === 5) {
+      let value = 0;
+      group.forEach((part) => {
+        value = value * 85 + part;
+      });
+      bytes.push((value >>> 24) & 0xff, (value >>> 16) & 0xff, (value >>> 8) & 0xff, value & 0xff);
+      group = [];
+    }
+  }
+  if (group.length > 0) {
+    const missing = 5 - group.length;
+    for (let i = 0; i < missing; i += 1) {
+      group.push(84);
+    }
+    let value = 0;
+    group.forEach((part) => {
+      value = value * 85 + part;
+    });
+    let tail = [(value >>> 24) & 0xff, (value >>> 16) & 0xff, (value >>> 8) & 0xff, value & 0xff];
+    tail = tail.slice(0, group.length - 1);
+    bytes.push(...tail);
+  }
+  try {
+    return new TextDecoder().decode(Uint8Array.from(bytes));
+  } catch (error) {
+    return '';
+  }
+}
+
+function ascii85Heuristics(input) {
+  const cleaned = (input || '').replace(/\s+/g, '');
+  if (!cleaned) {
+    return { score: 0, reason: 'Awaiting input for ASCII85 analysis.' };
+  }
+  if (/^[\x21-\x75z]+$/.test(cleaned)) {
+    const hasCompression = cleaned.includes('z');
+    return {
+      score: hasCompression ? 0.74 : 0.6,
+      reason: hasCompression
+        ? 'ASCII85 alphabet detected along with zero-compression blocks.'
+        : 'ASCII85-safe printable range detected.'
+    };
+  }
+  return { score: 0.1, reason: 'Contains characters outside ASCII85 printable range.' };
 }
 
 function hexEncode(input) {
@@ -397,6 +679,149 @@ function railFenceDecode(input, rails) {
     pointer += counts[r];
   }
   return pattern.map((r) => railsContent[r].shift()).join('');
+}
+
+function xorEncode(input, key) {
+  const bytes = xorBytes(input, key);
+  if (!bytes.length) {
+    return '';
+  }
+  return bytes
+    .map((byte) => byte.toString(16).padStart(2, '0').toUpperCase())
+    .join(' ');
+}
+
+function xorDecode(input, key) {
+  if (!key) return '';
+  if (!input) return '';
+  const trimmed = input.trim();
+  if (!trimmed) return '';
+  if (/[^0-9A-Fa-f\s]/.test(trimmed)) {
+    return '';
+  }
+  const sanitized = trimmed.replace(/[^0-9A-Fa-f]/g, '');
+  if (sanitized.length % 2 !== 0 || !sanitized.length) {
+    return '';
+  }
+  const keyBytes = new TextEncoder().encode(key);
+  if (!keyBytes.length) {
+    return '';
+  }
+  const cipherBytes = sanitized.match(/.{2}/g) || [];
+  const decoded = cipherBytes.map((pair, index) => {
+    const value = parseInt(pair, 16);
+    return value ^ keyBytes[index % keyBytes.length];
+  });
+  try {
+    return new TextDecoder().decode(Uint8Array.from(decoded));
+  } catch (error) {
+    return '';
+  }
+}
+
+function xorBytes(input, key) {
+  if (!input || !key) {
+    return [];
+  }
+  const keyBytes = new TextEncoder().encode(key);
+  if (!keyBytes.length) {
+    return [];
+  }
+  const inputBytes = new TextEncoder().encode(input);
+  if (!inputBytes.length) {
+    return [];
+  }
+  return inputBytes.map((byte, index) => byte ^ keyBytes[index % keyBytes.length]);
+}
+
+function xorHeuristics(input, key) {
+  const trimmed = (input || '').replace(/\s+/g, '');
+  if (!trimmed) {
+    return { score: 0, reason: 'Awaiting input before running XOR analysis.' };
+  }
+  if (!key) {
+    return { score: 0.05, reason: 'Provide a key to attempt XOR decoding.' };
+  }
+  const decoded = xorDecode(input, key);
+  if (!decoded) {
+    return { score: 0.08, reason: 'XOR decode did not produce printable text with this key.' };
+  }
+  const base = heuristicsFromDecode(decoded, 'XOR decode test').withSignal(input);
+  return {
+    score: base.score,
+    reason: `${base.reason} Key length ${key.length}.`
+  };
+}
+
+function affineTransform(input, rawA, rawB, decode = false) {
+  if (!input) return '';
+  const a = sanitizeAffineMultiplier(rawA);
+  const b = sanitizeOffset(rawB);
+  if (decode) {
+    const inverse = modularInverse(a, 26);
+    if (inverse === null) {
+      return '';
+    }
+    return Array.from(input)
+      .map((char) => affineShift(char, (code, base) => {
+        const value = code - base;
+        const shifted = (inverse * ((value - b + 26) % 26)) % 26;
+        return String.fromCharCode(shifted + base);
+      }))
+      .join('');
+  }
+  return Array.from(input)
+    .map((char) => affineShift(char, (code, base) => {
+      const value = code - base;
+      const shifted = (a * value + b) % 26;
+      return String.fromCharCode(shifted + base);
+    }))
+    .join('');
+}
+
+function affineShift(char, transform) {
+  const code = char.charCodeAt(0);
+  if (code >= 65 && code <= 90) {
+    return transform(code, 65);
+  }
+  if (code >= 97 && code <= 122) {
+    return transform(code, 97);
+  }
+  return char;
+}
+
+function sanitizeAffineMultiplier(value) {
+  const candidate = Number.isFinite(value) ? Math.floor(value) : 1;
+  const normalized = ((candidate % 26) + 26) % 26;
+  const valid = [1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25];
+  return valid.includes(normalized) ? normalized : 1;
+}
+
+function sanitizeOffset(value) {
+  if (!Number.isFinite(value)) {
+    return 0;
+  }
+  const normalized = Math.floor(value);
+  return ((normalized % 26) + 26) % 26;
+}
+
+function modularInverse(a, m) {
+  let t = 0;
+  let newT = 1;
+  let r = m;
+  let newR = a % m;
+  while (newR !== 0) {
+    const quotient = Math.floor(r / newR);
+    [t, newT] = [newT, t - quotient * newT];
+    [r, newR] = [newR, r - quotient * newR];
+  }
+  if (r > 1) {
+    return null;
+  }
+  if (t < 0) {
+    t += m;
+  }
+  return t;
 }
 
 function heuristicsFromDecode(decoded, description) {
