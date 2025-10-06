@@ -45,6 +45,17 @@ import '../../../styles/analytics-sandbox.css';
               </dd>
             </div>
             <div>
+              <dt>Strategy consultation CTA</dt>
+              <dd>
+                <span class="label">Event</span>
+                <code>schedule_call</code>
+              </dd>
+              <dd>
+                <span class="label">Parameters</span>
+                <code>{`{"content_name":"Strategy Call","value":0}`}</code>
+              </dd>
+            </div>
+            <div>
               <dt>Annotated reference link</dt>
               <dd>
                 <span class="label">Event</span>
@@ -53,6 +64,39 @@ import '../../../styles/analytics-sandbox.css';
               <dd>
                 <span class="label">Parameters</span>
                 <code>{`{"destination":"/lab/analytics"}`}</code>
+              </dd>
+            </div>
+            <div>
+              <dt>Video milestone</dt>
+              <dd>
+                <span class="label">Event</span>
+                <code>video_progress</code>
+              </dd>
+              <dd>
+                <span class="label">Parameters</span>
+                <code>{`{"video_title":"Mission Brief","percent":50}`}</code>
+              </dd>
+            </div>
+            <div>
+              <dt>Add to cart</dt>
+              <dd>
+                <span class="label">Event</span>
+                <code>add_to_cart</code>
+              </dd>
+              <dd>
+                <span class="label">Parameters</span>
+                <code>{`{"content_ids":["telemetry-kit"],"value":199}`}</code>
+              </dd>
+            </div>
+            <div>
+              <dt>Purchase confirmation</dt>
+              <dd>
+                <span class="label">Event</span>
+                <code>purchase</code>
+              </dd>
+              <dd>
+                <span class="label">Parameters</span>
+                <code>{`{"order_id":"TW-DEMO-001","value":199}`}</code>
               </dd>
             </div>
             <div>
@@ -72,41 +116,137 @@ import '../../../styles/analytics-sandbox.css';
         <section class="sandbox-card x-interactive" aria-labelledby="x-interactive-heading">
           <h2 id="x-interactive-heading">Interactive elements</h2>
           <p>Trigger an interaction to see a live payload appear in the mock endpoint console.</p>
-          <div class="x-interactive__grid">
-            <button
-              id="x-button"
-              class="sandbox-action sandbox-element"
-              type="button"
-              data-twq-event="button_click"
-              data-twq-parameters='{"content_name":"Sandbox CTA","value":1}'
-            >
-              Initiate launch sequence
-            </button>
-            <a
-              id="x-link"
-              class="sandbox-link sandbox-element"
-              href="/lab/analytics"
-              data-twq-event="link_click"
-              data-twq-parameters='{"destination":"/lab/analytics"}'
-            >
-              View analytics lab index
-            </a>
-            <form
-              id="x-form"
-              class="sandbox-form sandbox-element sandbox-element--form"
-              data-twq-event="form_submit"
-              data-twq-parameters='{"form_name":"interest_capture"}'
-            >
-              <label for="mission-interest">Mission interest</label>
-              <input
-                id="mission-interest"
-                name="mission_interest"
-                type="text"
-                placeholder="Telemetry optimization"
-                required
-              />
-              <button type="submit" class="sandbox-action">Submit signal</button>
-            </form>
+
+          <div class="x-interactive__section">
+            <h3>High-intent conversions</h3>
+            <p class="x-interactive__intro">Hero CTAs and meeting bookings mapped to lead-focused events.</p>
+            <div class="x-interactive__actions">
+              <button
+                id="x-button"
+                class="sandbox-action sandbox-element"
+                type="button"
+                data-twq-event="button_click"
+                data-twq-parameters='{"content_name":"Sandbox CTA","value":1,"placement":"hero"}'
+              >
+                Initiate launch sequence
+              </button>
+              <button
+                class="sandbox-action sandbox-element"
+                type="button"
+                data-twq-event="schedule_call"
+                data-twq-parameters='{"content_name":"Strategy Call","value":0,"mission_window":"Q3"}'
+              >
+                Schedule strategy call
+              </button>
+            </div>
+          </div>
+
+          <div class="x-interactive__section">
+            <h3>Content &amp; navigation</h3>
+            <p class="x-interactive__intro">Links and media milestones used for audience building.</p>
+            <div class="x-interactive__actions">
+              <a
+                id="x-link"
+                class="sandbox-link sandbox-element"
+                href="/lab/analytics"
+                data-twq-event="link_click"
+                data-twq-parameters='{"destination":"/lab/analytics","link_type":"internal"}'
+              >
+                View analytics lab index
+              </a>
+              <button
+                class="sandbox-action sandbox-element"
+                type="button"
+                data-twq-event="video_play"
+                data-twq-parameters='{"video_title":"Mission Brief","position":"hero"}'
+              >
+                Start mission briefing
+              </button>
+              <button
+                class="sandbox-action sandbox-element"
+                type="button"
+                data-twq-event="video_progress"
+                data-twq-parameters='{"video_title":"Mission Brief","percent":50,"seconds":72}'
+              >
+                Log 50% milestone
+              </button>
+              <a
+                class="sandbox-link sandbox-element"
+                href="#"
+                data-twq-event="download_manual"
+                data-twq-parameters='{"asset":"mission-brief.pdf","content_type":"pdf"}'
+              >
+                Download mission brief (PDF)
+              </a>
+            </div>
+          </div>
+
+          <div class="x-interactive__section">
+            <h3>Commerce funnel</h3>
+            <p class="x-interactive__intro">Sequential events that measure product consideration to purchase.</p>
+            <div class="x-interactive__actions">
+              <button
+                class="sandbox-action sandbox-element"
+                type="button"
+                data-twq-event="add_to_cart"
+                data-twq-parameters='{"content_ids":["telemetry-kit"],"content_type":"product","value":199,"currency":"USD"}'
+              >
+                Add telemetry kit
+              </button>
+              <button
+                class="sandbox-action sandbox-element"
+                type="button"
+                data-twq-event="begin_checkout"
+                data-twq-parameters='{"num_items":1,"value":199,"currency":"USD"}'
+              >
+                Begin secure checkout
+              </button>
+              <button
+                class="sandbox-action sandbox-element"
+                type="button"
+                data-twq-event="purchase"
+                data-twq-parameters='{"order_id":"TW-DEMO-001","value":199,"currency":"USD","content_ids":["telemetry-kit"]}'
+              >
+                Log purchase
+              </button>
+            </div>
+          </div>
+
+          <div class="x-interactive__section">
+            <h3>Forms &amp; preferences</h3>
+            <p class="x-interactive__intro">Lead qualification and newsletter subscriptions.</p>
+            <div class="x-interactive__actions x-interactive__actions--column">
+              <form
+                id="x-form"
+                class="sandbox-form sandbox-element sandbox-element--form"
+                data-twq-event="form_submit"
+                data-twq-parameters='{"form_name":"interest_capture","priority":"hot"}'
+              >
+                <label for="mission-interest">Mission interest</label>
+                <input
+                  id="mission-interest"
+                  name="mission_interest"
+                  type="text"
+                  placeholder="Telemetry optimization"
+                  required
+                />
+                <label for="mission-size">Team size</label>
+                <select id="mission-size" name="mission_size">
+                  <option value="1-10">1-10</option>
+                  <option value="11-50">11-50</option>
+                  <option value="51+">51+</option>
+                </select>
+                <button type="submit" class="sandbox-action">Submit signal</button>
+              </form>
+              <button
+                class="sandbox-action sandbox-element"
+                type="button"
+                data-twq-event="newsletter_signup"
+                data-twq-parameters='{"list":"mission-updates","method":"inline","value":0}'
+              >
+                Record newsletter signup
+              </button>
+            </div>
           </div>
         </section>
       </section>
@@ -381,8 +521,39 @@ import '../../../styles/analytics-sandbox.css';
       font-size: var(--text-12);
     }
 
-    .x-sandbox .x-interactive__grid {
+    .x-sandbox .x-interactive__section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .x-sandbox .x-interactive__section + .x-interactive__section {
+      margin-top: var(--space-3);
+      padding-top: var(--space-3);
+      border-top: 1px solid color-mix(in srgb, var(--color-rule) 60%, transparent);
+    }
+
+    .x-sandbox .x-interactive__section h3 {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: var(--text-16);
+    }
+
+    .x-sandbox .x-interactive__intro {
+      margin: 0;
+      color: var(--color-muted);
+      max-width: 68ch;
+    }
+
+    .x-sandbox .x-interactive__actions {
       display: grid;
+      gap: var(--space-2);
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .x-sandbox .x-interactive__actions--column {
+      grid-template-columns: 1fr;
       gap: var(--space-3);
     }
 

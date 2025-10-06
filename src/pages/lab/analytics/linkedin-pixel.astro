@@ -24,114 +24,341 @@ import '../../../styles/analytics-sandbox.css';
     </header>
 
     <div class="sandbox-grid">
-      <section class="sandbox-panel">
-        <article class="sandbox-card linkedin-card" data-li-card>
-          <header>
-            <p class="sandbox-card__tag mono">Conversion ID: 1</p>
-            <h3>Primary mission CTA</h3>
-          </header>
-          <p>
-            Represents the highest priority conversion on a landing surface. Includes mission metadata for
-            downstream segmentation.
-          </p>
-          <dl class="sandbox-card__meta">
-            <div>
-              <dt>Interaction</dt>
-              <dd class="mono">click</dd>
-            </div>
-            <div>
-              <dt>Label</dt>
-              <dd class="mono">Mission Brief Request</dd>
-            </div>
-          </dl>
-          <button
-            class="sandbox-action"
-            data-li-event="click"
-            data-li-conversion-id="1"
-            data-li-payload='{"content_type":"cta","cta_label":"Request Mission Brief","priority":"primary"}'
-            data-li-status="li-cta-status"
-            type="button"
-          >
-            Request mission brief
-          </button>
-          <p id="li-cta-status" class="linkedin-status">Idle — waiting for interaction.</p>
-        </article>
+      <section class="sandbox-panel" aria-labelledby="linkedin-interface-heading">
+        <h2 id="linkedin-interface-heading">Tracked interface elements</h2>
+        <p>
+          Trigger each conversion to observe how <code>lintrk('track')</code> payloads are constructed for the
+          Insight Tag. The sections below cover acquisition CTAs, engagement signals, and revenue events.
+        </p>
 
-        <article class="sandbox-card linkedin-card" data-li-card>
-          <header>
-            <p class="sandbox-card__tag mono">Conversion ID: 2</p>
-            <h3>Reference link</h3>
-          </header>
-          <p>
-            Captures mid-funnel navigation interest. Prevents navigation in this demo so you can review the
-            outbound payload.
+        <div class="linkedin-section">
+          <h3 class="linkedin-section__title">High-priority conversions</h3>
+          <p class="linkedin-section__intro">
+            Buttons and forms that map directly to your core demand-generation KPIs.
           </p>
-          <dl class="sandbox-card__meta">
-            <div>
-              <dt>Interaction</dt>
-              <dd class="mono">click</dd>
-            </div>
-            <div>
-              <dt>Destination</dt>
-              <dd class="mono">/resources/mission-overview</dd>
-            </div>
-          </dl>
-          <a
-            href="#"
-            class="sandbox-link"
-            data-li-event="click"
-            data-li-conversion-id="2"
-            data-li-prevent-default="true"
-            data-li-payload='{"destination":"/resources/mission-overview","link_type":"supporting"}'
-            data-li-status="li-link-status"
-          >
-            View mission overview
-          </a>
-          <p id="li-link-status" class="linkedin-status">Idle — waiting for interaction.</p>
-        </article>
+          <div class="linkedin-grid">
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 1</p>
+                <h3>Primary mission CTA</h3>
+              </header>
+              <p>
+                Represents the highest priority conversion on a landing surface. Includes mission metadata for
+                downstream segmentation.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">click</dd>
+                </div>
+                <div>
+                  <dt>Label</dt>
+                  <dd class="mono">Mission Brief Request</dd>
+                </div>
+              </dl>
+              <button
+                class="sandbox-action"
+                data-li-event="click"
+                data-li-conversion-id="1"
+                data-li-payload='{"content_type":"cta","cta_label":"Request Mission Brief","priority":"primary"}'
+                data-li-status="li-cta-status"
+                type="button"
+              >
+                Request mission brief
+              </button>
+              <p id="li-cta-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
 
-        <article class="sandbox-card linkedin-card" data-li-card>
-          <header>
-            <p class="sandbox-card__tag mono">Conversion ID: 3</p>
-            <h3>Lead qualification form</h3>
-          </header>
-          <p>
-            Demonstrates a lightweight lead capture flow with hashed identifiers and mission intent fields.
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 4</p>
+                <h3>Strategy consultation</h3>
+              </header>
+              <p>
+                Fires when a visitor books a mission strategy call. Useful for validating offline conversions
+                piped in via Conversions API.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">click</dd>
+                </div>
+                <div>
+                  <dt>Value</dt>
+                  <dd class="mono">0 (lead)</dd>
+                </div>
+              </dl>
+              <button
+                class="sandbox-action"
+                data-li-event="click"
+                data-li-conversion-id="4"
+                data-li-payload='{"content_type":"cta","cta_label":"Schedule Strategy Call","mission_window":"Q3","priority":"secondary"}'
+                data-li-status="li-strategy-status"
+                type="button"
+              >
+                Schedule strategy call
+              </button>
+              <p id="li-strategy-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 3</p>
+                <h3>Lead qualification form</h3>
+              </header>
+              <p>
+                Demonstrates a lightweight lead capture flow with hashed identifiers and mission intent fields.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">submit</dd>
+                </div>
+                <div>
+                  <dt>Mission focus</dt>
+                  <dd class="mono">Dynamic (form value)</dd>
+                </div>
+              </dl>
+              <form
+                class="sandbox-form"
+                data-li-event="submit"
+                data-li-conversion-id="3"
+                data-li-prevent-default="true"
+                data-li-payload='{"lead_type":"enterprise","hashed_email":"4b825dc642cb6eb9a060e54bf8d69288"}'
+                data-li-status="li-form-status"
+              >
+                <label>
+                  Mission focus
+                  <select name="mission_focus">
+                    <option value="orbital">Orbital research</option>
+                    <option value="deep-space">Deep space comms</option>
+                    <option value="earth-observation">Earth observation</option>
+                  </select>
+                </label>
+                <label>
+                  Mission identifier
+                  <input type="text" name="mission_id" placeholder="mission-041" required />
+                </label>
+                <button type="submit" class="sandbox-action">Transmit lead</button>
+              </form>
+              <p id="li-form-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+          </div>
+        </div>
+
+        <div class="linkedin-section">
+          <h3 class="linkedin-section__title">Content &amp; community</h3>
+          <p class="linkedin-section__intro">
+            Mid-funnel interactions used for audience building, nurture, and engagement scoring.
           </p>
-          <dl class="sandbox-card__meta">
-            <div>
-              <dt>Interaction</dt>
-              <dd class="mono">submit</dd>
-            </div>
-            <div>
-              <dt>Mission focus</dt>
-              <dd class="mono">Dynamic (form value)</dd>
-            </div>
-          </dl>
-          <form
-            class="sandbox-form"
-            data-li-event="submit"
-            data-li-conversion-id="3"
-            data-li-prevent-default="true"
-            data-li-payload='{"lead_type":"enterprise","hashed_email":"4b825dc642cb6eb9a060e54bf8d69288"}'
-            data-li-status="li-form-status"
-          >
-            <label>
-              Mission focus
-              <select name="mission_focus">
-                <option value="orbital">Orbital research</option>
-                <option value="deep-space">Deep space comms</option>
-                <option value="earth-observation">Earth observation</option>
-              </select>
-            </label>
-            <label>
-              Mission identifier
-              <input type="text" name="mission_id" placeholder="mission-041" required />
-            </label>
-            <button type="submit" class="sandbox-action">Transmit lead</button>
-          </form>
-          <p id="li-form-status" class="linkedin-status">Idle — waiting for interaction.</p>
-        </article>
+          <div class="linkedin-grid">
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 2</p>
+                <h3>Reference link</h3>
+              </header>
+              <p>
+                Captures mid-funnel navigation interest. Prevents navigation in this demo so you can review the
+                outbound payload.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">click</dd>
+                </div>
+                <div>
+                  <dt>Destination</dt>
+                  <dd class="mono">/resources/mission-overview</dd>
+                </div>
+              </dl>
+              <a
+                href="#"
+                class="sandbox-link"
+                data-li-event="click"
+                data-li-conversion-id="2"
+                data-li-prevent-default="true"
+                data-li-payload='{"destination":"/resources/mission-overview","link_type":"supporting"}'
+                data-li-status="li-link-status"
+              >
+                View mission overview
+              </a>
+              <p id="li-link-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 5</p>
+                <h3>Video milestone</h3>
+              </header>
+              <p>
+                Logs when a visitor watches at least half of a mission briefing video. Ideal for creating
+                high-intent retargeting audiences.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">click</dd>
+                </div>
+                <div>
+                  <dt>Threshold</dt>
+                  <dd class="mono">50% completion</dd>
+                </div>
+              </dl>
+              <button
+                class="sandbox-action"
+                data-li-event="click"
+                data-li-conversion-id="5"
+                data-li-payload='{"content_type":"video","video_title":"Mission Brief 01","milestone":"50%"}'
+                data-li-status="li-video-status"
+                type="button"
+              >
+                Log 50% milestone
+              </button>
+              <p id="li-video-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 6</p>
+                <h3>Newsletter opt-in</h3>
+              </header>
+              <p>
+                Mimics a content subscription flow that passes hashed identifiers and preference metadata to the
+                Insight Tag.
+              </p>
+              <form
+                class="sandbox-form"
+                data-li-event="submit"
+                data-li-conversion-id="6"
+                data-li-prevent-default="true"
+                data-li-payload='{"subscription_tier":"mission-updates","hashed_email":"bd2b1aaf7ef4f70f20caba940c19"}'
+                data-li-status="li-subscribe-status"
+              >
+                <label>
+                  Preferred cadence
+                  <select name="cadence">
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                  </select>
+                </label>
+                <label>
+                  Mission speciality
+                  <input type="text" name="mission_speciality" placeholder="Orbital telemetry" />
+                </label>
+                <button type="submit" class="sandbox-action">Record opt-in</button>
+              </form>
+              <p id="li-subscribe-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+          </div>
+        </div>
+
+        <div class="linkedin-section">
+          <h3 class="linkedin-section__title">Commerce &amp; pipeline</h3>
+          <p class="linkedin-section__intro">
+            Commerce events reflecting catalog engagement and completed transactions.
+          </p>
+          <div class="linkedin-grid">
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 7</p>
+                <h3>Add to cart</h3>
+              </header>
+              <p>
+                Signals a piece of mission hardware has been staged in the cart. Includes value and currency for
+                ROI calculations.
+              </p>
+              <button
+                class="sandbox-action"
+                data-li-event="click"
+                data-li-conversion-id="7"
+                data-li-payload='{"content_type":"product","content_id":"telemetry-kit","value":199,"currency":"USD"}'
+                data-li-status="li-cart-status"
+                type="button"
+              >
+                Add telemetry kit
+              </button>
+              <p id="li-cart-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 8</p>
+                <h3>Checkout start</h3>
+              </header>
+              <p>
+                Tracks when a visitor initiates checkout, unlocking optimisation for drop-off analysis.
+              </p>
+              <button
+                class="sandbox-action"
+                data-li-event="click"
+                data-li-conversion-id="8"
+                data-li-payload='{"content_type":"checkout","cart_size":1,"value":199,"currency":"USD"}'
+                data-li-status="li-checkout-status"
+                type="button"
+              >
+                Begin secure checkout
+              </button>
+              <p id="li-checkout-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card linkedin-card" data-li-card>
+              <header>
+                <p class="sandbox-card__tag mono">Conversion ID: 9</p>
+                <h3>Purchase confirmation</h3>
+              </header>
+              <p>
+                Finalises the transaction with order identifiers that can be reconciled against backend systems.
+              </p>
+              <button
+                class="sandbox-action"
+                data-li-event="click"
+                data-li-conversion-id="9"
+                data-li-payload='{"content_type":"order","order_id":"LI-DEMO-001","value":199,"currency":"USD"}'
+                data-li-status="li-purchase-status"
+                type="button"
+              >
+                Log completed purchase
+              </button>
+              <p id="li-purchase-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="linkedin-pre" data-li-payload-preview></pre>
+              </details>
+            </article>
+          </div>
+        </div>
       </section>
 
       <aside class="sandbox-console linkedin-console" data-console-panel aria-labelledby="linkedin-console-heading">
@@ -327,6 +554,14 @@ import '../../../styles/analytics-sandbox.css';
         payload = { error: 'Unable to parse payload', raw: element.dataset.liPayload };
       }
 
+      const card = element.closest('[data-li-card]');
+      if (card) {
+        const preview = card.querySelector('[data-li-payload-preview]');
+        if (preview) {
+          preview.textContent = pretty(payload);
+        }
+      }
+
       element.addEventListener(interaction, (event) => {
         if (preventDefault) {
           event.preventDefault();
@@ -349,6 +584,52 @@ import '../../../styles/analytics-sandbox.css';
   </script>
 
   <style>
+    .linkedin-sandbox .linkedin-section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .linkedin-sandbox .linkedin-section + .linkedin-section {
+      margin-top: var(--space-4);
+      padding-top: var(--space-3);
+      border-top: 1px solid color-mix(in srgb, var(--color-rule) 60%, transparent);
+    }
+
+    .linkedin-sandbox .linkedin-section__title {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: var(--text-16);
+    }
+
+    .linkedin-sandbox .linkedin-section__intro {
+      margin: 0;
+      color: var(--color-muted);
+      max-width: 68ch;
+    }
+
+    .linkedin-sandbox .linkedin-grid {
+      display: grid;
+      gap: var(--space-3);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .linkedin-sandbox .linkedin-card details {
+      border-top: 1px solid var(--color-rule);
+      padding-top: var(--space-2);
+    }
+
+    .linkedin-sandbox .linkedin-pre {
+      margin: 0;
+      padding: var(--space-2);
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      background: rgba(0, 0, 0, 0.04);
+      font-size: var(--text-12);
+      overflow-x: auto;
+    }
+
     .linkedin-sandbox .linkedin-status {
       margin: 0;
       font-size: var(--text-14);
