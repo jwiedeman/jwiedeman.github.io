@@ -434,9 +434,9 @@ input[type='search']::placeholder {
 /* Card */
 .card {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  grid-template-columns: minmax(120px, auto) minmax(0, 1fr);
   gap: var(--space-3);
-  padding: var(--space-3);
+  padding: var(--space-4);
   background-clip: padding-box;
   outline: 1px solid var(--color-rule);
   outline-offset: -1px;
@@ -444,6 +444,8 @@ input[type='search']::placeholder {
   background: var(--surface-raised);
   box-shadow: 0 14px 32px rgba(24, 24, 24, 0.05);
   transition: outline-color var(--transition-base), box-shadow var(--transition-base), background-color var(--transition-base);
+  align-items: start;
+  height: 100%;
 }
 
 .card:hover,
@@ -456,15 +458,30 @@ input[type='search']::placeholder {
   text-transform: uppercase;
   font-size: var(--text-12);
   color: var(--color-muted);
+  letter-spacing: 0.08em;
+  align-self: start;
 }
 
 .card a {
   color: var(--color-link);
 }
 
-/* Blog post cards use a single-column layout */
+/* Blog post cards inherit the standard card layout */
 .post-card {
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(120px, auto) minmax(0, 1fr);
+}
+
+@media (max-width: 800px) {
+  .card,
+  .post-card {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  .card .label {
+    margin-bottom: var(--space-1);
+  }
 }
 
 /* Panel */
