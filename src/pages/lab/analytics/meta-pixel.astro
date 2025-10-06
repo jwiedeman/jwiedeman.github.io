@@ -496,7 +496,411 @@ import '../../../styles/analytics-sandbox.css';
             </article>
           </div>
         </div>
+
+        <div class="meta-section">
+          <h3 class="meta-section__title">Experience instrumentation</h3>
+          <p class="meta-section__intro">
+            Operational telemetry for preferences, alerts, and contextual helpers. These patterns ensure
+            your measurement plan covers the nuance of day-to-day product usage.
+          </p>
+          <div class="meta-grid">
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'ThemePreference')</p>
+                <h3>Interface theme toggle</h3>
+              </header>
+              <p>
+                Records preference changes when visitors toggle between light and dark control room themes.
+                The payload captures previous and next state so personalisation systems can respond.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">click</dd>
+                </div>
+                <div>
+                  <dt>Dynamic</dt>
+                  <dd class="mono">toggle state + payload</dd>
+                </div>
+              </dl>
+              <div id="meta-theme-preview" class="meta-theme" data-theme="light">
+                <p class="meta-theme__label">Current theme: <span data-theme-label>Light</span></p>
+              </div>
+              <button
+                class="sandbox-action meta-action"
+                type="button"
+                data-meta-command="trackCustom"
+                data-meta-event="ThemePreference"
+                data-meta-payload='{"preference":"interface_theme","previous_state":"light","next_state":"dark"}'
+                data-meta-dynamic="toggle"
+                data-meta-toggle-target="meta-theme-preview"
+                data-meta-feedback="meta-theme-status"
+              >
+                Toggle interface theme
+              </button>
+              <p id="meta-theme-status" class="meta-status">Theme set to light.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'ConsentUpdate')</p>
+                <h3>Consent toggle</h3>
+              </header>
+              <p>
+                Demonstrates how optional communications preferences should emit explicit consent status in
+                the payload for compliance-ready event streams.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">change</dd>
+                </div>
+                <div>
+                  <dt>Fields</dt>
+                  <dd class="mono">preference + granted flag</dd>
+                </div>
+              </dl>
+              <label class="sandbox-form meta-consent">
+                <span>Email mission updates</span>
+                <input
+                  type="checkbox"
+                  class="meta-action"
+                  value="mission-updates"
+                  checked
+                  data-meta-command="trackCustom"
+                  data-meta-event="ConsentUpdate"
+                  data-meta-interaction="change"
+                  data-meta-dynamic="consent"
+                  data-meta-payload='{"preference":"mission-updates","consent":"granted"}'
+                  data-meta-feedback="meta-consent-status"
+                />
+              </label>
+              <p id="meta-consent-status" class="meta-status">Consent granted.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'ModalOpen')</p>
+                <h3>Mission alert modal</h3>
+              </header>
+              <p>
+                Launching the alert emits a <code>ModalOpen</code> payload. Buttons inside the dialog showcase
+                follow-up tracking for dismiss and acknowledge events.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">click</dd>
+                </div>
+                <div>
+                  <dt>Actions</dt>
+                  <dd class="mono">open / dismiss / acknowledge</dd>
+                </div>
+              </dl>
+              <button
+                class="sandbox-action meta-action"
+                type="button"
+                data-meta-command="trackCustom"
+                data-meta-event="ModalOpen"
+                data-meta-payload='{"modal_id":"mission-alert","interaction":"open"}'
+                data-meta-modal-target="meta-alert-modal"
+                data-meta-feedback="meta-modal-status"
+              >
+                Launch mission alert
+              </button>
+              <p id="meta-modal-status" class="meta-status">Modal idle — closed.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'TooltipToggle')</p>
+                <h3>Inline tooltip</h3>
+              </header>
+              <p>
+                Contextual helpers deserve instrumentation too. Toggle the tooltip to emit a payload that notes
+                visibility state and referenced knowledge article.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">click</dd>
+                </div>
+                <div>
+                  <dt>Dynamic</dt>
+                  <dd class="mono">visible / hidden</dd>
+                </div>
+              </dl>
+              <button
+                class="sandbox-action meta-action"
+                type="button"
+                aria-pressed="false"
+                data-meta-command="trackCustom"
+                data-meta-event="TooltipToggle"
+                data-meta-payload='{"component":"tooltip","content_id":"mission-tooling","visibility":"hidden"}'
+                data-meta-dynamic="tooltip"
+                data-meta-tooltip-target="meta-tooltip-panel"
+                data-meta-feedback="meta-tooltip-status"
+              >
+                Toggle tooling primer
+              </button>
+              <div id="meta-tooltip-panel" class="meta-tooltip" hidden>
+                <p>The tooling primer highlights script sequencing, event validation, and QA cadences.</p>
+              </div>
+              <p id="meta-tooltip-status" class="meta-status">Tooltip hidden.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'FeedbackScore')</p>
+                <h3>Module feedback slider</h3>
+              </header>
+              <p>
+                Capture qualitative satisfaction scores directly in the pixel payload. The range input emits the
+                selected score and upper bound for downstream dashboards.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">change</dd>
+                </div>
+                <div>
+                  <dt>Scale</dt>
+                  <dd class="mono">1&ndash;5</dd>
+                </div>
+              </dl>
+              <label class="sandbox-form meta-rating">
+                <span>Clarity score</span>
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  step="1"
+                  value="3"
+                  data-meta-command="trackCustom"
+                  data-meta-event="FeedbackScore"
+                  data-meta-interaction="change"
+                  data-meta-dynamic="range"
+                  data-meta-payload='{"component":"mission-module","scale_max":5,"rating":3}'
+                  data-meta-feedback="meta-rating-status"
+                />
+              </label>
+              <p id="meta-rating-status" class="meta-status">Awaiting feedback.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+          </div>
+        </div>
+
+        <div class="meta-section">
+          <h3 class="meta-section__title">Visibility &amp; advocacy</h3>
+          <p class="meta-section__intro">
+            Extend measurement beyond direct conversions with sharing, print, and scroll-depth signals that
+            illuminate how mission intelligence propagates across teams.
+          </p>
+          <div class="meta-grid">
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'ShareLink')</p>
+                <h3>Copy mission brief</h3>
+              </header>
+              <p>
+                Copy-to-clipboard events indicate organic sharing. The helper mirrors instrumentation wired to a
+                custom HTML tag with clipboard feedback.
+              </p>
+              <button
+                class="sandbox-action meta-action"
+                type="button"
+                data-meta-command="trackCustom"
+                data-meta-event="ShareLink"
+                data-meta-payload='{"share_method":"copy","content_id":"mission-brief","content_url":"https://intranet.example/missions/briefing-01"}'
+                data-meta-dynamic="copy"
+                data-meta-copy-text="https://intranet.example/missions/briefing-01"
+                data-meta-feedback="meta-copy-status"
+              >
+                Copy briefing URL
+              </button>
+              <p id="meta-copy-status" class="meta-status">No copy attempts recorded.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'ShareSocial')</p>
+                <h3>Share to X</h3>
+              </header>
+              <p>
+                Emits a channel-specific sharing payload for social amplification. Replace the medium when
+                integrating with other paid media platforms.
+              </p>
+              <button
+                class="sandbox-action meta-action"
+                type="button"
+                data-meta-command="trackCustom"
+                data-meta-event="ShareSocial"
+                data-meta-payload='{"share_method":"social","channel":"x","content_id":"mission-brief","value":0}'
+                data-meta-feedback="meta-social-status"
+              >
+                Stage social share payload
+              </button>
+              <p id="meta-social-status" class="meta-status">Awaiting share interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'SharePrint')</p>
+                <h3>Print briefing packet</h3>
+              </header>
+              <p>
+                Printing is often overlooked in analytics implementations. This example logs the method so you
+                can reconcile offline dissemination in downstream tools.
+              </p>
+              <button
+                class="sandbox-action meta-action"
+                type="button"
+                data-meta-command="trackCustom"
+                data-meta-event="SharePrint"
+                data-meta-payload='{"share_method":"print","content_id":"mission-brief","value":0}'
+                data-meta-feedback="meta-print-status"
+              >
+                Log print intent
+              </button>
+              <p id="meta-print-status" class="meta-status">No print intents logged.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'ScrollDepth')</p>
+                <h3>Scroll depth sentinel</h3>
+              </header>
+              <p>
+                The sentinel toggles when 90% depth is reached, mirroring an Intersection Observer trigger used
+                in production to gauge deep content engagement.
+              </p>
+              <div class="meta-scroll" role="status">
+                <div
+                  class="meta-scroll__sentinel"
+                  data-meta-command="trackCustom"
+                  data-meta-event="ScrollDepth"
+                  data-meta-trigger="observe"
+                  data-meta-payload='{"component":"scroll_sentinel","threshold":0.9}'
+                  data-meta-feedback="meta-scroll-status"
+                >
+                  Scroll sentinel — fires once at 90% depth
+                </div>
+              </div>
+              <p id="meta-scroll-status" class="meta-status">Sentinel armed — scroll to trigger.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'SystemAnomaly')</p>
+                <h3>Error capture</h3>
+              </header>
+              <p>
+                Mission-critical experiences should bubble anomalies to analytics stacks. Trigger the sample to
+                simulate logging a non-fatal issue.
+              </p>
+              <button
+                class="sandbox-action meta-action"
+                type="button"
+                data-meta-command="trackCustom"
+                data-meta-event="SystemAnomaly"
+                data-meta-payload='{"error_code":"mission-timeout","severity":"warning","component":"mission-briefing"}'
+                data-meta-feedback="meta-error-status"
+              >
+                Log non-fatal error
+              </button>
+              <p id="meta-error-status" class="meta-status">No anomalies detected.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+          </div>
+        </div>
       </section>
+
+      <div
+        id="meta-alert-modal"
+        class="meta-modal"
+        data-meta-modal
+        data-meta-modal-feedback="meta-modal-status"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="meta-alert-title"
+        aria-describedby="meta-alert-body"
+        hidden
+        aria-hidden="true"
+      >
+        <div class="meta-modal__dialog">
+          <header class="meta-modal__header">
+            <h2 id="meta-alert-title">Mission readiness alert</h2>
+          </header>
+          <div class="meta-modal__body" id="meta-alert-body">
+            <p>
+              Telemetry queue latency has exceeded the acceptable range. Acknowledge the alert or dismiss it to
+              keep mission control in sync with your instrumentation.
+            </p>
+          </div>
+          <footer class="meta-modal__actions">
+            <button
+              class="sandbox-action meta-action"
+              type="button"
+              data-meta-command="trackCustom"
+              data-meta-event="ModalDismiss"
+              data-meta-payload='{"modal_id":"mission-alert","interaction":"dismiss"}'
+              data-meta-modal-close="true"
+              data-meta-feedback="meta-modal-status"
+            >
+              Dismiss alert
+            </button>
+            <button
+              class="sandbox-action meta-action"
+              type="button"
+              data-meta-command="trackCustom"
+              data-meta-event="ModalAcknowledge"
+              data-meta-payload='{"modal_id":"mission-alert","interaction":"acknowledge"}'
+              data-meta-modal-close="true"
+              data-meta-feedback="meta-modal-status"
+            >
+              Acknowledge alert
+            </button>
+          </footer>
+        </div>
+      </div>
 
       <aside class="sandbox-console meta-console" data-console-panel aria-labelledby="meta-console-heading">
         <h2 id="meta-console-heading">Mock transmission console</h2>
@@ -647,12 +1051,63 @@ import '../../../styles/analytics-sandbox.css';
     const consoleUI = createSandboxConsole({ limit: 8 });
 
     const prettyJson = (value) => JSON.stringify(value, null, 2);
+    const formatTime = () => new Date().toLocaleTimeString('en-US', { hour12: false });
+
+    let activeModal = null;
+
+    const findModal = (id) => (id ? document.getElementById(id) : null);
+
+    const openModal = (modal, trigger) => {
+      if (!modal) {
+        return;
+      }
+      modal.hidden = false;
+      modal.setAttribute('aria-hidden', 'false');
+      modal.classList.add('meta-modal--visible');
+      activeModal = modal;
+      if (trigger && trigger.id) {
+        modal.dataset.returnFocus = trigger.id;
+      }
+      const focusTarget = modal.querySelector('[data-meta-modal-close]') || modal.querySelector('button');
+      if (focusTarget && typeof focusTarget.focus === 'function') {
+        focusTarget.focus();
+      }
+    };
+
+    const closeModal = (modal) => {
+      if (!modal) {
+        return;
+      }
+      modal.hidden = true;
+      modal.setAttribute('aria-hidden', 'true');
+      modal.classList.remove('meta-modal--visible');
+      if (activeModal === modal) {
+        activeModal = null;
+      }
+      if (modal.dataset.returnFocus) {
+        const node = document.getElementById(modal.dataset.returnFocus);
+        if (node && typeof node.focus === 'function') {
+          node.focus();
+        }
+        delete modal.dataset.returnFocus;
+      }
+    };
+
+    const updateFeedback = (id, message) => {
+      if (!id) {
+        return;
+      }
+      const target = document.getElementById(id);
+      if (target) {
+        target.textContent = message;
+      }
+    };
 
     const pushConsoleEntry = ({ method, label, body }) => {
       if (!consoleUI) {
         return;
       }
-      const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
+      const timestamp = formatTime();
       const entry = document.createElement('article');
       entry.className = 'console-entry';
       entry.innerHTML = `
@@ -667,7 +1122,7 @@ import '../../../styles/analytics-sandbox.css';
     };
 
     const fbq = (command, ...args) => {
-      if (command === 'track') {
+      if (command === 'track' || command === 'trackCustom') {
         const [eventName, parameters = {}] = args;
         const payload = {
           data: [
@@ -676,16 +1131,16 @@ import '../../../styles/analytics-sandbox.css';
               event_time: Math.floor(Date.now() / 1000),
               event_source_url: window.location.href,
               action_source: 'website',
-              custom_data: parameters,
-            },
+              custom_data: parameters
+            }
           ],
-          test_event_code: testEventCode,
+          test_event_code: testEventCode
         };
 
         pushConsoleEntry({
-          method: 'POST',
+          method: command === 'track' ? "fbq('track')" : "fbq('trackCustom')",
           label: eventName,
-          body: prettyJson({ method: 'POST', url: metaEndpoint, body: payload })
+          body: prettyJson({ endpoint: metaEndpoint, payload })
         });
       } else if (command === 'init') {
         const [pixelId, advancedMatching = {}] = args;
@@ -709,67 +1164,233 @@ import '../../../styles/analytics-sandbox.css';
     window.fbq = fbq;
     window._fbq = fbq;
 
-    const interactiveElements = document.querySelectorAll('[data-meta-event]');
+    const prettyPayload = (payload) => prettyJson(payload);
 
     const applyPayloadPreview = (element, payload) => {
       const card = element.closest('[data-meta-card]');
-      if (!card) return;
+      if (!card) {
+        return;
+      }
       const callLabel = card.querySelector('[data-meta-call]');
       if (callLabel) {
         const command = element.dataset.metaCommand || 'track';
-        callLabel.textContent = `fbq('${command}', '${element.dataset.metaEvent}', ${prettyJson(payload)})`;
+        callLabel.textContent = `fbq('${command}', '${element.dataset.metaEvent}', ${prettyPayload(payload)})`;
       }
       const previewBlock = card.querySelector('[data-meta-payload-preview]');
       if (previewBlock) {
-        previewBlock.textContent = prettyJson(payload);
+        previewBlock.textContent = prettyPayload(payload);
       }
     };
 
-    const registerInteraction = (element) => {
-      const { metaEvent, metaInteraction, metaPreventDefault, metaFeedback, metaCommand } = element.dataset;
-      let payload = {};
+    const parsePayload = (element) => {
       try {
-        payload = element.dataset.metaPayload ? JSON.parse(element.dataset.metaPayload) : {};
+        return element.dataset.metaPayload ? JSON.parse(element.dataset.metaPayload) : {};
       } catch (error) {
-        payload = { error: 'Failed to parse payload', raw: element.dataset.metaPayload };
+        return { error: 'Failed to parse payload', raw: element.dataset.metaPayload };
+      }
+    };
+
+    const buildPayload = (element) => {
+      const basePayload = parsePayload(element);
+      const payload = { ...basePayload };
+      const dynamic = element.dataset.metaDynamic;
+
+      if (element.tagName === 'FORM') {
+        payload.form_values = Object.fromEntries(new FormData(element));
       }
 
-      applyPayloadPreview(element, payload);
+      if (dynamic === 'consent') {
+        payload.preference = element.value || payload.preference || 'unspecified';
+        payload.consent = element.checked ? 'granted' : 'revoked';
+      }
 
-      const interaction = metaInteraction || 'click';
-      element.addEventListener(interaction, (event) => {
-        if (metaPreventDefault === 'true') {
+      if (dynamic === 'toggle') {
+        const targetId = element.dataset.metaToggleTarget;
+        const target = targetId ? document.getElementById(targetId) : null;
+        let currentState = element.dataset.metaToggleState || 'light';
+        if (target && target.dataset.theme) {
+          currentState = target.dataset.theme;
+        }
+        const nextState = currentState === 'dark' ? 'light' : 'dark';
+        payload.previous_state = currentState;
+        payload.next_state = nextState;
+        element.dataset.metaToggleState = nextState;
+        if (target) {
+          target.dataset.theme = nextState;
+          target.classList.toggle('meta-theme--dark', nextState === 'dark');
+          const label = target.querySelector('[data-theme-label]');
+          if (label) {
+            label.textContent = nextState.charAt(0).toUpperCase() + nextState.slice(1);
+          }
+        }
+      }
+
+      if (dynamic === 'tooltip') {
+        const pressed = element.getAttribute('aria-pressed') === 'true';
+        const nextPressed = !pressed;
+        element.setAttribute('aria-pressed', String(nextPressed));
+        const targetId = element.dataset.metaTooltipTarget;
+        const panel = targetId ? document.getElementById(targetId) : null;
+        if (panel) {
+          panel.hidden = !nextPressed;
+        }
+        payload.visibility = nextPressed ? 'visible' : 'hidden';
+      }
+
+      if (dynamic === 'copy') {
+        const text = element.dataset.metaCopyText || payload.content_url || '';
+        payload.share_method = payload.share_method || 'copy';
+        payload.content_url = text;
+        if (text && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+          navigator.clipboard.writeText(text).catch(() => {});
+        }
+      }
+
+      if (dynamic === 'range') {
+        const value = Number(element.value);
+        payload.rating = Number.isFinite(value) ? value : element.value;
+        if (!payload.scale_max && element.max) {
+          const max = Number(element.max);
+          if (Number.isFinite(max)) {
+            payload.scale_max = max;
+          }
+        }
+      }
+
+      return payload;
+    };
+
+    const buildStatusMessage = (element, payload, { triggeredByObserver = false } = {}) => {
+      const timestamp = formatTime();
+      const dynamic = element.dataset.metaDynamic;
+
+      if (triggeredByObserver || element.dataset.metaTrigger === 'observe') {
+        return `Scroll depth reached at ${timestamp}.`;
+      }
+
+      if (element.dataset.metaModalTarget) {
+        return `Modal opened at ${timestamp}.`;
+      }
+
+      if (element.dataset.metaModalClose === 'true') {
+        const action = payload.interaction || 'modal event';
+        return `${action.charAt(0).toUpperCase()}${action.slice(1)} recorded at ${timestamp}.`;
+      }
+
+      if (dynamic === 'toggle') {
+        return `Theme set to ${payload.next_state} at ${timestamp}.`;
+      }
+
+      if (dynamic === 'consent') {
+        return `Consent ${payload.consent} at ${timestamp}.`;
+      }
+
+      if (dynamic === 'tooltip') {
+        return `Tooltip ${payload.visibility} at ${timestamp}.`;
+      }
+
+      if (dynamic === 'copy') {
+        return `Copied ${payload.content_url} at ${timestamp}.`;
+      }
+
+      if (dynamic === 'range') {
+        const scale = payload.scale_max || element.max || '5';
+        return `Rating ${payload.rating}/${scale} recorded at ${timestamp}.`;
+      }
+
+      return `Event ${element.dataset.metaEvent} fired at ${timestamp}.`;
+    };
+
+    const registerInteraction = (element) => {
+      const trigger = element.dataset.metaTrigger || element.dataset.metaInteraction || (element.tagName === 'FORM' ? 'submit' : 'click');
+      const preventDefault = element.dataset.metaPreventDefault === 'true' || trigger === 'submit';
+
+      const seedPayload = parsePayload(element);
+      applyPayloadPreview(element, seedPayload);
+
+      const handle = (event, { triggeredByObserver = false } = {}) => {
+        if (preventDefault && event && typeof event.preventDefault === 'function') {
           event.preventDefault();
         }
 
-        const command = metaCommand || 'track';
-        fbq(command, metaEvent, payload);
+        const payload = buildPayload(element);
+        const command = element.dataset.metaCommand || 'track';
+        const eventName = element.dataset.metaEvent;
+
+        fbq(command, eventName, payload);
 
         element.classList.add('meta-action--fired');
         window.setTimeout(() => {
           element.classList.remove('meta-action--fired');
         }, 320);
 
-        if (metaFeedback) {
-          const feedbackNode = document.getElementById(metaFeedback);
-          if (feedbackNode) {
-            const firedAt = new Date().toLocaleTimeString('en-US', { hour12: false });
-            feedbackNode.textContent = `Last fired at ${firedAt}`;
-          }
+        applyPayloadPreview(element, payload);
+
+        const feedbackMessage = buildStatusMessage(element, payload, { triggeredByObserver });
+        updateFeedback(element.dataset.metaFeedback, feedbackMessage);
+
+        if (element.dataset.metaModalTarget) {
+          const modal = findModal(element.dataset.metaModalTarget);
+          openModal(modal, element);
         }
-      });
+
+        if (element.dataset.metaModalClose === 'true') {
+          const modal = element.closest('[data-meta-modal]');
+          closeModal(modal);
+        }
+
+        if (element.tagName === 'FORM') {
+          element.reset();
+        }
+      };
+
+      if (trigger === 'observe') {
+        const observer = new IntersectionObserver((entries, obs) => {
+          const visible = entries.some((entry) => entry.isIntersecting);
+          if (visible) {
+            handle(null, { triggeredByObserver: true });
+            obs.unobserve(element);
+            element.classList.add('meta-scroll__sentinel--fired');
+          }
+        }, { threshold: 1 });
+
+        observer.observe(element);
+        return;
+      }
+
+      element.addEventListener(trigger, (event) => handle(event));
     };
 
-    interactiveElements.forEach(registerInteraction);
+    document.querySelectorAll('[data-meta-event]').forEach(registerInteraction);
+
+    document.querySelectorAll('[data-meta-modal]').forEach((modal) => {
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          closeModal(modal);
+          const feedback = modal.dataset.metaModalFeedback;
+          updateFeedback(feedback, `Modal dismissed at ${formatTime()}.`);
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && activeModal) {
+        const modal = activeModal;
+        closeModal(modal);
+        if (modal && modal.dataset.metaModalFeedback) {
+          updateFeedback(modal.dataset.metaModalFeedback, `Modal dismissed via Escape at ${formatTime()}.`);
+        }
+      }
+    });
 
     fbq('init', metaPixelId, {
       external_id: 'sandbox-visitor-0021',
-      email: 'a6f5c2f14bd54d90abca1b1c8b4123ff',
+      email: 'a6f5c2f14bd54d90abca1b1c8b4123ff'
     });
 
     fbq('track', 'PageView', {
       page_section: 'meta_pixel_sandbox',
-      environment: 'lab',
+      environment: 'lab'
     });
   </script>
 
@@ -840,6 +1461,117 @@ import '../../../styles/analytics-sandbox.css';
     .meta-sandbox .meta-action--fired {
       box-shadow: 0 0 0 2px rgba(126, 37, 34, 0.25);
       transform: translateY(-1px);
+    }
+
+    .meta-sandbox .meta-theme {
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(255, 255, 255, 0.85);
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .meta-sandbox .meta-theme--dark {
+      background: #181818;
+      color: #f3eddf;
+    }
+
+    .meta-sandbox .meta-theme__label {
+      margin: 0;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .meta-sandbox .meta-consent {
+      display: grid;
+      gap: var(--space-1);
+      font-weight: 600;
+    }
+
+    .meta-sandbox .meta-consent input[type='checkbox'] {
+      width: auto;
+    }
+
+    .meta-sandbox .meta-rating {
+      display: grid;
+      gap: var(--space-1);
+    }
+
+    .meta-sandbox .meta-rating input[type='range'] {
+      width: 100%;
+    }
+
+    .meta-sandbox .meta-tooltip {
+      margin-top: var(--space-2);
+      padding: var(--space-2);
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .meta-sandbox .meta-scroll {
+      border: 1px dashed color-mix(in srgb, var(--color-rule) 70%, transparent);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(0, 0, 0, 0.02);
+    }
+
+    .meta-sandbox .meta-scroll__sentinel {
+      display: inline-flex;
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-2);
+      border: 1px solid var(--color-rule);
+      background: rgba(255, 255, 255, 0.9);
+      font-family: var(--font-mono);
+      letter-spacing: 0.06em;
+    }
+
+    .meta-sandbox .meta-scroll__sentinel--fired {
+      border-color: var(--color-accent, #7e2522);
+      background: rgba(126, 37, 34, 0.12);
+    }
+
+    .meta-sandbox .meta-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+      z-index: 30;
+    }
+
+    .meta-sandbox .meta-modal[hidden] {
+      display: none;
+    }
+
+    .meta-sandbox .meta-modal__dialog {
+      background: var(--color-bg);
+      color: var(--color-text);
+      border-radius: var(--radius-2);
+      border: 1px solid var(--color-rule);
+      max-width: 420px;
+      width: 100%;
+      padding: var(--space-3);
+      display: grid;
+      gap: var(--space-2);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+    }
+
+    .meta-sandbox .meta-modal__header h2 {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: var(--text-16);
+    }
+
+    .meta-sandbox .meta-modal__actions {
+      display: flex;
+      gap: var(--space-2);
+      justify-content: flex-end;
+      flex-wrap: wrap;
     }
   </style>
 </Layout>
