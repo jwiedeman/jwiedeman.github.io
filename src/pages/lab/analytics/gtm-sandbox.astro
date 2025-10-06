@@ -151,13 +151,23 @@ import '../../../styles/analytics-sandbox.css';
         </section>
       </section>
 
-      <aside class="sandbox-console" aria-labelledby="gtm-console-heading">
+      <aside class="sandbox-console" data-console-panel aria-labelledby="gtm-console-heading">
         <h2 id="gtm-console-heading">Mock GTM console</h2>
         <p>
           Mirrors the latest <code>dataLayer.push</code> entries and the staged network request. Entries are
           trimmed to the eight most recent interactions.
         </p>
-        <div class="console-stream" data-console-stream aria-live="polite">
+        <div class="sandbox-console__toolbar" role="group" aria-label="GTM console controls">
+          <button type="button" class="console-control" data-console-scroll disabled>Jump to latest</button>
+          <button type="button" class="console-control" data-console-clear disabled>Clear console</button>
+        </div>
+        <div
+          class="console-stream"
+          data-console-stream
+          aria-live="polite"
+          role="log"
+          tabindex="0"
+        >
           <p class="console-empty" data-console-empty>No events yet. Trigger an interaction to populate the console.</p>
         </div>
       </aside>
@@ -195,11 +205,104 @@ import '../../../styles/analytics-sandbox.css';
     document.addEventListener('DOMContentLoaded', () => {
       const dataLayer = window.dataLayer || [];
       window.dataLayer = dataLayer;
-
-      const consoleStream = document.querySelector('[data-console-stream]');
-      const consoleEmpty = document.querySelector('[data-console-empty]');
-      const transmissions = [];
       const MAX_ITEMS = 8;
+
+      function createSandboxConsole({ limit = MAX_ITEMS } = {}) {
+        const panel = document.querySelector('[data-console-panel]');
+        const stream = panel ? panel.querySelector('[data-console-stream]') : null;
+        const empty = stream ? stream.querySelector('[data-console-empty]') : null;
+        const clearButton = panel ? panel.querySelector('[data-console-clear]') : null;
+        const scrollButton = panel ? panel.querySelector('[data-console-scroll]') : null;
+
+        if (!panel || !stream) {
+          return null;
+        }
+
+        const hideEmpty = () => {
+          if (empty) {
+            empty.hidden = true;
+          }
+        };
+
+        const showEmpty = () => {
+          if (empty) {
+            empty.hidden = false;
+          }
+        };
+
+        const updateControls = () => {
+          const hasEntries = !!stream.querySelector('.console-entry');
+          if (clearButton) {
+            clearButton.disabled = !hasEntries;
+          }
+          if (scrollButton) {
+            scrollButton.disabled = !hasEntries;
+          }
+        };
+
+        const focusPanel = () => {
+          const rect = panel.getBoundingClientRect();
+          const fullyVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+          if (!fullyVisible) {
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        };
+
+        if (clearButton) {
+          clearButton.addEventListener('click', () => {
+            stream.querySelectorAll('.console-entry').forEach((entry) => entry.remove());
+            showEmpty();
+            updateControls();
+            if (typeof stream.scrollTo === 'function') {
+              stream.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+              stream.scrollTop = 0;
+            }
+            if (typeof stream.focus === 'function') {
+              stream.focus();
+            }
+          });
+        }
+
+        if (scrollButton) {
+          scrollButton.addEventListener('click', () => {
+            focusPanel();
+            if (typeof stream.scrollTo === 'function') {
+              stream.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+              stream.scrollTop = 0;
+            }
+          });
+        }
+
+        updateControls();
+
+        return {
+          append(entry) {
+            hideEmpty();
+            entry.classList.add('console-entry--recent');
+            entry.addEventListener(
+              'animationend',
+              () => entry.classList.remove('console-entry--recent'),
+              { once: true }
+            );
+            stream.prepend(entry);
+            const entries = Array.from(stream.querySelectorAll('.console-entry'));
+            if (limit && entries.length > limit) {
+              entries.slice(limit).forEach((oldEntry) => oldEntry.remove());
+            }
+            updateControls();
+            if (typeof stream.scrollTo === 'function') {
+              stream.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+              stream.scrollTop = 0;
+            }
+            focusPanel();
+          }
+        };
+      }
+
+      const consoleUI = createSandboxConsole({ limit: MAX_ITEMS });
 
       const baseContext = {
         session: {
@@ -219,35 +322,21 @@ import '../../../styles/analytics-sandbox.css';
         }
       };
 
-      const renderConsole = () => {
-        if (!consoleStream) return;
-        if (consoleEmpty) {
-          consoleEmpty.hidden = transmissions.length > 0;
-        }
-        consoleStream.innerHTML = '';
-        transmissions.slice(0, MAX_ITEMS).forEach((entry) => {
-          const article = document.createElement('article');
-          article.className = 'console-entry';
-          article.innerHTML = `
-            <header class="console-entry__meta">
-              <span class="console-entry__method">${entry.type}</span>
-              <span>${entry.label}</span>
-              <span>${entry.timestamp}</span>
-            </header>
-            <pre class="console-entry__body">${JSON.stringify(entry.payload, null, 2)}</pre>
-          `;
-          consoleStream.appendChild(article);
-        });
-      };
-
       const recordTransmission = (type, label, payload) => {
-        transmissions.unshift({
-          type,
-          label,
-          payload,
-          timestamp: new Date().toLocaleTimeString()
-        });
-        renderConsole();
+        if (!consoleUI) {
+          return;
+        }
+        const article = document.createElement('article');
+        article.className = 'console-entry';
+        article.innerHTML = `
+          <header class="console-entry__meta">
+            <span class="console-entry__method">${type}</span>
+            <span>${label}</span>
+            <span>${new Date().toLocaleTimeString()}</span>
+          </header>
+          <pre class="console-entry__body">${JSON.stringify(payload, null, 2)}</pre>
+        `;
+        consoleUI.append(article);
       };
 
       const buildPayload = ({ eventName, element, module, value, method, formData }) => ({

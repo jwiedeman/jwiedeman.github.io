@@ -168,17 +168,25 @@ import '../../../styles/analytics-sandbox.css';
         </section>
       </section>
 
-      <aside class="sandbox-console adobe-console" aria-labelledby="adobe-console-heading">
-        <div class="adobe-console__header">
-          <h2 id="adobe-console-heading">Beacon payloads</h2>
-          <button type="button" class="sandbox-action adobe-reset" data-aa-reset>Clear log</button>
-        </div>
+      <aside class="sandbox-console adobe-console" data-console-panel aria-labelledby="adobe-console-heading">
+        <h2 id="adobe-console-heading">Beacon payloads</h2>
         <p>
           Simulated requests to <code class="mono">https://metrics-demo.sc.omtrdc.net/b/ss/jwiedeman.sandbox/1/JS-2.23.0/s</code>.
           Entries render the raw query string along with the structured JSON payload.
         </p>
-        <div class="console-stream" data-aa-console role="log" aria-live="polite" aria-relevant="additions">
-          <p class="console-empty">Awaiting Adobe Analytics activity…</p>
+        <div class="sandbox-console__toolbar" role="group" aria-label="Adobe Analytics console controls">
+          <button type="button" class="console-control" data-console-scroll disabled>Jump to latest</button>
+          <button type="button" class="console-control" data-console-clear disabled>Clear console</button>
+        </div>
+        <div
+          class="console-stream"
+          data-console-stream
+          role="log"
+          aria-live="polite"
+          aria-relevant="additions"
+          tabindex="0"
+        >
+          <p class="console-empty" data-console-empty>Awaiting Adobe Analytics activity…</p>
         </div>
         <noscript>
           <p class="console-empty">Enable JavaScript to observe the simulated beacon output.</p>
@@ -188,57 +196,105 @@ import '../../../styles/analytics-sandbox.css';
   </div>
 
   <script type="module">
-    const consoleWindow = document.querySelector('[data-aa-console]');
-    const resetButton = document.querySelector('[data-aa-reset]');
     const endpoint = 'https://metrics-demo.sc.omtrdc.net/b/ss/jwiedeman.sandbox/1/JS-2.23.0/s';
+    const MAX_ENTRIES = 8;
 
-    const removeEmptyState = () => {
-      const empty = consoleWindow?.querySelector('.console-empty');
-      if (empty) {
-        empty.remove();
+    function createSandboxConsole({ limit = MAX_ENTRIES } = {}) {
+      const panel = document.querySelector('[data-console-panel]');
+      const stream = panel ? panel.querySelector('[data-console-stream]') : null;
+      const empty = stream ? stream.querySelector('[data-console-empty]') : null;
+      const clearButton = panel ? panel.querySelector('[data-console-clear]') : null;
+      const scrollButton = panel ? panel.querySelector('[data-console-scroll]') : null;
+
+      if (!panel || !stream) {
+        return null;
       }
-    };
 
-    const addEmptyState = () => {
-      if (!consoleWindow) return;
-      if (consoleWindow.querySelector('.console-empty')) {
-        return;
+      const hideEmpty = () => {
+        if (empty) {
+          empty.hidden = true;
+        }
+      };
+
+      const showEmpty = () => {
+        if (empty) {
+          empty.hidden = false;
+        }
+      };
+
+      const updateControls = () => {
+        const hasEntries = !!stream.querySelector('.console-entry');
+        if (clearButton) {
+          clearButton.disabled = !hasEntries;
+        }
+        if (scrollButton) {
+          scrollButton.disabled = !hasEntries;
+        }
+      };
+
+      const focusPanel = () => {
+        const rect = panel.getBoundingClientRect();
+        const fullyVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+        if (!fullyVisible) {
+          panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      };
+
+      if (clearButton) {
+        clearButton.addEventListener('click', () => {
+          stream.querySelectorAll('.console-entry').forEach((entry) => entry.remove());
+          showEmpty();
+          updateControls();
+          if (typeof stream.scrollTo === 'function') {
+            stream.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            stream.scrollTop = 0;
+          }
+          if (typeof stream.focus === 'function') {
+            stream.focus();
+          }
+        });
       }
-      const paragraph = document.createElement('p');
-      paragraph.className = 'console-empty';
-      paragraph.textContent = 'Awaiting Adobe Analytics activity…';
-      consoleWindow.append(paragraph);
-    };
 
-    const appendConsoleEntry = (payload) => {
-      if (!consoleWindow) return;
-      removeEmptyState();
-
-      const entry = document.createElement('article');
-      entry.className = 'console-entry';
-
-      const header = document.createElement('div');
-      header.className = 'console-entry__meta mono';
-      const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
-      header.textContent = `${timestamp} · ${payload.summary}`;
-
-      const requestBlock = document.createElement('pre');
-      requestBlock.className = 'console-entry__body';
-      requestBlock.textContent = payload.request;
-
-      const dataBlock = document.createElement('pre');
-      dataBlock.className = 'console-entry__body';
-      dataBlock.textContent = JSON.stringify(payload.data, null, 2);
-
-      entry.append(header, requestBlock, dataBlock);
-      consoleWindow.prepend(entry);
-
-      const maxEntries = 8;
-      const entries = consoleWindow.querySelectorAll('.console-entry');
-      if (entries.length > maxEntries) {
-        entries[entries.length - 1].remove();
+      if (scrollButton) {
+        scrollButton.addEventListener('click', () => {
+          focusPanel();
+          if (typeof stream.scrollTo === 'function') {
+            stream.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            stream.scrollTop = 0;
+          }
+        });
       }
-    };
+
+      updateControls();
+
+      return {
+        append(entry) {
+          hideEmpty();
+          entry.classList.add('console-entry--recent');
+          entry.addEventListener(
+            'animationend',
+            () => entry.classList.remove('console-entry--recent'),
+            { once: true }
+          );
+          stream.prepend(entry);
+          const entries = Array.from(stream.querySelectorAll('.console-entry'));
+          if (limit && entries.length > limit) {
+            entries.slice(limit).forEach((oldEntry) => oldEntry.remove());
+          }
+          updateControls();
+          if (typeof stream.scrollTo === 'function') {
+            stream.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            stream.scrollTop = 0;
+          }
+          focusPanel();
+        }
+      };
+    }
+
+    const consoleUI = createSandboxConsole({ limit: MAX_ENTRIES });
 
     const buildPayload = (linkName, linkType, attributes) => {
       const query = new URLSearchParams({
@@ -246,23 +302,43 @@ import '../../../styles/analytics-sandbox.css';
         AQE: '1',
         pe: linkType,
         pev2: linkName,
-        ...attributes,
+        ...attributes
       });
 
       return {
+        method: 'GET',
         summary: `${linkType.toUpperCase()} · ${linkName}`,
         request: `${endpoint}?${query.toString()}`,
         data: {
           linkName,
           linkType,
-          ...attributes,
-        },
+          ...attributes
+        }
       };
+    };
+
+    const logPayload = (payload) => {
+      if (!consoleUI) {
+        return;
+      }
+      const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
+      const entry = document.createElement('article');
+      entry.className = 'console-entry';
+      entry.innerHTML = `
+        <header class="console-entry__meta">
+          <span class="console-entry__method">${payload.method}</span>
+          <span>${payload.summary}</span>
+          <span>${timestamp}</span>
+        </header>
+        <pre class="console-entry__body">${payload.request}</pre>
+        <pre class="console-entry__body">${JSON.stringify(payload.data, null, 2)}</pre>
+      `;
+      consoleUI.append(entry);
     };
 
     const fireLinkTracking = (linkName, linkType, attributes) => {
       const payload = buildPayload(linkName, linkType, attributes);
-      appendConsoleEntry(payload);
+      logPayload(payload);
     };
 
     const bindingMap = {
@@ -274,8 +350,8 @@ import '../../../styles/analytics-sandbox.css';
           prop4: 'launch:cta',
           eVar4: 'Launch — Primary',
           'contextData.component': 'mission-controls',
-          'contextData.priority': 'primary',
-        },
+          'contextData.priority': 'primary'
+        }
       },
       nav: {
         linkName: 'nav:telemetry-logs',
@@ -285,8 +361,8 @@ import '../../../styles/analytics-sandbox.css';
           prop6: 'nav:telemetry',
           eVar6: 'Navigation Link',
           'contextData.component': 'global-nav',
-          'contextData.destination': 'telemetry',
-        },
+          'contextData.destination': 'telemetry'
+        }
       },
       form: {
         linkName: 'form:telemetry-upload',
@@ -296,9 +372,9 @@ import '../../../styles/analytics-sandbox.css';
           prop9: 'form:telemetry',
           eVar9: 'Telemetry Upload',
           'contextData.component': 'telemetry',
-          'contextData.submission': 'form',
-        },
-      },
+          'contextData.submission': 'form'
+        }
+      }
     };
 
     document.getElementById('aa-primary-cta')?.addEventListener('click', () => {
@@ -316,12 +392,6 @@ import '../../../styles/analytics-sandbox.css';
       event.currentTarget.reset();
     });
 
-    resetButton?.addEventListener('click', () => {
-      if (!consoleWindow) return;
-      consoleWindow.innerHTML = '';
-      addEmptyState();
-    });
-
     const pageViewPayload = buildPayload('page:view', 't', {
       events: 'event1',
       pageName: 'lab:analytics:adobe-analytics',
@@ -329,9 +399,9 @@ import '../../../styles/analytics-sandbox.css';
       prop1: 'lab:analytics',
       eVar1: 'Adobe Analytics Sandbox',
       'contextData.page.missionPhase': 'demo',
-      'contextData.page.template': 'sandbox',
+      'contextData.page.template': 'sandbox'
     });
-    appendConsoleEntry(pageViewPayload);
+    logPayload(pageViewPayload);
   </script>
 
   <style>
@@ -348,18 +418,6 @@ import '../../../styles/analytics-sandbox.css';
 
     .adobe-sandbox .adobe-console {
       gap: var(--space-2);
-    }
-
-    .adobe-sandbox .adobe-console__header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-2);
-    }
-
-    .adobe-sandbox .adobe-reset {
-      font-size: var(--text-12);
-      letter-spacing: 0.12em;
     }
   </style>
 </Layout>
