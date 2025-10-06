@@ -1,0 +1,444 @@
+import Layout from '../../../layouts/Layout.astro';
+
+const cryptoScript = Astro.resolve('../../../scripts/cryptography.js');
+---
+<Layout title="Cryptography">
+  <section id="tracked-content" class="container lab-cryptography">
+    <header class="lab-header">
+      <p class="label mono">Module CRY</p>
+      <h1>Cryptography Lab</h1>
+      <p class="intro mono">
+        Paste a signal, tune the parameters, and watch the lab sweep through common ciphers. We run every encoder and decoder in
+        parallel and surface heuristics so you can zero in on promising leads fast.
+      </p>
+    </header>
+
+    <h2>Operations Playground</h2>
+    <div class="playground-grid">
+      <section class="panel input-panel">
+        <h3>Input signal</h3>
+        <p class="mono muted">Type or paste any text, ciphertext, or encoded payload.</p>
+        <textarea
+          id="crypto-input"
+          rows="8"
+          placeholder="VGhpcyBpcyBhIHBsYWludGV4dCBzYW1wbGUuIFRyeSBydW5uaW5nIGEgZmV3IGFsZ29yaXRobXMgdG8gZmluZCBhIGh1bWFuLXJlYWRhYmxlIGRlY29kZS4="
+        ></textarea>
+        <div class="controls mono">
+          <label class="toggle">
+            <input type="checkbox" id="auto-heuristics" checked />
+            <span>Enable heuristics sweep across all decoders</span>
+          </label>
+          <div class="actions">
+            <button type="button" class="btn" data-action="clear">Clear</button>
+            <button type="button" class="btn" data-action="sample">Load sample ciphertext</button>
+          </div>
+        </div>
+        <p class="mono footnote">
+          The heuristics pass scores each decoder for language likelihood, entropy, and alphabet fit. Disable it for raw transform
+          output only.
+        </p>
+      </section>
+      <section class="panel heuristics-panel" aria-live="polite">
+        <h3>Heuristic sweep</h3>
+        <p class="mono muted">
+          We attempt every decoder and rank the most plausible outputs. Scores combine alphabet conformity, printable ratios, and
+          vowel balance checks.
+        </p>
+        <ol id="heuristics-summary" class="heuristics-summary mono"></ol>
+      </section>
+    </div>
+
+    <h2>Transform Library</h2>
+    <p class="mono muted">Each module emits both encode and decode results automatically as you type.</p>
+    <div class="grid crypto-grid">
+      <article class="card span-6 crypto-card" data-algorithm="caesar" data-algorithm-label="CRY-001" data-algorithm-title="Caesar Shift">
+        <div class="label mono">CRY-001</div>
+        <div>
+          <h3>Caesar Shift</h3>
+          <p>Classic rotational substitution that shifts alphabetic characters through a fixed offset.</p>
+          <div class="control-group">
+            <label class="control mono" for="caesar-shift">
+              <span>Shift</span>
+              <div class="control-input">
+                <input id="caesar-shift" type="range" min="1" max="25" step="1" value="3" data-option-input data-option="shift" />
+                <span class="control-value" data-option-display="shift">3</span>
+              </div>
+            </label>
+          </div>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-6 crypto-card" data-algorithm="rot13" data-algorithm-label="CRY-002" data-algorithm-title="ROT13">
+        <div class="label mono">CRY-002</div>
+        <div>
+          <h3>ROT13</h3>
+          <p>Fixed 13-character Caesar shift used frequently in forums and classic puzzle books.</p>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-6 crypto-card" data-algorithm="atbash" data-algorithm-label="CRY-003" data-algorithm-title="Atbash">
+        <div class="label mono">CRY-003</div>
+        <div>
+          <h3>Atbash</h3>
+          <p>Biblical-era monoalphabetic cipher mirroring the alphabet so A ↔ Z, B ↔ Y, etc.</p>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-6 crypto-card" data-algorithm="vigenere" data-algorithm-label="CRY-004" data-algorithm-title="Vigenère">
+        <div class="label mono">CRY-004</div>
+        <div>
+          <h3>Vigenère</h3>
+          <p>Polyalphabetic substitution using a repeating key phrase across the alphabet grid.</p>
+          <div class="control-group">
+            <label class="control mono" for="vigenere-key">
+              <span>Key</span>
+              <input
+                id="vigenere-key"
+                type="text"
+                value="cipher"
+                placeholder="Keyword (letters only)"
+                data-option-input
+                data-option="key"
+              />
+            </label>
+          </div>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-6 crypto-card" data-algorithm="base64" data-algorithm-label="CRY-005" data-algorithm-title="Base64">
+        <div class="label mono">CRY-005</div>
+        <div>
+          <h3>Base64</h3>
+          <p>Binary-to-text encoding using the RFC 4648 alphabet for transport across ASCII-only channels.</p>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-6 crypto-card" data-algorithm="hex" data-algorithm-label="CRY-006" data-algorithm-title="Hex">
+        <div class="label mono">CRY-006</div>
+        <div>
+          <h3>Hexadecimal</h3>
+          <p>Two-character per byte representation aligned with packet captures, firmware dumps, and memory scans.</p>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-6 crypto-card" data-algorithm="binary" data-algorithm-label="CRY-007" data-algorithm-title="Binary">
+        <div class="label mono">CRY-007</div>
+        <div>
+          <h3>Binary</h3>
+          <p>Eight-bit binary groupings for quick inspection of raw byte patterns and ASCII toggling.</p>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-6 crypto-card" data-algorithm="morse" data-algorithm-label="CRY-008" data-algorithm-title="Morse">
+        <div class="label mono">CRY-008</div>
+        <div>
+          <h3>Morse Code</h3>
+          <p>Dits and dahs for radio era transmissions with support for letters, numerals, and punctuation.</p>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-6 crypto-card" data-algorithm="url" data-algorithm-label="CRY-009" data-algorithm-title="URL">
+        <div class="label mono">CRY-009</div>
+        <div>
+          <h3>URL Encoding</h3>
+          <p>Percent-encoding for safely embedding binary data inside query strings and HTTP headers.</p>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-6 crypto-card" data-algorithm="railfence" data-algorithm-label="CRY-010" data-algorithm-title="Rail Fence">
+        <div class="label mono">CRY-010</div>
+        <div>
+          <h3>Rail Fence</h3>
+          <p>Zig-zag transposition cipher that writes characters across multiple rails before reading row-wise.</p>
+          <div class="control-group">
+            <label class="control mono" for="railfence-rails">
+              <span>Rails</span>
+              <div class="control-input">
+                <input
+                  id="railfence-rails"
+                  type="number"
+                  min="2"
+                  max="10"
+                  step="1"
+                  value="3"
+                  data-option-input
+                  data-option="rails"
+                />
+              </div>
+            </label>
+          </div>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+</Layout>
+
+  <style>
+    .lab-cryptography {
+      display: grid;
+      gap: var(--space-5);
+      padding-bottom: var(--space-6);
+    }
+
+    .lab-header {
+      display: grid;
+      gap: var(--space-2);
+      padding-top: var(--space-2);
+    }
+
+    .lab-header .label {
+      font-size: var(--text-12);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .lab-header h1 {
+      margin-bottom: 0;
+    }
+
+    .lab-header .intro {
+      max-width: 70ch;
+    }
+
+    .playground-grid {
+      display: grid;
+      gap: var(--space-3);
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .panel {
+      background: var(--surface-panel);
+    }
+
+    .panel h3 {
+      margin-bottom: var(--space-1);
+    }
+
+    .muted {
+      color: var(--color-muted);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 160px;
+      resize: vertical;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      margin-top: var(--space-2);
+    }
+
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .btn {
+      border: 1px solid var(--color-rule);
+      background: transparent;
+      color: inherit;
+      padding: var(--space-1) var(--space-2);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background-color var(--transition-base), color var(--transition-base);
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      background: var(--color-accent);
+      color: var(--color-bg);
+    }
+
+    .footnote {
+      font-size: var(--text-12);
+      margin-top: var(--space-2);
+    }
+
+    .heuristics-summary {
+      margin: 0;
+      padding-left: var(--space-3);
+      display: grid;
+      gap: var(--space-1);
+    }
+
+    .heuristics-summary li {
+      line-height: 1.4;
+    }
+
+    .heuristics-summary .score {
+      display: inline-block;
+      min-width: 3ch;
+      font-weight: 700;
+      margin-right: var(--space-1);
+    }
+
+    .crypto-grid {
+      align-items: stretch;
+    }
+
+    .crypto-card {
+      position: relative;
+    }
+
+    .crypto-card h3 {
+      margin-top: 0;
+    }
+
+    .control-group {
+      display: grid;
+      gap: var(--space-2);
+      margin-bottom: var(--space-2);
+    }
+
+    .control {
+      display: grid;
+      gap: var(--space-1);
+    }
+
+    .control-input {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .control-value {
+      min-width: 2ch;
+    }
+
+    .result {
+      margin-top: var(--space-2);
+    }
+
+    .result pre {
+      padding: var(--space-2);
+      background: var(--surface-tint);
+      border-radius: var(--radius-1);
+      min-height: 56px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .heuristic {
+      font-size: var(--text-12);
+      color: var(--color-muted);
+      margin-bottom: var(--space-1);
+    }
+
+    .heuristic[data-level='high'] {
+      color: var(--color-accent);
+    }
+
+    .heuristic[data-level='medium'] {
+      color: color-mix(in srgb, var(--color-accent) 45%, var(--color-text));
+    }
+
+    @media (max-width: 720px) {
+      .crypto-card {
+        grid-column: span 12;
+      }
+    }
+  </style>
+
+  <script type="module" src={cryptoScript}></script>
+</Layout>

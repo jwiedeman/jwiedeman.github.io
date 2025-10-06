@@ -39,4 +39,11 @@ title: "Lab"
         <p>Generative art, design, and visual studies.</p>
       </div>
     </article>
-</div>
+    <article class="card span-4">
+      <div class="label mono">006</div>
+      <div>
+        <h2><a href="/lab/cryptography/">Cryptography</a></h2>
+        <p>Classical ciphers, encoders, and signal analysis playground.</p>
+      </div>
+    </article>
+  </div>
