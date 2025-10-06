@@ -133,10 +133,98 @@ const scrollDepthParams = {
   viewport_height: 'desktop'
 };
 
+const dragManifestParams = {
+  interaction_type: 'drag_drop',
+  drop_zone: 'telemetry_console',
+  content_type: 'manifest_hand_off'
+};
+
+const fileUploadParams = {
+  content_type: 'mission_log',
+  content_id: 'uplink-diagnostics',
+  upload_method: 'manual'
+};
+
+const commandPaletteParams = {
+  interface: 'command_palette',
+  interaction_type: 'hotkey',
+  surface: 'keyboard'
+};
+
+const formFocusParams = {
+  form_id: 'call-sign-intake',
+  form_name: 'Call sign capture'
+};
+
 const modalViewParams = {
   content_type: 'modal',
   content_id: 'mission-alert',
   content_name: 'Mission readiness alert'
+};
+
+const tableSortParams = {
+  content_type: 'data_table',
+  content_id: 'crew-roster',
+  interaction_type: 'sort'
+};
+
+const tableFilterParams = {
+  content_type: 'data_table',
+  content_id: 'crew-roster',
+  interaction_type: 'filter_toggle'
+};
+
+const inlineEditParams = {
+  content_type: 'data_table',
+  content_id: 'crew-roster',
+  interaction_type: 'inline_edit'
+};
+
+const rangeCalibrationParams = {
+  control_type: 'range_slider',
+  control_id: 'throttle-calibration',
+  measurement_unit: 'percent'
+};
+
+const colorCalibrationParams = {
+  control_type: 'color_picker',
+  control_id: 'hull-accent',
+  measurement_unit: 'hex'
+};
+
+const networkToggleParams = {
+  surface: 'environment_monitor',
+  interaction_type: 'network_state'
+};
+
+const screenModeParams = {
+  surface: 'display_mode',
+  interaction_type: 'screen_state'
+};
+
+const orientationParams = {
+  surface: 'device_orientation',
+  interaction_type: 'orientation_lock'
+};
+
+const geolocationParams = {
+  surface: 'geolocation_request',
+  interaction_type: 'location_capture'
+};
+
+const pwaInstallParams = {
+  surface: 'pwa_installation',
+  interaction_type: 'install_prompt'
+};
+
+const pushConsentParams = {
+  surface: 'push_messaging',
+  interaction_type: 'permission_request'
+};
+
+const backgroundSyncParams = {
+  surface: 'background_sync',
+  interaction_type: 'sync_enqueue'
 };
 
 const modalDismissParams = {
@@ -210,7 +298,7 @@ const tutorialBaseParams = {
 };
 ---
 <Layout title="GA4 Sandbox">
-  <div class="container analytics-sandbox ga4-sandbox">
+  <div class="analytics-sandbox ga4-sandbox">
     <header class="sandbox-header hairline-bottom">
       <p class="supertitle mono">Analytics Lab / Instrumentation</p>
       <h1>GA4 Sandbox</h1>
@@ -231,6 +319,26 @@ const tutorialBaseParams = {
       </dl>
     </header>
 
+    <nav class="sandbox-outline" aria-label="Interaction index">
+      <h2 class="sandbox-outline__title">Interaction index</h2>
+      <ol class="sandbox-outline__list">
+        <li><a href="#mission-actions">Mission-critical actions</a></li>
+        <li><a href="#navigation-discovery">Navigation &amp; discovery</a></li>
+        <li><a href="#media-docs">Media &amp; documents</a></li>
+        <li><a href="#commerce-conversions">Commerce &amp; conversions</a></li>
+        <li><a href="#feedback-support">Feedback, consent &amp; support</a></li>
+        <li><a href="#interface-overlays">Interface overlays &amp; detail panels</a></li>
+        <li><a href="#collaboration-sharing">Collaboration &amp; sharing</a></li>
+        <li><a href="#account-guidance">Account &amp; guidance flows</a></li>
+        <li><a href="#gestures-advanced">Gestures &amp; advanced inputs</a></li>
+        <li><a href="#data-tables">Data tables &amp; inline updates</a></li>
+        <li><a href="#analog-controls">Analog controls &amp; calibrations</a></li>
+        <li><a href="#environment-signals">Environment &amp; device sensors</a></li>
+        <li><a href="#progressive-features">Progressive web features</a></li>
+        <li><a href="#scroll-visibility">Scroll &amp; visibility</a></li>
+      </ol>
+    </nav>
+
     <div class="sandbox-grid">
       <section class="sandbox-panel" aria-labelledby="ga4-playground-heading">
         <h2 id="ga4-playground-heading">Tracked interface elements</h2>
@@ -240,7 +348,7 @@ const tutorialBaseParams = {
           <code>gtag('event')</code> calls and watch the Measurement Protocol payloads stream into the console.
         </p>
 
-        <div class="tracked-group">
+        <div class="tracked-group" id="mission-actions">
           <h3 class="tracked-group__title">Mission-critical actions</h3>
           <p class="tracked-group__intro">
             High-value engagements such as hero CTAs, promotions, and form submissions provide the foundation for
@@ -346,7 +454,7 @@ const tutorialBaseParams = {
           </div>
         </div>
 
-        <div class="tracked-group">
+        <div class="tracked-group" id="navigation-discovery">
           <h3 class="tracked-group__title">Navigation &amp; discovery</h3>
           <p class="tracked-group__intro">
             Wayfinding, search, and tab patterns help analysts understand how visitors explore dense knowledge bases.
@@ -491,7 +599,7 @@ const tutorialBaseParams = {
           </div>
         </div>
 
-        <div class="tracked-group">
+        <div class="tracked-group" id="media-docs">
           <h3 class="tracked-group__title">Media &amp; documents</h3>
           <p class="tracked-group__intro">
             Streaming events, downloads, and outbound clicks provide a feedback loop for long-form content strategy.
@@ -577,7 +685,7 @@ const tutorialBaseParams = {
           </div>
         </div>
 
-        <div class="tracked-group">
+        <div class="tracked-group" id="commerce-conversions">
           <h3 class="tracked-group__title">Commerce &amp; conversions</h3>
           <p class="tracked-group__intro">
             Ecommerce payloads maintain parity with GA4 retail schemas so merchandising teams can stitch together intent,
@@ -662,7 +770,7 @@ const tutorialBaseParams = {
           </div>
         </div>
 
-        <div class="tracked-group">
+        <div class="tracked-group" id="feedback-support">
           <h3 class="tracked-group__title">Feedback, consent &amp; support</h3>
           <p class="tracked-group__intro">
             Move beyond conversions to observe post-interaction signals such as satisfaction, consent choices, and service
@@ -755,7 +863,7 @@ const tutorialBaseParams = {
         </div>
       </div>
 
-      <div class="tracked-group">
+      <div class="tracked-group" id="interface-overlays">
         <h3 class="tracked-group__title">Interface overlays &amp; detail panels</h3>
         <p class="tracked-group__intro">
           Validate instrumentation for modals, accordions, and contextual tooltips. These UI flourishes often live outside
@@ -853,7 +961,7 @@ const tutorialBaseParams = {
         </div>
       </div>
 
-      <div class="tracked-group">
+      <div class="tracked-group" id="collaboration-sharing">
         <h3 class="tracked-group__title">Collaboration &amp; sharing</h3>
         <p class="tracked-group__intro">
           Track how operators distribute mission intelligence. Copy, share, and print flows emit <code>share</code> events with
@@ -926,7 +1034,7 @@ const tutorialBaseParams = {
         </div>
       </div>
 
-      <div class="tracked-group">
+      <div class="tracked-group" id="account-guidance">
         <h3 class="tracked-group__title">Account &amp; guidance flows</h3>
         <p class="tracked-group__intro">
           Authenticate operators, register new specialists, and walk teams through guided tours. These patterns provide a
@@ -1060,7 +1168,514 @@ const tutorialBaseParams = {
         </div>
       </div>
 
-        <div class="tracked-group">
+      <div class="tracked-group" id="gestures-advanced">
+        <h3 class="tracked-group__title">Gestures &amp; advanced inputs</h3>
+        <p class="tracked-group__intro">
+          Drag-and-drop, file uploads, keyboard shortcuts, and focus states round out instrumentation coverage.
+          These scenarios demonstrate how to capture intent signals beyond simple clicks.
+        </p>
+        <div class="tracked-grid">
+          <article class="sandbox-card tracked-card" data-event="drag_payload">
+            <header>
+              <p class="sandbox-card__tag mono">Event: drag_payload</p>
+              <h3>Drag &amp; drop manifest</h3>
+            </header>
+            <p>
+              Drag the manifest badge into the drop zone to log a custom drag event. GA4 records the payload source,
+              drop target, and pointer coordinates so analysts can validate complex workbench gestures.
+            </p>
+            <dl class="tracked-definition sandbox-card__meta">
+              <div>
+                <dt>Trigger</dt>
+                <dd>Drop</dd>
+              </div>
+              <div>
+                <dt>Parameters</dt>
+                <dd><code>{`{"interaction_type":"drag_drop","drop_zone":"Telemetry console"}`}</code></dd>
+              </div>
+            </dl>
+            <div class="tracked-drag">
+              <div
+                id="ga4-drag-manifest"
+                class="tracked-drag__source"
+                draggable="true"
+                data-ga4-drag-source="manifest"
+                data-ga4-drag-label="Mission manifest"
+              >
+                <span class="tracked-drag__title mono">Payload</span>
+                <strong>Mission manifest</strong>
+              </div>
+              <div
+                class="tracked-dropzone"
+                data-ga4-event="drag_payload"
+                data-ga4-trigger="drop"
+                data-ga4-dynamic="drag"
+                data-ga4-drop-zone="Telemetry console"
+                data-ga4-params={JSON.stringify(dragManifestParams)}
+                data-ga4-feedback="ga4-drag-status"
+              >
+                Drop manifest to hand off
+              </div>
+            </div>
+            <p id="ga4-drag-status" class="tracked-status">Idle — manifest undelivered.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="file_upload">
+            <header>
+              <p class="sandbox-card__tag mono">Event: file_upload</p>
+              <h3>Attach instrumentation log</h3>
+            </header>
+            <p>
+              File inputs push rich metadata including file names, extensions, and aggregate size. The sandbox intercepts
+              the selection so operators can verify uploads before piping them into GA4.
+            </p>
+            <label class="sandbox-form file-upload" data-ga4-upload>
+              <span class="mono">Choose log file</span>
+              <input
+                type="file"
+                accept=".csv,.json"
+                data-ga4-event="file_upload"
+                data-ga4-trigger="change"
+                data-ga4-dynamic="file"
+                data-ga4-upload-method="manual"
+                data-ga4-params={JSON.stringify(fileUploadParams)}
+                data-ga4-feedback="ga4-upload-status"
+              />
+            </label>
+            <p id="ga4-upload-status" class="tracked-status">Idle — awaiting file selection.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="command_palette">
+            <header>
+              <p class="sandbox-card__tag mono">Event: command_palette</p>
+              <h3>Keyboard shortcut</h3>
+            </header>
+            <p>
+              Capture keyboard shortcuts used to launch utilities like a command palette. GA4 can log the specific
+              combination to understand power-user behaviour.
+            </p>
+            <div
+              class="hotkey-instruction"
+              role="presentation"
+              data-ga4-hotkey="meta+k,ctrl+k"
+              data-ga4-hotkey-label="Command palette"
+              data-ga4-event="command_palette"
+              data-ga4-dynamic="hotkey"
+              data-ga4-params={JSON.stringify(commandPaletteParams)}
+              data-ga4-feedback="ga4-hotkey-status"
+            >
+              <span class="hotkey-badge mono">⌘ K</span>
+              <span class="hotkey-badge mono">Ctrl K</span>
+              <p class="hotkey-instruction__caption">Press to launch command palette</p>
+            </div>
+            <p id="ga4-hotkey-status" class="tracked-status">Idle — shortcut not used.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="form_start">
+            <header>
+              <p class="sandbox-card__tag mono">Event: form_start</p>
+              <h3>Focus instrumentation</h3>
+            </header>
+            <p>
+              Tracking focus states reveals where operators pause before committing. The field below logs a
+              <code>form_start</code> hit the moment it receives focus.
+            </p>
+            <label class="sandbox-form focus-capture">
+              <span class="mono">Call sign</span>
+              <input
+                type="text"
+                name="callSign"
+                placeholder="Vanguard-12"
+                data-ga4-event="form_start"
+                data-ga4-trigger="focus"
+                data-ga4-dynamic="focus"
+                data-ga4-params={JSON.stringify(formFocusParams)}
+                data-ga4-feedback="ga4-focus-status"
+              />
+            </label>
+            <p id="ga4-focus-status" class="tracked-status">Idle — focus not yet captured.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="tracked-group" id="data-tables">
+        <h3 class="tracked-group__title">Data tables &amp; inline updates</h3>
+        <p class="tracked-group__intro">
+          Mission control tables often power operational dashboards. The sandbox models sort, filter, and inline
+          edit workflows so you can observe how stateful UI changes translate into GA4 events.
+        </p>
+        <div class="tracked-grid">
+          <article class="sandbox-card tracked-card" data-event="table_sort">
+            <header>
+              <p class="sandbox-card__tag mono">Event: table_sort</p>
+              <h3>Roster sort action</h3>
+            </header>
+            <p>
+              Sort interactions communicate which column and direction the operator selected. Use the control to
+              reorder the roster by crew status and inspect the resulting <code>sort_field</code> metadata.
+            </p>
+            <div class="tracked-table-wrapper">
+              <table class="tracked-table" id="ga4-crew-table">
+                <caption class="visually-hidden">Mission crew roster</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Crew member</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-status="ready" data-sort-order="1">
+                    <td>Lt. Vega</td>
+                    <td>Flight director</td>
+                    <td class="mono">Ready</td>
+                  </tr>
+                  <tr data-status="standby" data-sort-order="2">
+                    <td>Cmdr. Malik</td>
+                    <td>Navigation lead</td>
+                    <td class="mono">Standby</td>
+                  </tr>
+                  <tr data-status="maintenance" data-sort-order="3">
+                    <td>Spec. Ito</td>
+                    <td>Propulsion engineer</td>
+                    <td class="mono">Maintenance</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <button
+              type="button"
+              class="sandbox-action"
+              data-ga4-event="table_sort"
+              data-ga4-dynamic="sort"
+              data-ga4-sort-field="crew_status"
+              data-ga4-sort-direction="asc"
+              data-ga4-sort-table="ga4-crew-table"
+              data-ga4-feedback="ga4-sort-status"
+              data-ga4-params={JSON.stringify(tableSortParams)}
+            >
+              Toggle status sort
+            </button>
+            <p id="ga4-sort-status" class="tracked-status">Initial order &mdash; ready crew first.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="table_filter">
+            <header>
+              <p class="sandbox-card__tag mono">Event: table_filter</p>
+              <h3>Status filter selection</h3>
+            </header>
+            <p>
+              Filtering narrows the analysis surface. Choose a crew status from the select menu to see how the
+              event packages <code>filter_value</code> and <code>filter_state</code> along with the roster metadata.
+            </p>
+            <label class="sandbox-form">
+              <span class="mono">Filter crew roster</span>
+              <select
+                id="ga4-filter-select"
+                data-ga4-event="table_filter"
+                data-ga4-trigger="change"
+                data-ga4-dynamic="filter"
+                data-ga4-filter-id="crew_status"
+                data-ga4-filter-table="ga4-crew-table"
+                data-ga4-feedback="ga4-filter-status"
+                data-ga4-params={JSON.stringify(tableFilterParams)}
+              >
+                <option value="all">Show all crew</option>
+                <option value="ready">Ready only</option>
+                <option value="standby">Standby only</option>
+                <option value="maintenance">Maintenance only</option>
+              </select>
+            </label>
+            <p id="ga4-filter-status" class="tracked-status">No filter applied.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="inline_edit">
+            <header>
+              <p class="sandbox-card__tag mono">Event: inline_edit</p>
+              <h3>Inline roster update</h3>
+            </header>
+            <p>
+              Inline edits capture the exact field and value operators adjust. Submit a new call sign to watch the
+              sandbox broadcast <code>field_name</code>, <code>field_value</code>, and update status in the console.
+            </p>
+            <p class="tracked-inline-display">
+              Current call sign: <span id="ga4-inline-call-sign" class="mono">Voyager-1</span>
+            </p>
+            <form
+              class="tracked-inline-form"
+              data-ga4-event="inline_edit"
+              data-ga4-trigger="submit"
+              data-ga4-dynamic="inline"
+              data-ga4-inline-field="call_sign"
+              data-ga4-inline-target="ga4-inline-call-sign"
+              data-ga4-feedback="ga4-inline-status"
+              data-ga4-params={JSON.stringify(inlineEditParams)}
+            >
+              <label class="sandbox-form">
+                <span class="mono">New call sign</span>
+                <input type="text" name="callSign" placeholder="Aurora-3" required data-inline-value />
+              </label>
+              <button type="submit" class="sandbox-action">Commit update</button>
+            </form>
+            <p id="ga4-inline-status" class="tracked-status">Call sign unchanged.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="tracked-group" id="analog-controls">
+        <h3 class="tracked-group__title">Analog controls &amp; calibrations</h3>
+        <p class="tracked-group__intro">
+          Range sliders and color pickers translate physical console adjustments into digital events. These inputs
+          demonstrate how to capture the precise values operators dial in.
+        </p>
+        <div class="tracked-grid">
+          <article class="sandbox-card tracked-card" data-event="dial_calibration">
+            <header>
+              <p class="sandbox-card__tag mono">Event: dial_calibration</p>
+              <h3>Throttle calibration</h3>
+            </header>
+            <p>
+              The throttle slider emits both absolute and normalized percentages so analysts can trend how crews
+              prepare burn sequences. Adjust the range input to send an updated <code>control_percent</code> value.
+            </p>
+            <div class="tracked-gauge">
+              <label class="sandbox-form">
+                <span class="mono">Throttle output</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="42"
+                  step="1"
+                  data-ga4-event="dial_calibration"
+                  data-ga4-trigger="change"
+                  data-ga4-dynamic="range"
+                  data-ga4-range-target="ga4-range-output"
+                  data-ga4-feedback="ga4-range-status"
+                  data-ga4-params={JSON.stringify(rangeCalibrationParams)}
+                />
+              </label>
+              <output id="ga4-range-output" class="tracked-output mono">42%</output>
+            </div>
+            <p id="ga4-range-status" class="tracked-status">Throttle resting at 42%.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="color_adjust">
+            <header>
+              <p class="sandbox-card__tag mono">Event: color_adjust</p>
+              <h3>Hull accent tuning</h3>
+            </header>
+            <p>
+              Color pickers can log creative experimentation. Select a hue to update the live swatch and inspect the
+              <code>color_value</code> pushed into GA4.
+            </p>
+            <div class="tracked-color">
+              <div id="ga4-color-swatch" class="tracked-color__swatch" aria-hidden="true"></div>
+              <label class="sandbox-form color-picker">
+                <span class="mono">Accent color</span>
+                <input
+                  type="color"
+                  value="#7e2522"
+                  data-ga4-event="color_adjust"
+                  data-ga4-trigger="change"
+                  data-ga4-dynamic="color"
+                  data-ga4-color-target="ga4-color-swatch"
+                  data-ga4-feedback="ga4-color-status"
+                  data-ga4-params={JSON.stringify(colorCalibrationParams)}
+                />
+              </label>
+            </div>
+            <p id="ga4-color-status" class="tracked-status">Accent set to #7E2522.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="tracked-group" id="environment-signals">
+        <h3 class="tracked-group__title">Environment &amp; device sensors</h3>
+        <p class="tracked-group__intro">
+          Network shifts, viewport changes, and location lookups all influence user journeys. These controls model how
+          to broadcast environment context alongside primary engagement events.
+        </p>
+        <div class="tracked-grid">
+          <article class="sandbox-card tracked-card" data-event="network_state">
+            <header>
+              <p class="sandbox-card__tag mono">Event: network_state</p>
+              <h3>Network availability monitor</h3>
+            </header>
+            <p>
+              Toggling connectivity illustrates how GA4 can capture <code>network_state</code> and fallback logic when
+              visitors go offline. Use the control to simulate connectivity gains and losses.
+            </p>
+            <p class="tracked-readout">Current status: <span id="ga4-network-readout" class="mono">Online</span></p>
+            <button
+              type="button"
+              class="sandbox-action"
+              data-ga4-event="network_state"
+              data-ga4-dynamic="network"
+              data-ga4-network-state="online"
+              data-ga4-network-target="ga4-network-readout"
+              data-ga4-feedback="ga4-network-status"
+              data-ga4-params={JSON.stringify(networkToggleParams)}
+            >
+              Toggle connectivity
+            </button>
+            <p id="ga4-network-status" class="tracked-status">Network derived from browser API.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="orientation_lock">
+            <header>
+              <p class="sandbox-card__tag mono">Event: orientation_lock &amp; screen_mode</p>
+              <h3>Viewport instrumentation</h3>
+            </header>
+            <p>
+              Device orientation and fullscreen states influence layout analytics. The sandbox maintains an observation
+              viewport so you can flip orientation or trigger immersive mode.
+            </p>
+            <div id="ga4-screen-display" class="tracked-screen" data-orientation="landscape">
+              <span class="tracked-screen__label mono">Observation viewport</span>
+            </div>
+            <div class="tracked-screen__controls">
+              <button
+                type="button"
+                class="sandbox-action"
+                data-ga4-event="orientation_lock"
+                data-ga4-dynamic="orientation"
+                data-ga4-orientation-state="landscape"
+                data-ga4-orientation-target="ga4-screen-display"
+                data-ga4-feedback="ga4-orientation-status"
+                data-ga4-params={JSON.stringify(orientationParams)}
+              >
+                Toggle orientation lock
+              </button>
+              <button
+                type="button"
+                class="sandbox-action"
+                data-ga4-event="screen_mode"
+                data-ga4-dynamic="fullscreen"
+                data-ga4-screen-state="windowed"
+                data-ga4-screen-target="ga4-screen-display"
+                data-ga4-feedback="ga4-screen-status"
+                data-ga4-params={JSON.stringify(screenModeParams)}
+              >
+                Toggle immersive mode
+              </button>
+            </div>
+            <p id="ga4-orientation-status" class="tracked-status">Orientation locked to landscape.</p>
+            <p id="ga4-screen-status" class="tracked-status">Viewport currently windowed.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="geolocation_capture">
+            <header>
+              <p class="sandbox-card__tag mono">Event: geolocation_capture</p>
+              <h3>Geolocation sampling</h3>
+            </header>
+            <p>
+              Not every environment permits live geolocation, so this demo synthesizes coordinates while maintaining the
+              Measurement Protocol shape GA4 expects (<code>latitude</code>, <code>longitude</code>, and
+              <code>accuracy</code>).
+            </p>
+            <p class="tracked-readout">
+              Last coordinates: <span id="ga4-geo-readout" class="mono">None captured</span>
+            </p>
+            <button
+              type="button"
+              class="sandbox-action"
+              data-ga4-event="geolocation_capture"
+              data-ga4-dynamic="geo"
+              data-ga4-geo-target="ga4-geo-readout"
+              data-ga4-feedback="ga4-geo-status"
+              data-ga4-params={JSON.stringify(geolocationParams)}
+            >
+              Sample coordinates
+            </button>
+            <p id="ga4-geo-status" class="tracked-status">No geolocation sampled.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="tracked-group" id="progressive-features">
+        <h3 class="tracked-group__title">Progressive web features</h3>
+        <p class="tracked-group__intro">
+          Install prompts, push permissions, and background sync illustrate how to instrument app-like behaviors. Use
+          the controls to generate events that mirror real-world PWA flows.
+        </p>
+        <div class="tracked-grid">
+          <article class="sandbox-card tracked-card" data-event="pwa_install_prompt">
+            <header>
+              <p class="sandbox-card__tag mono">Event: pwa_install_prompt</p>
+              <h3>Install prompt outcome</h3>
+            </header>
+            <p>
+              Each activation alternates between acceptance and dismissal to demonstrate how GA4 can tally install
+              uptake. The payload includes <code>prompt_outcome</code> so analysts can monitor adoption health.
+            </p>
+            <button
+              type="button"
+              class="sandbox-action"
+              data-ga4-event="pwa_install_prompt"
+              data-ga4-dynamic="pwa"
+              data-ga4-pwa-state="dismissed"
+              data-ga4-feedback="ga4-pwa-status"
+              data-ga4-params={JSON.stringify(pwaInstallParams)}
+            >
+              Toggle install response
+            </button>
+            <p id="ga4-pwa-status" class="tracked-status">Prompt not yet accepted.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="push_opt_in">
+            <header>
+              <p class="sandbox-card__tag mono">Event: push_opt_in</p>
+              <h3>Push permission flow</h3>
+            </header>
+            <p>
+              Push prompts are notoriously sensitive. Alternate between granting and denying permission to understand how
+              GA4 can reflect consent changes in real time.
+            </p>
+            <button
+              type="button"
+              class="sandbox-action"
+              data-ga4-event="push_opt_in"
+              data-ga4-dynamic="permission"
+              data-ga4-permission-state="default"
+              data-ga4-feedback="ga4-push-status"
+              data-ga4-params={JSON.stringify(pushConsentParams)}
+            >
+              Toggle push permission
+            </button>
+            <p id="ga4-push-status" class="tracked-status">Permission state: default.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="background_sync">
+            <header>
+              <p class="sandbox-card__tag mono">Event: background_sync</p>
+              <h3>Background sync queue</h3>
+            </header>
+            <p>
+              Offline-friendly applications often queue jobs for Service Workers. Enqueue mock sync jobs to emit queue
+              depth and job identifiers in the Measurement Protocol payload.
+            </p>
+            <p class="tracked-readout">
+              Jobs queued: <span id="ga4-sync-readout" class="mono">0</span>
+            </p>
+            <button
+              type="button"
+              class="sandbox-action"
+              data-ga4-event="background_sync"
+              data-ga4-dynamic="sync"
+              data-ga4-sync-count="0"
+              data-ga4-sync-target="ga4-sync-readout"
+              data-ga4-feedback="ga4-sync-status"
+              data-ga4-params={JSON.stringify(backgroundSyncParams)}
+            >
+              Queue sync job
+            </button>
+            <p id="ga4-sync-status" class="tracked-status">No background jobs queued.</p>
+          </article>
+        </div>
+      </div>
+
+        <div class="tracked-group" id="scroll-visibility">
           <h3 class="tracked-group__title">Scroll &amp; visibility</h3>
           <p class="tracked-group__intro">
             Scroll depth milestones help confirm whether deep documentation is actually consumed. Reach the sentinel near the
@@ -1186,6 +1801,7 @@ const tutorialBaseParams = {
   window.dataLayer = window.dataLayer || [];
 
     let activeModal = null;
+    let activeDragPayload = null;
 
     function findModal(id) {
       if (!id) {
@@ -1248,6 +1864,54 @@ const tutorialBaseParams = {
         return;
       }
       feedbackNode.textContent = message;
+    }
+
+    function parseHotkeyCombo(combo) {
+      const blueprint = { key: '', ctrl: undefined, meta: undefined, alt: undefined, shift: undefined };
+      const parts = combo
+        .toLowerCase()
+        .split('+')
+        .map((part) => part.trim())
+        .filter(Boolean);
+
+      parts.forEach((part) => {
+        if (part === 'ctrl' || part === 'control') {
+          blueprint.ctrl = true;
+        } else if (part === 'meta' || part === 'cmd' || part === 'command') {
+          blueprint.meta = true;
+        } else if (part === 'shift') {
+          blueprint.shift = true;
+        } else if (part === 'alt' || part === 'option') {
+          blueprint.alt = true;
+        } else {
+          blueprint.key = part;
+        }
+      });
+
+      return blueprint;
+    }
+
+    function matchesHotkey(event, combo) {
+      if (!combo) {
+        return false;
+      }
+      const key = (event.key || '').toLowerCase();
+      if (combo.key && combo.key !== key) {
+        return false;
+      }
+      if (combo.ctrl !== undefined && combo.ctrl !== event.ctrlKey) {
+        return false;
+      }
+      if (combo.meta !== undefined && combo.meta !== event.metaKey) {
+        return false;
+      }
+      if (combo.shift !== undefined && combo.shift !== event.shiftKey) {
+        return false;
+      }
+      if (combo.alt !== undefined && combo.alt !== event.altKey) {
+        return false;
+      }
+      return true;
     }
 
     function createSandboxConsole({ limit = 12 } = {}) {
@@ -1560,6 +2224,272 @@ const tutorialBaseParams = {
         }
       }
 
+      if (dynamicType === 'drag') {
+        const dropZone = node.dataset.ga4DropZone || node.dataset.ga4DropLabel || node.textContent?.trim();
+        if (dropZone) {
+          nextParams.drop_zone = dropZone;
+        }
+        if (activeDragPayload) {
+          nextParams.drag_source_id = activeDragPayload.id;
+          nextParams.drag_source_label = activeDragPayload.label;
+        }
+        if (event && typeof event.clientX === 'number') {
+          nextParams.pointer_x = Math.round(event.clientX);
+          nextParams.pointer_y = Math.round(event.clientY);
+        }
+        if (!nextParams.interaction_type) {
+          nextParams.interaction_type = 'drag_drop';
+        }
+      }
+
+      if (dynamicType === 'file') {
+        const files = node.files ? Array.from(node.files) : [];
+        nextParams.file_count = files.length;
+        if (files.length > 0) {
+          nextParams.file_names = files.slice(0, 3).map((file) => file.name);
+          nextParams.file_types = files.slice(0, 3).map((file) => file.type || file.name.split('.').pop() || 'unknown');
+          const totalSize = files.reduce((total, file) => total + (file.size || 0), 0);
+          nextParams.file_bytes = totalSize;
+        }
+        if (node.dataset.ga4UploadMethod) {
+          nextParams.upload_method = node.dataset.ga4UploadMethod;
+        }
+      }
+
+      if (dynamicType === 'hotkey') {
+        const parts = [];
+        if (event?.metaKey) parts.push('Meta');
+        if (event?.ctrlKey) parts.push('Ctrl');
+        if (event?.shiftKey) parts.push('Shift');
+        if (event?.altKey) parts.push('Alt');
+        if (event?.key) {
+          const normalized = event.key.length === 1 ? event.key.toUpperCase() : event.key;
+          parts.push(normalized);
+        }
+        const combination = parts.join('+') || node.dataset.ga4HotkeyLabel || node.dataset.ga4Hotkey || 'Shortcut';
+        nextParams.hotkey_combination = combination;
+        if (node.dataset.ga4HotkeyLabel) {
+          nextParams.hotkey_label = node.dataset.ga4HotkeyLabel;
+        }
+        nextParams.trigger_source = 'keyboard';
+      }
+
+      if (dynamicType === 'focus') {
+        const fieldName = node.getAttribute('name') || node.id || node.getAttribute('aria-label') || 'field';
+        nextParams.focus_target = fieldName;
+        nextParams.focus_state = event?.type || 'focus';
+      }
+
+      if (dynamicType === 'sort') {
+        const field = node.dataset.ga4SortField || 'column';
+        const tableId = node.dataset.ga4SortTable;
+        const currentDirection = node.dataset.ga4SortDirection || 'asc';
+        const nextDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+        nextParams.sort_field = field;
+        nextParams.sort_direction = nextDirection;
+        node.dataset.ga4SortDirection = nextDirection;
+
+        if (tableId) {
+          const table = document.getElementById(tableId);
+          if (table) {
+            const body = table.querySelector('tbody');
+            if (body) {
+              const rows = Array.from(body.querySelectorAll('tr'));
+              const sorted = rows.sort((a, b) => {
+                const aValue = Number(a.dataset.sortOrder || 0);
+                const bValue = Number(b.dataset.sortOrder || 0);
+                return nextDirection === 'asc' ? aValue - bValue : bValue - aValue;
+              });
+              sorted.forEach((row) => body.appendChild(row));
+            }
+          }
+        }
+      }
+
+      if (dynamicType === 'filter') {
+        const filterId = node.dataset.ga4FilterId || 'filter';
+        let value = '';
+        let state = 'applied';
+
+        if (node instanceof HTMLSelectElement) {
+          value = node.value || 'all';
+          state = value === 'all' ? 'cleared' : 'applied';
+        } else if (node instanceof HTMLInputElement) {
+          const checked = node.checked;
+          value = node.value || node.dataset.ga4FilterValue || 'selection';
+          state = checked ? 'applied' : 'cleared';
+        } else {
+          value = node.dataset.ga4FilterValue || 'selection';
+          const currentState = node.dataset.ga4FilterState === 'active';
+          const nextState = !currentState;
+          node.dataset.ga4FilterState = nextState ? 'active' : 'inactive';
+          state = nextState ? 'applied' : 'cleared';
+        }
+
+        nextParams.filter_id = filterId;
+        nextParams.filter_value = value;
+        nextParams.filter_state = state;
+
+        const tableId = node.dataset.ga4FilterTable;
+        if (tableId) {
+          const table = document.getElementById(tableId);
+          if (table) {
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach((row) => {
+              const status = row.dataset.status || '';
+              const shouldShow = value === 'all' || status === value;
+              row.hidden = !shouldShow;
+            });
+          }
+        }
+      }
+
+      if (dynamicType === 'inline') {
+        const input = node.querySelector('[data-inline-value]') || node.querySelector('input, textarea');
+        const rawValue = input ? input.value.trim() : '';
+        const field = node.dataset.ga4InlineField || input?.getAttribute('name') || 'field';
+        nextParams.field_name = field;
+        nextParams.field_value = rawValue || 'empty';
+        nextParams.update_action = rawValue ? 'submitted' : 'cleared';
+
+        const targetId = node.dataset.ga4InlineTarget;
+        if (targetId) {
+          const target = document.getElementById(targetId);
+          if (target && rawValue) {
+            target.textContent = rawValue;
+          }
+        }
+      }
+
+      if (dynamicType === 'range') {
+        const value = Number(node.value || node.getAttribute('value') || 0);
+        const min = Number(node.min || 0);
+        const max = Number(node.max || 100);
+        const denominator = max - min || 1;
+        const percent = Math.round(((value - min) / denominator) * 100);
+        nextParams.control_value = value;
+        nextParams.control_percent = percent;
+
+        const targetId = node.dataset.ga4RangeTarget;
+        if (targetId) {
+          const target = document.getElementById(targetId);
+          if (target) {
+            target.textContent = `${value}%`;
+          }
+        }
+      }
+
+      if (dynamicType === 'color') {
+        const hex = (node.value || '#000000').toUpperCase();
+        nextParams.color_value = hex;
+
+        const targetId = node.dataset.ga4ColorTarget;
+        if (targetId) {
+          const target = document.getElementById(targetId);
+          if (target) {
+            target.style.setProperty('--swatch-color', hex);
+            target.style.backgroundColor = hex;
+          }
+        }
+      }
+
+      if (dynamicType === 'network') {
+        const current = node.dataset.ga4NetworkState || (navigator.onLine ? 'online' : 'offline');
+        const nextState = current === 'online' ? 'offline' : 'online';
+        node.dataset.ga4NetworkState = nextState;
+        nextParams.network_state = nextState;
+        nextParams.previous_state = current;
+
+        const targetId = node.dataset.ga4NetworkTarget;
+        if (targetId) {
+          const target = document.getElementById(targetId);
+          if (target) {
+            target.textContent = nextState.charAt(0).toUpperCase() + nextState.slice(1);
+          }
+        }
+      }
+
+      if (dynamicType === 'fullscreen') {
+        const currentState = node.dataset.ga4ScreenState || 'windowed';
+        const nextState = currentState === 'immersive' ? 'windowed' : 'immersive';
+        node.dataset.ga4ScreenState = nextState;
+        nextParams.screen_state = nextState;
+        nextParams.previous_state = currentState;
+
+        const targetId = node.dataset.ga4ScreenTarget;
+        if (targetId) {
+          const target = document.getElementById(targetId);
+          if (target) {
+            target.classList.toggle('tracked-screen--immersive', nextState === 'immersive');
+          }
+        }
+      }
+
+      if (dynamicType === 'orientation') {
+        const currentState = node.dataset.ga4OrientationState || 'landscape';
+        const nextState = currentState === 'landscape' ? 'portrait' : 'landscape';
+        node.dataset.ga4OrientationState = nextState;
+        nextParams.orientation_state = nextState;
+        nextParams.previous_state = currentState;
+
+        const targetId = node.dataset.ga4OrientationTarget;
+        if (targetId) {
+          const target = document.getElementById(targetId);
+          if (target) {
+            target.dataset.orientation = nextState;
+            target.classList.toggle('tracked-screen--portrait', nextState === 'portrait');
+          }
+        }
+      }
+
+      if (dynamicType === 'geo') {
+        const latitude = Number((Math.random() * 180 - 90).toFixed(4));
+        const longitude = Number((Math.random() * 360 - 180).toFixed(4));
+        const accuracy = Number((Math.random() * 50 + 5).toFixed(1));
+        nextParams.latitude = latitude;
+        nextParams.longitude = longitude;
+        nextParams.accuracy = accuracy;
+
+        const targetId = node.dataset.ga4GeoTarget;
+        if (targetId) {
+          const target = document.getElementById(targetId);
+          if (target) {
+            target.textContent = `${latitude.toFixed(4)}, ${longitude.toFixed(4)} (±${accuracy}km)`;
+          }
+        }
+      }
+
+      if (dynamicType === 'pwa') {
+        const currentState = node.dataset.ga4PwaState || 'dismissed';
+        const nextState = currentState === 'accepted' ? 'dismissed' : 'accepted';
+        node.dataset.ga4PwaState = nextState;
+        nextParams.prompt_outcome = nextState;
+      }
+
+      if (dynamicType === 'permission') {
+        const currentState = node.dataset.ga4PermissionState || 'default';
+        const nextState = currentState === 'granted' ? 'denied' : 'granted';
+        node.dataset.ga4PermissionState = nextState;
+        nextParams.permission_state = nextState;
+        nextParams.previous_state = currentState;
+      }
+
+      if (dynamicType === 'sync') {
+        const currentCount = Number(node.dataset.ga4SyncCount || 0);
+        const nextCount = currentCount + 1;
+        node.dataset.ga4SyncCount = String(nextCount);
+        nextParams.job_count = nextCount;
+        nextParams.job_id = `sync-${Date.now().toString().slice(-5)}`;
+
+        const targetId = node.dataset.ga4SyncTarget;
+        if (targetId) {
+          const target = document.getElementById(targetId);
+          if (target) {
+            target.textContent = String(nextCount);
+          }
+        }
+      }
+
       return nextParams;
     }
 
@@ -1630,10 +2560,107 @@ const tutorialBaseParams = {
           feedbackMessage = `${label} logged (step ${stepNumber}/${total}) at ${timestamp}.`;
         }
 
+        if (node.dataset.ga4Dynamic === 'drag') {
+          const source = params.drag_source_label || 'Payload';
+          feedbackMessage = `${source} delivered at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'file') {
+          const count = params.file_count || 0;
+          const summary = count === 1 ? '1 file' : `${count} files`;
+          feedbackMessage = count ? `${summary} staged at ${timestamp}.` : `No files selected at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'hotkey') {
+          const combo = params.hotkey_combination || 'Shortcut';
+          feedbackMessage = `${combo} logged at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'focus') {
+          const field = params.focus_target || 'Field';
+          feedbackMessage = `${field} focus captured at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'sort') {
+          const field = params.sort_field || 'Column';
+          const direction = (params.sort_direction || '').toString().toUpperCase();
+          feedbackMessage = `${field} sorted ${direction || 'ASC'} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'filter') {
+          const value = params.filter_value || 'all';
+          const state = params.filter_state || 'applied';
+          feedbackMessage = `Filter ${value} ${state} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'inline') {
+          const field = params.field_name || 'Field';
+          const value = params.field_value || 'empty';
+          feedbackMessage = `${field} updated to ${value} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'range') {
+          const value =
+            typeof params.control_value === 'number'
+              ? params.control_value
+              : typeof params.control_percent === 'number'
+              ? params.control_percent
+              : 0;
+          feedbackMessage = `Dial tuned to ${value}% at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'color') {
+          const color = params.color_value || '#000000';
+          feedbackMessage = `Accent set to ${color} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'network') {
+          const state = params.network_state || 'unknown';
+          feedbackMessage = `Network ${state} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'fullscreen') {
+          const state = params.screen_state || 'windowed';
+          feedbackMessage = `Screen mode ${state} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'orientation') {
+          const state = params.orientation_state || 'landscape';
+          feedbackMessage = `Orientation locked to ${state} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'geo') {
+          const lat = params.latitude;
+          const lng = params.longitude;
+          const hasCoords = typeof lat === 'number' && typeof lng === 'number';
+          feedbackMessage = hasCoords
+            ? `Coordinates ${lat.toFixed(4)}, ${lng.toFixed(4)} logged at ${timestamp}.`
+            : `Geolocation sampled at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'pwa') {
+          const outcome = params.prompt_outcome || 'dismissed';
+          feedbackMessage = `Install prompt ${outcome} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'permission') {
+          const state = params.permission_state || 'default';
+          feedbackMessage = `Push permission ${state} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'sync') {
+          const count = params.job_count || 0;
+          feedbackMessage = `Sync queue length ${count} at ${timestamp}.`;
+        }
+
         updateFeedback(node, feedbackMessage);
 
         if (node instanceof HTMLFormElement && trigger === 'submit') {
           node.reset();
+        }
+
+        if (node instanceof HTMLInputElement && node.type === 'file' && trigger === 'change') {
+          node.value = '';
         }
       });
     }
@@ -1641,6 +2668,84 @@ const tutorialBaseParams = {
     document.querySelectorAll('[data-ga4-event]').forEach((node) => {
       registerTrackable(node);
     });
+
+    document.querySelectorAll('[data-ga4-drag-source]').forEach((source) => {
+      source.addEventListener('dragstart', (event) => {
+        activeDragPayload = {
+          id: source.dataset.ga4DragSource || source.id || 'drag-source',
+          label: source.dataset.ga4DragLabel || (source.textContent ? source.textContent.trim() : 'Payload'),
+        };
+        source.classList.add('tracked-drag__source--active');
+        if (event.dataTransfer) {
+          event.dataTransfer.setData('text/plain', activeDragPayload.label);
+          event.dataTransfer.effectAllowed = 'move';
+        }
+      });
+
+      source.addEventListener('dragend', () => {
+        source.classList.remove('tracked-drag__source--active');
+        activeDragPayload = null;
+      });
+    });
+
+    document.querySelectorAll('[data-ga4-dynamic="drag"]').forEach((zone) => {
+      zone.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        zone.classList.add('tracked-dropzone--active');
+        if (event.dataTransfer) {
+          event.dataTransfer.dropEffect = 'move';
+        }
+      });
+
+      zone.addEventListener('dragleave', () => {
+        zone.classList.remove('tracked-dropzone--active');
+      });
+
+      zone.addEventListener('drop', (event) => {
+        event.preventDefault();
+        zone.classList.remove('tracked-dropzone--active');
+      });
+    });
+
+    const hotkeyNodes = Array.from(document.querySelectorAll('[data-ga4-hotkey]'));
+    if (hotkeyNodes.length) {
+      const hotkeyConfigs = hotkeyNodes.map((node) => ({
+        node,
+        combos: (node.dataset.ga4Hotkey || '')
+          .split(',')
+          .map((combo) => combo.trim())
+          .filter(Boolean)
+          .map((combo) => parseHotkeyCombo(combo)),
+      }));
+
+      document.addEventListener('keydown', (event) => {
+        if (event.repeat) {
+          return;
+        }
+        hotkeyConfigs.forEach(({ node, combos }) => {
+          if (!combos.length) {
+            return;
+          }
+          const match = combos.some((combo) => matchesHotkey(event, combo));
+          if (!match) {
+            return;
+          }
+
+          const eventName = node.dataset.ga4Event;
+          if (!eventName) {
+            return;
+          }
+
+          event.preventDefault();
+          let params = parseParams(node);
+          params = applyDynamicParams(node, params, event);
+          trackEvent(eventName, params);
+          const timestamp = formatTimestamp();
+          const combo = params.hotkey_combination || 'Shortcut';
+          updateFeedback(node, `${combo} logged at ${timestamp}.`);
+        });
+      });
+    }
 
     document.querySelectorAll('[data-modal]').forEach((modal) => {
       modal.addEventListener('click', (event) => {
@@ -1879,6 +2984,124 @@ const tutorialBaseParams = {
       flex-wrap: wrap;
       gap: var(--space-2);
     }
+
+    .ga4-sandbox .tracked-drag {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      align-items: stretch;
+    }
+
+    .ga4-sandbox .tracked-drag__source {
+      flex: 1 1 160px;
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(255, 255, 255, 0.85);
+      cursor: grab;
+      display: grid;
+      gap: var(--space-1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ga4-sandbox .tracked-drag__source--active {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(24, 24, 24, 0.18);
+      cursor: grabbing;
+    }
+
+    .ga4-sandbox .tracked-drag__title {
+      font-size: var(--text-12);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    .ga4-sandbox .tracked-dropzone {
+      flex: 1 1 200px;
+      border: 2px dashed color-mix(in srgb, var(--color-rule) 80%, transparent);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: var(--text-12);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 104px;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .ga4-sandbox .tracked-dropzone--active {
+      border-style: solid;
+      border-color: color-mix(in srgb, var(--color-accent) 60%, var(--color-rule));
+      background: rgba(190, 133, 55, 0.15);
+    }
+
+    .ga4-sandbox .file-upload {
+      gap: var(--space-1);
+    }
+
+    .ga4-sandbox .file-upload span {
+      font-size: var(--text-12);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    .ga4-sandbox .file-upload input[type='file'] {
+      padding: var(--space-1);
+      border: 1px dashed color-mix(in srgb, var(--color-rule) 70%, transparent);
+      border-radius: var(--radius-2);
+      background: rgba(0, 0, 0, 0.02);
+      cursor: pointer;
+    }
+
+    .ga4-sandbox .focus-capture input[type='text'] {
+      padding: var(--space-1);
+      border: 1px solid color-mix(in srgb, var(--color-rule) 80%, transparent);
+      border-radius: var(--radius-2);
+      font-size: var(--text-16);
+      background: rgba(255, 255, 255, 0.85);
+      transition: border-color var(--transition-base), box-shadow var(--transition-base);
+    }
+
+    .ga4-sandbox .focus-capture input[type='text']:focus-visible {
+      border-color: color-mix(in srgb, var(--color-accent) 60%, var(--color-rule));
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 12%, transparent);
+    }
+
+    .ga4-sandbox .hotkey-instruction {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      border: 1px solid color-mix(in srgb, var(--color-rule) 80%, transparent);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    .ga4-sandbox .hotkey-badge {
+      padding: calc(var(--space-1) * 0.5) var(--space-1);
+      border: 1px solid color-mix(in srgb, var(--color-rule) 70%, transparent);
+      border-radius: var(--radius-1);
+      background: rgba(0, 0, 0, 0.04);
+      font-size: var(--text-12);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .ga4-sandbox .hotkey-instruction__caption {
+      margin: 0;
+      font-size: var(--text-12);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
 
     .ga4-sandbox .sandbox-modal {
       position: fixed;

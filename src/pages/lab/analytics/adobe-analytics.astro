@@ -3,7 +3,7 @@ import Layout from '../../../layouts/Layout.astro';
 import '../../../styles/analytics-sandbox.css';
 ---
 <Layout title="Adobe Analytics Sandbox">
-  <div class="container analytics-sandbox adobe-sandbox">
+  <div class="analytics-sandbox adobe-sandbox">
     <header class="sandbox-header hairline-bottom">
       <p class="supertitle mono">Analytics Lab / Instrumentation</p>
       <h1>Adobe Analytics Sandbox</h1>
@@ -23,9 +23,19 @@ import '../../../styles/analytics-sandbox.css';
       </dl>
     </header>
 
+    <nav class="sandbox-outline" aria-label="Interaction index">
+      <h2 class="sandbox-outline__title">Interaction index</h2>
+      <ol class="sandbox-outline__list">
+        <li><a href="#adobe-cta-card">Primary CTA — Launch sequence</a></li>
+        <li><a href="#adobe-link-card">Secondary link — Telemetry logs</a></li>
+        <li><a href="#adobe-form-card">Telemetry upload form</a></li>
+        <li><a href="#adobe-pageview-card">Page load variables</a></li>
+      </ol>
+    </nav>
+
     <div class="sandbox-grid">
       <section class="sandbox-panel">
-        <article class="sandbox-card adobe-card" aria-labelledby="adobe-cta-title">
+        <article id="adobe-cta-card" class="sandbox-card adobe-card" aria-labelledby="adobe-cta-title">
           <header>
             <p id="adobe-cta-title" class="sandbox-card__tag mono">linkName: cta:launch-sequence · linkType: o</p>
             <h3>Primary CTA — Launch sequence</h3>
@@ -64,7 +74,7 @@ import '../../../styles/analytics-sandbox.css';
           <pre class="adobe-code mono">{`s.tl(this, 'o', 'cta:launch-sequence', { events: 'event5', prop4: 'launch:cta', eVar4: 'Launch — Primary', contextData: { component: 'mission-controls', priority: 'primary' } });`}</pre>
         </article>
 
-        <article class="sandbox-card adobe-card" aria-labelledby="adobe-link-title">
+        <article id="adobe-link-card" class="sandbox-card adobe-card" aria-labelledby="adobe-link-title">
           <header>
             <p id="adobe-link-title" class="sandbox-card__tag mono">linkName: nav:telemetry-logs · linkType: o</p>
             <h3>Secondary link — Telemetry logs</h3>
@@ -103,7 +113,7 @@ import '../../../styles/analytics-sandbox.css';
           <pre class="adobe-code mono">{`s.tl(this, 'o', 'nav:telemetry-logs', { events: 'event8', prop6: 'nav:telemetry', eVar6: 'Navigation Link', contextData: { component: 'global-nav', destination: 'telemetry' } });`}</pre>
         </article>
 
-        <article class="sandbox-card adobe-card" aria-labelledby="adobe-form-title">
+        <article id="adobe-form-card" class="sandbox-card adobe-card" aria-labelledby="adobe-form-title">
           <header>
             <p id="adobe-form-title" class="sandbox-card__tag mono">linkName: form:telemetry-upload · linkType: o</p>
             <h3>Telemetry upload form</h3>
@@ -149,7 +159,7 @@ import '../../../styles/analytics-sandbox.css';
           <pre class="adobe-code mono">{`s.tl(this, 'o', 'form:telemetry-upload', { events: 'event12', prop9: 'form:telemetry', eVar9: 'Telemetry Upload', contextData: { component: 'telemetry', submission: 'form' } });`}</pre>
         </article>
 
-        <section class="sandbox-card adobe-card adobe-pageview" aria-labelledby="adobe-pageview-title">
+        <section id="adobe-pageview-card" class="sandbox-card adobe-card adobe-pageview" aria-labelledby="adobe-pageview-title">
           <h2 id="adobe-pageview-title">Page load variables</h2>
           <p>
             Initial <code>s.t()</code> call seeds persistent classification variables for this sandbox view.
