@@ -80,8 +80,9 @@ import '../../../styles/analytics-sandbox.css';
         <section class="sandbox-card gtm-interactive" aria-labelledby="gtm-interactive-heading">
           <h2 id="gtm-interactive-heading">Interactive tracking map</h2>
           <p>
-            Components below surface their <code>data-gtm-*</code> metadata. Activate them to see the
-            normalized payload that would be pushed into the data layer and forwarded to GTM tags.
+            Components below surface their <code>data-gtm-*</code> metadata. Activate CTAs, navigation,
+            search, media, downloads, consent, and scroll sentinels to see the normalized payload that would
+            be pushed into the data layer and forwarded to GTM tags.
           </p>
           <div class="gtm-interactive__grid">
             <article class="gtm-interactive__item">
@@ -136,6 +137,128 @@ import '../../../styles/analytics-sandbox.css';
                 <button type="submit" class="sandbox-action">Submit request</button>
               </form>
             </article>
+
+            <article class="gtm-interactive__item">
+              <header>
+                <h3>Internal navigation</h3>
+                <p class="mono">Event: nav_select &middot; Module: gtm-sandbox.navigation</p>
+              </header>
+              <p>Captures which top-level destinations visitors explore from the primary nav bar.</p>
+              <a
+                href="#"
+                class="sandbox-link gtm-trackable"
+                data-gtm-event="nav_select"
+                data-gtm-element="Navigation: Labs Overview"
+                data-gtm-module="gtm-sandbox.navigation"
+                data-gtm-trigger="click"
+                data-gtm-value="labs-overview"
+              >
+                Open Labs overview
+              </a>
+            </article>
+
+            <article class="gtm-interactive__item">
+              <header>
+                <h3>Site search</h3>
+                <p class="mono">Event: site_search &middot; Module: gtm-sandbox.search</p>
+              </header>
+              <p>
+                Submitting the search form pushes the query string and layout context so downstream destinations can evaluate
+                findability.
+              </p>
+              <form
+                class="sandbox-form gtm-trackable"
+                data-gtm-event="site_search"
+                data-gtm-element="Mission Archive Search"
+                data-gtm-module="gtm-sandbox.search"
+                data-gtm-trigger="submit"
+              >
+                <label for="gtm-search-query">Search query</label>
+                <input id="gtm-search-query" name="query" placeholder="Orbital telemetry" />
+                <button type="submit" class="sandbox-action">Search archive</button>
+              </form>
+            </article>
+
+            <article class="gtm-interactive__item">
+              <header>
+                <h3>Video milestone</h3>
+                <p class="mono">Event: video_milestone &middot; Module: gtm-sandbox.media</p>
+              </header>
+              <p>
+                Media instrumentation emits milestone percentages so analysts can distinguish partial plays from completions.
+              </p>
+              <button
+                type="button"
+                class="sandbox-action gtm-trackable"
+                data-gtm-event="video_milestone"
+                data-gtm-element="Mission Briefing"
+                data-gtm-module="gtm-sandbox.media"
+                data-gtm-value="50"
+              >
+                Log 50% progress
+              </button>
+            </article>
+
+            <article class="gtm-interactive__item">
+              <header>
+                <h3>Spec download</h3>
+                <p class="mono">Event: file_download &middot; Module: gtm-sandbox.documents</p>
+              </header>
+              <p>Document downloads feed both conversion and product health dashboards.</p>
+              <a
+                href="#"
+                class="sandbox-link gtm-trackable"
+                data-gtm-event="file_download"
+                data-gtm-element="Telemetry Kit PDF"
+                data-gtm-module="gtm-sandbox.documents"
+                data-gtm-value="mission-telemetry-kit.pdf"
+              >
+                Download telemetry kit (PDF)
+              </a>
+            </article>
+
+            <article class="gtm-interactive__item">
+              <header>
+                <h3>Consent toggle</h3>
+                <p class="mono">Event: consent_update &middot; Module: gtm-sandbox.privacy</p>
+              </header>
+              <p>Change events record whether optional telemetry communications are enabled.</p>
+              <label class="sandbox-form">
+                <span class="mono">Email updates</span>
+                <input
+                  type="checkbox"
+                  class="gtm-trackable"
+                  data-gtm-event="consent_update"
+                  data-gtm-element="Email Updates Opt-in"
+                  data-gtm-module="gtm-sandbox.privacy"
+                  data-gtm-trigger="change"
+                  data-gtm-dynamic="state"
+                  value="marketing"
+                  checked
+                />
+              </label>
+            </article>
+
+            <article class="gtm-interactive__item">
+              <header>
+                <h3>Scroll sentinel</h3>
+                <p class="mono">Event: scroll_depth &middot; Module: gtm-sandbox.scroll</p>
+              </header>
+              <p>
+                A sentinel anchored near the footer fires when 90% depth is reached, mirroring a common scroll-depth trigger.
+              </p>
+              <div
+                class="gtm-scroll-sentinel"
+                data-gtm-scroll
+                data-gtm-event="scroll_depth"
+                data-gtm-element="Footer sentinel"
+                data-gtm-module="gtm-sandbox.scroll"
+                data-gtm-trigger="observe"
+                data-gtm-value="0.9"
+              >
+                Scroll depth sentinel (90%)
+              </div>
+            </article>
           </div>
         </section>
 
@@ -147,6 +270,7 @@ import '../../../styles/analytics-sandbox.css';
             <li><strong>3.</strong> Annotate interactive elements with <code>data-gtm-*</code> attributes.</li>
             <li><strong>4.</strong> Use a helper to map DOM metadata to structured data layer pushes.</li>
             <li><strong>5.</strong> Route payloads to GA4, ad pixels, or custom webhooks from within GTM.</li>
+            <li><strong>6.</strong> Validate media milestones, consent toggles, and scroll depth in preview mode.</li>
           </ol>
         </section>
       </section>
@@ -373,6 +497,11 @@ import '../../../styles/analytics-sandbox.css';
           const value = node.dataset.gtmValue || null;
           const method = node.dataset.gtmMethod || null;
           const trigger = node.dataset.gtmTrigger || (node.tagName === 'FORM' ? 'submit' : 'click');
+          const dynamic = node.dataset.gtmDynamic || null;
+
+          if (trigger === 'observe') {
+            return;
+          }
 
           const handler = (event) => {
             if (trigger === 'click' || trigger === 'submit') {
@@ -386,16 +515,28 @@ import '../../../styles/analytics-sandbox.css';
                 }, {})
               : null;
 
+            let computedValue = value;
+            if (dynamic === 'value') {
+              const rawValue = node instanceof HTMLInputElement || node instanceof HTMLSelectElement || node instanceof HTMLTextAreaElement
+                ? node.value
+                : value;
+              const numeric = Number(rawValue);
+              computedValue = Number.isFinite(numeric) ? numeric : rawValue;
+            } else if (dynamic === 'state') {
+              const preference = node.value || value || 'unspecified';
+              computedValue = { preference, granted: node.checked };
+            }
+
             pushEvent({
               eventName,
               element: elementName,
               module: moduleName,
-              value,
+              value: computedValue,
               method: method || trigger,
               formData
             });
 
-            if (node instanceof HTMLFormElement) {
+            if (node instanceof HTMLFormElement && trigger === 'submit') {
               node.reset();
             }
           };
@@ -414,6 +555,34 @@ import '../../../styles/analytics-sandbox.css';
       });
 
       attachListeners();
+
+      const scrollSentinel = document.querySelector('[data-gtm-scroll]');
+      if (scrollSentinel) {
+        const sentinelEvent = scrollSentinel.dataset.gtmEvent || 'scroll_depth';
+        const sentinelElement = scrollSentinel.dataset.gtmElement || 'Scroll sentinel';
+        const sentinelModule = scrollSentinel.dataset.gtmModule || 'gtm-sandbox.scroll';
+        const sentinelValue = scrollSentinel.dataset.gtmValue || null;
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            const visible = entries.some((entry) => entry.isIntersecting);
+            if (visible) {
+              pushEvent({
+                eventName: sentinelEvent,
+                element: sentinelElement,
+                module: sentinelModule,
+                value: sentinelValue,
+                method: 'observe',
+                formData: null
+              });
+              obs.unobserve(scrollSentinel);
+              scrollSentinel.classList.add('gtm-scroll-sentinel--armed');
+            }
+          },
+          { threshold: 1 }
+        );
+
+        observer.observe(scrollSentinel);
+      }
     });
   </script>
 
@@ -485,6 +654,22 @@ import '../../../styles/analytics-sandbox.css';
       padding-left: var(--space-3);
       display: grid;
       gap: var(--space-1);
+    }
+
+    .gtm-sandbox .gtm-scroll-sentinel {
+      border: 1px dashed var(--color-rule);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: var(--text-12);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .gtm-sandbox .gtm-scroll-sentinel--armed {
+      border-style: solid;
+      background: rgba(187, 133, 55, 0.16);
     }
 
     .gtm-sandbox .gtm-checklist__list li {

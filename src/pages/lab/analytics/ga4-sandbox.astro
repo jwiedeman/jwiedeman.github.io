@@ -1,6 +1,137 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import '../../../styles/analytics-sandbox.css';
+
+const heroCtaParams = {
+  content_type: 'hero_cta',
+  cta_label: 'Request Mission Brief'
+};
+
+const promotionParams = {
+  promotion_name: 'Orbital Research Bulletin',
+  creative_slot: 'right_rail'
+};
+
+const leadFormParams = {
+  form_id: 'ga4-demo-form'
+};
+
+const navInsightsParams = {
+  item_list_id: 'primary_navigation',
+  item_list_name: 'Main Navigation',
+  item_id: 'nav-insights',
+  item_name: 'Insights overview'
+};
+
+const searchBaseParams = {
+  search_type: 'site',
+  results_count: 12
+};
+
+const tabParams = {
+  telemetry: {
+    content_type: 'tab',
+    content_id: 'telemetry',
+    content_name: 'Telemetry uplink'
+  },
+  comms: {
+    content_type: 'tab',
+    content_id: 'communications',
+    content_name: 'Deep space comms'
+  },
+  navigation: {
+    content_type: 'tab',
+    content_id: 'navigation',
+    content_name: 'Orbital navigation'
+  }
+};
+
+const videoStartParams = {
+  video_title: 'Mission Briefing 01',
+  video_provider: 'html5',
+  video_url: 'https://intranet.example/missions/briefing-01'
+};
+
+const videoProgressParams = {
+  video_title: 'Mission Briefing 01',
+  video_percent: 50,
+  video_current_time: 73
+};
+
+const videoCompleteParams = {
+  video_title: 'Mission Briefing 01',
+  video_duration: 146
+};
+
+const fileDownloadParams = {
+  file_name: 'Mission-Telemetry-Kit.pdf',
+  file_extension: 'pdf',
+  file_size: 2480
+};
+
+const outboundParams = {
+  link_url: 'https://www.nasa.gov/',
+  link_domain: 'nasa.gov'
+};
+
+const telemetryItem = {
+  item_id: 'telemetry-module',
+  item_name: 'Telemetry Uplink Module',
+  item_category: 'Hardware',
+  item_category2: 'Communications',
+  price: 199,
+  quantity: 1
+};
+
+const viewItemParams = {
+  currency: 'USD',
+  value: 199,
+  items: [telemetryItem]
+};
+
+const addToCartParams = {
+  currency: 'USD',
+  value: 199,
+  items: [telemetryItem]
+};
+
+const beginCheckoutParams = {
+  currency: 'USD',
+  value: 199,
+  coupon: 'MISSION10',
+  items: [telemetryItem]
+};
+
+const purchaseParams = {
+  currency: 'USD',
+  value: 199,
+  transaction_id: 'GA4-DEMO-1',
+  tax: 0,
+  shipping: 0,
+  payment_type: 'wire',
+  items: [telemetryItem]
+};
+
+const feedbackParams = {
+  content_id: 'analytics-lab-prototype',
+  content_type: 'lab_module'
+};
+
+const chatStartParams = {
+  method: 'floating_widget',
+  agent: 'virtual_specialist'
+};
+
+const exceptionParams = {
+  description: 'mission-briefing-timeout',
+  fatal: false
+};
+
+const scrollDepthParams = {
+  percent_scrolled: 90,
+  content_group: 'mission-protocols',
+  viewport_height: 'desktop'
+};
 ---
 <Layout title="GA4 Sandbox">
   <div class="container analytics-sandbox ga4-sandbox">
@@ -28,85 +159,559 @@ import '../../../styles/analytics-sandbox.css';
       <section class="sandbox-panel" aria-labelledby="ga4-playground-heading">
         <h2 id="ga4-playground-heading">Tracked interface elements</h2>
         <p class="playground-copy">
-          Each card documents the GA4 event name, trigger, and parameters attached to the component. These
-          map directly to the <code>gtag('event')</code> calls fired when you engage with the UI.
+          Each cluster demonstrates a different surface area of a product experience &mdash; hero CTAs, navigation,
+          media, commerce, feedback, and scroll depth. Engage with the controls to emit the matching
+          <code>gtag('event')</code> calls and watch the Measurement Protocol payloads stream into the console.
         </p>
 
-        <article class="sandbox-card tracked-card" data-event="select_content">
-          <header>
-            <p class="sandbox-card__tag mono">Event: select_content</p>
-            <h3>Primary mission CTA</h3>
-          </header>
-          <p>
-            Demonstrates a hero-level call to action capturing content selection. This is a high-intent
-            click, so the payload includes metadata describing the hero placement and label text.
+        <div class="tracked-group">
+          <h3 class="tracked-group__title">Mission-critical actions</h3>
+          <p class="tracked-group__intro">
+            High-value engagements such as hero CTAs, promotions, and form submissions provide the foundation for
+            conversion analysis.
           </p>
-          <dl class="tracked-definition sandbox-card__meta">
-            <div>
-              <dt>Trigger</dt>
-              <dd>Button click</dd>
-            </div>
-            <div>
-              <dt>Parameters</dt>
-              <dd>
-                <code>&#123;&quot;content_type&quot;:&quot;hero_cta&quot;,&quot;cta_label&quot;:&quot;Request Mission Brief&quot;&#125;</code>
-              </dd>
-            </div>
-          </dl>
-          <button id="ga4-cta" class="sandbox-action">Request mission brief</button>
-        </article>
+          <div class="tracked-grid">
+            <article class="sandbox-card tracked-card" data-event="select_content">
+              <header>
+                <p class="sandbox-card__tag mono">Event: select_content</p>
+                <h3>Primary mission CTA</h3>
+              </header>
+              <p>
+                Demonstrates a hero-level call to action capturing content selection. The payload returns metadata
+                describing the hero placement and label text so you can map journeys to specific modules.
+              </p>
+              <dl class="tracked-definition sandbox-card__meta">
+                <div>
+                  <dt>Trigger</dt>
+                  <dd>Button click</dd>
+                </div>
+                <div>
+                  <dt>Parameters</dt>
+                  <dd>
+                    <code>&#123;&quot;content_type&quot;:&quot;hero_cta&quot;,&quot;cta_label&quot;:&quot;Request Mission Brief&quot;&#125;</code>
+                  </dd>
+                </div>
+              </dl>
+              <button
+                id="ga4-cta"
+                class="sandbox-action"
+                data-ga4-event="select_content"
+                data-ga4-params={JSON.stringify(heroCtaParams)}
+              >
+                Request mission brief
+              </button>
+            </article>
 
-        <article class="sandbox-card tracked-card" data-event="view_promotion">
-          <header>
-            <p class="sandbox-card__tag mono">Event: view_promotion</p>
-            <h3>Research bulletin teaser</h3>
-          </header>
-          <p>
-            Simulates an in-page promotion module. The event communicates the name of the offer and the slot
-            in which it appeared so you can evaluate placement performance.
-          </p>
-          <dl class="tracked-definition sandbox-card__meta">
-            <div>
-              <dt>Trigger</dt>
-              <dd>Link interaction</dd>
-            </div>
-            <div>
-              <dt>Parameters</dt>
-              <dd>
-                <code>&#123;&quot;promotion_name&quot;:&quot;Orbital Research Bulletin&quot;,&quot;creative_slot&quot;:&quot;right_rail&quot;&#125;</code>
-              </dd>
-            </div>
-          </dl>
-          <a id="ga4-promo" class="sandbox-link" href="#">Preview bulletin</a>
-        </article>
+            <article class="sandbox-card tracked-card" data-event="view_promotion">
+              <header>
+                <p class="sandbox-card__tag mono">Event: view_promotion</p>
+                <h3>Research bulletin teaser</h3>
+              </header>
+              <p>
+                Simulates an in-page promotion module. The event communicates the name of the offer and the slot in which it
+                appeared so you can evaluate placement performance and creative effectiveness.
+              </p>
+              <dl class="tracked-definition sandbox-card__meta">
+                <div>
+                  <dt>Trigger</dt>
+                  <dd>Link interaction</dd>
+                </div>
+                <div>
+                  <dt>Parameters</dt>
+                  <dd>
+                    <code>&#123;&quot;promotion_name&quot;:&quot;Orbital Research Bulletin&quot;,&quot;creative_slot&quot;:&quot;right_rail&quot;&#125;</code>
+                  </dd>
+                </div>
+              </dl>
+              <a
+                id="ga4-promo"
+                class="sandbox-link"
+                href="#"
+                data-ga4-event="view_promotion"
+                data-ga4-params={JSON.stringify(promotionParams)}
+              >
+                Preview bulletin
+              </a>
+            </article>
 
-        <article class="sandbox-card tracked-card" data-event="generate_lead">
-          <header>
-            <p class="sandbox-card__tag mono">Event: generate_lead</p>
-            <h3>Lead qualification form</h3>
-          </header>
-          <p>
-            Captures submissions for a lightweight lead form. The payload returns mission focus data so the
-            downstream pipeline can segment follow-up efforts.
+            <article class="sandbox-card tracked-card" data-event="generate_lead">
+              <header>
+                <p class="sandbox-card__tag mono">Event: generate_lead</p>
+                <h3>Lead qualification form</h3>
+              </header>
+              <p>
+                Captures submissions for a lightweight lead form. The mission focus value is passed in the payload so sales and
+                marketing teams can segment follow-up efforts with precision.
+              </p>
+              <dl class="tracked-definition sandbox-card__meta">
+                <div>
+                  <dt>Trigger</dt>
+                  <dd>Form submit</dd>
+                </div>
+                <div>
+                  <dt>Parameters</dt>
+                  <dd>
+                    <code>&#123;&quot;form_id&quot;:&quot;ga4-demo-form&quot;,&quot;mission_focus&quot;:&quot;&#123;input value&#125;&quot;&#125;</code>
+                  </dd>
+                </div>
+              </dl>
+              <form
+                id="ga4-form"
+                class="sandbox-form tracked-form"
+                data-ga4-event="generate_lead"
+                data-ga4-dynamic="mission"
+                data-ga4-params={JSON.stringify(leadFormParams)}
+              >
+                <label for="ga4-mission">Mission focus</label>
+                <input id="ga4-mission" name="mission" type="text" placeholder="Deep space communications" />
+                <button type="submit" class="sandbox-action">Transmit mission details</button>
+              </form>
+            </article>
+          </div>
+        </div>
+
+        <div class="tracked-group">
+          <h3 class="tracked-group__title">Navigation &amp; discovery</h3>
+          <p class="tracked-group__intro">
+            Wayfinding, search, and tab patterns help analysts understand how visitors explore dense knowledge bases.
           </p>
-          <dl class="tracked-definition sandbox-card__meta">
-            <div>
-              <dt>Trigger</dt>
-              <dd>Form submit</dd>
-            </div>
-            <div>
-              <dt>Parameters</dt>
-              <dd>
-                <code>&#123;&quot;form_id&quot;:&quot;ga4-demo-form&quot;,&quot;mission_focus&quot;:&quot;&#123;input value&#125;&quot;&#125;</code>
-              </dd>
-            </div>
-          </dl>
-          <form id="ga4-form" class="sandbox-form tracked-form">
-            <label for="ga4-mission">Mission focus</label>
-            <input id="ga4-mission" name="mission" type="text" placeholder="Deep space communications" />
-            <button type="submit" class="sandbox-action">Transmit mission details</button>
-          </form>
-        </article>
+          <div class="tracked-grid">
+            <article class="sandbox-card tracked-card" data-event="select_item">
+              <header>
+                <p class="sandbox-card__tag mono">Event: select_item</p>
+                <h3>Primary navigation</h3>
+              </header>
+              <p>
+                Track which navigation destinations drive the most engagement. Each link passes item metadata aligned to the
+                GA4 recommended ecommerce schema for rich reporting.
+              </p>
+              <dl class="tracked-definition sandbox-card__meta">
+                <div>
+                  <dt>Trigger</dt>
+                  <dd>Link click</dd>
+                </div>
+                <div>
+                  <dt>Parameters</dt>
+                  <dd>
+                    <code>
+                      &#123;&quot;item_list_id&quot;:&quot;primary_navigation&quot;,&quot;item_list_name&quot;:&quot;Main Navigation&quot;,
+                      &quot;item_id&quot;:&quot;nav-insights&quot;,&quot;item_name&quot;:&quot;Insights overview&quot;&#125;
+                    </code>
+                  </dd>
+                </div>
+              </dl>
+              <nav aria-label="Primary navigation demo" class="tracked-nav">
+                <a
+                  id="ga4-nav-insights"
+                  href="#"
+                  class="sandbox-link"
+                  data-ga4-event="select_item"
+                  data-ga4-params={JSON.stringify(navInsightsParams)}
+                >
+                  Navigate to Insights
+                </a>
+              </nav>
+            </article>
+
+            <article class="sandbox-card tracked-card" data-event="search">
+              <header>
+                <p class="sandbox-card__tag mono">Event: search</p>
+                <h3>Site search</h3>
+              </header>
+              <p>
+                Capture on-site search terms to illuminate content gaps. The sandbox returns a mock results count to mimic a
+                backend response.
+              </p>
+              <dl class="tracked-definition sandbox-card__meta">
+                <div>
+                  <dt>Trigger</dt>
+                  <dd>Form submit</dd>
+                </div>
+                <div>
+                  <dt>Parameters</dt>
+                  <dd>
+                    <code>&#123;&quot;search_type&quot;:&quot;site&quot;,&quot;search_term&quot;:&quot;&#123;input value&#125;&quot;&#125;</code>
+                  </dd>
+                </div>
+              </dl>
+              <form
+                id="ga4-search"
+                class="sandbox-form"
+                data-ga4-event="search"
+                data-ga4-dynamic="search"
+                data-ga4-params={JSON.stringify(searchBaseParams)}
+              >
+                <label for="ga4-search-term">Search query</label>
+                <input
+                  id="ga4-search-term"
+                  name="searchTerm"
+                  type="search"
+                  placeholder="Telemetry protocol"
+                />
+                <button type="submit" class="sandbox-action">Query archive</button>
+              </form>
+            </article>
+
+            <article class="sandbox-card tracked-card" data-event="select_content">
+              <header>
+                <p class="sandbox-card__tag mono">Event: select_content</p>
+                <h3>Tab group</h3>
+              </header>
+              <p>
+                Monitor which knowledge tab resonates most. Selecting a tab updates its pressed state and dispatches a
+                <code>select_content</code> event with the tab identifier.
+              </p>
+              <dl class="tracked-definition sandbox-card__meta">
+                <div>
+                  <dt>Trigger</dt>
+                  <dd>Button click</dd>
+                </div>
+                <div>
+                  <dt>Parameters</dt>
+                  <dd>
+                    <code>&#123;&quot;content_type&quot;:&quot;tab&quot;,&quot;content_id&quot;:&quot;telemetry&quot;&#125;</code>
+                  </dd>
+                </div>
+              </dl>
+              <div class="tracked-tabs" role="tablist" data-ga4-tab-group>
+                <button
+                  type="button"
+                  class="sandbox-action"
+                  role="tab"
+                  aria-pressed="true"
+                  data-ga4-event="select_content"
+                  data-ga4-dynamic="tab"
+                  data-ga4-tab="telemetry"
+                  data-ga4-params={JSON.stringify(tabParams.telemetry)}
+                >
+                  Telemetry
+                </button>
+                <button
+                  type="button"
+                  class="sandbox-action"
+                  role="tab"
+                  aria-pressed="false"
+                  data-ga4-event="select_content"
+                  data-ga4-dynamic="tab"
+                  data-ga4-tab="communications"
+                  data-ga4-params={JSON.stringify(tabParams.comms)}
+                >
+                  Communications
+                </button>
+                <button
+                  type="button"
+                  class="sandbox-action"
+                  role="tab"
+                  aria-pressed="false"
+                  data-ga4-event="select_content"
+                  data-ga4-dynamic="tab"
+                  data-ga4-tab="navigation"
+                  data-ga4-params={JSON.stringify(tabParams.navigation)}
+                >
+                  Navigation
+                </button>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="tracked-group">
+          <h3 class="tracked-group__title">Media &amp; documents</h3>
+          <p class="tracked-group__intro">
+            Streaming events, downloads, and outbound clicks provide a feedback loop for long-form content strategy.
+          </p>
+          <div class="tracked-grid">
+            <article class="sandbox-card tracked-card" data-event="video_start">
+              <header>
+                <p class="sandbox-card__tag mono">Event: video_start</p>
+                <h3>Mission briefing playback</h3>
+              </header>
+              <p>
+                Buttons below mirror the instrumentation normally attached to embedded video players. Trigger start, midpoint,
+                and completion milestones to validate media tracking.
+              </p>
+              <div class="tracked-video-controls">
+                <button
+                  type="button"
+                  class="sandbox-action"
+                  data-ga4-event="video_start"
+                  data-ga4-params={JSON.stringify(videoStartParams)}
+                >
+                  Start briefing
+                </button>
+                <button
+                  type="button"
+                  class="sandbox-action"
+                  data-ga4-event="video_progress"
+                  data-ga4-params={JSON.stringify(videoProgressParams)}
+                >
+                  Hit 50% progress
+                </button>
+                <button
+                  type="button"
+                  class="sandbox-action"
+                  data-ga4-event="video_complete"
+                  data-ga4-params={JSON.stringify(videoCompleteParams)}
+                >
+                  Complete playback
+                </button>
+              </div>
+            </article>
+
+            <article class="sandbox-card tracked-card" data-event="file_download">
+              <header>
+                <p class="sandbox-card__tag mono">Event: file_download</p>
+                <h3>Spec sheet download</h3>
+              </header>
+              <p>
+                Measure gated content performance by sending file metadata alongside the event. This example mirrors how a PDF
+                asset download would be captured.
+              </p>
+              <a
+                id="ga4-download"
+                href="#"
+                class="sandbox-link"
+                data-ga4-event="file_download"
+                data-ga4-params={JSON.stringify(fileDownloadParams)}
+              >
+                Download telemetry kit (PDF)
+              </a>
+            </article>
+
+            <article class="sandbox-card tracked-card" data-event="click">
+              <header>
+                <p class="sandbox-card__tag mono">Event: click</p>
+                <h3>Outbound link</h3>
+              </header>
+              <p>
+                Outbound link instrumentation captures the destination URL and domain, allowing analysts to monitor partner
+                referrals.
+              </p>
+              <a
+                id="ga4-outbound"
+                href="https://www.nasa.gov/"
+                class="sandbox-link"
+                rel="noreferrer noopener"
+                data-ga4-event="click"
+                data-ga4-params={JSON.stringify(outboundParams)}
+              >
+                Visit nasa.gov
+              </a>
+            </article>
+          </div>
+        </div>
+
+        <div class="tracked-group">
+          <h3 class="tracked-group__title">Commerce &amp; conversions</h3>
+          <p class="tracked-group__intro">
+            Ecommerce payloads maintain parity with GA4 retail schemas so merchandising teams can stitch together intent,
+            checkout, and fulfillment.
+          </p>
+          <div class="tracked-grid">
+            <article class="sandbox-card tracked-card" data-event="view_item">
+              <header>
+                <p class="sandbox-card__tag mono">Event: view_item</p>
+                <h3>Product detail view</h3>
+              </header>
+              <p>
+                Register when a user inspects a hardware module. This primes downstream add-to-cart and checkout events with
+                the same item payload for cohesive reporting.
+              </p>
+              <button
+                type="button"
+                class="sandbox-action"
+                data-ga4-event="view_item"
+                data-ga4-params={JSON.stringify(viewItemParams)}
+              >
+                View telemetry module
+              </button>
+            </article>
+
+            <article class="sandbox-card tracked-card" data-event="add_to_cart">
+              <header>
+                <p class="sandbox-card__tag mono">Event: add_to_cart</p>
+                <h3>Add to cart</h3>
+              </header>
+              <p>
+                Records the addition of the module to the mission build list. The payload mirrors an ecommerce add-to-cart call
+                with currency, value, and item details.
+              </p>
+              <button
+                type="button"
+                class="sandbox-action"
+                data-ga4-event="add_to_cart"
+                data-ga4-params={JSON.stringify(addToCartParams)}
+              >
+                Add module to manifest
+              </button>
+            </article>
+
+            <article class="sandbox-card tracked-card" data-event="begin_checkout">
+              <header>
+                <p class="sandbox-card__tag mono">Event: begin_checkout</p>
+                <h3>Begin checkout</h3>
+              </header>
+              <p>
+                Signals the start of a checkout funnel. Include coupon codes or experiments to evaluate incentives and A/B
+                treatments.
+              </p>
+              <button
+                type="button"
+                class="sandbox-action"
+                data-ga4-event="begin_checkout"
+                data-ga4-params={JSON.stringify(beginCheckoutParams)}
+              >
+                Initiate checkout
+              </button>
+            </article>
+
+            <article class="sandbox-card tracked-card" data-event="purchase">
+              <header>
+                <p class="sandbox-card__tag mono">Event: purchase</p>
+                <h3>Mission purchase</h3>
+              </header>
+              <p>
+                Completes the ecommerce flow with a transaction ID and tender type. This finalizes attribution loops and feeds
+                downstream BI platforms.
+              </p>
+              <button
+                type="button"
+                class="sandbox-action"
+                data-ga4-event="purchase"
+                data-ga4-params={JSON.stringify(purchaseParams)}
+              >
+                Confirm purchase
+              </button>
+            </article>
+          </div>
+        </div>
+
+        <div class="tracked-group">
+          <h3 class="tracked-group__title">Feedback, consent &amp; support</h3>
+          <p class="tracked-group__intro">
+            Move beyond conversions to observe post-interaction signals such as satisfaction, consent choices, and service
+            escalations.
+          </p>
+          <div class="tracked-grid">
+            <article class="sandbox-card tracked-card" data-event="rate_content">
+              <header>
+                <p class="sandbox-card__tag mono">Event: rate_content</p>
+                <h3>Experience rating</h3>
+              </header>
+              <p>
+                A range input captures perceived clarity of the module. The sandbox submits the selected score so researchers
+                can trend comprehension over time.
+              </p>
+              <label class="sandbox-form rating-control">
+                <span>Clarity score</span>
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  step="1"
+                  value="3"
+                  data-ga4-event="rate_content"
+                  data-ga4-trigger="change"
+                  data-ga4-dynamic="rating"
+                  data-ga4-params={JSON.stringify(feedbackParams)}
+                />
+              </label>
+            </article>
+
+            <article class="sandbox-card tracked-card" data-event="consent_update">
+              <header>
+                <p class="sandbox-card__tag mono">Event: consent_update</p>
+                <h3>Consent toggle</h3>
+              </header>
+              <p>
+                Privacy controls require real-time tracking. The change handler maps the checkbox state to the
+                <code>consent_granted</code> parameter.
+              </p>
+              <label class="sandbox-form consent-control">
+                <span>Email mission updates</span>
+                <input
+                  type="checkbox"
+                  value="marketing"
+                  checked
+                  data-ga4-event="consent_update"
+                  data-ga4-trigger="change"
+                  data-ga4-dynamic="consent"
+                />
+              </label>
+            </article>
+
+            <article class="sandbox-card tracked-card" data-event="start_chat">
+              <header>
+                <p class="sandbox-card__tag mono">Event: start_chat</p>
+                <h3>Support escalation</h3>
+              </header>
+              <p>
+                When operators open a support chat, log the channel and agent type to inform staffing and deflection metrics.
+              </p>
+              <button
+                type="button"
+                class="sandbox-action"
+                data-ga4-event="start_chat"
+                data-ga4-params={JSON.stringify(chatStartParams)}
+              >
+                Initiate support chat
+              </button>
+            </article>
+
+            <article class="sandbox-card tracked-card" data-event="exception">
+              <header>
+                <p class="sandbox-card__tag mono">Event: exception</p>
+                <h3>Error capture</h3>
+              </header>
+              <p>
+                Surface unexpected failures to GA4 using the <code>exception</code> event. Toggle it here to confirm the
+                console records non-fatal issues.
+              </p>
+              <button
+                type="button"
+                class="sandbox-action"
+                data-ga4-event="exception"
+                data-ga4-params={JSON.stringify(exceptionParams)}
+              >
+                Simulate timeout
+              </button>
+            </article>
+          </div>
+        </div>
+
+        <div class="tracked-group">
+          <h3 class="tracked-group__title">Scroll &amp; visibility</h3>
+          <p class="tracked-group__intro">
+            Scroll depth milestones help confirm whether deep documentation is actually consumed. Reach the sentinel near the
+            footer to trigger a <code>scroll</code> event.
+          </p>
+          <div class="tracked-grid">
+            <article class="sandbox-card tracked-card" data-event="scroll">
+              <header>
+                <p class="sandbox-card__tag mono">Event: scroll</p>
+                <h3>Deep scroll sentinel</h3>
+              </header>
+              <p>
+                A hidden sentinel monitors when visitors view the final 10% of the page. Intersection Observer fires once per
+                session to avoid duplicate hits.
+              </p>
+              <div class="scroll-instruction">
+                <p>Scroll toward the console until the sentinel badge becomes visible.</p>
+                <div
+                  class="scroll-sentinel"
+                  data-ga4-scroll
+                  data-ga4-event="scroll"
+                  data-ga4-trigger="observe"
+                  data-ga4-params={JSON.stringify(scrollDepthParams)}
+                  role="status"
+                  aria-live="polite"
+                >
+                  Scroll sentinel &mdash; log fires at 90% depth
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
       </section>
 
       <aside class="sandbox-console" data-console-panel aria-labelledby="ga4-console-heading">
@@ -325,38 +930,123 @@ import '../../../styles/analytics-sandbox.css';
       page_title: document.title
     });
 
-    const ctaButton = document.getElementById('ga4-cta');
-    if (ctaButton) {
-      ctaButton.addEventListener('click', () => {
-        trackEvent('select_content', {
-          content_type: 'hero_cta',
-          cta_label: 'Request Mission Brief'
-        });
+    function parseParams(node) {
+      const raw = node.dataset.ga4Params;
+      if (!raw) {
+        return {};
+      }
+      try {
+        return JSON.parse(raw);
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function applyDynamicParams(node, params, event) {
+      const dynamicType = node.dataset.ga4Dynamic;
+      if (!dynamicType) {
+        return params;
+      }
+
+      const nextParams = Object.assign({}, params);
+
+      if (dynamicType === 'mission') {
+        const mission = node.querySelector('input[name="mission"]');
+        const missionValue = mission && mission.value.trim();
+        nextParams.mission_focus = missionValue && missionValue.length ? missionValue : 'unspecified';
+      }
+
+      if (dynamicType === 'search') {
+        const field = node.querySelector('input[name="searchTerm"]');
+        const query = field && field.value.trim();
+        nextParams.search_term = query && query.length ? query : '(not provided)';
+        if (typeof nextParams.results_count !== 'number') {
+          nextParams.results_count = 12;
+        }
+      }
+
+      if (dynamicType === 'tab') {
+        const group = node.closest('[data-ga4-tab-group]');
+        if (group) {
+          const tabs = group.querySelectorAll('[role="tab"]');
+          tabs.forEach((tab) => {
+            tab.setAttribute('aria-pressed', tab === node ? 'true' : 'false');
+          });
+        }
+        const tabId = node.dataset.ga4Tab;
+        if (tabId) {
+          nextParams.content_id = tabId;
+        }
+        if (!nextParams.content_name && node.textContent) {
+          nextParams.content_name = node.textContent.trim();
+        }
+      }
+
+      if (dynamicType === 'rating') {
+        const value = Number(node.value);
+        nextParams.rating_value = Number.isFinite(value) ? value : null;
+        const max = Number(node.max);
+        if (Number.isFinite(max)) {
+          nextParams.rating_scale_max = max;
+        }
+      }
+
+      if (dynamicType === 'consent') {
+        nextParams.consent_type = node.value || nextParams.consent_type || 'unspecified';
+        nextParams.consent_granted = node.checked;
+      }
+
+      return nextParams;
+    }
+
+    function registerTrackable(node) {
+      const trigger = node.dataset.ga4Trigger || (node instanceof HTMLFormElement ? 'submit' : 'click');
+      if (trigger === 'observe') {
+        return;
+      }
+
+      const eventName = node.dataset.ga4Event;
+      if (!eventName) {
+        return;
+      }
+
+      node.addEventListener(trigger, (event) => {
+        if (trigger === 'click' || trigger === 'submit') {
+          event.preventDefault();
+        }
+
+        let params = parseParams(node);
+        params = applyDynamicParams(node, params, event);
+
+        trackEvent(eventName, params);
+
+        if (node instanceof HTMLFormElement && trigger === 'submit') {
+          node.reset();
+        }
       });
     }
 
-    const promoLink = document.getElementById('ga4-promo');
-    if (promoLink) {
-      promoLink.addEventListener('click', (event) => {
-        event.preventDefault();
-        trackEvent('view_promotion', {
-          promotion_name: 'Orbital Research Bulletin',
-          creative_slot: 'right_rail'
-        });
-      });
-    }
+    document.querySelectorAll('[data-ga4-event]').forEach((node) => {
+      registerTrackable(node);
+    });
 
-    const leadForm = document.getElementById('ga4-form');
-    if (leadForm) {
-      leadForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const mission = leadForm.querySelector('input[name="mission"]');
-        trackEvent('generate_lead', {
-          form_id: 'ga4-demo-form',
-          mission_focus: mission && mission.value ? mission.value : 'unspecified'
-        });
-        leadForm.reset();
-      });
+    const scrollSentinel = document.querySelector('[data-ga4-scroll]');
+    if (scrollSentinel) {
+      const sentinelEvent = scrollSentinel.dataset.ga4Event || 'scroll';
+      const sentinelParams = parseParams(scrollSentinel);
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          const visible = entries.some((entry) => entry.isIntersecting);
+          if (visible) {
+            trackEvent(sentinelEvent, Object.assign({ trigger: 'sentinel' }, sentinelParams));
+            obs.unobserve(scrollSentinel);
+            scrollSentinel.classList.add('scroll-sentinel--armed');
+          }
+        },
+        { threshold: 1 }
+      );
+
+      observer.observe(scrollSentinel);
     }
   </script>
 
@@ -376,6 +1066,98 @@ import '../../../styles/analytics-sandbox.css';
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: var(--space-2);
+    }
+
+    .ga4-sandbox .tracked-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      padding-top: var(--space-2);
+    }
+
+    .ga4-sandbox .tracked-group + .tracked-group {
+      border-top: 1px solid color-mix(in srgb, var(--color-rule) 60%, transparent);
+      padding-top: var(--space-3);
+      margin-top: var(--space-3);
+    }
+
+    .ga4-sandbox .tracked-group__title {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: var(--text-16);
+    }
+
+    .ga4-sandbox .tracked-group__intro {
+      margin: 0;
+      color: var(--color-muted);
+      max-width: 68ch;
+    }
+
+    .ga4-sandbox .tracked-grid {
+      display: grid;
+      gap: var(--space-3);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .ga4-sandbox .tracked-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .ga4-sandbox .tracked-tabs [role='tab'][aria-pressed='true'] {
+      background: var(--color-text);
+      color: var(--color-bg);
+    }
+
+    .ga4-sandbox .tracked-video-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .ga4-sandbox .tracked-nav {
+      display: flex;
+      gap: var(--space-2);
+    }
+
+    .ga4-sandbox .rating-control,
+    .ga4-sandbox .consent-control {
+      gap: var(--space-1);
+    }
+
+    .ga4-sandbox .rating-control span,
+    .ga4-sandbox .consent-control span {
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: var(--text-12);
+    }
+
+    .ga4-sandbox .rating-control input[type='range'] {
+      accent-color: var(--color-text);
+    }
+
+    .ga4-sandbox .scroll-instruction {
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .ga4-sandbox .scroll-sentinel {
+      border: 1px dashed var(--color-rule);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(0, 0, 0, 0.04);
+      font-family: var(--font-mono);
+      font-size: var(--text-12);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .ga4-sandbox .scroll-sentinel--armed {
+      border-style: solid;
+      background: rgba(126, 37, 34, 0.12);
     }
   </style>
 </Layout>
