@@ -67,7 +67,7 @@ const shouldShowBreadcrumbs = showNav && breadcrumbs.length > 0;
         </div>
       </nav>
     )}
-    <main>
+    <main class:list={{ 'site-main': true, 'site-main--flush': !showNav }}>
       <slot />
     </main>
     {showFooter && <Footer />}
