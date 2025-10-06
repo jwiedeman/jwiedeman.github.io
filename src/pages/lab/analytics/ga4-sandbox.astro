@@ -136,13 +136,13 @@ import '../../../styles/analytics-sandbox.css';
         The mock console is powered by the same <code>gtag</code> interface used in production. Replace the
         measurement ID with your own property value when deploying.
       </p>
-      <pre class="mono"><code>&lt;script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDE12345"&gt;&lt;/script&gt;
+      <pre class="mono"><code>{`&lt;script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDE12345"&gt;&lt;/script&gt;
 &lt;script&gt;
   window.dataLayer = window.dataLayer || [];
   function gtag()&#123;dataLayer.push(arguments);&#125;
   gtag('js', new Date());
   gtag('config', 'G-ABCDE12345');
-&lt;/script&gt;</code></pre>
+&lt;/script&gt;`}</code></pre>
     </section>
   </div>
 
