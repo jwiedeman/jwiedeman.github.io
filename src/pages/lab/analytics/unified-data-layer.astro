@@ -65,37 +65,159 @@ import '../../../styles/analytics-sandbox.css';
             Buttons, links, and forms declare their instrumentation through data attributes. A helper maps the
             DOM metadata into normalized payloads pushed into the data layer.
           </p>
-          <div class="udl-interactions__grid">
-            <button
-              class="sandbox-action"
-              data-udl-event="cta_click"
-              data-udl-element="Launch Primary CTA"
-              data-udl-module="udl-sandbox.cta"
-              data-udl-value="primary"
-            >
-              Initiate launch sequence
-            </button>
-            <a
-              href="#"
-              class="sandbox-link"
-              data-udl-event="documentation_open"
-              data-udl-element="Sandbox Documentation Link"
-              data-udl-module="udl-sandbox.navigation"
-              data-udl-prevent-default="true"
-            >
-              View implementation checklist
-            </a>
-            <form
-              class="sandbox-form"
-              data-udl-event="form_submit"
-              data-udl-element="Mission Intake Form"
-              data-udl-module="udl-sandbox.form"
-              data-udl-trigger="submit"
-            >
-              <label for="udl-mission">Mission objective</label>
-              <input id="udl-mission" name="missionObjective" placeholder="Calibrate telemetry" />
-              <button type="submit" class="sandbox-action">Submit request</button>
-            </form>
+
+          <div class="udl-interactions__section">
+            <h3>Acquisition &amp; navigation</h3>
+            <p class="udl-interactions__intro">Hero CTAs, navigation links, and internal search queries.</p>
+            <div class="udl-interactions__grid">
+              <button
+                class="sandbox-action"
+                data-udl-event="cta_click"
+                data-udl-element="Launch Primary CTA"
+                data-udl-module="udl-sandbox.cta"
+                data-udl-value="primary"
+                data-udl-metadata='{"placement":"hero","priority":"primary"}'
+              >
+                Initiate launch sequence
+              </button>
+              <a
+                href="#"
+                class="sandbox-link"
+                data-udl-event="documentation_open"
+                data-udl-element="Sandbox Documentation Link"
+                data-udl-module="udl-sandbox.navigation"
+                data-udl-prevent-default="true"
+                data-udl-metadata='{"destination":"/docs/implementation","link_type":"supporting"}'
+              >
+                View implementation checklist
+              </a>
+              <form
+                class="sandbox-form"
+                data-udl-event="search_execute"
+                data-udl-element="Knowledge Base Search"
+                data-udl-module="udl-sandbox.search"
+                data-udl-trigger="submit"
+                data-udl-metadata='{"search_type":"site","results_returned":12}'
+              >
+                <label for="udl-search">Search query</label>
+                <input id="udl-search" name="search_query" placeholder="Telemetry protocols" required />
+                <button type="submit" class="sandbox-action">Run search</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="udl-interactions__section">
+            <h3>Media &amp; documents</h3>
+            <p class="udl-interactions__intro">Video milestones and download tracking for resource hubs.</p>
+            <div class="udl-interactions__grid">
+              <button
+                class="sandbox-action"
+                data-udl-event="media_start"
+                data-udl-element="Mission Briefing Video"
+                data-udl-module="udl-sandbox.media"
+                data-udl-metadata='{"media_type":"video","media_title":"Mission Brief 01","position":"hero"}'
+              >
+                Start mission briefing
+              </button>
+              <button
+                class="sandbox-action"
+                data-udl-event="media_milestone"
+                data-udl-element="Mission Briefing Video"
+                data-udl-module="udl-sandbox.media"
+                data-udl-metadata='{"media_type":"video","media_title":"Mission Brief 01","percent":50}'
+              >
+                Log 50% milestone
+              </button>
+              <a
+                href="#"
+                class="sandbox-link"
+                data-udl-event="asset_download"
+                data-udl-element="Telemetry Specification PDF"
+                data-udl-module="udl-sandbox.downloads"
+                data-udl-prevent-default="true"
+                data-udl-metadata='{"file_name":"mission-telemetry-kit.pdf","file_size":2480,"file_type":"pdf"}'
+              >
+                Download telemetry kit (PDF)
+              </a>
+            </div>
+          </div>
+
+          <div class="udl-interactions__section">
+            <h3>Commerce &amp; pipeline</h3>
+            <p class="udl-interactions__intro">Add to cart through purchase confirmation using shared product IDs.</p>
+            <div class="udl-interactions__grid">
+              <button
+                class="sandbox-action"
+                data-udl-event="commerce_add"
+                data-udl-element="Telemetry Kit"
+                data-udl-module="udl-sandbox.commerce"
+                data-udl-metadata='{"sku":"telemetry-kit","value":199,"currency":"USD"}'
+              >
+                Add telemetry kit
+              </button>
+              <button
+                class="sandbox-action"
+                data-udl-event="commerce_checkout"
+                data-udl-element="Telemetry Kit"
+                data-udl-module="udl-sandbox.commerce"
+                data-udl-metadata='{"sku":"telemetry-kit","step":1,"value":199,"currency":"USD"}'
+              >
+                Begin secure checkout
+              </button>
+              <button
+                class="sandbox-action"
+                data-udl-event="commerce_purchase"
+                data-udl-element="Telemetry Kit"
+                data-udl-module="udl-sandbox.commerce"
+                data-udl-metadata='{"sku":"telemetry-kit","order_id":"UDL-DEMO-001","value":199,"currency":"USD"}'
+              >
+                Confirm purchase
+              </button>
+            </div>
+          </div>
+
+          <div class="udl-interactions__section">
+            <h3>Experience signals</h3>
+            <p class="udl-interactions__intro">Feedback loops that monitor quality, consent, and reliability.</p>
+            <div class="udl-interactions__grid">
+              <label class="udl-rating">
+                <span>Module clarity score</span>
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  value="3"
+                  data-udl-event="content_rate"
+                  data-udl-element="Analytics Module"
+                  data-udl-module="udl-sandbox.feedback"
+                  data-udl-trigger="change"
+                  data-udl-dynamic="range"
+                  data-udl-metadata='{"scale_max":5}'
+                />
+              </label>
+              <label class="udl-toggle">
+                <input
+                  type="checkbox"
+                  checked
+                  data-udl-event="consent_update"
+                  data-udl-element="Mission Communications Opt-in"
+                  data-udl-module="udl-sandbox.consent"
+                  data-udl-trigger="change"
+                  data-udl-dynamic="toggle"
+                  data-udl-metadata='{"consent_channel":"email"}'
+                />
+                <span>Email mission updates</span>
+              </label>
+              <button
+                class="sandbox-action"
+                data-udl-event="exception_raise"
+                data-udl-element="Telemetry Feed"
+                data-udl-module="udl-sandbox.reliability"
+                data-udl-metadata='{"exception_code":"telemetry-timeout","severity":"warning"}'
+              >
+                Simulate timeout exception
+              </button>
+            </div>
           </div>
         </section>
       </section>
@@ -286,7 +408,32 @@ import '../../../styles/analytics-sandbox.css';
         ? Object.fromEntries(new FormData(element).entries())
         : null;
 
-      return {
+      let detail = {};
+      if (element.dataset.udlMetadata) {
+        try {
+          detail = JSON.parse(element.dataset.udlMetadata) || {};
+        } catch (error) {
+          detail = { parse_error: 'Unable to parse data-udl-metadata', raw: element.dataset.udlMetadata };
+        }
+      }
+
+      const dynamicType = element.dataset.udlDynamic;
+      if (dynamicType === 'range') {
+        const numericValue = Number(element.value);
+        detail = {
+          ...detail,
+          selected_value: Number.isFinite(numericValue) ? numericValue : element.value,
+        };
+      }
+
+      if (dynamicType === 'toggle') {
+        detail = {
+          ...detail,
+          consent_granted: element.checked,
+        };
+      }
+
+      const basePayload = {
         event: eventName,
         schema: baseContext.schema,
         session: baseContext.session,
@@ -299,7 +446,14 @@ import '../../../styles/analytics-sandbox.css';
           trigger,
           form_values: formValues,
         },
+        detail: Object.keys(detail).length ? detail : null,
       };
+
+      if (basePayload.detail === null) {
+        delete basePayload.detail;
+      }
+
+      return basePayload;
     };
 
     const registerInteraction = (element) => {
@@ -356,6 +510,72 @@ import '../../../styles/analytics-sandbox.css';
       margin: 0;
       text-transform: uppercase;
       letter-spacing: 0.08em;
+    }
+
+    .udl-sandbox .udl-interactions__section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .udl-sandbox .udl-interactions__section + .udl-interactions__section {
+      margin-top: var(--space-3);
+      padding-top: var(--space-3);
+      border-top: 1px solid color-mix(in srgb, var(--color-rule) 60%, transparent);
+    }
+
+    .udl-sandbox .udl-interactions__section h3 {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: var(--text-16);
+    }
+
+    .udl-sandbox .udl-interactions__intro {
+      margin: 0;
+      color: var(--color-muted);
+      max-width: 68ch;
+    }
+
+    .udl-sandbox .udl-interactions__grid {
+      display: grid;
+      gap: var(--space-3);
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      align-items: start;
+    }
+
+    .udl-sandbox .udl-interactions__grid .sandbox-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .udl-sandbox .udl-rating {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      font-family: var(--font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: var(--text-12);
+    }
+
+    .udl-sandbox .udl-rating span {
+      color: var(--color-muted);
+    }
+
+    .udl-sandbox .udl-rating input {
+      width: 100%;
+    }
+
+    .udl-sandbox .udl-toggle {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: var(--text-12);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .udl-sandbox .udl-context__grid pre {

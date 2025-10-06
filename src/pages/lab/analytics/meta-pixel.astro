@@ -32,141 +32,368 @@ import '../../../styles/analytics-sandbox.css';
         <h2 id="meta-interface-heading">Tracked interface elements</h2>
         <p>
           Each component below mirrors a production instrumentation pattern. Data attributes declare the
-          <code>fbq('track')</code> call, action source, and payload blueprint.
+          <code>fbq</code> command, action source, and payload blueprint so you can map the UI directly to the
+          Events Manager feed.
         </p>
 
-        <article class="sandbox-card meta-card" data-meta-card>
-          <header>
-            <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'LaunchCTA')</p>
-            <h3>Primary call-to-action</h3>
-          </header>
-          <p>
-            Simulates a mission-critical conversion button. Useful for validating revenue metadata before a
-            high-intent launch.
+        <div class="meta-section">
+          <h3 class="meta-section__title">Mission-critical conversions</h3>
+          <p class="meta-section__intro">
+            Buttons and forms that power acquisition programmes. These examples cover hero CTAs, meeting
+            bookings, and lead capture flows.
           </p>
-          <dl class="sandbox-card__meta">
-            <div>
-              <dt>Event</dt>
-              <dd class="mono">LaunchCTA</dd>
-            </div>
-            <div>
-              <dt>Interaction</dt>
-              <dd class="mono">click</dd>
-            </div>
-            <div>
-              <dt>Action source</dt>
-              <dd class="mono">website</dd>
-            </div>
-          </dl>
-          <button
-            class="sandbox-action meta-action"
-            data-meta-event="LaunchCTA"
-            data-meta-interaction="click"
-            data-meta-payload='{"component":"cta","cta_label":"Initiate Launch Sequence","priority":"primary","value":1250,"currency":"USD"}'
-            data-meta-feedback="cta-status"
-            type="button"
-          >
-            Initiate launch sequence
-          </button>
-          <p id="cta-status" class="meta-status">Idle — waiting for interaction.</p>
-          <details>
-            <summary class="mono">Payload blueprint</summary>
-            <pre class="meta-pre" data-meta-payload-preview></pre>
-          </details>
-        </article>
+          <div class="meta-grid">
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'LaunchCTA')</p>
+                <h3>Primary call-to-action</h3>
+              </header>
+              <p>
+                Simulates a mission-critical conversion button. Useful for validating revenue metadata before a
+                high-intent launch.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Event</dt>
+                  <dd class="mono">LaunchCTA</dd>
+                </div>
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">click</dd>
+                </div>
+                <div>
+                  <dt>Action source</dt>
+                  <dd class="mono">website</dd>
+                </div>
+              </dl>
+              <button
+                class="sandbox-action meta-action"
+                data-meta-event="LaunchCTA"
+                data-meta-interaction="click"
+                data-meta-payload='{"component":"cta","cta_label":"Initiate Launch Sequence","priority":"primary","value":1250,"currency":"USD"}'
+                data-meta-feedback="cta-status"
+                type="button"
+              >
+                Initiate launch sequence
+              </button>
+              <p id="cta-status" class="meta-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
 
-        <article class="sandbox-card meta-card" data-meta-card>
-          <header>
-            <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'ViewSpecifications')</p>
-            <h3>Specification link</h3>
-          </header>
-          <p>
-            Represents a mid-funnel content click. The payload records link context and document
-            classification for downstream attribution.
-          </p>
-          <dl class="sandbox-card__meta">
-            <div>
-              <dt>Event</dt>
-              <dd class="mono">ViewSpecifications</dd>
-            </div>
-            <div>
-              <dt>Interaction</dt>
-              <dd class="mono">click</dd>
-            </div>
-            <div>
-              <dt>Prevent default</dt>
-              <dd class="mono">true (demo only)</dd>
-            </div>
-          </dl>
-          <a
-            href="#"
-            class="sandbox-link meta-action meta-action--link"
-            data-meta-event="ViewSpecifications"
-            data-meta-interaction="click"
-            data-meta-prevent-default="true"
-            data-meta-payload='{"component":"document_link","destination":"mission-brief.pdf","content_category":"mission-overview","position":2}'
-            data-meta-feedback="link-status"
-          >
-            Download mission brief (PDF)
-          </a>
-          <p id="link-status" class="meta-status">Idle — waiting for interaction.</p>
-          <details>
-            <summary class="mono">Payload blueprint</summary>
-            <pre class="meta-pre" data-meta-payload-preview></pre>
-          </details>
-        </article>
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'ScheduleConsultation')</p>
+                <h3>Consultation scheduling</h3>
+              </header>
+              <p>
+                Demonstrates a meeting-booking CTA that passes context about the requested mission review. Use it
+                to validate custom conversion goals before launch.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Event</dt>
+                  <dd class="mono">ScheduleConsultation</dd>
+                </div>
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">click</dd>
+                </div>
+                <div>
+                  <dt>Action source</dt>
+                  <dd class="mono">website</dd>
+                </div>
+              </dl>
+              <button
+                class="sandbox-action meta-action"
+                data-meta-event="ScheduleConsultation"
+                data-meta-interaction="click"
+                data-meta-payload='{"component":"cta","cta_label":"Book Flight Readiness Review","priority":"secondary","mission_window":"Q3","value":0}'
+                data-meta-feedback="schedule-status"
+                type="button"
+              >
+                Book readiness review
+              </button>
+              <p id="schedule-status" class="meta-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
 
-        <article class="sandbox-card meta-card" data-meta-card>
-          <header>
-            <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'LeadSubmission')</p>
-            <h3>Qualified lead form</h3>
-          </header>
-          <p>
-            Mimics a short lead capture flow with hashed identifiers. Submission is intercepted so you can
-            review the outbound payload without leaving the page.
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'LeadSubmission')</p>
+                <h3>Qualified lead form</h3>
+              </header>
+              <p>
+                Mimics a short lead capture flow with hashed identifiers. Submission is intercepted so you can
+                review the outbound payload without leaving the page.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Event</dt>
+                  <dd class="mono">LeadSubmission</dd>
+                </div>
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">submit</dd>
+                </div>
+                <div>
+                  <dt>Identifiers</dt>
+                  <dd class="mono">SHA-256 placeholders</dd>
+                </div>
+              </dl>
+              <form
+                class="sandbox-form meta-form meta-action"
+                data-meta-event="LeadSubmission"
+                data-meta-interaction="submit"
+                data-meta-prevent-default="true"
+                data-meta-payload='{"form_id":"lead-capture-sandbox","lead_type":"enterprise","advanced_matching":{"email":"4b825dc642cb6eb9a060e54bf8d69288","external_id":"9f5738f9c2d64f7fa2cb"}}'
+                data-meta-feedback="form-status"
+              >
+                <label>
+                  Mission focus
+                  <select name="mission_focus">
+                    <option value="orbital">Orbital research</option>
+                    <option value="deep-space">Deep space comms</option>
+                    <option value="earth-observation">Earth observation</option>
+                  </select>
+                </label>
+                <label>
+                  Mission email (hashed)
+                  <input type="text" name="hashed_email" value="4b825dc642cb6eb9a060e54bf8d69288" readonly />
+                </label>
+                <button type="submit" class="sandbox-action">Transmit lead</button>
+              </form>
+              <p id="form-status" class="meta-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+          </div>
+        </div>
+
+        <div class="meta-section">
+          <h3 class="meta-section__title">Content engagement</h3>
+          <p class="meta-section__intro">
+            Mid-funnel behaviors spanning resource downloads, media milestones, and newsletter sign-ups. These
+            events power retargeting and propensity models.
           </p>
-          <dl class="sandbox-card__meta">
-            <div>
-              <dt>Event</dt>
-              <dd class="mono">LeadSubmission</dd>
-            </div>
-            <div>
-              <dt>Interaction</dt>
-              <dd class="mono">submit</dd>
-            </div>
-            <div>
-              <dt>Identifiers</dt>
-              <dd class="mono">SHA-256 placeholders</dd>
-            </div>
-          </dl>
-          <form
-            class="sandbox-form meta-form meta-action"
-            data-meta-event="LeadSubmission"
-            data-meta-interaction="submit"
-            data-meta-prevent-default="true"
-            data-meta-payload='{"form_id":"lead-capture-sandbox","lead_type":"enterprise","advanced_matching":{"email":"4b825dc642cb6eb9a060e54bf8d69288","external_id":"9f5738f9c2d64f7fa2cb"}}'
-            data-meta-feedback="form-status"
-          >
-            <label>
-              Mission focus
-              <select name="mission_focus">
-                <option value="orbital">Orbital research</option>
-                <option value="deep-space">Deep space comms</option>
-                <option value="earth-observation">Earth observation</option>
-              </select>
-            </label>
-            <label>
-              Mission email (hashed)
-              <input type="text" name="hashed_email" value="4b825dc642cb6eb9a060e54bf8d69288" readonly />
-            </label>
-            <button type="submit" class="sandbox-action">Transmit lead</button>
-          </form>
-          <p id="form-status" class="meta-status">Idle — waiting for interaction.</p>
-          <details>
-            <summary class="mono">Payload blueprint</summary>
-            <pre class="meta-pre" data-meta-payload-preview></pre>
-          </details>
-        </article>
+          <div class="meta-grid">
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'ViewSpecifications')</p>
+                <h3>Specification link</h3>
+              </header>
+              <p>
+                Represents a mid-funnel content click. The payload records link context and document
+                classification for downstream attribution.
+              </p>
+              <dl class="sandbox-card__meta">
+                <div>
+                  <dt>Event</dt>
+                  <dd class="mono">ViewSpecifications</dd>
+                </div>
+                <div>
+                  <dt>Interaction</dt>
+                  <dd class="mono">click</dd>
+                </div>
+                <div>
+                  <dt>Prevent default</dt>
+                  <dd class="mono">true (demo only)</dd>
+                </div>
+              </dl>
+              <a
+                href="#"
+                class="sandbox-link meta-action meta-action--link"
+                data-meta-event="ViewSpecifications"
+                data-meta-interaction="click"
+                data-meta-prevent-default="true"
+                data-meta-payload='{"component":"document_link","destination":"mission-brief.pdf","content_category":"mission-overview","position":2}'
+                data-meta-feedback="link-status"
+              >
+                Download mission brief (PDF)
+              </a>
+              <p id="link-status" class="meta-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'VideoView')</p>
+                <h3>Video milestones</h3>
+              </header>
+              <p>
+                Trigger start, midpoint, and completion signals for a mission briefing. Mid-roll checkpoints use
+                <code>trackCustom</code> to avoid polluting standard reporting.
+              </p>
+              <div class="meta-milestones">
+                <button
+                  class="sandbox-action meta-action"
+                  type="button"
+                  data-meta-event="VideoView"
+                  data-meta-payload='{"content_type":"mission_briefing","video_title":"Mission Brief 01","position":"hero","value":0}'
+                  data-meta-feedback="video-status"
+                >
+                  Start playback
+                </button>
+                <button
+                  class="sandbox-action meta-action"
+                  type="button"
+                  data-meta-command="trackCustom"
+                  data-meta-event="VideoMidpoint"
+                  data-meta-payload='{"content_type":"mission_briefing","video_title":"Mission Brief 01","percent":50}'
+                  data-meta-feedback="video-status"
+                >
+                  Hit 50% milestone
+                </button>
+                <button
+                  class="sandbox-action meta-action"
+                  type="button"
+                  data-meta-command="trackCustom"
+                  data-meta-event="VideoComplete"
+                  data-meta-payload='{"content_type":"mission_briefing","video_title":"Mission Brief 01","duration":185}'
+                  data-meta-feedback="video-status"
+                >
+                  Complete playback
+                </button>
+              </div>
+              <p id="video-status" class="meta-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'Subscribe')</p>
+                <h3>Newsletter subscription</h3>
+              </header>
+              <p>
+                Captures lifecycle engagement by logging a newsletter opt-in. The payload includes consent and
+                topic preferences for downstream syncing.
+              </p>
+              <form
+                class="sandbox-form meta-form meta-action"
+                data-meta-event="Subscribe"
+                data-meta-interaction="submit"
+                data-meta-prevent-default="true"
+                data-meta-payload='{"form_id":"newsletter-opt-in","topics":["analytics","mission-updates"],"consent":"granted"}'
+                data-meta-feedback="subscribe-status"
+              >
+                <label>
+                  Email (hashed)
+                  <input type="text" name="hashed_email" value="bd2b1aaf7ef4f70f20caba940c19" readonly />
+                </label>
+                <label>
+                  Preferred cadence
+                  <select name="cadence">
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                  </select>
+                </label>
+                <button type="submit" class="sandbox-action">Record subscription</button>
+              </form>
+              <p id="subscribe-status" class="meta-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+          </div>
+        </div>
+
+        <div class="meta-section">
+          <h3 class="meta-section__title">Commerce &amp; lifecycle</h3>
+          <p class="meta-section__intro">
+            Full-funnel commerce events for catalog optimisation. Fire each step to validate attribution and
+            ensure value and currency properties map correctly.
+          </p>
+          <div class="meta-grid">
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'AddToCart')</p>
+                <h3>Add to cart</h3>
+              </header>
+              <p>
+                Signals that a payload containing mission hardware has been staged for purchase. Includes
+                product category metadata for catalog segmentation.
+              </p>
+              <button
+                class="sandbox-action meta-action"
+                type="button"
+                data-meta-event="AddToCart"
+                data-meta-payload='{"content_type":"product","content_ids":["telemetry-kit"],"content_category":"hardware","value":199,"currency":"USD"}'
+                data-meta-feedback="cart-status"
+              >
+                Add telemetry kit
+              </button>
+              <p id="cart-status" class="meta-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'InitiateCheckout')</p>
+                <h3>Checkout initiation</h3>
+              </header>
+              <p>
+                Represents a cart advancing to checkout. The payload mirrors required parameters for the Meta
+                Conversions API including item IDs and order value.
+              </p>
+              <button
+                class="sandbox-action meta-action"
+                type="button"
+                data-meta-event="InitiateCheckout"
+                data-meta-payload='{"content_type":"product","num_items":1,"value":199,"currency":"USD","checkout_step":1}'
+                data-meta-feedback="checkout-status"
+              >
+                Begin secure checkout
+              </button>
+              <p id="checkout-status" class="meta-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'Purchase')</p>
+                <h3>Purchase confirmation</h3>
+              </header>
+              <p>
+                Completes the funnel with a simulated purchase event. Toggle it last to confirm deduplication
+                logic downstream.
+              </p>
+              <button
+                class="sandbox-action meta-action"
+                type="button"
+                data-meta-event="Purchase"
+                data-meta-payload='{"content_type":"product","content_ids":["telemetry-kit"],"value":199,"currency":"USD","order_id":"META-DEMO-001"}'
+                data-meta-feedback="purchase-status"
+              >
+                Log purchase
+              </button>
+              <p id="purchase-status" class="meta-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+          </div>
+        </div>
       </section>
 
       <aside class="sandbox-console meta-console" data-console-panel aria-labelledby="meta-console-heading">
@@ -387,7 +614,8 @@ import '../../../styles/analytics-sandbox.css';
       if (!card) return;
       const callLabel = card.querySelector('[data-meta-call]');
       if (callLabel) {
-        callLabel.textContent = `fbq('track', '${element.dataset.metaEvent}', ${prettyJson(payload)})`;
+        const command = element.dataset.metaCommand || 'track';
+        callLabel.textContent = `fbq('${command}', '${element.dataset.metaEvent}', ${prettyJson(payload)})`;
       }
       const previewBlock = card.querySelector('[data-meta-payload-preview]');
       if (previewBlock) {
@@ -396,7 +624,7 @@ import '../../../styles/analytics-sandbox.css';
     };
 
     const registerInteraction = (element) => {
-      const { metaEvent, metaInteraction, metaPreventDefault, metaFeedback } = element.dataset;
+      const { metaEvent, metaInteraction, metaPreventDefault, metaFeedback, metaCommand } = element.dataset;
       let payload = {};
       try {
         payload = element.dataset.metaPayload ? JSON.parse(element.dataset.metaPayload) : {};
@@ -412,7 +640,8 @@ import '../../../styles/analytics-sandbox.css';
           event.preventDefault();
         }
 
-        fbq('track', metaEvent, payload);
+        const command = metaCommand || 'track';
+        fbq(command, metaEvent, payload);
 
         element.classList.add('meta-action--fired');
         window.setTimeout(() => {
@@ -443,6 +672,43 @@ import '../../../styles/analytics-sandbox.css';
   </script>
 
   <style>
+    .meta-sandbox .meta-section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .meta-sandbox .meta-section + .meta-section {
+      margin-top: var(--space-4);
+      padding-top: var(--space-3);
+      border-top: 1px solid color-mix(in srgb, var(--color-rule) 65%, transparent);
+    }
+
+    .meta-sandbox .meta-section__title {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: var(--text-16);
+    }
+
+    .meta-sandbox .meta-section__intro {
+      margin: 0;
+      color: var(--color-muted);
+      max-width: 68ch;
+    }
+
+    .meta-sandbox .meta-grid {
+      display: grid;
+      gap: var(--space-3);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .meta-sandbox .meta-milestones {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
     .meta-sandbox .meta-card details {
       border-top: 1px solid var(--color-rule);
       padding-top: var(--space-2);
