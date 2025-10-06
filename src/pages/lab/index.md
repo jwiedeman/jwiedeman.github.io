@@ -2,9 +2,8 @@
 layout: ../../layouts/Layout.astro
 title: "Lab"
 ---
-<div class="container">
-  <h1>Lab</h1>
-  <div class="grid">
+<h1>Lab</h1>
+<div class="grid">
     <article class="card span-4">
       <div class="label mono">001</div>
       <div>
@@ -40,5 +39,4 @@ title: "Lab"
         <p>Generative art, design, and visual studies.</p>
       </div>
     </article>
-  </div>
 </div>

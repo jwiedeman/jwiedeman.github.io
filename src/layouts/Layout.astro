@@ -2,13 +2,15 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import HeadingTracker from '../components/HeadingTracker.astro';
 
 const {
   title: propTitle,
   description: propDescription,
   showNav = true,
   showFooter = true,
-  frontmatter = {}
+  frontmatter = {},
+  headingTracker: headingTrackerProp,
 } = Astro.props;
 
 const title = propTitle ?? frontmatter.title ?? 'JWiedeman';
@@ -39,6 +41,41 @@ const breadcrumbs = rawSegments
   .filter(({ label }) => label.length > 0);
 
 const shouldShowBreadcrumbs = showNav && breadcrumbs.length > 0;
+
+const normalizeTrackerConfig = (value: any) => {
+  if (value === null || value === undefined) {
+    return {};
+  }
+  if (typeof value === 'boolean') {
+    return { enabled: value };
+  }
+  if (typeof value === 'object') {
+    return value;
+  }
+  return {};
+};
+
+const path = Astro.url.pathname;
+const isBlogArticle = path.startsWith('/blog/') && path !== '/blog';
+const isLabPage = path.startsWith('/lab');
+
+const defaultTrackerConfig = {
+  enabled: isBlogArticle || isLabPage,
+  containerClass: 'container',
+  headingsSelector: 'h2, h3',
+  topLabel: isBlogArticle ? 'Article index' : 'On this page',
+  sideLabel: isLabPage ? 'Current module' : 'Current section',
+  minHeadings: 2,
+};
+
+const trackerConfig = {
+  ...defaultTrackerConfig,
+  ...normalizeTrackerConfig(frontmatter.headingTracker),
+  ...normalizeTrackerConfig(headingTrackerProp),
+};
+
+const trackerContentId = trackerConfig.contentId ?? 'tracked-content';
+const showHeadingTracker = Boolean(trackerConfig.enabled);
 ---
 <!DOCTYPE html>
 <html lang="en" class="theme-light">
@@ -68,7 +105,20 @@ const shouldShowBreadcrumbs = showNav && breadcrumbs.length > 0;
       </nav>
     )}
     <main class:list={{ 'site-main': true, 'site-main--flush': !showNav }}>
-      <slot />
+      {showHeadingTracker ? (
+        <HeadingTracker
+          containerClass={trackerConfig.containerClass ?? ''}
+          contentId={trackerContentId}
+          headingsSelector={trackerConfig.headingsSelector ?? 'h2, h3'}
+          topLabel={trackerConfig.topLabel ?? (isBlogArticle ? 'Article index' : 'On this page')}
+          sideLabel={trackerConfig.sideLabel ?? (isLabPage ? 'Current module' : 'Current section')}
+          minHeadings={Number(trackerConfig.minHeadings ?? 2)}
+        >
+          <slot />
+        </HeadingTracker>
+      ) : (
+        <slot />
+      )}
     </main>
     {showFooter && <Footer />}
   </body>

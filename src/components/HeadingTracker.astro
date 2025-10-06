@@ -1,0 +1,236 @@
+---
+interface HeadingTrackerProps {
+  containerClass?: string;
+  contentId?: string;
+  headingsSelector?: string;
+  topLabel?: string;
+  sideLabel?: string;
+  minHeadings?: number;
+}
+
+const {
+  containerClass = '',
+  contentId = 'tracked-content',
+  headingsSelector = 'h2, h3',
+  topLabel = 'Page index',
+  sideLabel = 'Now viewing',
+  minHeadings = 2,
+} = Astro.props as HeadingTrackerProps;
+
+const wrapperClasses = ['heading-tracker'];
+if (containerClass) {
+  wrapperClasses.push(containerClass);
+}
+
+const topListId = `${contentId}-top`; 
+const sideListId = `${contentId}-rail`;
+---
+<div
+  class={wrapperClasses.join(' ')}
+  data-heading-tracker
+  data-heading-selector={headingsSelector}
+  data-min-headings={String(minHeadings)}
+>
+  <aside
+    class="heading-tracker__rail"
+    aria-label={sideLabel}
+    data-heading-rail
+    hidden
+  >
+    <p class="heading-tracker__rail-label mono">{sideLabel}</p>
+    <nav aria-label={sideLabel}>
+      <ol id={sideListId} class="heading-tracker__list" data-heading-rail-list></ol>
+    </nav>
+  </aside>
+  <div class="heading-tracker__main">
+    <div class="heading-tracker__top hairline-bottom" data-heading-top hidden>
+      <p class="heading-tracker__top-label mono">{topLabel}</p>
+      <nav aria-label={topLabel}>
+        <ol id={topListId} class="heading-tracker__list" data-heading-top-list></ol>
+      </nav>
+    </div>
+    <div id={contentId} class="heading-tracker__content">
+      <slot />
+    </div>
+  </div>
+</div>
+<script type="module">
+  const wrapper = document.currentScript?.closest('[data-heading-tracker]');
+  if (!wrapper) {
+    return;
+  }
+
+  const contentId = {JSON.stringify(contentId)};
+  const selectorFallback = {JSON.stringify(headingsSelector)};
+  const topList = wrapper.querySelector('[data-heading-top-list]');
+  const railList = wrapper.querySelector('[data-heading-rail-list]');
+  const topSection = wrapper.querySelector('[data-heading-top]');
+  const railSection = wrapper.querySelector('[data-heading-rail]');
+  const escapeSelector = (value) => {
+    if (typeof CSS !== 'undefined' && typeof CSS.escape === 'function') {
+      return CSS.escape(value);
+    }
+    return String(value).replace(/([ #;?%&,.+*~':"!^$\\[\\]()=>|\/=])/g, '\\$1');
+  };
+
+  const content = wrapper.querySelector(`#${escapeSelector(contentId)}`);
+
+  if (!content || !topList || !railList || !topSection || !railSection) {
+    return;
+  }
+
+  const selector = wrapper.dataset.headingSelector || selectorFallback;
+  const minHeadings = Number(wrapper.dataset.minHeadings || '2');
+
+  const headings = Array.from(content.querySelectorAll(selector))
+    .filter((heading) => heading instanceof HTMLElement)
+    .map((heading) => heading);
+
+  if (headings.length < minHeadings) {
+    wrapper.classList.add('heading-tracker--empty');
+    return;
+  }
+
+  const slugCounts = new Map();
+
+  const slugify = (value) => {
+    return value
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-');
+  };
+
+  const records = headings.map((heading) => {
+    let title = heading.textContent ? heading.textContent.trim() : '';
+    if (!title) {
+      title = heading.dataset?.headingTitle || 'Section';
+    }
+
+    let id = heading.id;
+    if (!id) {
+      const base = slugify(title || 'section') || 'section';
+      const count = slugCounts.get(base) || 0;
+      slugCounts.set(base, count + 1);
+      id = count ? `${base}-${count + 1}` : base;
+      heading.id = id;
+    }
+
+    const levelMatch = /^h(\d)$/i.exec(heading.tagName);
+    const level = levelMatch ? parseInt(levelMatch[1], 10) : 2;
+
+    heading.setAttribute('data-heading-source', 'tracker');
+
+    return {
+      id,
+      title,
+      level,
+      element: heading,
+    };
+  });
+
+  const filtered = records.filter((record) => record.level >= 2 && record.level <= 4);
+
+  if (!filtered.length) {
+    wrapper.classList.add('heading-tracker--empty');
+    return;
+  }
+
+  const createLink = (record) => {
+    const link = document.createElement('a');
+    link.href = `#${record.id}`;
+    link.textContent = record.title;
+    link.className = 'heading-tracker__link';
+    link.dataset.headingId = record.id;
+    link.setAttribute('data-heading-link', record.id);
+    return link;
+  };
+
+  const buildLists = (container, items) => {
+    container.innerHTML = '';
+    let currentParent = null;
+
+    items.forEach((record) => {
+      const li = document.createElement('li');
+      li.className = `heading-tracker__item heading-tracker__item--level${record.level}`;
+      const link = createLink(record);
+      li.appendChild(link);
+
+      if (record.level <= 2 || !currentParent) {
+        container.appendChild(li);
+        if (record.level <= 2) {
+          currentParent = li;
+        }
+      } else {
+        let parent = currentParent;
+        if (record.level === 2) {
+          container.appendChild(li);
+          currentParent = li;
+        } else {
+          if (!parent) {
+            container.appendChild(li);
+          } else {
+            let nested = parent.querySelector('ol');
+            if (!nested) {
+              nested = document.createElement('ol');
+              nested.className = 'heading-tracker__list heading-tracker__list--nested';
+              parent.appendChild(nested);
+            }
+            nested.appendChild(li);
+          }
+        }
+      }
+
+      if (record.level === 2) {
+        currentParent = li;
+      }
+    });
+  };
+
+  buildLists(topList, filtered);
+  buildLists(railList, filtered);
+
+  topSection.hidden = false;
+  railSection.hidden = false;
+
+  const links = Array.from(wrapper.querySelectorAll('[data-heading-link]'));
+
+  const setActive = (id) => {
+    links.forEach((link) => {
+      if (link.dataset.headingId === id) {
+        link.setAttribute('aria-current', 'true');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+      if (visible.length > 0) {
+        const active = visible[0].target.id;
+        setActive(active);
+        return;
+      }
+
+      const fallback = entries
+        .slice()
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+      if (fallback && fallback.target && fallback.target.id) {
+        setActive(fallback.target.id);
+      }
+    },
+    {
+      rootMargin: '-45% 0px -40% 0px',
+      threshold: [0.05, 0.25, 0.5, 0.75],
+    }
+  );
+
+  filtered.forEach((record) => {
+    observer.observe(record.element);
+  });
+})();
+</script>

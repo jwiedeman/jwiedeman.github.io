@@ -2,14 +2,16 @@
 import Layout from './Layout.astro';
 const { title, pubDate, updatedDate, tags = [] } = Astro.props;
 ---
-<Layout title={title}>
-  <div class="container">
-    <article>
-      <h1>{title}</h1>
-      <p class="mono">{pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}{updatedDate && ` (updated ${updatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })})`}</p>
-      {tags.length > 0 && <p class="mono">Tags: {tags.join(', ')}</p>}
-      <slot />
-      <p><a href="/blog">← Back to blog</a></p>
-    </article>
-  </div>
+<Layout title={title} headingTracker={{ containerClass: 'container', minHeadings: 1 }}>
+  <article>
+    <h1>{title}</h1>
+    <p class="mono">
+      {pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+      {updatedDate &&
+        ` (updated ${updatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })})`}
+    </p>
+    {tags.length > 0 && <p class="mono">Tags: {tags.join(', ')}</p>}
+    <slot />
+    <p><a href="/blog">← Back to blog</a></p>
+  </article>
 </Layout>

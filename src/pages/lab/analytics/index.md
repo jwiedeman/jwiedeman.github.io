@@ -2,9 +2,8 @@
 layout: ../../../layouts/Layout.astro
 title: "Analytics"
 ---
-<div class="container">
-  <h1>Analytics</h1>
-  <div class="grid">
+<h1>Analytics</h1>
+<div class="grid">
     <article class="card span-4">
       <div class="label mono">001</div>
       <div>
@@ -54,5 +53,4 @@ title: "Analytics"
         <p>Example data layer pattern with custom events.</p>
       </div>
     </article>
-  </div>
 </div>

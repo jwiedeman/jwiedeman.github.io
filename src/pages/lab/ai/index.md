@@ -2,10 +2,9 @@
 layout: ../../../layouts/Layout.astro
 title: "AI"
 ---
-<div class="container">
-  <h1>AI</h1>
-  <p class="mono">Explorations in applied machine intelligence for real-world sensing, classification, and play.</p>
-  <div class="grid">
+<h1>AI</h1>
+<p class="mono">Explorations in applied machine intelligence for real-world sensing, classification, and play.</p>
+<div class="grid">
     <article class="card span-6">
       <div class="label mono">AI-001</div>
       <div>
@@ -76,5 +75,4 @@ title: "AI"
         </ul>
       </div>
     </article>
-  </div>
 </div>
