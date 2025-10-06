@@ -394,6 +394,108 @@ import '../../../styles/analytics-sandbox.css';
             </article>
           </div>
         </div>
+
+        <div class="meta-section">
+          <h3 class="meta-section__title">Retention &amp; support</h3>
+          <p class="meta-section__intro">
+            Post-purchase experiences matter as much as acquisition. These interactions cover chat, case
+            resolution, and satisfaction tracking mapped to custom pixel events.
+          </p>
+          <div class="meta-grid">
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'ChatInitiated')</p>
+                <h3>Support chat escalation</h3>
+              </header>
+              <p>
+                Simulates launching a live chat from the command console. The payload includes channel and
+                issue taxonomy to help support teams triage inbound conversations.
+              </p>
+              <button
+                class="sandbox-action meta-action"
+                type="button"
+                data-meta-command="trackCustom"
+                data-meta-event="ChatInitiated"
+                data-meta-payload='{"channel":"widget","issue_type":"mission_support","priority":"standard"}'
+                data-meta-feedback="meta-chat-status"
+              >
+                Initiate support chat
+              </button>
+              <p id="meta-chat-status" class="meta-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'CaseResolved')</p>
+                <h3>Case resolution</h3>
+              </header>
+              <p>
+                Records when a mission-critical ticket is closed. Feed this event into retention audiences to
+                suppress resolved users from additional outreach.
+              </p>
+              <button
+                class="sandbox-action meta-action"
+                type="button"
+                data-meta-command="trackCustom"
+                data-meta-event="CaseResolved"
+                data-meta-payload='{"case_id":"CASE-4421","resolution_time":37,"first_contact_resolution":true}'
+                data-meta-feedback="meta-case-status"
+              >
+                Log case resolution
+              </button>
+              <p id="meta-case-status" class="meta-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+
+            <article class="sandbox-card meta-card" data-meta-card>
+              <header>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'SatisfactionSurvey')</p>
+                <h3>Satisfaction survey</h3>
+              </header>
+              <p>
+                Captures a post-engagement satisfaction score and verbatim. Pair it with case metadata to
+                unlock closed-loop reporting.
+              </p>
+              <form
+                class="sandbox-form meta-form meta-action"
+                data-meta-command="trackCustom"
+                data-meta-event="SatisfactionSurvey"
+                data-meta-interaction="submit"
+                data-meta-prevent-default="true"
+                data-meta-payload='{"survey_id":"csat-2024-q1","rating":5,"comment":"Outstanding support"}'
+                data-meta-feedback="meta-survey-status"
+              >
+                <label>
+                  Rating (1-5)
+                  <select name="rating">
+                    <option value="5">5 - Excellent</option>
+                    <option value="4">4 - Good</option>
+                    <option value="3">3 - Neutral</option>
+                    <option value="2">2 - Fair</option>
+                    <option value="1">1 - Poor</option>
+                  </select>
+                </label>
+                <label>
+                  Comment
+                  <input type="text" name="comment" placeholder="Resolved within minutes" />
+                </label>
+                <button type="submit" class="sandbox-action">Submit survey</button>
+              </form>
+              <p id="meta-survey-status" class="meta-status">Idle — waiting for interaction.</p>
+              <details>
+                <summary class="mono">Payload blueprint</summary>
+                <pre class="meta-pre" data-meta-payload-preview></pre>
+              </details>
+            </article>
+          </div>
+        </div>
       </section>
 
       <aside class="sandbox-console meta-console" data-console-panel aria-labelledby="meta-console-heading">

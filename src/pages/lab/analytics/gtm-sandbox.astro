@@ -259,8 +259,260 @@ import '../../../styles/analytics-sandbox.css';
                 Scroll depth sentinel (90%)
               </div>
             </article>
+            <article class="gtm-interactive__item">
+              <header>
+                <h3>Mission alert modal</h3>
+                <p class="mono">Event: modal_open &middot; Module: gtm-sandbox.modal</p>
+              </header>
+              <p>
+                Surface overlay interactions alongside dismiss and acknowledge actions. The helper below opens the modal and
+                logs subsequent button clicks inside the dialog.
+              </p>
+              <button
+                type="button"
+                id="gtm-modal-launch"
+                class="sandbox-action gtm-trackable"
+                data-gtm-event="modal_open"
+                data-gtm-element="Mission Alert Modal"
+                data-gtm-module="gtm-sandbox.modal"
+                data-gtm-trigger="click"
+                data-gtm-modal-target="gtm-alert-modal"
+                data-gtm-feedback="gtm-modal-status"
+              >
+                Launch mission alert
+              </button>
+              <p id="gtm-modal-status" class="gtm-status">Modal idle — closed.</p>
+            </article>
+
+            <article class="gtm-interactive__item">
+              <header>
+                <h3>Telemetry FAQ accordion</h3>
+                <p class="mono">Event: accordion_toggle &middot; Module: gtm-sandbox.content</p>
+              </header>
+              <p>
+                Toggle the accordion to pass along the open or closed state. This pattern helps quantify which FAQ items draw
+                the most attention.
+              </p>
+              <button
+                type="button"
+                class="sandbox-action gtm-trackable"
+                aria-expanded="false"
+                aria-controls="gtm-accordion-panel"
+                data-gtm-event="accordion_toggle"
+                data-gtm-element="Telemetry FAQ Accordion"
+                data-gtm-module="gtm-sandbox.content"
+                data-gtm-trigger="click"
+                data-gtm-dynamic="accordion"
+                data-gtm-feedback="gtm-accordion-status"
+              >
+                Toggle telemetry FAQ
+              </button>
+              <div id="gtm-accordion-panel" class="gtm-accordion" hidden>
+                <h4>Telemetry diagnostics</h4>
+                <p>Store-and-forward telemetry should clear within 90 seconds of uplink.</p>
+                <h4>Sensor jitter</h4>
+                <p>Run the jitter mitigation checklist before reprocessing sensor batches.</p>
+              </div>
+              <p id="gtm-accordion-status" class="gtm-status">Accordion collapsed.</p>
+            </article>
+
+            <article class="gtm-interactive__item">
+              <header>
+                <h3>Inline tooltip</h3>
+                <p class="mono">Event: tooltip_toggle &middot; Module: gtm-sandbox.content</p>
+              </header>
+              <p>
+                Track contextual help reveals. Each toggle records whether the tooltip is visible so you can understand which
+                helper text assists operators.
+              </p>
+              <button
+                type="button"
+                class="sandbox-action gtm-trackable"
+                aria-pressed="false"
+                aria-controls="gtm-tooltip-panel"
+                data-gtm-event="tooltip_toggle"
+                data-gtm-element="Inline Tooltip"
+                data-gtm-module="gtm-sandbox.content"
+                data-gtm-trigger="click"
+                data-gtm-dynamic="tooltip"
+                data-gtm-feedback="gtm-tooltip-status"
+              >
+                Toggle tooling primer
+              </button>
+              <div id="gtm-tooltip-panel" class="gtm-tooltip" hidden>
+                <p>The primer outlines script injection order, consent gating, and QA tips.</p>
+              </div>
+              <p id="gtm-tooltip-status" class="gtm-status">Tooltip hidden.</p>
+            </article>
+
+            <article class="gtm-interactive__item">
+              <header>
+                <h3>Copy mission brief</h3>
+                <p class="mono">Event: share_link &middot; Module: gtm-sandbox.sharing</p>
+              </header>
+              <p>
+                Copying a link emits a sharing payload with method <code>copy</code>. The helper below mirrors the clipboard
+                instrumentation typically wired through a GTM custom HTML tag.
+              </p>
+              <button
+                type="button"
+                class="sandbox-action gtm-trackable"
+                data-gtm-event="share_link"
+                data-gtm-element="Copy Mission Brief"
+                data-gtm-module="gtm-sandbox.sharing"
+                data-gtm-trigger="click"
+                data-gtm-dynamic="copy"
+                data-gtm-copy="https://intranet.example/missions/briefing-01"
+                data-gtm-feedback="gtm-copy-status"
+              >
+                Copy mission brief link
+              </button>
+              <p id="gtm-copy-status" class="gtm-status">No copy attempts recorded.</p>
+            </article>
+
+            <article class="gtm-interactive__item">
+              <header>
+                <h3>Theme preference</h3>
+                <p class="mono">Event: preference_update &middot; Module: gtm-sandbox.preferences</p>
+              </header>
+              <p>
+                Theme toggles update the preview tile and push the new state into the data layer for downstream personalisation
+                logic.
+              </p>
+              <div id="gtm-theme-preview" class="gtm-theme" data-theme="light">
+                <p class="gtm-theme__label">Current theme: <span data-theme-label>Light</span></p>
+              </div>
+              <button
+                type="button"
+                class="sandbox-action gtm-trackable"
+                data-gtm-event="preference_update"
+                data-gtm-element="Theme Toggle"
+                data-gtm-module="gtm-sandbox.preferences"
+                data-gtm-trigger="click"
+                data-gtm-dynamic="toggle"
+                data-gtm-toggle-target="gtm-theme-preview"
+                data-gtm-feedback="gtm-theme-status"
+              >
+                Toggle interface theme
+              </button>
+              <p id="gtm-theme-status" class="gtm-status">Theme set to light.</p>
+            </article>
+
+            <article class="gtm-interactive__item">
+              <header>
+                <h3>Tutorial milestones</h3>
+                <p class="mono">Events: tutorial_begin / tutorial_complete</p>
+              </header>
+              <p>
+                Log onboarding progress for operators. Each button maps to a dedicated event so analytics teams can monitor
+                completion rates.
+              </p>
+              <div class="gtm-stepper" data-gtm-stepper data-gtm-total-steps="3">
+                <ol class="gtm-stepper__list" data-gtm-stepper-track>
+                  <li class="gtm-stepper__item" data-step="1">Begin orientation</li>
+                  <li class="gtm-stepper__item" data-step="2">Review tagging plan</li>
+                  <li class="gtm-stepper__item" data-step="3">Complete readiness</li>
+                </ol>
+                <div class="gtm-stepper__actions">
+                  <button
+                    type="button"
+                    class="sandbox-action gtm-trackable"
+                    data-gtm-event="tutorial_begin"
+                    data-gtm-element="Tutorial Begin"
+                    data-gtm-module="gtm-sandbox.tutorial"
+                    data-gtm-trigger="click"
+                    data-gtm-dynamic="step"
+                    data-gtm-step="1"
+                    data-gtm-step-label="Begin orientation"
+                    data-gtm-feedback="gtm-tutorial-status"
+                  >
+                    Begin orientation
+                  </button>
+                  <button
+                    type="button"
+                    class="sandbox-action gtm-trackable"
+                    data-gtm-event="tutorial_step"
+                    data-gtm-element="Tutorial Midpoint"
+                    data-gtm-module="gtm-sandbox.tutorial"
+                    data-gtm-trigger="click"
+                    data-gtm-dynamic="step"
+                    data-gtm-step="2"
+                    data-gtm-step-label="Instrumentation review"
+                    data-gtm-feedback="gtm-tutorial-status"
+                  >
+                    Log midpoint
+                  </button>
+                  <button
+                    type="button"
+                    class="sandbox-action gtm-trackable"
+                    data-gtm-event="tutorial_complete"
+                    data-gtm-element="Tutorial Complete"
+                    data-gtm-module="gtm-sandbox.tutorial"
+                    data-gtm-trigger="click"
+                    data-gtm-dynamic="step"
+                    data-gtm-step="3"
+                    data-gtm-step-label="Complete readiness"
+                    data-gtm-feedback="gtm-tutorial-status"
+                  >
+                    Complete tutorial
+                  </button>
+                </div>
+              </div>
+              <p id="gtm-tutorial-status" class="gtm-status">No tutorial milestones logged.</p>
+            </article>
           </div>
         </section>
+
+        <div
+          id="gtm-alert-modal"
+          class="gtm-modal"
+          data-gtm-modal
+          data-gtm-modal-feedback="gtm-modal-status"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="gtm-alert-title"
+          aria-describedby="gtm-alert-body"
+          hidden
+          aria-hidden="true"
+        >
+          <div class="gtm-modal__dialog">
+            <header class="gtm-modal__header">
+              <h2 id="gtm-alert-title">Mission readiness alert</h2>
+            </header>
+            <div class="gtm-modal__body" id="gtm-alert-body">
+              <p>
+                Mission queue latency has exceeded the safe threshold. Confirm acknowledgement or dismiss the notice to mirror
+                standard modal tracking.
+              </p>
+            </div>
+            <footer class="gtm-modal__actions">
+              <button
+                type="button"
+                class="sandbox-action gtm-trackable"
+                data-gtm-event="modal_dismiss"
+                data-gtm-element="Dismiss Alert"
+                data-gtm-module="gtm-sandbox.modal"
+                data-gtm-trigger="click"
+                data-gtm-modal-close="true"
+                data-gtm-feedback="gtm-modal-status"
+              >
+                Dismiss alert
+              </button>
+              <button
+                type="button"
+                class="sandbox-action gtm-trackable"
+                data-gtm-event="modal_acknowledge"
+                data-gtm-element="Acknowledge Alert"
+                data-gtm-module="gtm-sandbox.modal"
+                data-gtm-trigger="click"
+                data-gtm-modal-close="true"
+                data-gtm-feedback="gtm-modal-status"
+              >
+                Acknowledge alert
+              </button>
+            </footer>
+          </div>
+        </div>
 
         <section class="sandbox-card gtm-checklist" aria-labelledby="gtm-checklist-heading">
           <h2 id="gtm-checklist-heading">Deployment checklist</h2>
@@ -330,6 +582,58 @@ import '../../../styles/analytics-sandbox.css';
       const dataLayer = window.dataLayer || [];
       window.dataLayer = dataLayer;
       const MAX_ITEMS = 8;
+
+      let activeModal = null;
+
+      const formatTimestamp = () => new Date().toLocaleTimeString();
+
+      const updateFeedback = (id, message) => {
+        if (!id) {
+          return;
+        }
+        const target = document.getElementById(id);
+        if (target) {
+          target.textContent = message;
+        }
+      };
+
+      const findModal = (id) => (id ? document.getElementById(id) : null);
+
+      const openModal = (modal, trigger) => {
+        if (!modal) {
+          return;
+        }
+        modal.hidden = false;
+        modal.setAttribute('aria-hidden', 'false');
+        modal.classList.add('gtm-modal--visible');
+        if (trigger && trigger.id) {
+          modal.dataset.returnFocus = trigger.id;
+        }
+        activeModal = modal;
+        const focusTarget = modal.querySelector('[data-gtm-modal-close]') || modal.querySelector('button');
+        if (focusTarget && typeof focusTarget.focus === 'function') {
+          focusTarget.focus();
+        }
+      };
+
+      const closeModal = (modal) => {
+        if (!modal) {
+          return;
+        }
+        modal.hidden = true;
+        modal.setAttribute('aria-hidden', 'true');
+        modal.classList.remove('gtm-modal--visible');
+        if (activeModal === modal) {
+          activeModal = null;
+        }
+        if (modal.dataset.returnFocus) {
+          const returnNode = document.getElementById(modal.dataset.returnFocus);
+          if (returnNode && typeof returnNode.focus === 'function') {
+            returnNode.focus();
+          }
+          delete modal.dataset.returnFocus;
+        }
+      };
 
       function createSandboxConsole({ limit = MAX_ITEMS } = {}) {
         const panel = document.querySelector('[data-console-panel]');
@@ -498,6 +802,11 @@ import '../../../styles/analytics-sandbox.css';
           const method = node.dataset.gtmMethod || null;
           const trigger = node.dataset.gtmTrigger || (node.tagName === 'FORM' ? 'submit' : 'click');
           const dynamic = node.dataset.gtmDynamic || null;
+          const feedbackId = node.dataset.gtmFeedback || null;
+          const modalTarget = node.dataset.gtmModalTarget || null;
+          const modalClose = node.dataset.gtmModalClose === 'true';
+          const copyValue = node.dataset.gtmCopy || null;
+          const toggleTarget = node.dataset.gtmToggleTarget || null;
 
           if (trigger === 'observe') {
             return;
@@ -525,6 +834,58 @@ import '../../../styles/analytics-sandbox.css';
             } else if (dynamic === 'state') {
               const preference = node.value || value || 'unspecified';
               computedValue = { preference, granted: node.checked };
+            } else if (dynamic === 'accordion') {
+              const expanded = node.getAttribute('aria-expanded') === 'true';
+              const nextExpanded = !expanded;
+              node.setAttribute('aria-expanded', String(nextExpanded));
+              const panel = document.getElementById(node.getAttribute('aria-controls'));
+              if (panel) {
+                panel.hidden = !nextExpanded;
+              }
+              computedValue = { state: nextExpanded ? 'expanded' : 'collapsed' };
+            } else if (dynamic === 'tooltip') {
+              const pressed = node.getAttribute('aria-pressed') === 'true';
+              const nextPressed = !pressed;
+              node.setAttribute('aria-pressed', String(nextPressed));
+              const panel = document.getElementById(node.getAttribute('aria-controls'));
+              if (panel) {
+                panel.hidden = !nextPressed;
+              }
+              computedValue = { state: nextPressed ? 'visible' : 'hidden' };
+            } else if (dynamic === 'toggle') {
+              const target = toggleTarget ? document.getElementById(toggleTarget) : null;
+              let currentState = node.dataset.gtmToggleState || 'light';
+              if (target && target.dataset.theme) {
+                currentState = target.dataset.theme;
+              }
+              const nextState = currentState === 'dark' ? 'light' : 'dark';
+              if (target) {
+                target.dataset.theme = nextState;
+                target.classList.toggle('gtm-theme--dark', nextState === 'dark');
+                const label = target.querySelector('[data-theme-label]');
+                if (label) {
+                  label.textContent = nextState.charAt(0).toUpperCase() + nextState.slice(1);
+                }
+              }
+              node.dataset.gtmToggleState = nextState;
+              computedValue = { previous_state: currentState, next_state: nextState };
+            } else if (dynamic === 'copy') {
+              computedValue = { method: 'copy', url: copyValue };
+            } else if (dynamic === 'step') {
+              const stepper = node.closest('[data-gtm-stepper]');
+              const stepNumber = Number(node.dataset.gtmStep) || 1;
+              const stepLabel = node.dataset.gtmStepLabel || node.textContent?.trim() || 'Step';
+              const totalSteps = stepper ? Number(stepper.dataset.gtmTotalSteps) || 1 : 1;
+              if (stepper) {
+                const items = stepper.querySelectorAll('[data-step]');
+                items.forEach((item) => {
+                  const itemStep = Number(item.dataset.step);
+                  if (Number.isFinite(itemStep)) {
+                    item.classList.toggle('gtm-stepper__item--complete', itemStep <= stepNumber);
+                  }
+                });
+              }
+              computedValue = { step: stepNumber, step_label: stepLabel, step_count: totalSteps };
             }
 
             pushEvent({
@@ -535,6 +896,49 @@ import '../../../styles/analytics-sandbox.css';
               method: method || trigger,
               formData
             });
+
+            if (modalTarget) {
+              const modal = findModal(modalTarget);
+              openModal(modal, node);
+            }
+
+            if (modalClose) {
+              const modal = node.closest('[data-gtm-modal]');
+              closeModal(modal);
+            }
+
+            if (dynamic === 'copy' && copyValue) {
+              if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                navigator.clipboard.writeText(copyValue).catch(() => {});
+              }
+            }
+
+            const timestamp = formatTimestamp();
+            let feedbackMessage = `Event ${eventName} logged at ${timestamp}.`;
+
+            if (dynamic === 'accordion' && computedValue && computedValue.state) {
+              feedbackMessage = `Accordion ${computedValue.state} at ${timestamp}.`;
+            } else if (dynamic === 'tooltip' && computedValue && computedValue.state) {
+              feedbackMessage = `Tooltip ${computedValue.state} at ${timestamp}.`;
+            } else if (dynamic === 'toggle' && computedValue) {
+              feedbackMessage = `Theme set to ${computedValue.next_state} at ${timestamp}.`;
+            } else if (dynamic === 'copy' && copyValue) {
+              feedbackMessage = `Copied ${copyValue} at ${timestamp}.`;
+            } else if (dynamic === 'step' && computedValue) {
+              feedbackMessage = `${computedValue.step_label} logged (step ${computedValue.step}/${computedValue.step_count}) at ${timestamp}.`;
+            }
+
+            if (modalTarget) {
+              feedbackMessage = `Modal opened at ${timestamp}.`;
+            }
+
+            if (modalClose) {
+              feedbackMessage = `${eventName.replace('modal_', '').replace('_', ' ')} recorded at ${timestamp}.`;
+            }
+
+            if (feedbackId) {
+              updateFeedback(feedbackId, feedbackMessage);
+            }
 
             if (node instanceof HTMLFormElement && trigger === 'submit') {
               node.reset();
@@ -555,6 +959,28 @@ import '../../../styles/analytics-sandbox.css';
       });
 
       attachListeners();
+
+      document.querySelectorAll('[data-gtm-modal]').forEach((modal) => {
+        modal.addEventListener('click', (event) => {
+          if (event.target === modal) {
+            closeModal(modal);
+            const feedback = modal.dataset.gtmModalFeedback;
+            if (feedback) {
+              updateFeedback(feedback, `Modal dismissed at ${formatTimestamp()}.`);
+            }
+          }
+        });
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && activeModal) {
+          const modal = activeModal;
+          closeModal(modal);
+          if (modal && modal.dataset.gtmModalFeedback) {
+            updateFeedback(modal.dataset.gtmModalFeedback, `Modal dismissed via Escape at ${formatTimestamp()}.`);
+          }
+        }
+      });
 
       const scrollSentinel = document.querySelector('[data-gtm-scroll]');
       if (scrollSentinel) {
@@ -681,6 +1107,128 @@ import '../../../styles/analytics-sandbox.css';
     .gtm-sandbox .gtm-checklist__list strong {
       letter-spacing: 0.08em;
       margin-right: var(--space-1);
+    }
+
+    .gtm-sandbox .gtm-status {
+      margin: 0;
+      font-size: var(--text-12);
+      color: var(--color-muted);
+    }
+
+    .gtm-sandbox .gtm-accordion {
+      margin-top: var(--space-2);
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(255, 255, 255, 0.55);
+      display: grid;
+      gap: var(--space-1);
+    }
+
+    .gtm-sandbox .gtm-tooltip {
+      margin-top: var(--space-2);
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .gtm-sandbox .gtm-theme {
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(255, 255, 255, 0.85);
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .gtm-sandbox .gtm-theme--dark {
+      background: #181818;
+      color: #f3eddf;
+    }
+
+    .gtm-sandbox .gtm-theme__label {
+      margin: 0;
+      font-family: var(--font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .gtm-sandbox .gtm-stepper {
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .gtm-sandbox .gtm-stepper__list {
+      margin: 0;
+      padding-left: var(--space-3);
+      display: grid;
+      gap: var(--space-1);
+    }
+
+    .gtm-sandbox .gtm-stepper__item {
+      position: relative;
+      padding-left: var(--space-2);
+    }
+
+    .gtm-sandbox .gtm-stepper__item::before {
+      content: '○';
+      position: absolute;
+      left: 0;
+      font-family: var(--font-mono);
+      color: var(--color-muted);
+    }
+
+    .gtm-sandbox .gtm-stepper__item--complete::before {
+      content: '●';
+      color: var(--color-text);
+    }
+
+    .gtm-sandbox .gtm-stepper__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .gtm-sandbox .gtm-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+      z-index: 30;
+    }
+
+    .gtm-sandbox .gtm-modal[hidden] {
+      display: none;
+    }
+
+    .gtm-sandbox .gtm-modal__dialog {
+      background: var(--color-bg);
+      color: var(--color-text);
+      border-radius: var(--radius-2);
+      border: 1px solid var(--color-rule);
+      max-width: 420px;
+      width: 100%;
+      padding: var(--space-3);
+      display: grid;
+      gap: var(--space-2);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+    }
+
+    .gtm-sandbox .gtm-modal__header h2 {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: var(--text-16);
+    }
+
+    .gtm-sandbox .gtm-modal__actions {
+      display: flex;
+      gap: var(--space-2);
+      justify-content: flex-end;
+      flex-wrap: wrap;
     }
   </style>
 </Layout>
