@@ -132,6 +132,82 @@ const scrollDepthParams = {
   content_group: 'mission-protocols',
   viewport_height: 'desktop'
 };
+
+const modalViewParams = {
+  content_type: 'modal',
+  content_id: 'mission-alert',
+  content_name: 'Mission readiness alert'
+};
+
+const modalDismissParams = {
+  content_type: 'modal',
+  content_id: 'mission-alert',
+  interaction_state: 'dismissed'
+};
+
+const modalAcknowledgeParams = {
+  content_type: 'modal',
+  content_id: 'mission-alert',
+  interaction_state: 'acknowledged'
+};
+
+const accordionParams = {
+  content_type: 'accordion',
+  content_id: 'faq-telemetry',
+  content_name: 'Telemetry operations FAQ'
+};
+
+const tooltipParams = {
+  content_type: 'tooltip',
+  content_id: 'mission-tooling',
+  content_name: 'Mission tooling primer'
+};
+
+const copyShareParams = {
+  method: 'copy',
+  content_type: 'mission_brief',
+  content_id: 'mission-brief-01',
+  content_name: 'Mission brief 01'
+};
+
+const socialShareParams = {
+  method: 'share',
+  medium: 'x',
+  content_type: 'mission_brief',
+  content_id: 'mission-brief-01',
+  content_name: 'Mission brief 01'
+};
+
+const printShareParams = {
+  method: 'print',
+  content_type: 'mission_brief',
+  content_id: 'mission-brief-01',
+  content_name: 'Mission brief 01'
+};
+
+const themeToggleParams = {
+  content_type: 'preference',
+  content_id: 'theme',
+  content_name: 'Interface theme toggle'
+};
+
+const loginParams = {
+  method: 'sso',
+  screen_name: 'mission_control',
+  user_type: 'operator'
+};
+
+const signUpParams = {
+  method: 'email',
+  campaign: 'mission-readiness',
+  user_role: 'mission_specialist'
+};
+
+const tutorialBaseParams = {
+  tutorial_id: 'ga4-orientation',
+  tutorial_name: 'GA4 sandbox orientation',
+  step_count: 3
+};
 ---
 <Layout title="GA4 Sandbox">
   <div class="container analytics-sandbox ga4-sandbox">
@@ -676,8 +752,313 @@ const scrollDepthParams = {
                 Simulate timeout
               </button>
             </article>
-          </div>
         </div>
+      </div>
+
+      <div class="tracked-group">
+        <h3 class="tracked-group__title">Interface overlays &amp; detail panels</h3>
+        <p class="tracked-group__intro">
+          Validate instrumentation for modals, accordions, and contextual tooltips. These UI flourishes often live outside
+          traditional click paths but still require measurement coverage.
+        </p>
+        <div class="tracked-grid">
+          <article class="sandbox-card tracked-card" data-event="modal_open">
+            <header>
+              <p class="sandbox-card__tag mono">Event: modal_open</p>
+              <h3>Mission alert modal</h3>
+            </header>
+            <p>
+              Launching the modal fires a <code>modal_open</code> event tagged with modal metadata. Additional buttons inside
+              the overlay demonstrate how dismiss and acknowledge actions can be tracked.
+            </p>
+            <dl class="tracked-definition sandbox-card__meta">
+              <div>
+                <dt>Trigger</dt>
+                <dd>Button click</dd>
+              </div>
+              <div>
+                <dt>Parameters</dt>
+                <dd>
+                  <code>&#123;&quot;content_type&quot;:&quot;modal&quot;,&quot;content_id&quot;:&quot;mission-alert&quot;&#125;</code>
+                </dd>
+              </div>
+            </dl>
+            <button
+              type="button"
+              class="sandbox-action"
+              data-ga4-event="modal_open"
+              data-ga4-params={JSON.stringify(modalViewParams)}
+              data-ga4-modal-target="ga4-alert-modal"
+              data-ga4-feedback="ga4-modal-status"
+            >
+              Launch readiness alert
+            </button>
+            <p id="ga4-modal-status" class="tracked-status">Idle — modal closed.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="view_item_list">
+            <header>
+              <p class="sandbox-card__tag mono">Event: view_item_list</p>
+              <h3>Telemetry FAQ accordion</h3>
+            </header>
+            <p>
+              Accordion toggles emit their expanded state so you can measure which knowledge cards garner the most attention
+              without storing UI state elsewhere.
+            </p>
+            <button
+              type="button"
+              class="sandbox-action"
+              aria-expanded="false"
+              aria-controls="ga4-faq-panel"
+              data-ga4-event="view_item_list"
+              data-ga4-dynamic="accordion"
+              data-ga4-params={JSON.stringify(accordionParams)}
+            >
+              Toggle telemetry FAQ
+            </button>
+            <div id="ga4-faq-panel" class="tracked-accordion" hidden>
+              <h4>Telemetry diagnostics</h4>
+              <p>Store-and-forward telemetry should flush within 90 seconds of regaining uplink.</p>
+              <h4>Sensor jitter</h4>
+              <p>Use the jitter mitigation checklist before rerunning calibrations to avoid duplicate alerts.</p>
+            </div>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="select_content">
+            <header>
+              <p class="sandbox-card__tag mono">Event: select_content</p>
+              <h3>Inline tooltip</h3>
+            </header>
+            <p>
+              Info tooltips are frequently overlooked in measurement plans. This demo maps tooltip exposure and dismissal to a
+              custom payload so analysts understand which contextual helpers resonate.
+            </p>
+            <button
+              type="button"
+              class="sandbox-action sandbox-action--icon"
+              aria-pressed="false"
+              aria-controls="ga4-tooltip-panel"
+              data-ga4-event="select_content"
+              data-ga4-dynamic="tooltip"
+              data-ga4-params={JSON.stringify(tooltipParams)}
+              data-ga4-feedback="ga4-tooltip-status"
+            >
+              Toggle tooling primer
+            </button>
+            <div id="ga4-tooltip-panel" class="tracked-tooltip" hidden>
+              <p>The mission tooling primer covers environment setup, script injection order, and testing cadence.</p>
+            </div>
+            <p id="ga4-tooltip-status" class="tracked-status">Idle — tooltip hidden.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="tracked-group">
+        <h3 class="tracked-group__title">Collaboration &amp; sharing</h3>
+        <p class="tracked-group__intro">
+          Track how operators distribute mission intelligence. Copy, share, and print flows emit <code>share</code> events with
+          explicit transport metadata for precise attribution.
+        </p>
+        <div class="tracked-grid">
+          <article class="sandbox-card tracked-card" data-event="share">
+            <header>
+              <p class="sandbox-card__tag mono">Event: share</p>
+              <h3>Copy link</h3>
+            </header>
+            <p>
+              Copying a brief URL updates the payload with method <code>copy</code> and writes a status message for operators
+              verifying instrumentation.
+            </p>
+            <button
+              type="button"
+              class="sandbox-action"
+              data-ga4-event="share"
+              data-ga4-params={JSON.stringify(copyShareParams)}
+              data-ga4-copy-text="https://intranet.example/missions/briefing-01"
+              data-ga4-feedback="ga4-copy-status"
+            >
+              Copy mission brief link
+            </button>
+            <p id="ga4-copy-status" class="tracked-status">Idle — no copy requests yet.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="share">
+            <header>
+              <p class="sandbox-card__tag mono">Event: share</p>
+              <h3>Share to X</h3>
+            </header>
+            <p>
+              Simulates a share sheet dispatch to X. The payload captures the target medium so downstream platforms can build
+              channel performance dashboards.
+            </p>
+            <button
+              type="button"
+              class="sandbox-action"
+              data-ga4-event="share"
+              data-ga4-params={JSON.stringify(socialShareParams)}
+              data-ga4-feedback="ga4-share-status"
+            >
+              Stage X share payload
+            </button>
+            <p id="ga4-share-status" class="tracked-status">Idle — awaiting share interaction.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="share">
+            <header>
+              <p class="sandbox-card__tag mono">Event: share</p>
+              <h3>Print briefing packet</h3>
+            </header>
+            <p>
+              Printing or saving to PDF is tracked as a <code>share</code> event using the <code>print</code> method so you can
+              monitor offline dissemination of critical assets.
+            </p>
+            <button
+              type="button"
+              class="sandbox-action"
+              data-ga4-event="share"
+              data-ga4-params={JSON.stringify(printShareParams)}
+              data-ga4-feedback="ga4-print-status"
+            >
+              Log print intent
+            </button>
+            <p id="ga4-print-status" class="tracked-status">Idle — no print intents logged.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="tracked-group">
+        <h3 class="tracked-group__title">Account &amp; guidance flows</h3>
+        <p class="tracked-group__intro">
+          Authenticate operators, register new specialists, and walk teams through guided tours. These patterns provide a
+          blueprint for measuring lifecycle engagement beyond anonymous browsing.
+        </p>
+        <div class="tracked-grid">
+          <article class="sandbox-card tracked-card" data-event="login">
+            <header>
+              <p class="sandbox-card__tag mono">Event: login</p>
+              <h3>Operator login</h3>
+            </header>
+            <p>
+              Record login attempts with authentication method and role. This helps correlate account access with subsequent
+              mission actions.
+            </p>
+            <button
+              type="button"
+              class="sandbox-action"
+              data-ga4-event="login"
+              data-ga4-params={JSON.stringify(loginParams)}
+              data-ga4-feedback="ga4-login-status"
+            >
+              Log SSO login
+            </button>
+            <p id="ga4-login-status" class="tracked-status">Idle — no login attempts recorded.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="sign_up">
+            <header>
+              <p class="sandbox-card__tag mono">Event: sign_up</p>
+              <h3>Mission specialist sign-up</h3>
+            </header>
+            <p>
+              Tracks new account creation with campaign context. Attach the same payload to registration forms to monitor
+              program acquisition.
+            </p>
+            <button
+              type="button"
+              class="sandbox-action"
+              data-ga4-event="sign_up"
+              data-ga4-params={JSON.stringify(signUpParams)}
+              data-ga4-feedback="ga4-signup-status"
+            >
+              Register new specialist
+            </button>
+            <p id="ga4-signup-status" class="tracked-status">Idle — awaiting sign-up events.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="select_content">
+            <header>
+              <p class="sandbox-card__tag mono">Event: select_content</p>
+              <h3>Theme toggle preference</h3>
+            </header>
+            <p>
+              Demonstrates recording preference changes. Toggling the theme applies a class to the preview tile and captures the
+              new state inside the payload.
+            </p>
+            <div id="ga4-theme-demo" class="tracked-theme" data-theme="light">
+              <p class="tracked-theme__label">Current theme: <span data-theme-label>Light</span></p>
+            </div>
+            <button
+              type="button"
+              class="sandbox-action"
+              data-ga4-event="select_content"
+              data-ga4-dynamic="toggle"
+              data-ga4-toggle-target="ga4-theme-demo"
+              data-ga4-feedback="ga4-theme-status"
+              data-ga4-params={JSON.stringify(themeToggleParams)}
+            >
+              Toggle interface theme
+            </button>
+            <p id="ga4-theme-status" class="tracked-status">Theme set to light.</p>
+          </article>
+
+          <article class="sandbox-card tracked-card" data-event="tutorial_begin">
+            <header>
+              <p class="sandbox-card__tag mono">Events: tutorial_begin / tutorial_complete</p>
+              <h3>Guided tutorial</h3>
+            </header>
+            <p>
+              Multi-step tutorials should log each milestone. Use the buttons to simulate begin, midpoint, and completion
+              events while the progress indicator updates in tandem.
+            </p>
+            <div class="tracked-stepper" data-ga4-stepper data-ga4-total-steps="3">
+              <ol class="tracked-stepper__list" data-ga4-stepper-track>
+                <li class="tracked-stepper__item" data-step="1">Initiate orientation</li>
+                <li class="tracked-stepper__item" data-step="2">Review instrumentation</li>
+                <li class="tracked-stepper__item" data-step="3">Complete readiness check</li>
+              </ol>
+              <div class="tracked-stepper__actions">
+                <button
+                  type="button"
+                  class="sandbox-action"
+                  data-ga4-event="tutorial_begin"
+                  data-ga4-dynamic="step"
+                  data-ga4-step="1"
+                  data-ga4-step-label="Begin orientation"
+                  data-ga4-feedback="ga4-tutorial-status"
+                  data-ga4-params={JSON.stringify(tutorialBaseParams)}
+                >
+                  Begin orientation
+                </button>
+                <button
+                  type="button"
+                  class="sandbox-action"
+                  data-ga4-event="tutorial_step"
+                  data-ga4-dynamic="step"
+                  data-ga4-step="2"
+                  data-ga4-step-label="Instrumentation review"
+                  data-ga4-feedback="ga4-tutorial-status"
+                  data-ga4-params={JSON.stringify(tutorialBaseParams)}
+                >
+                  Log midpoint
+                </button>
+                <button
+                  type="button"
+                  class="sandbox-action"
+                  data-ga4-event="tutorial_complete"
+                  data-ga4-dynamic="step"
+                  data-ga4-step="3"
+                  data-ga4-step-label="Complete readiness"
+                  data-ga4-feedback="ga4-tutorial-status"
+                  data-ga4-params={JSON.stringify(tutorialBaseParams)}
+                >
+                  Complete tutorial
+                </button>
+              </div>
+            </div>
+            <p class="tracked-status" id="ga4-tutorial-status">No tutorial events recorded.</p>
+          </article>
+        </div>
+      </div>
 
         <div class="tracked-group">
           <h3 class="tracked-group__title">Scroll &amp; visibility</h3>
@@ -710,11 +1091,58 @@ const scrollDepthParams = {
                 </div>
               </div>
             </article>
-          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <aside class="sandbox-console" data-console-panel aria-labelledby="ga4-console-heading">
+    <div
+      id="ga4-alert-modal"
+      class="sandbox-modal"
+      data-modal
+      data-modal-feedback="ga4-modal-status"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ga4-alert-title"
+      aria-describedby="ga4-alert-body"
+      hidden
+      aria-hidden="true"
+    >
+      <div class="sandbox-modal__dialog">
+        <header class="sandbox-modal__header">
+          <h2 id="ga4-alert-title">Mission readiness alert</h2>
+        </header>
+        <div class="sandbox-modal__body" id="ga4-alert-body">
+          <p>
+            Orbital telemetry queue has exceeded the normal threshold. Confirm acknowledgement or dismiss the message to keep
+            your analytics instrumentation in sync with mission control.
+          </p>
+        </div>
+        <footer class="sandbox-modal__actions">
+          <button
+            type="button"
+            class="sandbox-action"
+            data-ga4-event="modal_dismiss"
+            data-ga4-params={JSON.stringify(modalDismissParams)}
+            data-ga4-modal-close="true"
+            data-ga4-feedback="ga4-modal-status"
+          >
+            Dismiss alert
+          </button>
+          <button
+            type="button"
+            class="sandbox-action"
+            data-ga4-event="modal_acknowledge"
+            data-ga4-params={JSON.stringify(modalAcknowledgeParams)}
+            data-ga4-modal-close="true"
+            data-ga4-feedback="ga4-modal-status"
+          >
+            Acknowledge alert
+          </button>
+        </footer>
+      </div>
+    </div>
+
+    <aside class="sandbox-console" data-console-panel aria-labelledby="ga4-console-heading">
         <h2 id="ga4-console-heading">Mock GA4 console</h2>
         <p class="console-copy">
           Payloads are formatted to match Measurement Protocol requests. Newest events appear at the top.
@@ -752,10 +1180,75 @@ const scrollDepthParams = {
   </div>
 
   <script>
-    const measurementId = 'G-ABCDE12345';
-    const mockClientId = '555.4242424242';
-    const endpoint = 'https://www.google-analytics.com/mp/collect';
-    window.dataLayer = window.dataLayer || [];
+  const measurementId = 'G-ABCDE12345';
+  const mockClientId = '555.4242424242';
+  const endpoint = 'https://www.google-analytics.com/mp/collect';
+  window.dataLayer = window.dataLayer || [];
+
+    let activeModal = null;
+
+    function findModal(id) {
+      if (!id) {
+        return null;
+      }
+      return document.getElementById(id);
+    }
+
+    function openModal(modal, trigger) {
+      if (!modal) {
+        return;
+      }
+      modal.hidden = false;
+      modal.setAttribute('aria-hidden', 'false');
+      modal.classList.add('sandbox-modal--visible');
+      activeModal = modal;
+      if (trigger && trigger.id) {
+        modal.dataset.returnFocus = trigger.id;
+      }
+      const focusTarget = modal.querySelector('[data-ga4-modal-close]') || modal.querySelector('button');
+      if (focusTarget && typeof focusTarget.focus === 'function') {
+        focusTarget.focus();
+      }
+    }
+
+    function closeModal(modal) {
+      if (!modal) {
+        return;
+      }
+      modal.hidden = true;
+      modal.setAttribute('aria-hidden', 'true');
+      modal.classList.remove('sandbox-modal--visible');
+      if (activeModal === modal) {
+        activeModal = null;
+      }
+      if (modal.dataset.returnFocus) {
+        const returnNode = document.getElementById(modal.dataset.returnFocus);
+        if (returnNode && typeof returnNode.focus === 'function') {
+          returnNode.focus();
+        }
+        delete modal.dataset.returnFocus;
+      }
+    }
+
+    function formatTimestamp() {
+      return new Date().toLocaleTimeString();
+    }
+
+    function updateFeedback(node, message) {
+      if (!node) {
+        return;
+      }
+      const feedbackId = typeof node === 'string' ? node : node.dataset?.ga4Feedback;
+      const targetId = typeof node === 'string' ? node : feedbackId;
+      if (!targetId) {
+        return;
+      }
+      const feedbackNode = document.getElementById(targetId);
+      if (!feedbackNode) {
+        return;
+      }
+      feedbackNode.textContent = message;
+    }
 
     function createSandboxConsole({ limit = 12 } = {}) {
       const panel = document.querySelector('[data-console-panel]');
@@ -996,6 +1489,77 @@ const scrollDepthParams = {
         nextParams.consent_granted = node.checked;
       }
 
+      if (dynamicType === 'accordion') {
+        const expanded = node.getAttribute('aria-expanded') === 'true';
+        const nextExpanded = !expanded;
+        node.setAttribute('aria-expanded', String(nextExpanded));
+        const panelId = node.getAttribute('aria-controls');
+        if (panelId) {
+          const panel = document.getElementById(panelId);
+          if (panel) {
+            panel.hidden = !nextExpanded;
+          }
+        }
+        nextParams.interaction_state = nextExpanded ? 'expanded' : 'collapsed';
+      }
+
+      if (dynamicType === 'tooltip') {
+        const pressed = node.getAttribute('aria-pressed') === 'true';
+        const nextPressed = !pressed;
+        node.setAttribute('aria-pressed', String(nextPressed));
+        const panelId = node.getAttribute('aria-controls');
+        if (panelId) {
+          const panel = document.getElementById(panelId);
+          if (panel) {
+            panel.hidden = !nextPressed;
+          }
+        }
+        nextParams.interaction_state = nextPressed ? 'visible' : 'hidden';
+      }
+
+      if (dynamicType === 'toggle') {
+        const targetId = node.dataset.ga4ToggleTarget;
+        const target = targetId ? document.getElementById(targetId) : null;
+        let currentState = node.dataset.ga4ToggleState || 'light';
+        if (target && target.dataset.theme) {
+          currentState = target.dataset.theme;
+        }
+        const nextState = currentState === 'dark' ? 'light' : 'dark';
+        nextParams.previous_state = currentState;
+        nextParams.toggle_state = nextState;
+        if (target) {
+          target.dataset.theme = nextState;
+          target.classList.toggle('tracked-theme--dark', nextState === 'dark');
+          const label = target.querySelector('[data-theme-label]');
+          if (label) {
+            label.textContent = nextState.charAt(0).toUpperCase() + nextState.slice(1);
+          }
+        }
+        node.dataset.ga4ToggleState = nextState;
+      }
+
+      if (dynamicType === 'step') {
+        const stepper = node.closest('[data-ga4-stepper]');
+        const stepNumber = Number(node.dataset.ga4Step) || 1;
+        const total = stepper ? Number(stepper.dataset.ga4TotalSteps) || tutorialBaseParams.step_count : tutorialBaseParams.step_count;
+        const label = node.dataset.ga4StepLabel || (node.textContent ? node.textContent.trim() : 'Step');
+        nextParams.step_number = stepNumber;
+        nextParams.step_count = total;
+        nextParams.step_label = label;
+        if (stepper) {
+          const tracker = stepper.querySelector('[data-ga4-stepper-track]');
+          if (tracker) {
+            const items = tracker.querySelectorAll('[data-step]');
+            items.forEach((item) => {
+              const itemStep = Number(item.dataset.step);
+              if (Number.isFinite(itemStep)) {
+                item.classList.toggle('tracked-stepper__item--complete', itemStep <= stepNumber);
+              }
+            });
+          }
+        }
+      }
+
       return nextParams;
     }
 
@@ -1020,6 +1584,54 @@ const scrollDepthParams = {
 
         trackEvent(eventName, params);
 
+        const timestamp = formatTimestamp();
+        let feedbackMessage = `Event "${eventName}" recorded at ${timestamp}.`;
+
+        if (node.dataset.ga4ModalTarget) {
+          const modal = findModal(node.dataset.ga4ModalTarget);
+          openModal(modal, node);
+          feedbackMessage = `Modal opened at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4ModalClose === 'true') {
+          const modal = node.closest('[data-modal]');
+          closeModal(modal);
+          const action = eventName.replace('modal_', '').replace('_', ' ');
+          feedbackMessage = `Modal ${action} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4CopyText) {
+          const text = node.dataset.ga4CopyText;
+          if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+            navigator.clipboard.writeText(text).catch(() => {});
+          }
+          feedbackMessage = `Copied ${text} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'tooltip') {
+          const state = params.interaction_state || 'toggled';
+          feedbackMessage = `Tooltip ${state} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'accordion') {
+          const state = params.interaction_state || 'toggled';
+          feedbackMessage = `Accordion ${state} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'toggle') {
+          const nextState = params.toggle_state || 'updated';
+          feedbackMessage = `Theme set to ${nextState} at ${timestamp}.`;
+        }
+
+        if (node.dataset.ga4Dynamic === 'step') {
+          const stepNumber = params.step_number || 1;
+          const total = params.step_count || tutorialBaseParams.step_count;
+          const label = params.step_label || 'Step';
+          feedbackMessage = `${label} logged (step ${stepNumber}/${total}) at ${timestamp}.`;
+        }
+
+        updateFeedback(node, feedbackMessage);
+
         if (node instanceof HTMLFormElement && trigger === 'submit') {
           node.reset();
         }
@@ -1028,6 +1640,28 @@ const scrollDepthParams = {
 
     document.querySelectorAll('[data-ga4-event]').forEach((node) => {
       registerTrackable(node);
+    });
+
+    document.querySelectorAll('[data-modal]').forEach((modal) => {
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          closeModal(modal);
+          const feedbackId = modal.dataset.modalFeedback;
+          if (feedbackId) {
+            updateFeedback(feedbackId, `Modal dismissed at ${formatTimestamp()}.`);
+          }
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && activeModal) {
+        const modal = activeModal;
+        closeModal(modal);
+        if (modal && modal.dataset.modalFeedback) {
+          updateFeedback(modal.dataset.modalFeedback, `Modal dismissed via Escape at ${formatTimestamp()}.`);
+        }
+      }
     });
 
     const scrollSentinel = document.querySelector('[data-ga4-scroll]');
@@ -1158,6 +1792,134 @@ const scrollDepthParams = {
     .ga4-sandbox .scroll-sentinel--armed {
       border-style: solid;
       background: rgba(126, 37, 34, 0.12);
+    }
+
+    .ga4-sandbox .tracked-status {
+      margin: 0;
+      font-size: var(--text-12);
+      color: var(--color-muted);
+    }
+
+    .ga4-sandbox .tracked-accordion {
+      margin-top: var(--space-2);
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(255, 255, 255, 0.55);
+      display: grid;
+      gap: var(--space-1);
+    }
+
+    .ga4-sandbox .sandbox-action--icon {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .ga4-sandbox .tracked-tooltip {
+      margin-top: var(--space-2);
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .ga4-sandbox .tracked-theme {
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-2);
+      padding: var(--space-2);
+      background: rgba(255, 255, 255, 0.85);
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .ga4-sandbox .tracked-theme--dark {
+      background: #181818;
+      color: #f3eddf;
+    }
+
+    .ga4-sandbox .tracked-theme__label {
+      margin: 0;
+      font-family: var(--font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .ga4-sandbox .tracked-stepper {
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .ga4-sandbox .tracked-stepper__list {
+      margin: 0;
+      padding-left: var(--space-3);
+      display: grid;
+      gap: var(--space-1);
+    }
+
+    .ga4-sandbox .tracked-stepper__item {
+      position: relative;
+      padding-left: var(--space-2);
+    }
+
+    .ga4-sandbox .tracked-stepper__item::before {
+      content: '○';
+      position: absolute;
+      left: 0;
+      font-family: var(--font-mono);
+      color: var(--color-muted);
+    }
+
+    .ga4-sandbox .tracked-stepper__item--complete::before {
+      content: '●';
+      color: var(--color-text);
+    }
+
+    .ga4-sandbox .tracked-stepper__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .ga4-sandbox .sandbox-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+      z-index: 30;
+    }
+
+    .ga4-sandbox .sandbox-modal[hidden] {
+      display: none;
+    }
+
+    .ga4-sandbox .sandbox-modal__dialog {
+      background: var(--color-bg);
+      color: var(--color-text);
+      border-radius: var(--radius-2);
+      border: 1px solid var(--color-rule);
+      max-width: 420px;
+      width: 100%;
+      padding: var(--space-3);
+      display: grid;
+      gap: var(--space-2);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+    }
+
+    .ga4-sandbox .sandbox-modal__header h2 {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: var(--text-16);
+    }
+
+    .ga4-sandbox .sandbox-modal__actions {
+      display: flex;
+      gap: var(--space-2);
+      justify-content: flex-end;
+      flex-wrap: wrap;
     }
   </style>
 </Layout>
