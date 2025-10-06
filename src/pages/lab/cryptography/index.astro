@@ -158,6 +158,57 @@ const cryptoScript = Astro.resolve('../../../scripts/cryptography.js');
         </div>
       </article>
 
+      <article class="card span-6 crypto-card" data-algorithm="base32" data-algorithm-label="CRY-011" data-algorithm-title="Base32">
+        <div class="label mono">CRY-011</div>
+        <div>
+          <h3>Base32</h3>
+          <p>RFC 4648 alphabet translating bytes into a human-friendly alphanumeric block with optional padding.</p>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-6 crypto-card" data-algorithm="base58" data-algorithm-label="CRY-012" data-algorithm-title="Base58">
+        <div class="label mono">CRY-012</div>
+        <div>
+          <h3>Base58</h3>
+          <p>Bitcoin-style alphabet omitting ambiguous glyphs for resilient payload sharing.</p>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-6 crypto-card" data-algorithm="ascii85" data-algorithm-label="CRY-013" data-algorithm-title="ASCII85">
+        <div class="label mono">CRY-013</div>
+        <div>
+          <h3>ASCII85</h3>
+          <p>Adobe variant encoding 4-byte blocks into a compact base-85 alphabet with zero-compression.</p>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+
       <article class="card span-6 crypto-card" data-algorithm="hex" data-algorithm-label="CRY-006" data-algorithm-title="Hex">
         <div class="label mono">CRY-006</div>
         <div>
@@ -244,6 +295,89 @@ const cryptoScript = Astro.resolve('../../../scripts/cryptography.js');
                   value="3"
                   data-option-input
                   data-option="rails"
+                />
+              </div>
+            </label>
+          </div>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-6 crypto-card" data-algorithm="xor" data-algorithm-label="CRY-014" data-algorithm-title="XOR Stream">
+        <div class="label mono">CRY-014</div>
+        <div>
+          <h3>XOR Stream</h3>
+          <p>Repeating-key XOR for rapid bitwise masking and classical stream cipher exploration.</p>
+          <div class="control-group">
+            <label class="control mono" for="xor-key">
+              <span>Key</span>
+              <input
+                id="xor-key"
+                type="text"
+                value="key"
+                placeholder="Key text"
+                data-option-input
+                data-option="key"
+              />
+            </label>
+          </div>
+          <div class="heuristic mono" data-heuristic></div>
+          <div class="result">
+            <h4>Encode</h4>
+            <pre class="mono" data-encode></pre>
+          </div>
+          <div class="result">
+            <h4>Decode</h4>
+            <pre class="mono" data-decode></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-6 crypto-card" data-algorithm="affine" data-algorithm-label="CRY-015" data-algorithm-title="Affine">
+        <div class="label mono">CRY-015</div>
+        <div>
+          <h3>Affine Cipher</h3>
+          <p>Linear function substitution using modular arithmetic coefficients for substitution tuning.</p>
+          <div class="control-group">
+            <label class="control mono" for="affine-a">
+              <span>Multiplier (a)</span>
+              <div class="control-input">
+                <select id="affine-a" data-option-input data-option="a">
+                  <option value="1">1</option>
+                  <option value="3">3</option>
+                  <option value="5">5</option>
+                  <option value="7">7</option>
+                  <option value="9">9</option>
+                  <option value="11">11</option>
+                  <option value="15">15</option>
+                  <option value="17">17</option>
+                  <option value="19">19</option>
+                  <option value="21">21</option>
+                  <option value="23">23</option>
+                  <option value="25">25</option>
+                </select>
+              </div>
+            </label>
+            <label class="control mono" for="affine-b">
+              <span>Offset (b)</span>
+              <div class="control-input">
+                <input
+                  id="affine-b"
+                  type="number"
+                  min="0"
+                  max="25"
+                  step="1"
+                  value="8"
+                  data-option-input
+                  data-option="b"
                 />
               </div>
             </label>
