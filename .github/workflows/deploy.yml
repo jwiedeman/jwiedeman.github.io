@@ -3,8 +3,7 @@ name: Deploy Astro site to Pages
 on:
   push:
     branches:
-      - "main"
-      - "work"
+      - "**"
   workflow_dispatch:
 
 permissions:
@@ -13,7 +12,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: "pages-${{ github.ref_name }}"
   cancel-in-progress: true
 
 jobs:

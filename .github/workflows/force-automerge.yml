@@ -8,6 +8,7 @@ on:
       - synchronize
       - ready_for_review
       - labeled
+      - unlabeled
 
 jobs:
   merge-immediately:
@@ -17,6 +18,35 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      - name: Approve PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+
+            if (!pr) {
+              core.warning('No pull request payload available.');
+              return;
+            }
+
+            if (pr.state !== 'open') {
+              core.info(`Pull request #${pr.number} is not open (state: ${pr.state}).`);
+              return;
+            }
+
+            try {
+              await github.rest.pulls.createReview({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                event: 'APPROVE',
+                body: 'Automatically approving this pull request.',
+              });
+              core.notice(`Approved pull request #${pr.number}.`);
+            } catch (error) {
+              core.warning(`Unable to approve pull request #${pr.number}: ${error.message}`);
+            }
+
       - name: Merge PR
         uses: actions/github-script@v7
         with:
