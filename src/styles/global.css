@@ -752,6 +752,172 @@ footer .container {
   }
 }
 
+/* AI Zoo */
+.zoo-controls {
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-3);
+  display: grid;
+  gap: var(--space-2);
+  max-width: 480px;
+}
+
+.zoo-controls label {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: var(--text-12);
+}
+
+.zoo-subtext {
+  font-size: var(--text-14);
+  color: var(--color-muted);
+}
+
+.zoo-grid {
+  margin-top: var(--space-2);
+}
+
+.zoo-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.zoo-card[hidden] {
+  display: none;
+}
+
+.zoo-empty {
+  margin-top: var(--space-3);
+}
+
+.zoo-roadmap {
+  margin-top: var(--space-5);
+  padding-top: var(--space-2);
+  border-top: 1px solid color-mix(in srgb, var(--color-rule) 75%, transparent);
+}
+
+/* GAN playground */
+.gan-panel {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid color-mix(in srgb, var(--color-rule) 75%, transparent);
+  background: var(--surface-panel);
+  border-radius: var(--radius-2);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.gan-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: flex-end;
+}
+
+.gan-control {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 160px;
+}
+
+.gan-control label {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: var(--text-12);
+}
+
+.gan-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+}
+
+.gan-panel button {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid color-mix(in srgb, var(--color-rule) 70%, transparent);
+  background: transparent;
+  color: var(--color-text);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-1);
+  cursor: pointer;
+  transition: background var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+}
+
+.gan-panel button:hover,
+.gan-panel button:focus-visible {
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-color: var(--color-text);
+}
+
+.gan-panel button[aria-pressed='true'] {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.gan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+  gap: var(--space-2);
+}
+
+.gan-grid--wide {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.gan-canvas {
+  width: 100%;
+  height: auto;
+  border: 1px solid color-mix(in srgb, var(--color-rule) 70%, transparent);
+  border-radius: var(--radius-1);
+  background: #000;
+  display: block;
+}
+
+.gan-canvas--digits {
+  image-rendering: pixelated;
+}
+
+.gan-canvas--smooth {
+  image-rendering: auto;
+  background: #111;
+}
+
+.gan-value {
+  font-family: var(--font-mono);
+  font-size: var(--text-14);
+}
+
+.gan-debug {
+  border-top: 1px solid color-mix(in srgb, var(--color-rule) 70%, transparent);
+  padding-top: var(--space-2);
+}
+
+.gan-debug__output {
+  margin: 0;
+  padding: var(--space-2);
+  background: var(--surface-tint);
+  border-radius: var(--radius-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-12);
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 720px) {
+  .gan-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .gan-actions {
+    justify-content: flex-start;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   .heading-tracker__rail {
     border-left-color: color-mix(in srgb, var(--color-rule) 70%, transparent);

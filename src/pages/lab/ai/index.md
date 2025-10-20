@@ -6,6 +6,21 @@ title: "AI"
 <p class="mono">Explorations in applied machine intelligence for real-world sensing, classification, and play.</p>
 <div class="grid">
     <article class="card span-6">
+      <div class="label mono">AI-000</div>
+      <div>
+        <h2><a href="/lab/ai/zoo/">AI Zoo</a></h2>
+        <p>
+          A growing in-browser museum of generative adversarial networks with live demos that run entirely on CPU power.
+        </p>
+        <ul>
+          <li>Every exhibit ships its full generator logic inline so guests can study and remix the models.</li>
+          <li>Searchable catalog designed to host dozens of GAN experiments with preview thumbnails.</li>
+          <li>Launch lineup features lightweight handwriting and chromatic pattern generators.</li>
+        </ul>
+        <p><a href="/lab/ai/zoo/" class="mono">Enter the exhibit hall →</a></p>
+      </div>
+    </article>
+    <article class="card span-6">
       <div class="label mono">AI-001</div>
       <div>
         <h2><a href="/lab/ai/foot-traffic-intelligence/">Foot Traffic Intelligence</a></h2>
