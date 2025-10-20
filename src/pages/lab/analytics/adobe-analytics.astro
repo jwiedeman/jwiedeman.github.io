@@ -387,20 +387,29 @@ import '../../../styles/analytics-sandbox.css';
       }
     };
 
-    document.getElementById('aa-primary-cta')?.addEventListener('click', () => {
-      fireLinkTracking(bindingMap.cta.linkName, bindingMap.cta.linkType, bindingMap.cta.attributes);
-    });
+    const primaryCta = document.getElementById('aa-primary-cta');
+    if (primaryCta) {
+      primaryCta.addEventListener('click', () => {
+        fireLinkTracking(bindingMap.cta.linkName, bindingMap.cta.linkType, bindingMap.cta.attributes);
+      });
+    }
 
-    document.getElementById('aa-secondary-link')?.addEventListener('click', (event) => {
-      event.preventDefault();
-      fireLinkTracking(bindingMap.nav.linkName, bindingMap.nav.linkType, bindingMap.nav.attributes);
-    });
+    const secondaryLink = document.getElementById('aa-secondary-link');
+    if (secondaryLink) {
+      secondaryLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        fireLinkTracking(bindingMap.nav.linkName, bindingMap.nav.linkType, bindingMap.nav.attributes);
+      });
+    }
 
-    document.getElementById('aa-telemetry-form')?.addEventListener('submit', (event) => {
-      event.preventDefault();
-      fireLinkTracking(bindingMap.form.linkName, bindingMap.form.linkType, bindingMap.form.attributes);
-      event.currentTarget.reset();
-    });
+    const telemetryForm = document.getElementById('aa-telemetry-form');
+    if (telemetryForm) {
+      telemetryForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        fireLinkTracking(bindingMap.form.linkName, bindingMap.form.linkType, bindingMap.form.attributes);
+        event.currentTarget.reset();
+      });
+    }
 
     const pageViewPayload = buildPayload('page:view', 't', {
       events: 'event1',

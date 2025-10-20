@@ -400,7 +400,8 @@ import '../../../styles/analytics-sandbox.css';
     const buildInteractionPayload = (element) => {
       const eventName = element.dataset.udlEvent;
       const module = element.dataset.udlModule || 'udl-sandbox.component';
-      const el = element.dataset.udlElement || element.textContent?.trim() || element.tagName.toLowerCase();
+      const fallbackLabel = element.textContent ? element.textContent.trim() : '';
+      const el = element.dataset.udlElement || fallbackLabel || element.tagName.toLowerCase();
       const value = element.dataset.udlValue || null;
       const trigger = element.dataset.udlTrigger || (element.tagName === 'FORM' ? 'submit' : 'click');
 

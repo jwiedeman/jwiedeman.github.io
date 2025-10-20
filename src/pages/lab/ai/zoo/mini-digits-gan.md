@@ -80,9 +80,10 @@ digit archetypes. Those coefficients blend pre-rendered glyph bases to emit cris
   const randomizeButton = document.querySelector('[data-randomize]');
   const coeffOutput = document.querySelector('[data-coeffs]');
 
+  const initialTemperatureValue = temperatureInput ? temperatureInput.value : undefined;
   const state = {
     seed: Math.floor(Math.random() * 1000000) >>> 0,
-    temperature: Number(temperatureInput?.value ?? 0.75),
+    temperature: Number(initialTemperatureValue !== undefined && initialTemperatureValue !== null && initialTemperatureValue !== '' ? initialTemperatureValue : 0.75),
   };
 
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));

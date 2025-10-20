@@ -2147,12 +2147,16 @@ const tutorialBaseParams = {
       if (!node) {
         return;
       }
-      const feedbackId = typeof node === 'string' ? node : node.dataset?.ga4Feedback;
-      const targetId = typeof node === 'string' ? node : feedbackId;
-      if (!targetId) {
+      const feedbackId =
+        typeof node === 'string'
+          ? node
+          : node && node.dataset
+            ? node.dataset.ga4Feedback
+            : undefined;
+      if (!feedbackId) {
         return;
       }
-      const feedbackNode = document.getElementById(targetId);
+      const feedbackNode = document.getElementById(feedbackId);
       if (!feedbackNode) {
         return;
       }
@@ -2535,7 +2539,8 @@ const tutorialBaseParams = {
       }
 
       if (dynamicType === 'drag') {
-        const dropZone = node.dataset.ga4DropZone || node.dataset.ga4DropLabel || node.textContent?.trim();
+        const textContent = node.textContent ? node.textContent.trim() : '';
+        const dropZone = node.dataset.ga4DropZone || node.dataset.ga4DropLabel || textContent;
         if (dropZone) {
           nextParams.drop_zone = dropZone;
         }
@@ -2568,11 +2573,11 @@ const tutorialBaseParams = {
 
       if (dynamicType === 'hotkey') {
         const parts = [];
-        if (event?.metaKey) parts.push('Meta');
-        if (event?.ctrlKey) parts.push('Ctrl');
-        if (event?.shiftKey) parts.push('Shift');
-        if (event?.altKey) parts.push('Alt');
-        if (event?.key) {
+        if (event && event.metaKey) parts.push('Meta');
+        if (event && event.ctrlKey) parts.push('Ctrl');
+        if (event && event.shiftKey) parts.push('Shift');
+        if (event && event.altKey) parts.push('Alt');
+        if (event && event.key) {
           const normalized = event.key.length === 1 ? event.key.toUpperCase() : event.key;
           parts.push(normalized);
         }
@@ -2587,7 +2592,7 @@ const tutorialBaseParams = {
       if (dynamicType === 'focus') {
         const fieldName = node.getAttribute('name') || node.id || node.getAttribute('aria-label') || 'field';
         nextParams.focus_target = fieldName;
-        nextParams.focus_state = event?.type || 'focus';
+        nextParams.focus_state = event && event.type ? event.type : 'focus';
       }
 
       if (dynamicType === 'sort') {
@@ -2661,7 +2666,7 @@ const tutorialBaseParams = {
       if (dynamicType === 'inline') {
         const input = node.querySelector('[data-inline-value]') || node.querySelector('input, textarea');
         const rawValue = input ? input.value.trim() : '';
-        const field = node.dataset.ga4InlineField || input?.getAttribute('name') || 'field';
+        const field = node.dataset.ga4InlineField || (input ? input.getAttribute('name') : null) || 'field';
         nextParams.field_name = field;
         nextParams.field_value = rawValue || 'empty';
         nextParams.update_action = rawValue ? 'submitted' : 'cleared';

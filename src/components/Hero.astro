@@ -28,7 +28,7 @@ const { title } = Astro.props;
   <script type="module" src="/topo.js"></script>
   <script type="module">
     const hero = document.querySelector('.topo-hero');
-    const nav = hero?.querySelector('.hero-nav');
+    const nav = hero ? hero.querySelector('.hero-nav') : null;
     if (!hero || !nav) return;
 
     const setNavHeight = () => {
