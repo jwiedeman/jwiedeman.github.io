@@ -80,7 +80,8 @@ description: "Searchable museum of browser-ready GAN exhibits with inline genera
   const normalize = (value) => value.toLowerCase().trim();
 
   const filterCards = () => {
-    const query = normalize(searchInput?.value ?? '');
+    const rawQuery = searchInput ? searchInput.value : '';
+    const query = normalize(rawQuery ?? '');
     let visibleCount = 0;
 
     cards.forEach((card) => {

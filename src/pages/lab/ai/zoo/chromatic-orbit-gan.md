@@ -85,9 +85,10 @@ runtime.
   const autoButton = document.querySelector('[data-auto]');
   const coeffOutput = document.querySelector('[data-coeffs]');
 
+  const initialEnergyValue = energyInput ? energyInput.value : undefined;
   const state = {
     seed: Math.floor(Math.random() * 1000000) >>> 0,
-    energy: Number(energyInput?.value ?? 1.0),
+    energy: Number(initialEnergyValue !== undefined && initialEnergyValue !== null && initialEnergyValue !== '' ? initialEnergyValue : 1.0),
     autoplay: false,
     timer: null,
   };

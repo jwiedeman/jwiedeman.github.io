@@ -66,7 +66,7 @@ const totalPostCount = posts.length + (featured ? 1 : 0);
 
       const posts = Array.from(postsContainer.querySelectorAll('.post-card'));
       const featuredSection = document.querySelector('.featured');
-      const featuredCard = featuredSection?.querySelector('.post-card') ?? null;
+      const featuredCard = featuredSection ? featuredSection.querySelector('.post-card') : null;
       const filterableCards = featuredCard ? [...posts, featuredCard] : [...posts];
       const POSTS_PER_PAGE = parseInt(postsContainer.dataset.postsPerPage || '1', 10);
       let currentPage = 1;
@@ -76,7 +76,7 @@ const totalPostCount = posts.length + (featured ? 1 : 0);
       const tagButtons = document.querySelectorAll('.tag');
       const pagination = document.getElementById('pagination');
       const status = document.getElementById('results-status');
-      const emptyMessage = status?.dataset.emptyMessage || 'No posts found.';
+      const emptyMessage = status && status.dataset ? status.dataset.emptyMessage || 'No posts found.' : 'No posts found.';
 
       const searchableCache = new Map(
         filterableCards.map(card => [
@@ -94,7 +94,7 @@ const totalPostCount = posts.length + (featured ? 1 : 0);
 
       function updateStatus(visiblePostCount) {
         if (!status) return;
-        const query = (searchInput?.value || '').trim();
+        const query = (searchInput ? searchInput.value : '').trim();
         const activeTags = [...selectedTags];
         const featuredVisible = featuredCard && !featuredCard.hidden ? 1 : 0;
         const totalVisible = visiblePostCount + featuredVisible;
@@ -113,7 +113,7 @@ const totalPostCount = posts.length + (featured ? 1 : 0);
       }
 
       function filterPosts() {
-        const query = (searchInput?.value || '').trim().toLowerCase();
+        const query = (searchInput ? searchInput.value : '').trim().toLowerCase();
 
         filterableCards.forEach(card => {
           const searchable = searchableCache.get(card) || '';
@@ -166,7 +166,9 @@ const totalPostCount = posts.length + (featured ? 1 : 0);
         updateStatus(visiblePosts.length);
       }
 
-      searchInput?.addEventListener('input', filterPosts);
+      if (searchInput) {
+        searchInput.addEventListener('input', filterPosts);
+      }
       tagButtons.forEach(btn => {
         btn.addEventListener('click', () => {
           const tag = btn.dataset.tag;

@@ -169,7 +169,8 @@ const sideListId = `${contentId}-rail`;
       const records = headings.map((heading) => {
         let title = heading.textContent ? heading.textContent.trim() : '';
         if (!title) {
-          title = heading.dataset?.headingTitle || 'Section';
+          const dataset = heading.dataset || {};
+          title = dataset.headingTitle || 'Section';
         }
 
         let id = heading.id;
