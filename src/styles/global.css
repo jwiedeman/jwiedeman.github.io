@@ -767,6 +767,14 @@ footer .container {
   list-style: none;
 }
 
+.heading-tracker--empty {
+  display: block;
+}
+
+.heading-tracker--empty .heading-tracker__main {
+  display: block;
+}
+
 .heading-tracker__link {
   text-decoration: none;
   color: var(--color-muted);

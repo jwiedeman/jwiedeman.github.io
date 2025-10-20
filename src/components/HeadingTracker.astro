@@ -28,8 +28,10 @@ const sideListId = `${contentId}-rail`;
 <div
   class={wrapperClasses.join(' ')}
   data-heading-tracker
+  data-content-id={contentId}
   data-heading-selector={headingsSelector}
   data-min-headings={String(minHeadings)}
+  data-tracker-version="1"
 >
   <aside
     class="heading-tracker__rail"
@@ -55,43 +57,15 @@ const sideListId = `${contentId}-rail`;
   </div>
 </div>
 <script type="module">
-  const wrapper = document.currentScript?.closest('[data-heading-tracker]');
-  if (!wrapper) {
-    return;
-  }
-
   const contentId = {JSON.stringify(contentId)};
   const selectorFallback = {JSON.stringify(headingsSelector)};
-  const topList = wrapper.querySelector('[data-heading-top-list]');
-  const railList = wrapper.querySelector('[data-heading-rail-list]');
-  const topSection = wrapper.querySelector('[data-heading-top]');
-  const railSection = wrapper.querySelector('[data-heading-rail]');
+
   const escapeSelector = (value) => {
     if (typeof CSS !== 'undefined' && typeof CSS.escape === 'function') {
       return CSS.escape(value);
     }
     return String(value).replace(/([ #;?%&,.+*~':"!^$\\[\\]()=>|\/=])/g, '\\$1');
   };
-
-  const content = wrapper.querySelector(`#${escapeSelector(contentId)}`);
-
-  if (!content || !topList || !railList || !topSection || !railSection) {
-    return;
-  }
-
-  const selector = wrapper.dataset.headingSelector || selectorFallback;
-  const minHeadings = Number(wrapper.dataset.minHeadings || '2');
-
-  const headings = Array.from(content.querySelectorAll(selector))
-    .filter((heading) => heading instanceof HTMLElement)
-    .map((heading) => heading);
-
-  if (headings.length < minHeadings) {
-    wrapper.classList.add('heading-tracker--empty');
-    return;
-  }
-
-  const slugCounts = new Map();
 
   const slugify = (value) => {
     return value
@@ -100,41 +74,6 @@ const sideListId = `${contentId}-rail`;
       .replace(/[^a-z0-9\s-]/g, '')
       .replace(/\s+/g, '-');
   };
-
-  const records = headings.map((heading) => {
-    let title = heading.textContent ? heading.textContent.trim() : '';
-    if (!title) {
-      title = heading.dataset?.headingTitle || 'Section';
-    }
-
-    let id = heading.id;
-    if (!id) {
-      const base = slugify(title || 'section') || 'section';
-      const count = slugCounts.get(base) || 0;
-      slugCounts.set(base, count + 1);
-      id = count ? `${base}-${count + 1}` : base;
-      heading.id = id;
-    }
-
-    const levelMatch = /^h(\d)$/i.exec(heading.tagName);
-    const level = levelMatch ? parseInt(levelMatch[1], 10) : 2;
-
-    heading.setAttribute('data-heading-source', 'tracker');
-
-    return {
-      id,
-      title,
-      level,
-      element: heading,
-    };
-  });
-
-  const filtered = records.filter((record) => record.level >= 2 && record.level <= 4);
-
-  if (!filtered.length) {
-    wrapper.classList.add('heading-tracker--empty');
-    return;
-  }
 
   const createLink = (record) => {
     const link = document.createElement('a');
@@ -187,49 +126,132 @@ const sideListId = `${contentId}-rail`;
     });
   };
 
-  buildLists(topList, filtered);
-  buildLists(railList, filtered);
+  const initialise = () => {
+    const wrappers = Array.from(document.querySelectorAll('[data-heading-tracker]'));
 
-  topSection.hidden = false;
-  railSection.hidden = false;
+    if (!wrappers.length) {
+      return;
+    }
 
-  const links = Array.from(wrapper.querySelectorAll('[data-heading-link]'));
-
-  const setActive = (id) => {
-    links.forEach((link) => {
-      if (link.dataset.headingId === id) {
-        link.setAttribute('aria-current', 'true');
-      } else {
-        link.removeAttribute('aria-current');
-      }
-    });
-  };
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-      if (visible.length > 0) {
-        const active = visible[0].target.id;
-        setActive(active);
+    wrappers.forEach((wrapper) => {
+      if (wrapper.dataset.trackerInitialized === 'true') {
         return;
       }
 
-      const fallback = entries
-        .slice()
-        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-      if (fallback && fallback.target && fallback.target.id) {
-        setActive(fallback.target.id);
-      }
-    },
-    {
-      rootMargin: '-45% 0px -40% 0px',
-      threshold: [0.05, 0.25, 0.5, 0.75],
-    }
-  );
+      wrapper.dataset.trackerInitialized = 'true';
 
-  filtered.forEach((record) => {
-    observer.observe(record.element);
-  });
+      const topList = wrapper.querySelector('[data-heading-top-list]');
+      const railList = wrapper.querySelector('[data-heading-rail-list]');
+      const topSection = wrapper.querySelector('[data-heading-top]');
+      const railSection = wrapper.querySelector('[data-heading-rail]');
+
+      const activeContentId = wrapper.dataset.contentId || contentId;
+      const content = wrapper.querySelector(`#${escapeSelector(activeContentId)}`);
+
+      if (!content || !topList || !railList || !topSection || !railSection) {
+        return;
+      }
+
+      const selector = wrapper.dataset.headingSelector || selectorFallback;
+      const minHeadings = Number(wrapper.dataset.minHeadings || '2');
+
+      const headings = Array.from(content.querySelectorAll(selector))
+        .filter((heading) => heading instanceof HTMLElement)
+        .map((heading) => heading);
+
+      if (headings.length < minHeadings) {
+        wrapper.classList.add('heading-tracker--empty');
+        return;
+      }
+
+      const slugCounts = new Map();
+
+      const records = headings.map((heading) => {
+        let title = heading.textContent ? heading.textContent.trim() : '';
+        if (!title) {
+          title = heading.dataset?.headingTitle || 'Section';
+        }
+
+        let id = heading.id;
+        if (!id) {
+          const base = slugify(title || 'section') || 'section';
+          const count = slugCounts.get(base) || 0;
+          slugCounts.set(base, count + 1);
+          id = count ? `${base}-${count + 1}` : base;
+          heading.id = id;
+        }
+
+        const levelMatch = /^h(\d)$/i.exec(heading.tagName);
+        const level = levelMatch ? parseInt(levelMatch[1], 10) : 2;
+
+        heading.setAttribute('data-heading-source', 'tracker');
+
+        return {
+          id,
+          title,
+          level,
+          element: heading,
+        };
+      });
+
+      const filtered = records.filter((record) => record.level >= 2 && record.level <= 4);
+
+      if (!filtered.length) {
+        wrapper.classList.add('heading-tracker--empty');
+        return;
+      }
+
+      buildLists(topList, filtered);
+      buildLists(railList, filtered);
+
+      topSection.hidden = false;
+      railSection.hidden = false;
+
+      const links = Array.from(wrapper.querySelectorAll('[data-heading-link]'));
+
+      const setActive = (id) => {
+        links.forEach((link) => {
+          if (link.dataset.headingId === id) {
+            link.setAttribute('aria-current', 'true');
+          } else {
+            link.removeAttribute('aria-current');
+          }
+        });
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+          if (visible.length > 0) {
+            const active = visible[0].target.id;
+            setActive(active);
+            return;
+          }
+
+          const fallback = entries
+            .slice()
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+          if (fallback && fallback.target && fallback.target.id) {
+            setActive(fallback.target.id);
+          }
+        },
+        {
+          rootMargin: '-45% 0px -40% 0px',
+          threshold: [0.05, 0.25, 0.5, 0.75],
+        }
+      );
+
+      filtered.forEach((record) => {
+        observer.observe(record.element);
+      });
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialise, { once: true });
+  } else {
+    initialise();
+  }
 </script>
