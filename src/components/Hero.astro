@@ -66,7 +66,9 @@ const { title } = Astro.props;
       height: calc(100svh - var(--space-4) * 2);
       margin: var(--space-4);
       --frame-color: var(--color-text);
+      --grid-major: var(--accent-alpha-80);
       --grid-major: color-mix(in srgb, var(--color-accent) 80%, transparent);
+      --grid-minor: var(--accent-alpha-40);
       --grid-minor: color-mix(in srgb, var(--color-accent) 40%, transparent);
       --contour-color: #000;
       --nav-height: 56px;
@@ -102,11 +104,13 @@ const { title } = Astro.props;
       top: 4px;
       left: 4px;
       font-size: var(--text-12);
+      color: var(--text-alpha-60);
       color: color-mix(in srgb, var(--frame-color) 60%, transparent);
     }
     .topo-hero .hud .compass {
       position: absolute;
       font-size: var(--text-12);
+      color: var(--text-alpha-60);
       color: color-mix(in srgb, var(--frame-color) 60%, transparent);
     }
     .topo-hero .hud .n { top: -16px; left: 50%; transform: translateX(-50%); }
@@ -121,6 +125,7 @@ const { title } = Astro.props;
       width: min(var(--layout-max-width), calc(100% - var(--space-4) * 2));
       color: var(--frame-color);
       background: var(--color-bg);
+      border: 1px solid var(--text-alpha-35);
       border: 1px solid color-mix(in srgb, var(--frame-color) 35%, transparent);
       border-radius: var(--radius-1);
       padding: var(--space-1);
@@ -169,9 +174,11 @@ const { title } = Astro.props;
       transform: translateX(-50%);
       width: min(var(--layout-max-width), calc(100% - var(--space-4) * 2));
       background: var(--color-bg);
+      background: var(--bg-alpha-96);
       background: color-mix(in srgb, var(--color-bg) 96%, transparent);
       border-radius: 0 0 var(--radius-1) var(--radius-1);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border-color: var(--text-alpha-20);
       border-color: color-mix(in srgb, var(--frame-color) 20%, transparent);
       backdrop-filter: blur(6px);
       z-index: 1000;
