@@ -44,9 +44,38 @@
   --color-accent: #b00000;
   --color-link: var(--color-accent);
   --color-muted: #666666;
-  --surface-raised: color-mix(in srgb, var(--color-bg) 90%, #ffffff 10%);
-  --surface-panel: color-mix(in srgb, var(--color-bg) 86%, #ffffff 14%);
-  --surface-tint: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));
+  --color-bg-rgb: 248, 245, 240;
+  --color-text-rgb: 17, 17, 17;
+  --color-rule-rgb: 192, 197, 204;
+  --color-accent-rgb: 176, 0, 0;
+  --color-muted-rgb: 102, 102, 102;
+  --surface-raised: #f9f6f2;
+  --surface-panel: #f9f6f2;
+  --surface-tint: #f2e1dd;
+  --surface-raised-rgb: 249, 246, 242;
+  --surface-panel-rgb: 249, 246, 242;
+  --surface-tint-rgb: 242, 225, 221;
+  --mix-accent-rule-40: #ba767a;
+  --mix-accent-rule-60: #b64f52;
+  --mix-accent-text-45: #590909;
+  --rule-alpha-85: rgba(var(--color-rule-rgb), 0.85);
+  --rule-alpha-80: rgba(var(--color-rule-rgb), 0.8);
+  --rule-alpha-75: rgba(var(--color-rule-rgb), 0.75);
+  --rule-alpha-70: rgba(var(--color-rule-rgb), 0.7);
+  --rule-alpha-65: rgba(var(--color-rule-rgb), 0.65);
+  --rule-alpha-60: rgba(var(--color-rule-rgb), 0.6);
+  --rule-alpha-50: rgba(var(--color-rule-rgb), 0.5);
+  --accent-shadow-12: rgba(var(--color-accent-rgb), 0.12);
+  --muted-alpha-70: rgba(var(--color-muted-rgb), 0.7);
+  --muted-alpha-80: rgba(var(--color-muted-rgb), 0.8);
+  --muted-alpha-60: rgba(var(--color-muted-rgb), 0.6);
+  --bg-alpha-96: rgba(var(--color-bg-rgb), 0.96);
+  --text-alpha-60: rgba(var(--color-text-rgb), 0.6);
+  --text-alpha-35: rgba(var(--color-text-rgb), 0.35);
+  --text-alpha-20: rgba(var(--color-text-rgb), 0.2);
+  --accent-alpha-80: rgba(var(--color-accent-rgb), 0.8);
+  --accent-alpha-40: rgba(var(--color-accent-rgb), 0.4);
+  --surface-raised-alpha-80: rgba(var(--surface-raised-rgb), 0.8);
   --shadow-soft: 0 18px 42px rgba(24, 24, 24, 0.12);
 }
 
@@ -58,10 +87,59 @@
   --color-accent: #8bd3dd;
   --color-link: var(--color-accent);
   --color-muted: #8899aa;
-  --surface-raised: color-mix(in srgb, #1a1c21 70%, var(--color-bg) 30%);
-  --surface-panel: color-mix(in srgb, #23262d 70%, var(--color-bg) 30%);
-  --surface-tint: color-mix(in srgb, var(--color-accent) 16%, var(--color-bg));
+  --color-bg-rgb: 10, 10, 10;
+  --color-text-rgb: 217, 225, 255;
+  --color-rule-rgb: 42, 45, 51;
+  --color-accent-rgb: 139, 211, 221;
+  --color-muted-rgb: 136, 153, 170;
+  --surface-raised: #15171a;
+  --surface-panel: #1c1e22;
+  --surface-tint: #1f2a2c;
+  --surface-raised-rgb: 21, 23, 26;
+  --surface-panel-rgb: 28, 30, 34;
+  --surface-tint-rgb: 31, 42, 44;
+  --mix-accent-rule-40: #516f77;
+  --mix-accent-rule-60: #649199;
+  --mix-accent-text-45: #b6dbf0;
+  --rule-alpha-85: rgba(var(--color-rule-rgb), 0.85);
+  --rule-alpha-80: rgba(var(--color-rule-rgb), 0.8);
+  --rule-alpha-75: rgba(var(--color-rule-rgb), 0.75);
+  --rule-alpha-70: rgba(var(--color-rule-rgb), 0.7);
+  --rule-alpha-65: rgba(var(--color-rule-rgb), 0.65);
+  --rule-alpha-60: rgba(var(--color-rule-rgb), 0.6);
+  --rule-alpha-50: rgba(var(--color-rule-rgb), 0.5);
+  --accent-shadow-12: rgba(var(--color-accent-rgb), 0.12);
+  --muted-alpha-70: rgba(var(--color-muted-rgb), 0.7);
+  --muted-alpha-80: rgba(var(--color-muted-rgb), 0.8);
+  --muted-alpha-60: rgba(var(--color-muted-rgb), 0.6);
+  --bg-alpha-96: rgba(var(--color-bg-rgb), 0.96);
+  --text-alpha-60: rgba(var(--color-text-rgb), 0.6);
+  --text-alpha-35: rgba(var(--color-text-rgb), 0.35);
+  --text-alpha-20: rgba(var(--color-text-rgb), 0.2);
+  --accent-alpha-80: rgba(var(--color-accent-rgb), 0.8);
+  --accent-alpha-40: rgba(var(--color-accent-rgb), 0.4);
+  --surface-raised-alpha-80: rgba(var(--surface-raised-rgb), 0.8);
   --shadow-soft: 0 20px 48px rgba(0, 0, 0, 0.45);
+}
+
+@supports (color: color-mix(in srgb, white 50%, black)) {
+  .theme-light {
+    --surface-raised: color-mix(in srgb, var(--color-bg) 90%, #ffffff 10%);
+    --surface-panel: color-mix(in srgb, var(--color-bg) 86%, #ffffff 14%);
+    --surface-tint: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));
+    --mix-accent-rule-40: color-mix(in srgb, var(--color-accent) 40%, var(--color-rule));
+    --mix-accent-rule-60: color-mix(in srgb, var(--color-accent) 60%, var(--color-rule));
+    --mix-accent-text-45: color-mix(in srgb, var(--color-accent) 45%, var(--color-text));
+  }
+
+  .theme-dark {
+    --surface-raised: color-mix(in srgb, #1a1c21 70%, var(--color-bg) 30%);
+    --surface-panel: color-mix(in srgb, #23262d 70%, var(--color-bg) 30%);
+    --surface-tint: color-mix(in srgb, var(--color-accent) 16%, var(--color-bg));
+    --mix-accent-rule-40: color-mix(in srgb, var(--color-accent) 40%, var(--color-rule));
+    --mix-accent-rule-60: color-mix(in srgb, var(--color-accent) 60%, var(--color-rule));
+    --mix-accent-text-45: color-mix(in srgb, var(--color-accent) 45%, var(--color-text));
+  }
 }
 
 html {
@@ -239,6 +317,7 @@ input[type='search'],
 input[type='text'],
 textarea {
   width: min(100%, 420px);
+  border: 1px solid var(--rule-alpha-85);
   border: 1px solid color-mix(in srgb, var(--color-rule) 85%, transparent);
   background: var(--color-bg);
   padding: var(--space-1) var(--space-2);
@@ -249,11 +328,14 @@ textarea {
 input[type='search']:focus-visible,
 input[type='text']:focus-visible,
 textarea:focus-visible {
+  border-color: var(--mix-accent-rule-60);
   border-color: color-mix(in srgb, var(--color-accent) 60%, var(--color-rule));
+  box-shadow: 0 0 0 4px var(--accent-shadow-12);
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 12%, transparent);
 }
 
 input[type='search']::placeholder {
+  color: var(--muted-alpha-70);
   color: color-mix(in srgb, var(--color-muted) 70%, transparent);
 }
 
@@ -451,6 +533,7 @@ input[type='search']::placeholder {
 
 .card:hover,
 .card:focus-within {
+  outline-color: var(--mix-accent-rule-40);
   outline-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-rule));
   box-shadow: var(--shadow-soft);
 }
@@ -566,6 +649,7 @@ footer .container {
 }
 .tag:hover,
 .tag:focus-visible {
+  border-color: var(--mix-accent-rule-40);
   border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-rule));
 }
 
@@ -608,6 +692,7 @@ footer .container {
 
 .page-btn:hover,
 .page-btn:focus-visible {
+  border-color: var(--mix-accent-rule-40);
   border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-rule));
 }
 
@@ -698,6 +783,7 @@ footer .container {
   content: '○';
   font-family: var(--font-mono);
   font-size: 0.75em;
+  color: var(--muted-alpha-80);
   color: color-mix(in srgb, var(--color-muted) 80%, transparent);
 }
 
@@ -720,6 +806,7 @@ footer .container {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  border-left: 1px solid var(--rule-alpha-80);
   border-left: 1px solid color-mix(in srgb, var(--color-rule) 80%, transparent);
   padding-left: var(--space-2);
   position: sticky;
@@ -792,6 +879,7 @@ footer .container {
 .zoo-roadmap {
   margin-top: var(--space-5);
   padding-top: var(--space-2);
+  border-top: 1px solid var(--rule-alpha-75);
   border-top: 1px solid color-mix(in srgb, var(--color-rule) 75%, transparent);
 }
 
@@ -799,6 +887,7 @@ footer .container {
 .gan-panel {
   margin-top: var(--space-3);
   padding: var(--space-3);
+  border: 1px solid var(--rule-alpha-75);
   border: 1px solid color-mix(in srgb, var(--color-rule) 75%, transparent);
   background: var(--surface-panel);
   border-radius: var(--radius-2);
@@ -837,6 +926,7 @@ footer .container {
   font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  border: 1px solid var(--rule-alpha-70);
   border: 1px solid color-mix(in srgb, var(--color-rule) 70%, transparent);
   background: transparent;
   color: var(--color-text);
@@ -871,6 +961,7 @@ footer .container {
 .gan-canvas {
   width: 100%;
   height: auto;
+  border: 1px solid var(--rule-alpha-70);
   border: 1px solid color-mix(in srgb, var(--color-rule) 70%, transparent);
   border-radius: var(--radius-1);
   background: #000;
@@ -892,6 +983,7 @@ footer .container {
 }
 
 .gan-debug {
+  border-top: 1px solid var(--rule-alpha-70);
   border-top: 1px solid color-mix(in srgb, var(--color-rule) 70%, transparent);
   padding-top: var(--space-2);
 }
@@ -920,10 +1012,12 @@ footer .container {
 
 @media (prefers-color-scheme: dark) {
   .heading-tracker__rail {
+    border-left-color: var(--rule-alpha-70);
     border-left-color: color-mix(in srgb, var(--color-rule) 70%, transparent);
   }
 
   .heading-tracker__link::before {
+    color: var(--muted-alpha-60);
     color: color-mix(in srgb, var(--color-muted) 60%, transparent);
   }
 }

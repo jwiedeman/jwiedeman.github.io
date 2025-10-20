@@ -3154,6 +3154,7 @@ const tutorialBaseParams = {
     }
 
     .ga4-sandbox .tracked-group + .tracked-group {
+      border-top: 1px solid var(--rule-alpha-60);
       border-top: 1px solid color-mix(in srgb, var(--color-rule) 60%, transparent);
       padding-top: var(--space-3);
       margin-top: var(--space-3);
@@ -3373,6 +3374,7 @@ const tutorialBaseParams = {
 
     .ga4-sandbox .tracked-dropzone {
       flex: 1 1 200px;
+      border: 2px dashed var(--rule-alpha-80);
       border: 2px dashed color-mix(in srgb, var(--color-rule) 80%, transparent);
       border-radius: var(--radius-2);
       padding: var(--space-2);
@@ -3391,6 +3393,7 @@ const tutorialBaseParams = {
 
     .ga4-sandbox .tracked-dropzone--active {
       border-style: solid;
+      border-color: var(--mix-accent-rule-60);
       border-color: color-mix(in srgb, var(--color-accent) 60%, var(--color-rule));
       background: rgba(190, 133, 55, 0.15);
     }
@@ -3408,6 +3411,7 @@ const tutorialBaseParams = {
 
     .ga4-sandbox .file-upload input[type='file'] {
       padding: var(--space-1);
+      border: 1px dashed var(--rule-alpha-70);
       border: 1px dashed color-mix(in srgb, var(--color-rule) 70%, transparent);
       border-radius: var(--radius-2);
       background: rgba(0, 0, 0, 0.02);
@@ -3416,6 +3420,7 @@ const tutorialBaseParams = {
 
     .ga4-sandbox .focus-capture input[type='text'] {
       padding: var(--space-1);
+      border: 1px solid var(--rule-alpha-80);
       border: 1px solid color-mix(in srgb, var(--color-rule) 80%, transparent);
       border-radius: var(--radius-2);
       font-size: var(--text-16);
@@ -3424,7 +3429,9 @@ const tutorialBaseParams = {
     }
 
     .ga4-sandbox .focus-capture input[type='text']:focus-visible {
+      border-color: var(--mix-accent-rule-60);
       border-color: color-mix(in srgb, var(--color-accent) 60%, var(--color-rule));
+      box-shadow: 0 0 0 4px var(--accent-shadow-12);
       box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 12%, transparent);
     }
 
@@ -3432,6 +3439,7 @@ const tutorialBaseParams = {
       display: inline-flex;
       align-items: center;
       gap: var(--space-2);
+      border: 1px solid var(--rule-alpha-80);
       border: 1px solid color-mix(in srgb, var(--color-rule) 80%, transparent);
       border-radius: var(--radius-2);
       padding: var(--space-2);
@@ -3440,6 +3448,7 @@ const tutorialBaseParams = {
 
     .ga4-sandbox .hotkey-badge {
       padding: calc(var(--space-1) * 0.5) var(--space-1);
+      border: 1px solid var(--rule-alpha-70);
       border: 1px solid color-mix(in srgb, var(--color-rule) 70%, transparent);
       border-radius: var(--radius-1);
       background: rgba(0, 0, 0, 0.04);
