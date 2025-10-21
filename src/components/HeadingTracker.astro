@@ -207,6 +207,8 @@ const sideListId = `${contentId}-rail`;
 
       topSection.hidden = false;
       railSection.hidden = false;
+      wrapper.classList.add('heading-tracker--active');
+      wrapper.classList.remove('heading-tracker--empty');
 
       const links = Array.from(wrapper.querySelectorAll('[data-heading-link]'));
 
