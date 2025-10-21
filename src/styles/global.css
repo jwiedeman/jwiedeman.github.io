@@ -24,7 +24,9 @@
   --text-32: 2rem;
   --text-48: 3rem;
 
-  --layout-max-width: 68rem;
+  --page-inline: clamp(1rem, 3vw, 3.5rem);
+  --layout-max-width: min(78rem, calc(100vw - var(--page-inline) * 2));
+  --layout-max-width-wide: min(92rem, calc(100vw - var(--space-4) * 2));
   --transition-base: 150ms ease;
   --radius-0: 0;
   --radius-1: 0.125rem;
@@ -213,7 +215,7 @@ img, picture, video {
 .container {
   width: min(100%, var(--layout-max-width));
   margin-inline: auto;
-  padding-inline: var(--space-2);
+  padding-inline: var(--page-inline);
 }
 
 .flow > * + * {
