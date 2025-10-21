@@ -553,6 +553,10 @@ select:focus-visible {
 }
 
 .heading-tracker {
+  display: block;
+}
+
+.heading-tracker--active {
   display: grid;
   gap: var(--space-4);
   align-items: start;
@@ -663,14 +667,14 @@ select:focus-visible {
 }
 
 @media (min-width: 64rem) {
-  .heading-tracker {
+  .heading-tracker--active {
     grid-template-columns: minmax(12rem, 14rem) minmax(0, 1fr);
   }
 }
 
 @media (max-width: 63.9375rem) {
-  .heading-tracker {
-    grid-template-columns: 1fr;
+  .heading-tracker--active {
+    display: block;
   }
 
   .heading-tracker__rail {
