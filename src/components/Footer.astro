@@ -1,8 +1,42 @@
 ---
 const year = new Date().getFullYear();
 ---
-<footer class="hairline-top">
+<footer class="site-footer hairline-top">
   <div class="container">
-    <span>&copy; {year} jwiedeman</span>
+    <div class="footer-content">
+      <span class="footer-copy">&copy; {year} JWIEDEMAN</span>
+      <span class="footer-status mono">OPERATIONAL</span>
+    </div>
   </div>
 </footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+  }
+
+  .site-footer .container {
+    padding-block: var(--space-3);
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    font-size: var(--text-12);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .footer-copy {
+    color: var(--color-muted);
+    font-weight: 600;
+  }
+
+  .footer-status {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+</style>
