@@ -1,10 +1,15 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "AI"
+headingTracker: false
 ---
-<h1>AI</h1>
-<p class="mono">Explorations in applied machine intelligence for real-world sensing, classification, and play.</p>
-<div class="grid">
+<div class="container">
+  <header class="page-header">
+    <h1 class="page-header__title">AI</h1>
+    <p class="page-header__subtitle">Applied Machine Intelligence &amp; Neural Architectures</p>
+  </header>
+
+  <div class="grid">
     <article class="card span-6">
       <div class="label mono">AI-000</div>
       <div>
@@ -17,7 +22,7 @@ title: "AI"
           <li>Searchable catalog designed to host dozens of GAN experiments with preview thumbnails.</li>
           <li>Launch lineup features lightweight handwriting and chromatic pattern generators.</li>
         </ul>
-        <p><a href="/lab/ai/zoo/" class="mono">Enter the exhibit hall →</a></p>
+        <p><a href="/lab/ai/zoo/" class="mono">Enter the exhibit hall</a></p>
       </div>
     </article>
     <article class="card span-6">
@@ -32,7 +37,7 @@ title: "AI"
           <li>Forecast module predicts surges so staff can stage resources before congestion starts.</li>
           <li>Output dashboards plug into the analytics stack already deployed in the lab.</li>
         </ul>
-        <p><a href="/lab/ai/foot-traffic-intelligence/" class="mono">Open project dossier →</a></p>
+        <p><a href="/lab/ai/foot-traffic-intelligence/" class="mono">Open project dossier</a></p>
       </div>
     </article>
     <article class="card span-6">
@@ -47,7 +52,7 @@ title: "AI"
           <li>Outputs include toxicity risk bands, look-alike warnings, and habitat metadata.</li>
           <li>Packaging targets a lightweight mobile inference bundle for offline use in forests.</li>
         </ul>
-        <p><a href="/lab/ai/mycology-classification/" class="mono">Open project dossier →</a></p>
+        <p><a href="/lab/ai/mycology-classification/" class="mono">Open project dossier</a></p>
       </div>
     </article>
     <article class="card span-6">
@@ -59,10 +64,10 @@ title: "AI"
         </p>
         <ul>
           <li>Conversational state machine guards tone, compliance, and fallback routing to humans.</li>
-          <li>Integrates with Twilio SIP endpoints and the lab’s analytics warehouse.</li>
+          <li>Integrates with Twilio SIP endpoints and the lab's analytics warehouse.</li>
           <li>Fine-tunes prompts from anonymized transcripts to raise resolution rates.</li>
         </ul>
-        <p><a href="/lab/ai/phone-agent/" class="mono">Open project dossier →</a></p>
+        <p><a href="/lab/ai/phone-agent/" class="mono">Open project dossier</a></p>
       </div>
     </article>
     <article class="card span-6">
@@ -77,7 +82,7 @@ title: "AI"
           <li>Human mode loads the canonical game without assists so guests can attempt to dethrone the agent.</li>
           <li>Results feed a shared scoreboard with telemetry explaining how each run was achieved.</li>
         </ul>
-        <p><a href="/lab/ai/demo-arcade-intelligence/" class="mono">Open project dossier →</a></p>
+        <p><a href="/lab/ai/demo-arcade-intelligence/" class="mono">Open project dossier</a></p>
       </div>
     </article>
     <article class="card span-6">
@@ -88,11 +93,12 @@ title: "AI"
           Probabilistic growth model that ingests NOAA weather feeds, soil sensors, and phenology logs to forecast which species will fruit within a radius.
         </p>
         <ul>
-          <li>Users set distance thresholds and species lists; alerts trigger when humidity and heat align with a species’ fruiting profile.</li>
+          <li>Users set distance thresholds and species lists; alerts trigger when humidity and heat align with a species' fruiting profile.</li>
           <li>Spatial tiles combine habitat suitability with recent mycology classification sightings.</li>
-          <li>Designed as a “weather-style” notification system that surfaces safe-foraging windows.</li>
+          <li>Designed as a "weather-style" notification system that surfaces safe-foraging windows.</li>
         </ul>
-        <p><a href="/lab/ai/mushroom-forecasting-alerts/" class="mono">Open project dossier →</a></p>
+        <p><a href="/lab/ai/mushroom-forecasting-alerts/" class="mono">Open project dossier</a></p>
       </div>
     </article>
+  </div>
 </div>

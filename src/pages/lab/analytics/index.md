@@ -1,9 +1,15 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "Analytics"
+headingTracker: false
 ---
-<h1>Analytics</h1>
-<div class="grid">
+<div class="container">
+  <header class="page-header">
+    <h1 class="page-header__title">Analytics</h1>
+    <p class="page-header__subtitle">Measurement Infrastructure &amp; Data Architecture</p>
+  </header>
+
+  <div class="grid">
     <article class="card span-4">
       <div class="label mono">001</div>
       <div>
@@ -53,4 +59,5 @@ title: "Analytics"
         <p>Example data layer pattern with custom events.</p>
       </div>
     </article>
+  </div>
 </div>

@@ -1,9 +1,15 @@
 ---
 layout: ../../../layouts/Layout.astro
-title: "Ads"
+title: "Advertising"
+headingTracker: false
 ---
-<h1>Ads</h1>
-<div class="grid">
+<div class="container">
+  <header class="page-header">
+    <h1 class="page-header__title">Advertising</h1>
+    <p class="page-header__subtitle">Campaign Systems &amp; Programmatic Tooling</p>
+  </header>
+
+  <div class="grid">
     <article class="card span-4">
       <div class="label mono">001</div>
       <div>
@@ -74,4 +80,5 @@ title: "Ads"
         <p>Retail readiness, DSP architecture, and attribution modeling.</p>
       </div>
     </article>
+  </div>
 </div>

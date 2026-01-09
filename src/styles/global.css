@@ -1,22 +1,25 @@
 /*
   Global design system
-  Bold engineering aesthetic inspired by 1970s NASA mission control,
-  Swedish industrial design, and precision technical documentation.
+  Black budget infrastructure aesthetic. Timeless brutalism informed by
+  1970s NASA mission control, Swedish institutional minimalism, and the
+  quiet confidence of systems maintained across millennia.
 */
 
 :root {
-  /* spacing scale */
+  /* spacing scale - generous, confident */
   --space-1: 0.5rem;
   --space-2: 1rem;
   --space-3: 1.5rem;
   --space-4: 2rem;
-  --space-5: 2.5rem;
-  --space-6: 3rem;
+  --space-5: 3rem;
+  --space-6: 4rem;
+  --space-7: 6rem;
 
   /* typography */
   --font-sans: 'Helvetica Neue', Helvetica, Arial, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Liberation Sans', sans-serif;
-  --font-mono: 'Courier New', Courier, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --font-mono: 'SF Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", 'Courier New', monospace;
 
+  --text-11: 0.6875rem;
   --text-12: 0.75rem;
   --text-14: 0.875rem;
   --text-16: 1rem;
@@ -24,41 +27,53 @@
   --text-24: 1.5rem;
   --text-32: 2rem;
   --text-48: 3rem;
+  --text-64: 4rem;
 
-  --page-inline: clamp(1rem, 3vw, 3.5rem);
-  --layout-max-width: min(78rem, calc(100vw - var(--page-inline) * 2));
-  --layout-max-width-wide: min(92rem, calc(100vw - var(--space-4) * 2));
-  --transition-base: 120ms ease-out;
+  --page-inline: clamp(1.5rem, 4vw, 4rem);
+  --layout-max-width: min(72rem, calc(100vw - var(--page-inline) * 2));
+  --layout-max-width-wide: min(88rem, calc(100vw - var(--space-4) * 2));
+  --transition-base: 160ms ease-out;
+  --transition-slow: 320ms ease-out;
   --radius-0: 0;
-  --radius-1: 2px;
-  --radius-2: 2px;
+  --radius-1: 0;
+  --radius-2: 0;
 }
 
 .theme-light {
-  --color-bg: #f4f4f2;
-  --color-text: #101010;
-  --color-muted: #525860;
-  --color-rule: #c0c4c8;
-  --color-accent: #a00000;
+  /* Warm archival paper - like aged technical documentation */
+  --color-bg: #f7f6f3;
+  --color-bg-subtle: #efede8;
+  --color-text: #1a1918;
+  --color-muted: #6b6560;
+  --color-rule: #d4d0c8;
+
+  /* Oxblood - institutional authority, aged leather */
+  --color-accent: #8b2635;
+  /* Dusty sage - Swedish pastoral, oxidized copper */
+  --color-secondary: #5d7c6f;
   --color-link: var(--color-accent);
 
-  --surface-raised: color-mix(in srgb, var(--color-bg) 92%, #ffffff 8%);
-  --surface-panel: color-mix(in srgb, var(--color-bg) 88%, #ffffff 12%);
-  --surface-tint: color-mix(in srgb, var(--color-accent) 14%, var(--color-bg));
-  --shadow-soft: 0 18px 42px rgba(24, 24, 24, 0.12);
-  --accent-shadow-12: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  --surface-raised: #fdfcfa;
+  --surface-panel: #f2f0eb;
+  --surface-tint: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));
+  --surface-tint-secondary: color-mix(in srgb, var(--color-secondary) 10%, var(--color-bg));
+  --shadow-soft: 0 1px 2px rgba(26, 25, 24, 0.06), 0 8px 24px rgba(26, 25, 24, 0.08);
+  --shadow-strong: 0 2px 4px rgba(26, 25, 24, 0.08), 0 16px 48px rgba(26, 25, 24, 0.12);
 
   --accent-alpha-80: color-mix(in srgb, var(--color-accent) 80%, transparent);
   --accent-alpha-40: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  --accent-alpha-20: color-mix(in srgb, var(--color-accent) 20%, transparent);
   --bg-alpha-96: color-mix(in srgb, var(--color-bg) 96%, transparent);
+  --bg-alpha-90: color-mix(in srgb, var(--color-bg) 90%, transparent);
   --text-alpha-60: color-mix(in srgb, var(--color-text) 60%, transparent);
   --text-alpha-35: color-mix(in srgb, var(--color-text) 35%, transparent);
   --text-alpha-20: color-mix(in srgb, var(--color-text) 20%, transparent);
 
-  --border-strong: color-mix(in srgb, var(--color-rule) 85%, transparent);
-  --border-soft: color-mix(in srgb, var(--color-rule) 70%, transparent);
-  --border-faint: color-mix(in srgb, var(--color-rule) 45%, transparent);
-  --accent-outline: color-mix(in srgb, var(--color-accent) 50%, var(--color-rule));
+  --border-strong: var(--color-text);
+  --border-medium: color-mix(in srgb, var(--color-text) 40%, transparent);
+  --border-soft: color-mix(in srgb, var(--color-rule) 80%, transparent);
+  --border-faint: color-mix(in srgb, var(--color-rule) 50%, transparent);
+  --accent-outline: var(--color-accent);
   --mix-accent-rule-60: color-mix(in srgb, var(--color-accent) 60%, var(--color-rule));
   --mix-accent-rule-40: color-mix(in srgb, var(--color-accent) 40%, var(--color-rule));
   --mix-accent-text-45: color-mix(in srgb, var(--color-accent) 45%, var(--color-text));
@@ -72,30 +87,40 @@
 }
 
 .theme-dark {
-  --color-bg: #0a0a0c;
-  --color-text: #e0e4ec;
-  --color-muted: #7c8594;
-  --color-rule: #282c34;
-  --color-accent: #70c8d4;
+  /* Deep void - not pure black, slight warmth */
+  --color-bg: #0c0b0a;
+  --color-bg-subtle: #141312;
+  --color-text: #e8e4df;
+  --color-muted: #8a847c;
+  --color-rule: #2a2825;
+
+  /* Amber/ochre - aged brass, warning systems, candlelight */
+  --color-accent: #d4a855;
+  /* Dusty rose - faded empire, weathered terracotta */
+  --color-secondary: #b87c7c;
   --color-link: var(--color-accent);
 
-  --surface-raised: color-mix(in srgb, #1a1c21 70%, var(--color-bg) 30%);
-  --surface-panel: color-mix(in srgb, #23262d 70%, var(--color-bg) 30%);
-  --surface-tint: color-mix(in srgb, var(--color-accent) 16%, var(--color-bg));
-  --shadow-soft: 0 22px 46px rgba(0, 0, 0, 0.5);
-  --accent-shadow-12: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  --surface-raised: #1a1816;
+  --surface-panel: #141312;
+  --surface-tint: color-mix(in srgb, var(--color-accent) 10%, var(--color-bg));
+  --surface-tint-secondary: color-mix(in srgb, var(--color-secondary) 12%, var(--color-bg));
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-strong: 0 2px 4px rgba(0, 0, 0, 0.4), 0 16px 48px rgba(0, 0, 0, 0.5);
 
   --accent-alpha-80: color-mix(in srgb, var(--color-accent) 80%, transparent);
   --accent-alpha-40: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  --accent-alpha-20: color-mix(in srgb, var(--color-accent) 20%, transparent);
   --bg-alpha-96: color-mix(in srgb, var(--color-bg) 96%, transparent);
+  --bg-alpha-90: color-mix(in srgb, var(--color-bg) 90%, transparent);
   --text-alpha-60: color-mix(in srgb, var(--color-text) 60%, transparent);
   --text-alpha-35: color-mix(in srgb, var(--color-text) 35%, transparent);
   --text-alpha-20: color-mix(in srgb, var(--color-text) 20%, transparent);
 
-  --border-strong: color-mix(in srgb, var(--color-rule) 85%, transparent);
-  --border-soft: color-mix(in srgb, var(--color-rule) 65%, transparent);
-  --border-faint: color-mix(in srgb, var(--color-rule) 40%, transparent);
-  --accent-outline: color-mix(in srgb, var(--color-accent) 55%, var(--color-rule));
+  --border-strong: var(--color-text);
+  --border-medium: color-mix(in srgb, var(--color-text) 30%, transparent);
+  --border-soft: color-mix(in srgb, var(--color-rule) 90%, transparent);
+  --border-faint: color-mix(in srgb, var(--color-rule) 60%, transparent);
+  --accent-outline: var(--color-accent);
   --mix-accent-rule-60: color-mix(in srgb, var(--color-accent) 60%, var(--color-rule));
   --mix-accent-rule-40: color-mix(in srgb, var(--color-accent) 40%, var(--color-rule));
   --mix-accent-text-45: color-mix(in srgb, var(--color-accent) 45%, var(--color-text));
@@ -114,9 +139,12 @@ html {
   color: var(--color-text);
   font-family: var(--font-sans);
   font-size: var(--text-16);
-  line-height: 1.4;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1;
   scroll-behavior: smooth;
 }
 
@@ -137,37 +165,56 @@ main {
   flex: 1;
 }
 
+/* Links - understated until engaged */
 a {
   color: var(--color-link);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.1em;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  transition: border-color var(--transition-base), color var(--transition-base);
 }
 
 a:hover,
 a:focus-visible {
-  text-decoration-thickness: 2px;
+  border-bottom-width: 2px;
 }
 
+/* Horizontal rules - architectural dividers */
 hr {
   border: none;
-  height: 1px;
-  background: var(--color-rule);
+  height: 2px;
+  background: var(--color-text);
   margin: 0;
 }
 
+hr.subtle {
+  height: 1px;
+  background: var(--color-rule);
+}
+
+/* Headings - monumental, precise */
 :where(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-sans);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: 0.02em;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   margin-block: 0;
 }
 
 .page-title,
 h1 {
-  font-size: clamp(var(--text-32), 6vw, 3.5rem);
+  font-size: clamp(var(--text-32), 7vw, var(--text-64));
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-size: clamp(var(--text-24), 4vw, var(--text-32));
+}
+
+h3 {
+  font-size: var(--text-20);
+  letter-spacing: 0;
 }
 
 :where(p, ul, ol, figure) {
@@ -321,13 +368,14 @@ select:focus-visible {
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 16%, transparent);
 }
 
+/* Primary Navigation - command presence */
 .primary-nav .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-4);
   flex-wrap: wrap;
-  padding-block: var(--space-3);
+  padding-block: var(--space-4);
   font-size: var(--text-14);
 }
 
@@ -335,7 +383,7 @@ select:focus-visible {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  gap: var(--space-4);
   margin: 0;
   padding: 0;
 }
@@ -343,8 +391,11 @@ select:focus-visible {
 .primary-nav a {
   color: var(--color-text);
   text-decoration: none;
-  font-weight: 800;
-  letter-spacing: 0.06em;
+  border-bottom: none;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--text-11);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   transition: color var(--transition-base);
 }
@@ -355,20 +406,28 @@ select:focus-visible {
 }
 
 .primary-nav .brand {
-  font-size: clamp(var(--text-24), 5vw, var(--text-32));
-  letter-spacing: 0.1em;
-  font-weight: 900;
+  font-family: var(--font-sans);
+  font-size: clamp(var(--text-20), 4vw, var(--text-24));
+  letter-spacing: 0.2em;
+  font-weight: 800;
 }
 
 .primary-nav .mode {
-  font-size: var(--text-12);
+  font-family: var(--font-mono);
+  font-size: var(--text-11);
   padding: var(--space-1) var(--space-2);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-1);
+  border: 1px solid var(--border-medium);
   background: transparent;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.primary-nav .mode:hover {
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-color: var(--color-text);
 }
 
 .slug-trail .container {
@@ -428,43 +487,45 @@ select:focus-visible {
   flex: 1 1 10rem;
 }
 
+/* Cards - data containers, institutional filing */
 .card {
   display: grid;
-  grid-template-columns: minmax(6rem, auto) minmax(0, 1fr);
-  gap: var(--space-3);
-  padding: var(--space-4);
-  border: 2px solid var(--border-strong);
-  border-radius: 0;
+  grid-template-columns: minmax(7rem, auto) minmax(0, 1fr);
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border: 2px solid var(--border-medium);
+  border-left-width: 4px;
   background: var(--surface-raised);
   box-shadow: none;
-  transition: border-color var(--transition-base), background var(--transition-base);
+  transition: border-color var(--transition-base), background var(--transition-base), transform var(--transition-base);
   align-items: start;
 }
 
 .card:hover,
 .card:focus-within {
   border-color: var(--color-accent);
+  border-left-color: var(--color-accent);
   background: var(--surface-tint);
 }
 
 .card .label {
   font-family: var(--font-mono);
-  font-size: var(--text-12);
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: var(--text-11);
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-muted);
 }
 
 .post-card {
-  grid-template-columns: minmax(7.5rem, auto) minmax(0, 1fr);
+  grid-template-columns: minmax(8rem, auto) minmax(0, 1fr);
 }
 
+/* Panels - structural containers with grid overlay */
 .panel {
   position: relative;
-  padding: var(--space-3);
-  border: 2px solid var(--border-strong);
-  border-radius: 0;
+  padding: var(--space-4);
+  border: 2px solid var(--border-medium);
   background: var(--surface-panel);
   overflow: hidden;
 }
@@ -473,11 +534,21 @@ select:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(var(--color-rule) 1px, transparent 1px),
+  background-image:
+    linear-gradient(var(--color-rule) 1px, transparent 1px),
     linear-gradient(90deg, var(--color-rule) 1px, transparent 1px);
-  background-size: 1.5rem 1.5rem;
-  opacity: 0.12;
+  background-size: 2rem 2rem;
+  opacity: 0.15;
   pointer-events: none;
+}
+
+.panel--prominent {
+  border-width: 3px;
+  border-color: var(--color-text);
+}
+
+.panel--prominent::before {
+  opacity: 0.25;
 }
 
 .schedule {
@@ -504,6 +575,7 @@ select:focus-visible {
   margin-block: var(--space-2);
 }
 
+/* Buttons and Tags - precise control elements */
 .tag,
 .page-btn,
 .button-ghost,
@@ -512,17 +584,16 @@ select:focus-visible {
   align-items: center;
   justify-content: center;
   font-family: var(--font-mono);
-  font-size: var(--text-12);
-  font-weight: 600;
+  font-size: var(--text-11);
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: calc(var(--space-1) * 0.75) var(--space-2);
-  border-radius: 0;
-  border: 2px solid var(--color-text);
+  letter-spacing: 0.1em;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-text);
   background: transparent;
   color: var(--color-text);
   cursor: pointer;
-  transition: background var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+  transition: all var(--transition-base);
 }
 
 .tag:hover,
@@ -536,13 +607,33 @@ select:focus-visible {
 }
 
 .tag.active,
-.page-btn.active,
-.button-solid,
-.button-solid:hover,
-.button-solid:focus-visible {
+.page-btn.active {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.button-solid {
   background: var(--color-accent);
   color: var(--color-bg);
   border-color: var(--color-accent);
+}
+
+.button-solid:hover,
+.button-solid:focus-visible {
+  background: var(--color-text);
+  border-color: var(--color-text);
+}
+
+/* Secondary accent button */
+.button-secondary {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.button-secondary:hover,
+.button-secondary:focus-visible {
+  background: var(--color-secondary);
+  color: var(--color-bg);
 }
 
 .pagination {
@@ -685,6 +776,11 @@ select:focus-visible {
   .heading-tracker--active {
     grid-template-columns: minmax(12rem, 14rem) minmax(0, 1fr);
   }
+
+  /* On desktop: hide top nav, show only sidebar */
+  .heading-tracker__top {
+    display: none !important;
+  }
 }
 
 @media (max-width: 63.9375rem) {
@@ -692,8 +788,9 @@ select:focus-visible {
     display: block;
   }
 
+  /* On mobile: hide sidebar, show only top nav */
   .heading-tracker__rail {
-    display: none;
+    display: none !important;
   }
 }
 
@@ -883,14 +980,583 @@ footer .container {
   padding-block: var(--space-2);
 }
 
-/* Subtle noise texture for dark theme - understated, not cosplay */
-.theme-dark body::before {
+/* Subtle grain texture - aged, archival quality */
+body::after {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-  background-size: 100% 3px;
+  opacity: 0.03;
   z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+.theme-dark body::after {
+  opacity: 0.04;
+}
+
+/* Architectural utility classes */
+.border-top {
+  border-top: 2px solid var(--border-medium);
+  padding-top: var(--space-4);
+}
+
+.border-bottom {
+  border-bottom: 2px solid var(--border-medium);
+  padding-bottom: var(--space-4);
+}
+
+.border-left {
+  border-left: 4px solid var(--border-medium);
+  padding-left: var(--space-4);
+}
+
+.border-accent {
+  border-color: var(--color-accent);
+}
+
+.border-secondary {
+  border-color: var(--color-secondary);
+}
+
+/* Section dividers */
+.section-divider {
+  height: 4px;
+  background: var(--color-text);
+  margin-block: var(--space-6);
+}
+
+.section-divider--subtle {
+  height: 1px;
+  background: var(--color-rule);
+}
+
+/* Grid overlay for debugging/effect */
+.grid-overlay {
+  position: relative;
+}
+
+.grid-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--accent-alpha-20) 1px, transparent 1px),
+    linear-gradient(90deg, var(--accent-alpha-20) 1px, transparent 1px);
+  background-size: 4rem 4rem;
   opacity: 0.5;
+}
+
+/* Monospace label styling */
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-11);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Status indicators */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-mono);
+  font-size: var(--text-11);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--color-secondary);
+}
+
+.status--active::before {
+  background: var(--color-accent);
+}
+
+/* ============================================
+   DRAMATIC MODULE SYSTEM - Mission Control Aesthetic
+   ============================================ */
+
+/* Lab Module - Data terminal cards with prominent indexing */
+.module {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 10rem;
+  padding: 0;
+  border: 2px solid var(--border-medium);
+  background: var(--surface-raised);
+  overflow: hidden;
+  transition: all var(--transition-slow);
+}
+
+.module::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--color-rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-rule) 1px, transparent 1px);
+  background-size: 3rem 3rem;
+  opacity: 0.08;
+  pointer-events: none;
+  transition: opacity var(--transition-base);
+}
+
+.module:hover::before {
+  opacity: 0.15;
+}
+
+.module:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-strong);
+}
+
+/* Module index - massive typographic element */
+.module__index {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-11);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--color-muted);
+  z-index: 2;
+}
+
+/* Large decorative index number */
+.module__index-large {
+  position: absolute;
+  bottom: var(--space-2);
+  right: var(--space-3);
+  font-family: var(--font-sans);
+  font-size: clamp(3rem, 10vw, 5rem);
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: var(--border-faint);
+  pointer-events: none;
+  z-index: 1;
+  transition: color var(--transition-slow);
+}
+
+.module:hover .module__index-large {
+  color: var(--accent-alpha-20);
+}
+
+/* Module content area */
+.module__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--space-5);
+  padding-top: var(--space-6);
+}
+
+.module__title {
+  font-size: clamp(var(--text-20), 3vw, var(--text-24));
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-2);
+}
+
+.module__title a {
+  color: var(--color-accent);
+  text-decoration: none;
+  border-bottom: none;
+  transition: color var(--transition-base);
+}
+
+/* Stretched link - makes entire module card clickable */
+.module__title a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+.module__title a:hover {
+  color: var(--color-text);
+}
+
+/* Show pointer cursor on entire card */
+.module {
+  cursor: pointer;
+}
+
+.module__description {
+  font-size: var(--text-14);
+  color: var(--color-muted);
+  line-height: 1.5;
+  max-width: 28ch;
+}
+
+/* Module with accent stripe */
+.module--accent {
+  border-left-width: 4px;
+  border-left-color: var(--color-accent);
+}
+
+.module--secondary {
+  border-left-width: 4px;
+  border-left-color: var(--color-secondary);
+}
+
+/* Compact module variant */
+.module--compact {
+  min-height: 12rem;
+}
+
+.module--compact .module__index-large {
+  font-size: clamp(3rem, 12vw, 5rem);
+}
+
+/* ============================================
+   WORK/EXPERIENCE CARDS - Timeline aesthetic
+   ============================================ */
+
+.experience {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+/* Timeline rail */
+.experience__rail {
+  position: relative;
+  width: 8rem;
+  padding: var(--space-4) var(--space-4) var(--space-4) 0;
+  border-right: 3px solid var(--border-medium);
+}
+
+.experience__rail::after {
+  content: '';
+  position: absolute;
+  top: var(--space-4);
+  right: -7px;
+  width: 11px;
+  height: 11px;
+  background: var(--color-accent);
+  border: 2px solid var(--color-bg);
+}
+
+.experience__date {
+  font-family: var(--font-mono);
+  font-size: var(--text-11);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Experience content */
+.experience__content {
+  padding: var(--space-4);
+  padding-left: var(--space-5);
+}
+
+.experience__header {
+  margin-bottom: var(--space-3);
+}
+
+.experience__title {
+  font-size: var(--text-20);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  margin-bottom: var(--space-1);
+}
+
+.experience__company {
+  font-family: var(--font-mono);
+  font-size: var(--text-12);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.experience__body {
+  font-size: var(--text-14);
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+
+.experience__body p {
+  margin-bottom: var(--space-3);
+}
+
+.experience__body ul {
+  margin: var(--space-3) 0;
+  padding-left: var(--space-3);
+}
+
+.experience__body li {
+  margin-bottom: var(--space-1);
+}
+
+.experience__skills {
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-faint);
+  font-family: var(--font-mono);
+  font-size: var(--text-11);
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+}
+
+/* Last experience item - no border continuation */
+.experience:last-child .experience__rail {
+  border-right-style: dashed;
+}
+
+/* ============================================
+   BLOG POST CARDS - Refined data entries
+   ============================================ */
+
+.post {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-left-width: 3px;
+  border-left-color: transparent;
+  background: transparent;
+  transition: all var(--transition-base);
+}
+
+.post:hover {
+  border-color: var(--border-medium);
+  border-left-color: var(--color-accent);
+  background: var(--surface-raised);
+}
+
+.post__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.post__date {
+  font-family: var(--font-mono);
+  font-size: var(--text-11);
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+  text-transform: uppercase;
+}
+
+.post__tags {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.post__tag {
+  font-family: var(--font-mono);
+  font-size: var(--text-11);
+  letter-spacing: 0.05em;
+  color: var(--color-secondary);
+}
+
+.post__title {
+  font-size: var(--text-20);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  margin-bottom: var(--space-2);
+}
+
+.post__title a {
+  color: var(--color-text);
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.post__title a:hover {
+  color: var(--color-accent);
+}
+
+.post__excerpt {
+  font-size: var(--text-14);
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+
+/* Featured post - more dramatic */
+.post--featured {
+  padding: var(--space-5);
+  border-width: 2px;
+  border-left-width: 4px;
+  border-left-color: var(--color-accent);
+  background: var(--surface-tint);
+}
+
+.post--featured .post__title {
+  font-size: var(--text-24);
+}
+
+/* ============================================
+   PAGE HEADERS - Monumental typography
+   ============================================ */
+
+.page-header {
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 3px solid var(--color-text);
+}
+
+.page-header__title {
+  font-size: clamp(var(--text-48), 10vw, var(--text-64));
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+.page-header__subtitle {
+  margin-top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-14);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* ============================================
+   SECTION HEADERS - Architectural dividers
+   ============================================ */
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.section-header__title {
+  font-family: var(--font-mono);
+  font-size: var(--text-11);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.section-header__line {
+  flex: 1;
+  height: 1px;
+  background: var(--border-soft);
+}
+
+/* ============================================
+   GRID VARIANTS - Architectural layouts
+   ============================================ */
+
+.grid--modules {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  max-width: 48rem;
+}
+
+.grid--posts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  gap: var(--space-3);
+}
+
+.grid--timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ============================================
+   INTERACTIVE CONTROLS - Refined inputs
+   ============================================ */
+
+.search-input {
+  width: 100%;
+  max-width: 24rem;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-14);
+  letter-spacing: 0.02em;
+  border: 2px solid var(--border-medium);
+  background: var(--surface-raised);
+  transition: all var(--transition-base);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px var(--accent-alpha-20);
+}
+
+.search-input::placeholder {
+  color: var(--color-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: var(--text-11);
+}
+
+/* Filter tags container */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-4) 0;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 48rem) {
+  .module {
+    min-height: 14rem;
+  }
+
+  .module__index-large {
+    font-size: clamp(3rem, 20vw, 5rem);
+  }
+
+  .experience {
+    grid-template-columns: 1fr;
+  }
+
+  .experience__rail {
+    width: auto;
+    padding: var(--space-3);
+    border-right: none;
+    border-bottom: 2px solid var(--border-medium);
+  }
+
+  .experience__rail::after {
+    display: none;
+  }
+
+  .experience__content {
+    padding: var(--space-3);
+    padding-left: var(--space-3);
+  }
+
+  .page-header__title {
+    font-size: clamp(var(--text-32), 12vw, var(--text-48));
+  }
 }

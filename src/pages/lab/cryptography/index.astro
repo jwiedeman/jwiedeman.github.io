@@ -1,6 +1,5 @@
+---
 import Layout from '../../../layouts/Layout.astro';
-
-const cryptoScript = Astro.resolve('../../../scripts/cryptography.js');
 ---
 <Layout title="Cryptography">
   <section id="tracked-content" class="container lab-cryptography">
@@ -575,5 +574,5 @@ const cryptoScript = Astro.resolve('../../../scripts/cryptography.js');
     }
   </style>
 
-  <script type="module" src={cryptoScript}></script>
+  <script type="module" src="/cryptography.js"></script>
 </Layout>

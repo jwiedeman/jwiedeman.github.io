@@ -1,11 +1,133 @@
-<nav class="primary-nav hairline-bottom">
-  <div class="container">
-    <a href="/" class="brand" data-astro-prefetch>JWIEDEMAN</a>
-    <ul>
-      <li><a href="/work" data-astro-prefetch>Work</a></li>
-      <li><a href="/blog" data-astro-prefetch>Blog</a></li>
-      <li><a href="/lab" data-astro-prefetch>Lab</a></li>
-      <li><a href="/about" data-astro-prefetch>About</a></li>
-    </ul>
+---
+const { title = 'JWIEDEMAN' } = Astro.props;
+---
+<nav class="primary-nav" aria-label="Primary navigation">
+  <a href="/" class="nav-brand" data-astro-prefetch>{title}</a>
+  <div class="nav-links">
+    <a href="/work" class="nav-link" data-astro-prefetch>
+      <span class="nav-index">01</span><span class="nav-text">Work</span>
+    </a>
+    <a href="/blog" class="nav-link" data-astro-prefetch>
+      <span class="nav-index">02</span><span class="nav-text">Blog</span>
+    </a>
+    <a href="/lab" class="nav-link" data-astro-prefetch>
+      <span class="nav-index">03</span><span class="nav-text">Lab</span>
+    </a>
+    <a href="/about" class="nav-link" data-astro-prefetch>
+      <span class="nav-index">04</span><span class="nav-text">About</span>
+    </a>
   </div>
 </nav>
+
+<style>
+  .primary-nav {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-5);
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--border-faint);
+  }
+
+  .nav-brand {
+    font-family: var(--font-sans);
+    font-size: var(--text-12);
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  .nav-brand:hover {
+    color: var(--color-accent);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: var(--space-5);
+  }
+
+  .nav-link {
+    font-family: var(--font-mono);
+    font-size: var(--text-11);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    text-decoration: none;
+    border-bottom: none;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5em;
+    transition: color 0.2s ease;
+  }
+
+  .nav-index {
+    font-size: var(--text-9);
+    color: var(--text-alpha-35);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    transition: color 0.2s ease;
+  }
+
+  .nav-link:hover {
+    color: var(--color-accent);
+  }
+
+  .nav-link:hover .nav-index {
+    color: var(--color-accent);
+  }
+
+  .nav-link:focus-visible {
+    outline: 1px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 640px) {
+    .primary-nav {
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .nav-brand {
+      font-size: var(--text-10);
+      letter-spacing: 0.2em;
+    }
+
+    .nav-links {
+      gap: 0;
+    }
+
+    .nav-link {
+      font-size: var(--text-9);
+      padding: 0 var(--space-2);
+      border-left: 1px solid var(--border-faint);
+    }
+
+    .nav-link:first-child {
+      border-left: none;
+      padding-left: 0;
+    }
+
+    .nav-index {
+      display: none;
+    }
+  }
+
+  /* Tablet */
+  @media (min-width: 641px) and (max-width: 900px) {
+    .primary-nav {
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .nav-links {
+      gap: var(--space-4);
+    }
+
+    .nav-link {
+      font-size: var(--text-10);
+    }
+  }
+</style>
