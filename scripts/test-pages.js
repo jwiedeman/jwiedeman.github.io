@@ -6,9 +6,10 @@
  * - No empty body content
  * - No raw HTML rendering (markdown parsing issues)
  * - Valid HTML structure
+ * - Internal links resolve to existing pages
  */
 
-import { readdir, readFile } from 'fs/promises';
+import { readdir, readFile, access } from 'fs/promises';
 import { join, relative } from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -20,6 +21,10 @@ const DIST_DIR = join(__dirname, '..', 'dist');
 const issues = [];
 let totalPages = 0;
 let passedPages = 0;
+
+// Link validation tracking
+const allLinks = new Map(); // href -> [pages that contain it]
+const brokenLinks = new Map(); // href -> [pages that contain it]
 
 async function getAllHtmlFiles(dir) {
   const files = [];
@@ -102,6 +107,107 @@ function checkPage(filePath, content) {
   return { pagePath, issues: pageIssues };
 }
 
+/**
+ * Extract all internal links from HTML content
+ */
+function extractInternalLinks(content, pagePath) {
+  const links = [];
+  // Match href="/..." patterns (internal links)
+  const hrefRegex = /href=["'](\/([\w\-\.\/]*))["']/g;
+  let match;
+
+  while ((match = hrefRegex.exec(content)) !== null) {
+    const href = match[1];
+    // Skip anchor-only links, external protocols, and asset files we don't check
+    if (href.startsWith('/#') ||
+        href.includes('://') ||
+        href.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/i)) {
+      continue;
+    }
+    links.push(href);
+  }
+
+  return links;
+}
+
+/**
+ * Check if a path exists in the dist directory
+ */
+async function pathExists(href) {
+  // Normalize the path
+  let checkPath = href;
+
+  // Remove leading slash
+  if (checkPath.startsWith('/')) {
+    checkPath = checkPath.slice(1);
+  }
+
+  // Possible file locations to check
+  const possiblePaths = [];
+
+  if (checkPath === '' || checkPath === '/') {
+    possiblePaths.push(join(DIST_DIR, 'index.html'));
+  } else if (checkPath.endsWith('.html')) {
+    // Direct HTML file reference
+    possiblePaths.push(join(DIST_DIR, checkPath));
+  } else if (checkPath.endsWith('/')) {
+    // Directory with trailing slash - look for index.html
+    possiblePaths.push(join(DIST_DIR, checkPath, 'index.html'));
+  } else {
+    // Could be either a directory or a file
+    possiblePaths.push(join(DIST_DIR, checkPath, 'index.html'));
+    possiblePaths.push(join(DIST_DIR, checkPath + '.html'));
+    possiblePaths.push(join(DIST_DIR, checkPath));
+  }
+
+  for (const path of possiblePaths) {
+    try {
+      await access(path);
+      return true;
+    } catch {
+      // Continue to next possible path
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Validate all collected links
+ */
+async function validateLinks() {
+  console.log('\n========================================');
+  console.log('  LINK VALIDATION');
+  console.log('========================================\n');
+
+  const uniqueLinks = [...allLinks.keys()];
+  console.log(`Found ${uniqueLinks.length} unique internal links to validate\n`);
+
+  let validCount = 0;
+  let brokenCount = 0;
+
+  for (const href of uniqueLinks) {
+    const exists = await pathExists(href);
+    const sourcePages = allLinks.get(href);
+
+    if (exists) {
+      validCount++;
+      console.log(`\x1b[32m✓\x1b[0m ${href}`);
+    } else {
+      brokenCount++;
+      brokenLinks.set(href, sourcePages);
+      console.log(`\x1b[31m✗\x1b[0m ${href}`);
+      console.log(`    Found in: ${sourcePages.slice(0, 3).join(', ')}${sourcePages.length > 3 ? ` (+${sourcePages.length - 3} more)` : ''}`);
+    }
+  }
+
+  console.log('\n----------------------------------------');
+  console.log(`\x1b[32mValid links: ${validCount}\x1b[0m`);
+  console.log(`\x1b[31mBroken links: ${brokenCount}\x1b[0m`);
+
+  return brokenCount;
+}
+
 async function runTests() {
   console.log('\n========================================');
   console.log('  PAGE TEST SUITE');
@@ -117,6 +223,15 @@ async function runTests() {
       const content = await readFile(file, 'utf-8');
       const result = checkPage(file, content);
 
+      // Extract links for validation
+      const links = extractInternalLinks(content, result.pagePath);
+      for (const href of links) {
+        if (!allLinks.has(href)) {
+          allLinks.set(href, []);
+        }
+        allLinks.get(href).push(result.pagePath);
+      }
+
       if (result.issues.length > 0) {
         issues.push(result);
         console.log(`\x1b[31m✗\x1b[0m ${result.pagePath}`);
@@ -130,7 +245,7 @@ async function runTests() {
     }
 
     console.log('\n========================================');
-    console.log('  SUMMARY');
+    console.log('  PAGE STRUCTURE SUMMARY');
     console.log('========================================');
     console.log(`Total pages: ${totalPages}`);
     console.log(`\x1b[32mPassed: ${passedPages}\x1b[0m`);
@@ -142,9 +257,36 @@ async function runTests() {
         console.log(`  ${pagePath}:`);
         pageIssues.forEach(issue => console.log(`    - ${issue}`));
       });
+    }
+
+    // Validate all collected links
+    const brokenLinkCount = await validateLinks();
+
+    // Final summary
+    console.log('\n========================================');
+    console.log('  FINAL RESULTS');
+    console.log('========================================');
+
+    const totalIssues = issues.length + brokenLinkCount;
+
+    if (totalIssues > 0) {
+      if (issues.length > 0) {
+        console.log(`\x1b[31m${issues.length} page(s) with structural issues\x1b[0m`);
+      }
+      if (brokenLinkCount > 0) {
+        console.log(`\x1b[31m${brokenLinkCount} broken internal link(s)\x1b[0m`);
+        console.log('\nBroken links:');
+        brokenLinks.forEach((pages, href) => {
+          console.log(`  ${href}`);
+          console.log(`    → Found in: ${pages.slice(0, 3).join(', ')}${pages.length > 3 ? ` (+${pages.length - 3} more)` : ''}`);
+        });
+      }
+      console.log('\n\x1b[31mTests failed!\x1b[0m\n');
       process.exit(1);
     } else {
-      console.log('\n\x1b[32mAll pages passed!\x1b[0m\n');
+      console.log('\x1b[32mAll pages passed structural checks!\x1b[0m');
+      console.log('\x1b[32mAll internal links are valid!\x1b[0m');
+      console.log('\n\x1b[32m✓ All tests passed!\x1b[0m\n');
       process.exit(0);
     }
 

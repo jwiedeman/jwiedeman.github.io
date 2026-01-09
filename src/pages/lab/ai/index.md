@@ -5,28 +5,97 @@ headingTracker: false
 ---
 <div class="container">
   <header class="page-header">
-    <h1 class="page-header__title">AI</h1>
-    <p class="page-header__subtitle">Applied Machine Intelligence &amp; Neural Architectures</p>
+    <div class="page-header__meta">
+      <span class="section-index">Lab / AI</span>
+      <span class="classification classification--accent">Active Research</span>
+    </div>
+    <h1 class="page-header__title">Artificial Intelligence</h1>
+    <p class="page-header__subtitle">Machine Learning & Neural Architectures</p>
   </header>
+
+  <div class="section-header">
+    <span class="section-header__title">10 Projects Indexed</span>
+    <span class="section-header__line"></span>
+  </div>
 
   <div class="grid">
     <article class="card span-6">
-      <div class="label mono">AI-000</div>
+      <div class="label mono">AI-001</div>
       <div>
-        <h2><a href="/lab/ai/zoo/">AI Zoo</a></h2>
+        <h2><a href="/lab/ai/mini-digits-gan/">Mini Digits GAN</a></h2>
         <p>
-          A growing in-browser museum of generative adversarial networks with live demos that run entirely on CPU power.
+          Compact 28×28 handwriting generator distilled from a digit-focused GAN and exported as a single dense decoder.
         </p>
         <ul>
-          <li>Every exhibit ships its full generator logic inline so guests can study and remix the models.</li>
-          <li>Searchable catalog designed to host dozens of GAN experiments with preview thumbnails.</li>
-          <li>Launch lineup features lightweight handwriting and chromatic pattern generators.</li>
+          <li>Softmax-based latent routing keeps inference deterministic for repeated seeds.</li>
+          <li>Monochrome glyph basis renders crisply for retro dashboards and HUD mockups.</li>
+          <li>Runs entirely on typed arrays—no TensorFlow.js or WebGL runtime required.</li>
         </ul>
-        <p><a href="/lab/ai/zoo/" class="mono">Enter the exhibit hall</a></p>
+        <p><a href="/lab/ai/mini-digits-gan/" class="mono">Access module →</a></p>
       </div>
     </article>
     <article class="card span-6">
-      <div class="label mono">AI-001</div>
+      <div class="label mono">AI-002</div>
+      <div>
+        <h2><a href="/lab/ai/chromatic-orbit-gan/">Chromatic Orbit GAN</a></h2>
+        <p>
+          64×64 chromatic field generator that blends spiral, radial, and interference bases for psychedelic orbital motifs.
+        </p>
+        <ul>
+          <li>Two-layer latent mixer sculpts coefficients for six handcrafted color basis fields.</li>
+          <li>Outputs upscale cleanly for posters, dashboards, or shader inspiration.</li>
+          <li>Includes autoplay option for looping gallery reels right in the browser.</li>
+        </ul>
+        <p><a href="/lab/ai/chromatic-orbit-gan/" class="mono">Access module →</a></p>
+      </div>
+    </article>
+    <article class="card span-6">
+      <div class="label mono">AI-003</div>
+      <div>
+        <h2><a href="/lab/ai/neural-match/">NeuralMatch</a></h2>
+        <p>
+          Synthetic match-3 game evaluator that trains neural models on heavily augmented puzzle layouts to master tile-matching strategies.
+        </p>
+        <ul>
+          <li>Heavy data augmentation generates thousands of puzzle variants for robust training.</li>
+          <li>Browser-first architecture runs entirely on static files—no backend required.</li>
+          <li>Part of the NeuralDojo collection of neural playgrounds.</li>
+        </ul>
+        <p><a href="/lab/ai/neural-match/" class="mono">Launch demo →</a></p>
+      </div>
+    </article>
+    <article class="card span-6">
+      <div class="label mono">AI-004</div>
+      <div>
+        <h2><a href="/lab/ai/neural-go/">NeuralGo</a></h2>
+        <p>
+          Self-play laboratory where neural networks learn the ancient game of Go through iterative policy improvement and Monte Carlo tree search.
+        </p>
+        <ul>
+          <li>Implements AlphaGo-inspired self-play loops for continuous improvement.</li>
+          <li>Visualizes board states, move probabilities, and value predictions in real-time.</li>
+          <li>Fully static deployment—runs entirely in your browser.</li>
+        </ul>
+        <p><a href="/lab/ai/neural-go/" class="mono">Launch demo →</a></p>
+      </div>
+    </article>
+    <article class="card span-6">
+      <div class="label mono">AI-005</div>
+      <div>
+        <h2><a href="/lab/ai/neural-stocks/">NeuralStocks</a></h2>
+        <p>
+          Market forecasting playground that processes historical prices through a compact MLP with real-time learning visualization.
+        </p>
+        <ul>
+          <li>Live training dashboard shows loss curves and prediction accuracy as the model learns.</li>
+          <li>Compact multilayer perceptron architecture optimized for browser performance.</li>
+          <li>Educational tool demonstrating neural network fundamentals on financial data.</li>
+        </ul>
+        <p><a href="/lab/ai/neural-stocks/" class="mono">Launch demo →</a></p>
+      </div>
+    </article>
+    <article class="card span-6">
+      <div class="label mono">AI-006</div>
       <div>
         <h2><a href="/lab/ai/foot-traffic-intelligence/">Foot Traffic Intelligence</a></h2>
         <p>
@@ -37,11 +106,11 @@ headingTracker: false
           <li>Forecast module predicts surges so staff can stage resources before congestion starts.</li>
           <li>Output dashboards plug into the analytics stack already deployed in the lab.</li>
         </ul>
-        <p><a href="/lab/ai/foot-traffic-intelligence/" class="mono">Open project dossier</a></p>
+        <p><a href="/lab/ai/foot-traffic-intelligence/" class="mono">Access module →</a></p>
       </div>
     </article>
     <article class="card span-6">
-      <div class="label mono">AI-002</div>
+      <div class="label mono">AI-007</div>
       <div>
         <h2><a href="/lab/ai/mycology-classification/">Mycology Classification</a></h2>
         <p>
@@ -52,11 +121,11 @@ headingTracker: false
           <li>Outputs include toxicity risk bands, look-alike warnings, and habitat metadata.</li>
           <li>Packaging targets a lightweight mobile inference bundle for offline use in forests.</li>
         </ul>
-        <p><a href="/lab/ai/mycology-classification/" class="mono">Open project dossier</a></p>
+        <p><a href="/lab/ai/mycology-classification/" class="mono">Access module →</a></p>
       </div>
     </article>
     <article class="card span-6">
-      <div class="label mono">AI-003</div>
+      <div class="label mono">AI-008</div>
       <div>
         <h2><a href="/lab/ai/phone-agent/">Phone Agent</a></h2>
         <p>
@@ -67,26 +136,11 @@ headingTracker: false
           <li>Integrates with Twilio SIP endpoints and the lab's analytics warehouse.</li>
           <li>Fine-tunes prompts from anonymized transcripts to raise resolution rates.</li>
         </ul>
-        <p><a href="/lab/ai/phone-agent/" class="mono">Open project dossier</a></p>
+        <p><a href="/lab/ai/phone-agent/" class="mono">Access module →</a></p>
       </div>
     </article>
     <article class="card span-6">
-      <div class="label mono">AI-004</div>
-      <div>
-        <h2><a href="/lab/ai/demo-arcade-intelligence/">Demo Arcade Intelligence</a></h2>
-        <p>
-          Competitive arcade sandbox where reinforcement learners iterate strategies while a player can drop in at any time to challenge the live leaderboard.
-        </p>
-        <ul>
-          <li>Best-performing agent trains continuously, publishing policy notes after each improvement.</li>
-          <li>Human mode loads the canonical game without assists so guests can attempt to dethrone the agent.</li>
-          <li>Results feed a shared scoreboard with telemetry explaining how each run was achieved.</li>
-        </ul>
-        <p><a href="/lab/ai/demo-arcade-intelligence/" class="mono">Open project dossier</a></p>
-      </div>
-    </article>
-    <article class="card span-6">
-      <div class="label mono">AI-005</div>
+      <div class="label mono">AI-009</div>
       <div>
         <h2><a href="/lab/ai/mushroom-forecasting-alerts/">Mushroom Forecasting Alerts</a></h2>
         <p>
@@ -97,7 +151,22 @@ headingTracker: false
           <li>Spatial tiles combine habitat suitability with recent mycology classification sightings.</li>
           <li>Designed as a "weather-style" notification system that surfaces safe-foraging windows.</li>
         </ul>
-        <p><a href="/lab/ai/mushroom-forecasting-alerts/" class="mono">Open project dossier</a></p>
+        <p><a href="/lab/ai/mushroom-forecasting-alerts/" class="mono">Access module →</a></p>
+      </div>
+    </article>
+    <article class="card span-6">
+      <div class="label mono">AI-010</div>
+      <div>
+        <h2><a href="/lab/ai/pattern-match-learner/">Pattern Match Learner</a></h2>
+        <p>
+          Interactive neural network that learns to classify 8×8 pixel patterns through stochastic gradient descent.
+        </p>
+        <ul>
+          <li>Watch weights evolve in real-time as the network learns to classify stripes, checkers, and diagonals.</li>
+          <li>Draw your own patterns and see live predictions with confidence scores.</li>
+          <li>Visualizes loss landscape trajectory and emergent weight structures.</li>
+        </ul>
+        <p><a href="/lab/ai/pattern-match-learner/" class="mono">Launch demo →</a></p>
       </div>
     </article>
   </div>

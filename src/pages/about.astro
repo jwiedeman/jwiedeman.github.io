@@ -1,0 +1,323 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const capabilities = [
+  { id: 'CAP-001', name: 'Adobe Analytics & GA4 Architecture' },
+  { id: 'CAP-002', name: 'Server-Side GTM Deployments' },
+  { id: 'CAP-003', name: 'Custom Data Layers & Event APIs' },
+  { id: 'CAP-004', name: 'Automated Tag Audits & Validation' },
+  { id: 'CAP-005', name: 'BI & Data Engineering Support' },
+  { id: 'CAP-006', name: 'Compliance Advisory (GDPR/CCPA/HIPAA)' },
+];
+
+const interests = [
+  'Kayaking',
+  'Mushroom Foraging',
+  'Cultural Studies',
+  'Abstract Systems',
+];
+---
+<Layout title="About">
+  <div class="about-page">
+    <!-- Header -->
+    <header class="about-header">
+      <div class="about-header__meta">
+        <span class="section-index">About</span>
+        <span class="classification classification--accent">Portland, OR</span>
+      </div>
+      <h1 class="about-header__title">Hey,<br/>I'm Josh</h1>
+      <p class="about-header__subtitle">Analytics Engineer</p>
+    </header>
+
+    <!-- Intro -->
+    <section class="about-section">
+      <div class="about-section__header">
+        <span class="section-index">01</span>
+        <h2 class="about-section__title">The Short Version</h2>
+      </div>
+      <div class="about-section__body">
+        <p class="about-text">
+          I'm driven by curiosity and a knack for abstract problem solving. I specialize in digital analytics—Adobe
+          Analytics, Google Tag Manager, data layers, the whole stack. I like building things that work at scale
+          and figuring out why things break.
+        </p>
+      </div>
+    </section>
+
+    <!-- Approach -->
+    <section class="about-section">
+      <div class="about-section__header">
+        <span class="section-index">02</span>
+        <h2 class="about-section__title">How I Work</h2>
+      </div>
+      <div class="about-section__body">
+        <p class="about-text">
+          I'm never afraid to step outside my comfort zone if it means getting a project across the finish line
+          faster and smarter. Once, a slow BI report had multiple engineers (myself included) refining queries
+          and architecture for weeks. I looked beyond my scope and found the real cause: the database was on
+          the lowest billing tier. One setting change fixed everything.
+        </p>
+        <div class="callout">
+          <span class="callout__label mono">TLDR</span>
+          <p class="callout__text">
+            Question assumptions. Find root causes. Fix the right thing.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="about-section">
+      <div class="about-section__header">
+        <span class="section-index">03</span>
+        <h2 class="about-section__title">What I Do</h2>
+      </div>
+      <div class="about-section__body">
+        <p class="about-text">
+          I've led analytics work across web, mobile, OTT, and server-side environments for companies like
+          Fox, Universal Music Group, and the U.S. Department of Health & Human Services. I build event tracking,
+          automation pipelines, and QA processes that make data accurate and actually useful. I like bridging
+          the gap between technical implementation and business outcomes.
+        </p>
+      </div>
+    </section>
+
+    <!-- Capabilities -->
+    <section class="about-section">
+      <div class="about-section__header">
+        <span class="section-index">04</span>
+        <h2 class="about-section__title">Skills</h2>
+      </div>
+      <div class="capabilities-grid">
+        {capabilities.map(cap => (
+          <div class="capability-item">
+            <span class="capability-item__id mono">{cap.id}</span>
+            <span class="capability-item__name">{cap.name}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Off-Duty -->
+    <section class="about-section">
+      <div class="about-section__header">
+        <span class="section-index">05</span>
+        <h2 class="about-section__title">Outside of Work</h2>
+      </div>
+      <div class="about-section__body">
+        <p class="about-text">
+          You'll find me kayaking, foraging for mushrooms, or falling down rabbit holes about
+          cultures, subcultures, and belief systems. Same curiosity, different application.
+        </p>
+        <div class="interests-row">
+          {interests.map((interest, i) => (
+            <span class="interest-tag mono">
+              <span class="interest-tag__index">{String(i + 1).padStart(2, '0')}</span>
+              {interest}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Specialties -->
+    <section class="about-section about-section--last">
+      <div class="about-section__header">
+        <span class="section-index">06</span>
+        <h2 class="about-section__title">The Full List</h2>
+      </div>
+      <div class="specialties-block">
+        <p class="specialties-text mono">
+          Adobe Analytics • GTM • Data Layer Architecture • Tag Management • Server-Side Tracking •
+          SDK Integration • Analytics QA • GA4 • Event Tracking • Compliance (GDPR, CCPA, HIPAA, GxP) •
+          Data Governance • API Integrations • OTT & Mobile Analytics • BI Enablement • Billing Optimization •
+          Defensive Design
+        </p>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .about-page {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: var(--space-5) var(--page-inline);
+  }
+
+  /* Header */
+  .about-header {
+    padding: var(--space-6) 0 var(--space-5);
+    border-bottom: 2px solid var(--color-text);
+    margin-bottom: var(--space-5);
+  }
+
+  .about-header__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .about-header__title {
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-2);
+  }
+
+  .about-header__subtitle {
+    font-family: var(--font-mono);
+    font-size: var(--text-14);
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  /* Sections */
+  .about-section {
+    padding: var(--space-5) 0;
+    border-bottom: 1px solid var(--border-faint);
+  }
+
+  .about-section--last {
+    border-bottom: none;
+  }
+
+  .about-section__header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .about-section__title {
+    font-size: var(--text-12);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .about-section__body {
+    max-width: 40rem;
+  }
+
+  .about-text {
+    font-size: var(--text-14);
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+
+  .about-text + .about-text {
+    margin-top: var(--space-3);
+  }
+
+  /* Callout */
+  .callout {
+    margin-top: var(--space-4);
+    padding: var(--space-3);
+    border-left: 3px solid var(--color-accent);
+    background: var(--surface-tint);
+  }
+
+  .callout__label {
+    display: block;
+    font-size: var(--text-9);
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-2);
+  }
+
+  .callout__text {
+    font-size: var(--text-16);
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+
+  /* Capabilities Grid */
+  .capabilities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1px;
+    background: var(--border-faint);
+    border: 1px solid var(--border-faint);
+  }
+
+  .capability-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    background: var(--color-bg);
+  }
+
+  .capability-item__id {
+    font-size: var(--text-9);
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .capability-item__name {
+    font-size: var(--text-12);
+    color: var(--color-text);
+  }
+
+  /* Interests */
+  .interests-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  .interest-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--border-faint);
+    font-size: var(--text-11);
+    letter-spacing: 0.05em;
+    color: var(--color-text);
+  }
+
+  .interest-tag__index {
+    font-size: var(--text-9);
+    color: var(--color-muted);
+  }
+
+  /* Specialties */
+  .specialties-block {
+    padding: var(--space-4);
+    border: 1px solid var(--border-faint);
+    background: var(--surface-panel);
+  }
+
+  .specialties-text {
+    font-size: var(--text-11);
+    line-height: 2;
+    letter-spacing: 0.02em;
+    color: var(--color-muted);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .capabilities-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .interests-row {
+      flex-direction: column;
+    }
+
+    .interest-tag {
+      justify-content: flex-start;
+    }
+  }
+</style>

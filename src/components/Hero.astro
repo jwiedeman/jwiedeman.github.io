@@ -60,18 +60,15 @@ const { title } = Astro.props;
   <style>
     .topo-hero {
       position: relative;
-      width: calc(100% - var(--space-4) * 2);
-      /* Fill the viewport while preserving space for compass labels */
-      height: calc(100vh - var(--space-4) * 2);
-      height: calc(100svh - var(--space-4) * 2);
-      margin: var(--space-4);
+      width: calc(100% - var(--space-5) * 2);
+      height: calc(100vh - var(--space-5) * 2);
+      height: calc(100svh - var(--space-5) * 2);
+      margin: var(--space-5);
       --frame-color: var(--color-text);
-      --grid-major: var(--accent-alpha-80);
-      --grid-major: color-mix(in srgb, var(--color-accent) 80%, transparent);
-      --grid-minor: var(--accent-alpha-40);
-      --grid-minor: color-mix(in srgb, var(--color-accent) 40%, transparent);
+      --grid-major: color-mix(in srgb, var(--color-accent) 60%, transparent);
+      --grid-minor: color-mix(in srgb, var(--color-accent) 25%, transparent);
       --contour-color: #000;
-      --nav-height: 56px;
+      --nav-height: 64px;
       background: var(--color-bg);
     }
     .topo-hero canvas {
@@ -85,61 +82,66 @@ const { title } = Astro.props;
       inset: 0;
       pointer-events: none;
     }
+    /* Refined grid - more architectural precision */
     .topo-hero .grid {
       position: absolute;
       inset: 0;
       background-image:
-        repeating-linear-gradient(var(--grid-minor) 0 1px, transparent 1px 16px),
-        repeating-linear-gradient(90deg, var(--grid-minor) 0 1px, transparent 1px 16px),
-        repeating-linear-gradient(var(--grid-major) 0 1px, transparent 1px 128px),
-        repeating-linear-gradient(90deg, var(--grid-major) 0 1px, transparent 1px 128px);
+        repeating-linear-gradient(var(--grid-minor) 0 1px, transparent 1px 24px),
+        repeating-linear-gradient(90deg, var(--grid-minor) 0 1px, transparent 1px 24px),
+        repeating-linear-gradient(var(--grid-major) 0 1px, transparent 1px 96px),
+        repeating-linear-gradient(90deg, var(--grid-major) 0 1px, transparent 1px 96px);
     }
     .topo-hero .frame {
       position: absolute;
       inset: 0;
-      border: 2px solid var(--frame-color);
+      border: 3px solid var(--frame-color);
     }
     .topo-hero .hud .coord {
       position: absolute;
-      top: 4px;
-      left: 4px;
-      font-size: var(--text-12);
-      color: var(--text-alpha-60);
-      color: color-mix(in srgb, var(--frame-color) 60%, transparent);
+      top: 8px;
+      left: 8px;
+      font-family: var(--font-mono);
+      font-size: var(--text-11);
+      letter-spacing: 0.05em;
+      color: color-mix(in srgb, var(--frame-color) 50%, transparent);
     }
     .topo-hero .hud .compass {
       position: absolute;
-      font-size: var(--text-12);
-      color: var(--text-alpha-60);
-      color: color-mix(in srgb, var(--frame-color) 60%, transparent);
+      font-family: var(--font-mono);
+      font-size: var(--text-11);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: color-mix(in srgb, var(--frame-color) 50%, transparent);
     }
-    .topo-hero .hud .n { top: -16px; left: 50%; transform: translateX(-50%); }
-    .topo-hero .hud .s { bottom: -16px; left: 50%; transform: translateX(-50%); }
-    .topo-hero .hud .e { right: -16px; top: 50%; transform: translateY(-50%); }
-    .topo-hero .hud .w { left: -16px; top: 50%; transform: translateY(-50%); }
+    .topo-hero .hud .n { top: -20px; left: 50%; transform: translateX(-50%); }
+    .topo-hero .hud .s { bottom: -20px; left: 50%; transform: translateX(-50%); }
+    .topo-hero .hud .e { right: -20px; top: 50%; transform: translateY(-50%); }
+    .topo-hero .hud .w { left: -20px; top: 50%; transform: translateY(-50%); }
+
+    /* Navigation bar - institutional command presence */
     .hero-nav {
       position: absolute;
-      bottom: var(--space-2);
+      bottom: var(--space-3);
       left: 50%;
       transform: translateX(-50%);
-      width: min(calc(100% - var(--space-4) * 2), var(--layout-max-width-wide));
+      width: min(calc(100% - var(--space-5) * 2), var(--layout-max-width-wide));
       color: var(--frame-color);
       background: var(--color-bg);
       border: 2px solid var(--frame-color);
-      border-radius: 0;
-      padding: var(--space-1);
-      transition: box-shadow var(--transition-base), border-color var(--transition-base);
+      padding: var(--space-2);
+      transition: all var(--transition-slow);
     }
     .hero-nav__inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: var(--space-2);
-      padding: 0 var(--space-2);
+      gap: var(--space-4);
+      padding: 0 var(--space-3);
     }
     .hero-nav__inner ul {
       display: flex;
-      gap: var(--space-2);
+      gap: var(--space-4);
       list-style: none;
       margin: 0;
       padding: 0;
@@ -147,23 +149,29 @@ const { title } = Astro.props;
     .hero-nav__inner a {
       color: inherit;
       text-decoration: none;
-      font-weight: 800;
+      border-bottom: none;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      transition: color var(--transition-base);
     }
     .hero-nav__inner a:focus-visible,
     .hero-nav__inner a:hover {
       color: var(--color-accent);
     }
     .hero-nav ul {
-      font-size: var(--text-14);
+      font-size: var(--text-11);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
     .hero-nav .brand {
-      font-size: clamp(var(--text-24), 5vw, var(--text-48));
-      letter-spacing: 0.1em;
+      font-family: var(--font-sans);
+      font-size: clamp(var(--text-20), 4vw, var(--text-32));
+      letter-spacing: 0.25em;
       text-transform: uppercase;
-      font-weight: 900;
+      font-weight: 800;
     }
     .hero-nav li a {
-      letter-spacing: 0.06em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
     .hero-nav.sticky {
@@ -173,11 +181,11 @@ const { title } = Astro.props;
       right: auto;
       transform: translateX(-50%);
       width: min(calc(100% - var(--space-4) * 2), var(--layout-max-width-wide));
-      background: color-mix(in srgb, var(--color-bg) 96%, transparent);
-      border-radius: 0;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      border-color: var(--color-rule);
-      backdrop-filter: blur(8px);
+      background: var(--bg-alpha-96);
+      box-shadow: 0 1px 0 var(--border-faint);
+      border-color: var(--border-medium);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       z-index: 1000;
     }
     .hero-nav.sticky .hero-nav__inner {
@@ -190,18 +198,26 @@ const { title } = Astro.props;
     }
 
     @media (max-width: 600px) {
+      .topo-hero {
+        width: calc(100% - var(--space-3) * 2);
+        height: calc(100vh - var(--space-3) * 2);
+        height: calc(100svh - var(--space-3) * 2);
+        margin: var(--space-3);
+      }
       .hero-nav {
-        width: calc(100% - var(--space-2) * 2);
-        padding: var(--space-1);
+        width: calc(100% - var(--space-3) * 2);
+        padding: var(--space-2);
       }
       .hero-nav__inner {
         flex-direction: column;
         align-items: flex-start;
         width: 100%;
+        gap: var(--space-3);
       }
       .hero-nav ul {
         flex-direction: column;
         width: 100%;
+        gap: var(--space-2);
       }
       .hero-nav li {
         width: 100%;
@@ -211,7 +227,7 @@ const { title } = Astro.props;
         width: 100%;
       }
       .hero-nav .brand {
-        letter-spacing: 0.12em;
+        letter-spacing: 0.2em;
       }
       .hero-nav.sticky {
         width: calc(100% - var(--space-2) * 2);

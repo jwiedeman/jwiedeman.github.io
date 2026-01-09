@@ -1,989 +1,570 @@
-const textInput = document.querySelector('#crypto-input');
-const heuristicsSummary = document.querySelector('#heuristics-summary');
-const heuristicsToggle = document.querySelector('#auto-heuristics');
-const cards = Array.from(document.querySelectorAll('.crypto-card'));
+/**
+ * CyberChef-style Cryptography Lab
+ * Recipe-based encoding/decoding with chainable operations
+ */
 
-const MORSE_TABLE = {
-  A: '.-',
-  B: '-...',
-  C: '-.-.',
-  D: '-..',
-  E: '.',
-  F: '..-.',
-  G: '--.',
-  H: '....',
-  I: '..',
-  J: '.---',
-  K: '-.-',
-  L: '.-..',
-  M: '--',
-  N: '-.',
-  O: '---',
-  P: '.--.',
-  Q: '--.-',
-  R: '.-.',
-  S: '...',
-  T: '-',
-  U: '..-',
-  V: '...-',
-  W: '.--',
-  X: '-..-',
-  Y: '-.--',
-  Z: '--..',
-  0: '-----',
-  1: '.----',
-  2: '..---',
-  3: '...--',
-  4: '....-',
-  5: '.....',
-  6: '-....',
-  7: '--...',
-  8: '---..',
-  9: '----.',
-  '.': '.-.-.-',
-  ',': '--..--',
-  '?': '..--..',
-  '!': '-.-.--',
-  '-': '-....-',
-  '/': '-..-.',
-  '@': '.--.-.',
-  '(': '-.--.',
-  ')': '-.--.-',
-  '&': '.-...',
-  ':': '---...',
-  ';': '-.-.-.',
-  '=': '-...-',
-  '+': '.-.-.',
-  '"': '.-..-.',
-  "'": '.----.',
-  '_': '..--.-',
-  '$': '...-..-',
-  '¿': '..-.-',
-  '¡': '--...-'
-};
+// ============================================
+// OPERATION DEFINITIONS
+// ============================================
 
-const MORSE_REVERSE = Object.fromEntries(Object.entries(MORSE_TABLE).map(([key, value]) => [value, key]));
-
-const BASE32_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-const BASE58_ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-
-const algorithms = {
-  caesar: {
-    encode: (input, options) => rotateCipher(input, Number(options.shift ?? 3)),
-    decode: (input, options) => rotateCipher(input, 26 - (Number(options.shift ?? 3) % 26)),
-    heuristics: (input, options) =>
-      heuristicsFromDecode(rotateCipher(input, 26 - (Number(options.shift ?? 3) % 26)), 'shifted alphabetic characters').withSignal(
-        input
-      )
-  },
-  rot13: {
-    encode: (input) => rotateCipher(input, 13),
-    decode: (input) => rotateCipher(input, 13),
-    heuristics: (input) => heuristicsFromDecode(rotateCipher(input, 13), 'ROT13 decode test').withSignal(input)
-  },
-  atbash: {
-    encode: (input) => atbashTransform(input),
-    decode: (input) => atbashTransform(input),
-    heuristics: (input) => heuristicsFromDecode(atbashTransform(input), 'Atbash decode test').withSignal(input)
-  },
-  vigenere: {
-    encode: (input, options) => vigenereTransform(input, (options.key || 'cipher').toString(), false),
-    decode: (input, options) => vigenereTransform(input, (options.key || 'cipher').toString(), true),
-    heuristics: (input, options) =>
-      heuristicsFromDecode(
-        vigenereTransform(input, (options.key || 'cipher').toString(), true),
-        'Vigenère decode test'
-      ).withSignal(input, (options.key || '').toString())
-  },
+const operations = {
+  // Encoding operations
   base64: {
-    encode: (input) => base64Encode(input),
-    decode: (input) => base64Decode(input),
-    heuristics: (input) => base64Heuristics(input)
+    name: 'Base64',
+    encode: (input) => btoa(unescape(encodeURIComponent(input))),
+    decode: (input) => {
+      try {
+        return decodeURIComponent(escape(atob(input.replace(/\s/g, ''))));
+      } catch { return '[Invalid Base64]'; }
+    }
   },
   base32: {
+    name: 'Base32',
     encode: (input) => base32Encode(input),
-    decode: (input) => base32Decode(input),
-    heuristics: (input) => base32Heuristics(input)
+    decode: (input) => base32Decode(input)
   },
   base58: {
+    name: 'Base58',
     encode: (input) => base58Encode(input),
-    decode: (input) => base58Decode(input),
-    heuristics: (input) => base58Heuristics(input)
-  },
-  ascii85: {
-    encode: (input) => ascii85Encode(input),
-    decode: (input) => ascii85Decode(input),
-    heuristics: (input) => ascii85Heuristics(input)
+    decode: (input) => base58Decode(input)
   },
   hex: {
-    encode: (input) => hexEncode(input),
-    decode: (input) => hexDecode(input),
-    heuristics: (input) => hexHeuristics(input)
+    name: 'Hex',
+    encode: (input) => Array.from(new TextEncoder().encode(input)).map(b => b.toString(16).padStart(2, '0')).join(' '),
+    decode: (input) => {
+      try {
+        const hex = input.replace(/\s/g, '');
+        const bytes = hex.match(/.{1,2}/g)?.map(b => parseInt(b, 16)) || [];
+        return new TextDecoder().decode(new Uint8Array(bytes));
+      } catch { return '[Invalid Hex]'; }
+    }
   },
   binary: {
-    encode: (input) => binaryEncode(input),
-    decode: (input) => binaryDecode(input),
-    heuristics: (input) => binaryHeuristics(input)
+    name: 'Binary',
+    encode: (input) => Array.from(new TextEncoder().encode(input)).map(b => b.toString(2).padStart(8, '0')).join(' '),
+    decode: (input) => {
+      try {
+        const bins = input.replace(/\s/g, '').match(/.{1,8}/g) || [];
+        const bytes = bins.map(b => parseInt(b, 2));
+        return new TextDecoder().decode(new Uint8Array(bytes));
+      } catch { return '[Invalid Binary]'; }
+    }
   },
-  morse: {
-    encode: (input) => morseEncode(input),
-    decode: (input) => morseDecode(input),
-    heuristics: (input) => morseHeuristics(input)
+  ascii85: {
+    name: 'ASCII85',
+    encode: (input) => ascii85Encode(input),
+    decode: (input) => ascii85Decode(input)
   },
   url: {
-    encode: (input) => urlEncode(input),
-    decode: (input) => urlDecode(input),
-    heuristics: (input) => urlHeuristics(input)
+    name: 'URL Encode',
+    encode: (input) => encodeURIComponent(input),
+    decode: (input) => {
+      try { return decodeURIComponent(input); }
+      catch { return '[Invalid URL encoding]'; }
+    }
   },
-  railfence: {
-    encode: (input, options) => railFenceEncode(input, Number(options.rails ?? 3)),
-    decode: (input, options) => railFenceDecode(input, Number(options.rails ?? 3)),
-    heuristics: (input, options) =>
-      heuristicsFromDecode(railFenceDecode(input, Number(options.rails ?? 3)), 'rail fence decode test').withSignal(input)
+  morse: {
+    name: 'Morse Code',
+    encode: (input) => morseEncode(input),
+    decode: (input) => morseDecode(input)
   },
-  xor: {
-    encode: (input, options) => xorEncode(input, (options.key || '').toString()),
-    decode: (input, options) => xorDecode(input, (options.key || '').toString()),
-    heuristics: (input, options) => xorHeuristics(input, (options.key || '').toString())
+
+  // Classical ciphers
+  caesar: {
+    name: 'Caesar Cipher',
+    options: [{ name: 'shift', type: 'number', default: 3, min: 1, max: 25 }],
+    encode: (input, opts) => caesarShift(input, opts.shift || 3),
+    decode: (input, opts) => caesarShift(input, 26 - ((opts.shift || 3) % 26))
+  },
+  rot13: {
+    name: 'ROT13',
+    encode: (input) => caesarShift(input, 13),
+    decode: (input) => caesarShift(input, 13)
+  },
+  atbash: {
+    name: 'Atbash',
+    encode: (input) => atbashTransform(input),
+    decode: (input) => atbashTransform(input)
+  },
+  vigenere: {
+    name: 'Vigenère',
+    options: [{ name: 'key', type: 'text', default: 'SECRET' }],
+    encode: (input, opts) => vigenereTransform(input, opts.key || 'SECRET', false),
+    decode: (input, opts) => vigenereTransform(input, opts.key || 'SECRET', true)
   },
   affine: {
-    encode: (input, options) => affineTransform(input, Number(options.a ?? 1), Number(options.b ?? 8), false),
-    decode: (input, options) => affineTransform(input, Number(options.a ?? 1), Number(options.b ?? 8), true),
-    heuristics: (input, options) =>
-      heuristicsFromDecode(
-        affineTransform(input, Number(options.a ?? 1), Number(options.b ?? 8), true),
-        'Affine decode test'
-      ).withSignal(input)
+    name: 'Affine Cipher',
+    options: [
+      { name: 'a', type: 'number', default: 5, min: 1, max: 25 },
+      { name: 'b', type: 'number', default: 8, min: 0, max: 25 }
+    ],
+    encode: (input, opts) => affineTransform(input, opts.a || 5, opts.b || 8, false),
+    decode: (input, opts) => affineTransform(input, opts.a || 5, opts.b || 8, true)
+  },
+  railfence: {
+    name: 'Rail Fence',
+    options: [{ name: 'rails', type: 'number', default: 3, min: 2, max: 10 }],
+    encode: (input, opts) => railFenceEncode(input, opts.rails || 3),
+    decode: (input, opts) => railFenceDecode(input, opts.rails || 3)
+  },
+
+  // Modern
+  xor: {
+    name: 'XOR',
+    options: [{ name: 'key', type: 'text', default: 'key' }],
+    encode: (input, opts) => xorTransform(input, opts.key || 'key'),
+    decode: (input, opts) => xorTransform(input, opts.key || 'key')
+  },
+
+  // Utilities
+  reverse: {
+    name: 'Reverse',
+    encode: (input) => input.split('').reverse().join(''),
+    decode: (input) => input.split('').reverse().join('')
+  },
+  uppercase: {
+    name: 'To Uppercase',
+    encode: (input) => input.toUpperCase(),
+    decode: (input) => input.toLowerCase()
+  },
+  lowercase: {
+    name: 'To Lowercase',
+    encode: (input) => input.toLowerCase(),
+    decode: (input) => input.toUpperCase()
+  },
+  removewhitespace: {
+    name: 'Remove Whitespace',
+    encode: (input) => input.replace(/\s/g, ''),
+    decode: (input) => input
+  },
+  charcount: {
+    name: 'Character Count',
+    encode: (input) => `Length: ${input.length} chars, ${new TextEncoder().encode(input).length} bytes`,
+    decode: (input) => input
   }
 };
 
-function rotateCipher(input, shift) {
-  if (!input) return '';
-  const normalized = ((shift % 26) + 26) % 26;
-  return Array.from(input)
-    .map((char) => {
-      const code = char.charCodeAt(0);
-      if (code >= 65 && code <= 90) {
-        return String.fromCharCode(((code - 65 + normalized) % 26) + 65);
-      }
-      if (code >= 97 && code <= 122) {
-        return String.fromCharCode(((code - 97 + normalized) % 26) + 97);
-      }
-      return char;
-    })
-    .join('');
+// ============================================
+// CIPHER IMPLEMENTATIONS
+// ============================================
+
+function caesarShift(input, shift) {
+  const n = ((shift % 26) + 26) % 26;
+  return input.replace(/[a-zA-Z]/g, c => {
+    const base = c <= 'Z' ? 65 : 97;
+    return String.fromCharCode((c.charCodeAt(0) - base + n) % 26 + base);
+  });
 }
 
 function atbashTransform(input) {
-  if (!input) return '';
-  return Array.from(input)
-    .map((char) => {
-      const code = char.charCodeAt(0);
-      if (code >= 65 && code <= 90) {
-        return String.fromCharCode(90 - (code - 65));
-      }
-      if (code >= 97 && code <= 122) {
-        return String.fromCharCode(122 - (code - 97));
-      }
-      return char;
-    })
-    .join('');
-}
-
-function normalizeKey(key) {
-  return key.replace(/[^A-Za-z]/g, '').toUpperCase();
-}
-
-function vigenereTransform(input, rawKey, decode = false) {
-  if (!input) return '';
-  const key = normalizeKey(rawKey || 'cipher');
-  if (!key) return input;
-  let keyIndex = 0;
-  return Array.from(input)
-    .map((char) => {
-      const code = char.charCodeAt(0);
-      const isUpper = code >= 65 && code <= 90;
-      const isLower = code >= 97 && code <= 122;
-      if (!isUpper && !isLower) {
-        return char;
-      }
-      const base = isUpper ? 65 : 97;
-      const keyShift = key.charCodeAt(keyIndex % key.length) - 65;
-      keyIndex += 1;
-      const offset = decode ? 26 - keyShift : keyShift;
-      return String.fromCharCode(((code - base + offset) % 26) + base);
-    })
-    .join('');
-}
-
-function base64Encode(input) {
-  if (input === undefined || input === null) return '';
-  const bytes = new TextEncoder().encode(input);
-  let binary = '';
-  bytes.forEach((byte) => {
-    binary += String.fromCharCode(byte);
+  return input.replace(/[a-zA-Z]/g, c => {
+    const base = c <= 'Z' ? 65 : 97;
+    return String.fromCharCode(base + 25 - (c.charCodeAt(0) - base));
   });
-  return btoa(binary);
 }
 
-function base64Decode(input) {
-  if (!input) return '';
-  try {
-    const sanitized = input.replace(/\s+/g, '');
-    const binary = atob(sanitized);
-    const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
-    return new TextDecoder().decode(bytes);
-  } catch (error) {
-    return '';
-  }
+function vigenereTransform(input, key, decode) {
+  const k = key.toUpperCase().replace(/[^A-Z]/g, '') || 'A';
+  let ki = 0;
+  return input.replace(/[a-zA-Z]/g, c => {
+    const base = c <= 'Z' ? 65 : 97;
+    const shift = k.charCodeAt(ki++ % k.length) - 65;
+    const dir = decode ? 26 - shift : shift;
+    return String.fromCharCode((c.charCodeAt(0) - base + dir) % 26 + base);
+  });
 }
 
-function base64Heuristics(input) {
-  const cleaned = (input || '').replace(/\s+/g, '');
-  if (!cleaned) {
-    return { score: 0, reason: 'Awaiting input for base64 analysis.' };
-  }
-  const base64Regex = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
-  if (cleaned.length % 4 === 0 && base64Regex.test(cleaned)) {
-    return { score: 0.92, reason: 'Valid base64 alphabet and padding alignment detected.' };
-  }
-  if (/^[A-Za-z0-9+/=]+$/.test(cleaned)) {
-    return { score: 0.42, reason: 'Mostly base64-safe characters but length is not aligned to 4.' };
-  }
-  return { score: 0.08, reason: 'Characters fall outside the base64 alphabet.' };
-}
-
-function base32Encode(input) {
-  if (input === undefined || input === null) return '';
-  const bytes = Array.from(new TextEncoder().encode(input));
-  if (!bytes.length) return '';
-  const output = [];
-  for (let i = 0; i < bytes.length; i += 5) {
-    const chunk = bytes.slice(i, i + 5);
-    const chunkLength = chunk.length;
-    while (chunk.length < 5) {
-      chunk.push(0);
-    }
-    const bits = chunk.map((byte) => byte.toString(2).padStart(8, '0')).join('');
-    const charCount = [0, 2, 4, 5, 7, 8][chunkLength] || 0;
-    for (let j = 0; j < charCount; j += 1) {
-      const segment = bits.slice(j * 5, j * 5 + 5);
-      output.push(BASE32_ALPHABET[parseInt(segment, 2)]);
-    }
-    output.push('='.repeat(8 - charCount));
-  }
-  return output.join('');
-}
-
-function base32Decode(input) {
-  if (!input) return '';
-  const cleaned = input.toUpperCase().replace(/\s+/g, '');
-  if (!cleaned) return '';
-  if (/[^A-Z2-7=]/.test(cleaned) || cleaned.length % 8 !== 0) {
-    return '';
-  }
-  const bytes = [];
-  for (let i = 0; i < cleaned.length; i += 8) {
-    const block = cleaned.slice(i, i + 8);
-    let bits = '';
-    for (const char of block) {
-      if (char === '=') {
-        bits += '00000';
-      } else {
-        const value = BASE32_ALPHABET.indexOf(char);
-        if (value === -1) {
-          return '';
-        }
-        bits += value.toString(2).padStart(5, '0');
-      }
-    }
-    let expectedBytes = 5;
-    if (block.endsWith('======')) {
-      expectedBytes = 1;
-    } else if (block.endsWith('====')) {
-      expectedBytes = 2;
-    } else if (block.endsWith('===')) {
-      expectedBytes = 3;
-    } else if (block.endsWith('=')) {
-      expectedBytes = 4;
-    }
-    for (let j = 0; j < expectedBytes; j += 1) {
-      const segment = bits.slice(j * 8, j * 8 + 8);
-      if (segment.length < 8) {
-        continue;
-      }
-      bytes.push(parseInt(segment, 2));
-    }
-  }
-  try {
-    return new TextDecoder().decode(Uint8Array.from(bytes));
-  } catch (error) {
-    return '';
-  }
-}
-
-function base32Heuristics(input) {
-  const cleaned = (input || '').replace(/\s+/g, '').toUpperCase();
-  if (!cleaned) {
-    return { score: 0, reason: 'Awaiting input for base32 analysis.' };
-  }
-  const base32Regex = /^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=|[A-Z2-7]{8})$/;
-  if (base32Regex.test(cleaned)) {
-    return { score: 0.86, reason: 'Base32 alphabet and padding alignment detected.' };
-  }
-  if (/^[A-Z2-7=]+$/.test(cleaned)) {
-    return { score: 0.4, reason: 'Mostly base32-safe characters but unusual length or padding.' };
-  }
-  return { score: 0.12, reason: 'Characters fall outside the base32 alphabet.' };
-}
-
-function base58Encode(input) {
-  if (input === undefined || input === null) return '';
-  const bytes = Array.from(new TextEncoder().encode(input));
-  if (!bytes.length) return '';
-  let zeros = 0;
-  while (zeros < bytes.length && bytes[zeros] === 0) {
-    zeros += 1;
-  }
-  let value = 0n;
-  for (const byte of bytes) {
-    value = (value << 8n) + BigInt(byte);
-  }
-  let encoded = '';
-  while (value > 0n) {
-    const remainder = Number(value % 58n);
-    encoded = BASE58_ALPHABET[remainder] + encoded;
-    value /= 58n;
-  }
-  return '1'.repeat(zeros) + encoded;
-}
-
-function base58Decode(input) {
-  if (!input) return '';
-  const cleaned = input.trim();
-  if (!cleaned) return '';
-  if (/[^123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]/.test(cleaned)) {
-    return '';
-  }
-  let value = 0n;
-  for (const char of cleaned) {
-    const index = BASE58_ALPHABET.indexOf(char);
-    if (index === -1) {
-      return '';
-    }
-    value = value * 58n + BigInt(index);
-  }
-  const bytes = [];
-  while (value > 0n) {
-    bytes.push(Number(value % 256n));
-    value /= 256n;
-  }
-  bytes.reverse();
-  const leadingZeros = cleaned.match(/^1+/);
-  if (leadingZeros) {
-    bytes.unshift(...Array.from({ length: leadingZeros[0].length }, () => 0));
-  }
-  try {
-    return new TextDecoder().decode(Uint8Array.from(bytes));
-  } catch (error) {
-    return '';
-  }
-}
-
-function base58Heuristics(input) {
-  const cleaned = (input || '').trim();
-  if (!cleaned) {
-    return { score: 0, reason: 'Awaiting input for base58 analysis.' };
-  }
-  if (/^[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+$/.test(cleaned)) {
-    const score = Math.min(0.9, 0.45 + cleaned.length * 0.02);
-    return { score, reason: 'Base58 alphabet detected without ambiguous glyphs.' };
-  }
-  return { score: 0.14, reason: 'Characters fall outside the base58 alphabet.' };
-}
-
-function ascii85Encode(input) {
-  if (input === undefined || input === null) return '';
-  const bytes = Array.from(new TextEncoder().encode(input));
-  if (!bytes.length) return '';
-  let output = '';
-  for (let i = 0; i < bytes.length; i += 4) {
-    const chunk = bytes.slice(i, i + 4);
-    const chunkLength = chunk.length;
-    while (chunk.length < 4) {
-      chunk.push(0);
-    }
-    const value =
-      ((chunk[0] << 24) >>> 0) +
-      ((chunk[1] << 16) >>> 0) +
-      ((chunk[2] << 8) >>> 0) +
-      (chunk[3] >>> 0);
-    if (value === 0 && chunkLength === 4) {
-      output += 'z';
-      continue;
-    }
-    let remainder = value;
-    const encoded = [];
-    for (let j = 0; j < 5; j += 1) {
-      encoded.unshift((remainder % 85) + 33);
-      remainder = Math.floor(remainder / 85);
-    }
-    let block = String.fromCharCode(...encoded);
-    if (chunkLength < 4) {
-      block = block.slice(0, chunkLength + 1);
-    }
-    output += block;
-  }
-  return output;
-}
-
-function ascii85Decode(input) {
-  if (!input) return '';
-  const cleaned = input.replace(/\s+/g, '');
-  if (!cleaned) return '';
-  const bytes = [];
-  let group = [];
-  for (let i = 0; i < cleaned.length; i += 1) {
-    const char = cleaned[i];
-    if (char === 'z') {
-      if (group.length !== 0) {
-        return '';
-      }
-      bytes.push(0, 0, 0, 0);
-      continue;
-    }
-    const code = char.charCodeAt(0);
-    if (code < 33 || code > 117) {
-      return '';
-    }
-    group.push(code - 33);
-    if (group.length === 5) {
-      let value = 0;
-      group.forEach((part) => {
-        value = value * 85 + part;
-      });
-      bytes.push((value >>> 24) & 0xff, (value >>> 16) & 0xff, (value >>> 8) & 0xff, value & 0xff);
-      group = [];
-    }
-  }
-  if (group.length > 0) {
-    const missing = 5 - group.length;
-    for (let i = 0; i < missing; i += 1) {
-      group.push(84);
-    }
-    let value = 0;
-    group.forEach((part) => {
-      value = value * 85 + part;
-    });
-    let tail = [(value >>> 24) & 0xff, (value >>> 16) & 0xff, (value >>> 8) & 0xff, value & 0xff];
-    tail = tail.slice(0, group.length - 1);
-    bytes.push(...tail);
-  }
-  try {
-    return new TextDecoder().decode(Uint8Array.from(bytes));
-  } catch (error) {
-    return '';
-  }
-}
-
-function ascii85Heuristics(input) {
-  const cleaned = (input || '').replace(/\s+/g, '');
-  if (!cleaned) {
-    return { score: 0, reason: 'Awaiting input for ASCII85 analysis.' };
-  }
-  if (/^[\x21-\x75z]+$/.test(cleaned)) {
-    const hasCompression = cleaned.includes('z');
-    return {
-      score: hasCompression ? 0.74 : 0.6,
-      reason: hasCompression
-        ? 'ASCII85 alphabet detected along with zero-compression blocks.'
-        : 'ASCII85-safe printable range detected.'
-    };
-  }
-  return { score: 0.1, reason: 'Contains characters outside ASCII85 printable range.' };
-}
-
-function hexEncode(input) {
-  if (input === undefined || input === null) return '';
-  return Array.from(new TextEncoder().encode(input))
-    .map((byte) => byte.toString(16).padStart(2, '0'))
-    .join(' ')
-    .toUpperCase();
-}
-
-function hexDecode(input) {
-  if (!input) return '';
-  const cleaned = input.replace(/[^0-9A-Fa-f]/g, '');
-  if (cleaned.length % 2 !== 0) return '';
-  const bytes = cleaned.match(/.{1,2}/g) || [];
-  try {
-    return new TextDecoder().decode(Uint8Array.from(bytes.map((byte) => parseInt(byte, 16))));
-  } catch (error) {
-    return '';
-  }
-}
-
-function hexHeuristics(input) {
-  const cleaned = (input || '').replace(/\s+/g, '');
-  if (!cleaned) {
-    return { score: 0, reason: 'Awaiting input for hexadecimal detection.' };
-  }
-  if (/^[0-9A-Fa-f]+$/.test(cleaned) && cleaned.length % 2 === 0) {
-    return { score: 0.88, reason: 'Even-length hexadecimal byte pattern detected.' };
-  }
-  if (/^[0-9A-Fa-f\s]+$/.test(input)) {
-    return { score: 0.36, reason: 'Hexadecimal alphabet detected but byte alignment is irregular.' };
-  }
-  return { score: 0.1, reason: 'Contains characters outside hexadecimal ranges.' };
-}
-
-function binaryEncode(input) {
-  if (input === undefined || input === null) return '';
-  return Array.from(new TextEncoder().encode(input))
-    .map((byte) => byte.toString(2).padStart(8, '0'))
-    .join(' ');
-}
-
-function binaryDecode(input) {
-  if (!input) return '';
-  const bits = input.trim().split(/\s+/);
-  if (bits.some((segment) => !/^[01]{1,8}$/.test(segment))) {
-    return '';
-  }
-  const bytes = bits.map((segment) => parseInt(segment, 2));
-  try {
-    return new TextDecoder().decode(Uint8Array.from(bytes));
-  } catch (error) {
-    return '';
-  }
-}
-
-function binaryHeuristics(input) {
-  const cleaned = (input || '').trim();
-  if (!cleaned) {
-    return { score: 0, reason: 'Awaiting input for binary detection.' };
-  }
-  const segments = cleaned.split(/\s+/);
-  const isBinary = segments.every((segment) => /^[01]+$/.test(segment));
-  if (!isBinary) {
-    return { score: 0.12, reason: 'Non-binary characters present.' };
-  }
-  const validLength = segments.every((segment) => segment.length === 8);
-  if (validLength) {
-    return { score: 0.9, reason: 'All segments are 8-bit binary groups.' };
-  }
-  return { score: 0.44, reason: 'Binary digits detected but byte lengths vary.' };
-}
-
-function morseEncode(input) {
-  if (!input) return '';
-  return input
-    .toUpperCase()
-    .split('')
-    .map((char) => MORSE_TABLE[char] || '')
-    .filter(Boolean)
-    .join(' ');
-}
-
-function morseDecode(input) {
-  if (!input) return '';
-  return input
-    .trim()
-    .split(/\s*\/\s*|\s{3,}/)
-    .map((word) =>
-      word
-        .trim()
-        .split(/\s+/)
-        .map((symbol) => MORSE_REVERSE[symbol] || '')
-        .join('')
-    )
-    .join(' ')
-    .trim();
-}
-
-function morseHeuristics(input) {
-  const cleaned = (input || '').trim();
-  if (!cleaned) {
-    return { score: 0, reason: 'Awaiting input for Morse code analysis.' };
-  }
-  if (/^[.\-\s\/]+$/.test(cleaned)) {
-    return { score: 0.85, reason: 'Only dots, dashes, slashes, and spaces detected — Morse likely.' };
-  }
-  return { score: 0.1, reason: 'Contains symbols outside Morse alphabet.' };
-}
-
-function urlEncode(input) {
-  if (input === undefined || input === null) return '';
-  return encodeURIComponent(input);
-}
-
-function urlDecode(input) {
-  if (!input) return '';
-  try {
-    return decodeURIComponent(input.replace(/\+/g, ' '));
-  } catch (error) {
-    return '';
-  }
-}
-
-function urlHeuristics(input) {
-  if (!input) {
-    return { score: 0, reason: 'Awaiting input for URL encoding analysis.' };
-  }
-  if (/%[0-9A-Fa-f]{2}/.test(input)) {
-    return { score: 0.78, reason: 'Percent-encoded octets detected.' };
-  }
-  if (/^[A-Za-z0-9\-_.~%]+$/.test(input)) {
-    return { score: 0.4, reason: 'Safe URL character set detected without encoded bytes.' };
-  }
-  return { score: 0.12, reason: 'Contains characters that are usually not percent-encoded.' };
+function affineTransform(input, a, b, decode) {
+  const modInverse = (a, m) => {
+    for (let x = 1; x < m; x++) if ((a * x) % m === 1) return x;
+    return 1;
+  };
+  const aInv = modInverse(a, 26);
+  return input.replace(/[a-zA-Z]/g, c => {
+    const base = c <= 'Z' ? 65 : 97;
+    const x = c.charCodeAt(0) - base;
+    const y = decode ? (aInv * (x - b + 26)) % 26 : (a * x + b) % 26;
+    return String.fromCharCode(y + base);
+  });
 }
 
 function railFenceEncode(input, rails) {
-  if (!input) return '';
-  const sanitizedRails = Math.max(2, Math.min(Number.isFinite(rails) ? rails : 3, 10));
-  const rows = Array.from({ length: sanitizedRails }, () => []);
-  let rail = 0;
-  let direction = 1;
-  for (const char of input) {
-    rows[rail].push(char);
-    rail += direction;
-    if (rail === sanitizedRails - 1 || rail === 0) {
-      direction *= -1;
-    }
+  if (rails < 2) return input;
+  const fence = Array.from({ length: rails }, () => []);
+  let rail = 0, dir = 1;
+  for (const c of input) {
+    fence[rail].push(c);
+    rail += dir;
+    if (rail === 0 || rail === rails - 1) dir *= -1;
   }
-  return rows.flat().join('');
+  return fence.flat().join('');
 }
 
 function railFenceDecode(input, rails) {
-  if (!input) return '';
-  const sanitizedRails = Math.max(2, Math.min(Number.isFinite(rails) ? rails : 3, 10));
-  const pattern = new Array(input.length);
-  let rail = 0;
-  let direction = 1;
-  for (let i = 0; i < input.length; i += 1) {
-    pattern[i] = rail;
-    rail += direction;
-    if (rail === sanitizedRails - 1 || rail === 0) {
-      direction *= -1;
-    }
+  if (rails < 2) return input;
+  const len = input.length;
+  const fence = Array.from({ length: rails }, () => []);
+  const pattern = [];
+  let rail = 0, dir = 1;
+  for (let i = 0; i < len; i++) {
+    pattern.push(rail);
+    rail += dir;
+    if (rail === 0 || rail === rails - 1) dir *= -1;
   }
-  const counts = Array.from({ length: sanitizedRails }, () => 0);
-  pattern.forEach((r) => {
-    counts[r] += 1;
-  });
-  const railsContent = counts.map(() => []);
-  let pointer = 0;
-  for (let r = 0; r < sanitizedRails; r += 1) {
-    railsContent[r] = input.slice(pointer, pointer + counts[r]).split('');
-    pointer += counts[r];
+  const counts = pattern.reduce((acc, r) => { acc[r]++; return acc; }, Array(rails).fill(0));
+  let idx = 0;
+  for (let r = 0; r < rails; r++) {
+    for (let c = 0; c < counts[r]; c++) fence[r].push(input[idx++]);
   }
-  return pattern.map((r) => railsContent[r].shift()).join('');
+  const indices = Array(rails).fill(0);
+  return pattern.map(r => fence[r][indices[r]++]).join('');
 }
 
-function xorEncode(input, key) {
-  const bytes = xorBytes(input, key);
-  if (!bytes.length) {
-    return '';
-  }
-  return bytes
-    .map((byte) => byte.toString(16).padStart(2, '0').toUpperCase())
-    .join(' ');
+function xorTransform(input, key) {
+  if (!key) return input;
+  return Array.from(input).map((c, i) =>
+    String.fromCharCode(c.charCodeAt(0) ^ key.charCodeAt(i % key.length))
+  ).join('');
 }
 
-function xorDecode(input, key) {
-  if (!key) return '';
-  if (!input) return '';
-  const trimmed = input.trim();
-  if (!trimmed) return '';
-  if (/[^0-9A-Fa-f\s]/.test(trimmed)) {
-    return '';
-  }
-  const sanitized = trimmed.replace(/[^0-9A-Fa-f]/g, '');
-  if (sanitized.length % 2 !== 0 || !sanitized.length) {
-    return '';
-  }
-  const keyBytes = new TextEncoder().encode(key);
-  if (!keyBytes.length) {
-    return '';
-  }
-  const cipherBytes = sanitized.match(/.{2}/g) || [];
-  const decoded = cipherBytes.map((pair, index) => {
-    const value = parseInt(pair, 16);
-    return value ^ keyBytes[index % keyBytes.length];
-  });
+// Morse code
+const MORSE = {
+  'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....',
+  'I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.',
+  'Q':'--.-','R':'.-.','S':'...','T':'-','U':'..-','V':'...-','W':'.--','X':'-..-',
+  'Y':'-.--','Z':'--..','0':'-----','1':'.----','2':'..---','3':'...--','4':'....-',
+  '5':'.....','6':'-....','7':'--...','8':'---..','9':'----.', ' ': '/'
+};
+const MORSE_REV = Object.fromEntries(Object.entries(MORSE).map(([k,v]) => [v,k]));
+
+function morseEncode(input) {
+  return input.toUpperCase().split('').map(c => MORSE[c] || c).join(' ');
+}
+
+function morseDecode(input) {
+  return input.split(' ').map(c => MORSE_REV[c] || c).join('');
+}
+
+// Base32
+const B32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+function base32Encode(input) {
+  const bytes = new TextEncoder().encode(input);
+  let bits = '', result = '';
+  for (const b of bytes) bits += b.toString(2).padStart(8, '0');
+  while (bits.length % 5) bits += '0';
+  for (let i = 0; i < bits.length; i += 5) result += B32[parseInt(bits.slice(i, i+5), 2)];
+  while (result.length % 8) result += '=';
+  return result;
+}
+
+function base32Decode(input) {
   try {
-    return new TextDecoder().decode(Uint8Array.from(decoded));
-  } catch (error) {
-    return '';
-  }
-}
-
-function xorBytes(input, key) {
-  if (!input || !key) {
-    return [];
-  }
-  const keyBytes = new TextEncoder().encode(key);
-  if (!keyBytes.length) {
-    return [];
-  }
-  const inputBytes = new TextEncoder().encode(input);
-  if (!inputBytes.length) {
-    return [];
-  }
-  return inputBytes.map((byte, index) => byte ^ keyBytes[index % keyBytes.length]);
-}
-
-function xorHeuristics(input, key) {
-  const trimmed = (input || '').replace(/\s+/g, '');
-  if (!trimmed) {
-    return { score: 0, reason: 'Awaiting input before running XOR analysis.' };
-  }
-  if (!key) {
-    return { score: 0.05, reason: 'Provide a key to attempt XOR decoding.' };
-  }
-  const decoded = xorDecode(input, key);
-  if (!decoded) {
-    return { score: 0.08, reason: 'XOR decode did not produce printable text with this key.' };
-  }
-  const base = heuristicsFromDecode(decoded, 'XOR decode test').withSignal(input);
-  return {
-    score: base.score,
-    reason: `${base.reason} Key length ${key.length}.`
-  };
-}
-
-function affineTransform(input, rawA, rawB, decode = false) {
-  if (!input) return '';
-  const a = sanitizeAffineMultiplier(rawA);
-  const b = sanitizeOffset(rawB);
-  if (decode) {
-    const inverse = modularInverse(a, 26);
-    if (inverse === null) {
-      return '';
+    const clean = input.toUpperCase().replace(/=+$/, '');
+    let bits = '';
+    for (const c of clean) {
+      const idx = B32.indexOf(c);
+      if (idx < 0) return '[Invalid Base32]';
+      bits += idx.toString(2).padStart(5, '0');
     }
-    return Array.from(input)
-      .map((char) => affineShift(char, (code, base) => {
-        const value = code - base;
-        const shifted = (inverse * ((value - b + 26) % 26)) % 26;
-        return String.fromCharCode(shifted + base);
-      }))
-      .join('');
-  }
-  return Array.from(input)
-    .map((char) => affineShift(char, (code, base) => {
-      const value = code - base;
-      const shifted = (a * value + b) % 26;
-      return String.fromCharCode(shifted + base);
-    }))
-    .join('');
+    const bytes = [];
+    for (let i = 0; i + 8 <= bits.length; i += 8) bytes.push(parseInt(bits.slice(i, i+8), 2));
+    return new TextDecoder().decode(new Uint8Array(bytes));
+  } catch { return '[Invalid Base32]'; }
 }
 
-function affineShift(char, transform) {
-  const code = char.charCodeAt(0);
-  if (code >= 65 && code <= 90) {
-    return transform(code, 65);
-  }
-  if (code >= 97 && code <= 122) {
-    return transform(code, 97);
-  }
-  return char;
+// Base58
+const B58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+function base58Encode(input) {
+  const bytes = new TextEncoder().encode(input);
+  let num = 0n;
+  for (const b of bytes) num = num * 256n + BigInt(b);
+  let result = '';
+  while (num > 0) { result = B58[Number(num % 58n)] + result; num /= 58n; }
+  for (const b of bytes) { if (b === 0) result = '1' + result; else break; }
+  return result || '1';
 }
 
-function sanitizeAffineMultiplier(value) {
-  const candidate = Number.isFinite(value) ? Math.floor(value) : 1;
-  const normalized = ((candidate % 26) + 26) % 26;
-  const valid = [1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25];
-  return valid.includes(normalized) ? normalized : 1;
-}
-
-function sanitizeOffset(value) {
-  if (!Number.isFinite(value)) {
-    return 0;
-  }
-  const normalized = Math.floor(value);
-  return ((normalized % 26) + 26) % 26;
-}
-
-function modularInverse(a, m) {
-  let t = 0;
-  let newT = 1;
-  let r = m;
-  let newR = a % m;
-  while (newR !== 0) {
-    const quotient = Math.floor(r / newR);
-    [t, newT] = [newT, t - quotient * newT];
-    [r, newR] = [newR, r - quotient * newR];
-  }
-  if (r > 1) {
-    return null;
-  }
-  if (t < 0) {
-    t += m;
-  }
-  return t;
-}
-
-function heuristicsFromDecode(decoded, description) {
-  return {
-    withSignal(input, key) {
-      const trimmed = (input || '').replace(/\s+/g, '');
-      if (!trimmed) {
-        return { score: 0, reason: `Awaiting input before running ${description}.` };
-      }
-      if (!decoded) {
-        return { score: 0.05, reason: 'Decoder did not produce printable text.' };
-      }
-      const printableCharacters = decoded.match(/[\x20-\x7E]/g) || [];
-      const printableRatio = printableCharacters.length / decoded.length;
-      const alphaCount = (decoded.match(/[A-Za-z]/g) || []).length;
-      const total = decoded.length;
-      const alphaRatio = total ? alphaCount / total : 0;
-      const vowelCount = (decoded.match(/[AEIOUaeiou]/g) || []).length;
-      const vowelRatio = alphaCount ? vowelCount / alphaCount : 0;
-      const coherence = Math.min(1, alphaRatio * 0.5 + printableRatio * 0.3 + Math.min(vowelRatio * 1.2, 0.4));
-      const keyNote = key && !normalizeKey(key) ? ' Key is empty or lacks alphabetic characters.' : '';
-      const baseReason = coherence > 0.55 ? 'Decoded output resembles natural language.' : 'Decoded output is noisy.';
-      return {
-        score: coherence,
-        reason: `${baseReason}${keyNote}`
-      };
-    }
-  };
-}
-
-function updateCard(card) {
-  const id = card.dataset.algorithm;
-  const algorithm = algorithms[id];
-  if (!algorithm) return null;
-  const options = {};
-  card.querySelectorAll('[data-option-input]').forEach((input) => {
-    const key = input.dataset.option;
-    if (!key) return;
-    if (input.type === 'number' || input.type === 'range') {
-      options[key] = Number(input.value);
-    } else {
-      options[key] = input.value;
-    }
-    const display = card.querySelector(`[data-option-display="${key}"]`);
-    if (display) {
-      display.textContent = input.value;
-    }
-  });
-
-  const inputValue = textInput ? textInput.value : '';
-  let encodeResult = '';
-  let decodeResult = '';
+function base58Decode(input) {
   try {
-    encodeResult = algorithm.encode(inputValue, options) || '';
-  } catch (error) {
-    encodeResult = '';
-  }
-  try {
-    decodeResult = algorithm.decode(inputValue, options) || '';
-  } catch (error) {
-    decodeResult = '';
-  }
-
-  const encodeTarget = card.querySelector('[data-encode]');
-  const decodeTarget = card.querySelector('[data-decode]');
-  if (encodeTarget) {
-    encodeTarget.textContent = encodeResult || '—';
-  }
-  if (decodeTarget) {
-    decodeTarget.textContent = decodeResult || '—';
-  }
-
-  const heuristicTarget = card.querySelector('[data-heuristic]');
-  if (!heuristicTarget) {
-    return null;
-  }
-
-  const heuristicsResult = algorithm.heuristics
-    ? algorithm.heuristics(inputValue, options)
-    : { score: 0, reason: 'No heuristics available.' };
-
-  if (!heuristicsToggle || !heuristicsToggle.checked) {
-    heuristicTarget.textContent = 'Heuristics disabled.';
-    heuristicTarget.dataset.level = '';
-    return { id, score: 0, label: card.dataset.algorithmLabel, title: card.dataset.algorithmTitle, reason: '' };
-  }
-
-  heuristicTarget.textContent = heuristicsResult.reason;
-  heuristicTarget.dataset.level = heuristicsResult.score > 0.66 ? 'high' : heuristicsResult.score > 0.33 ? 'medium' : 'low';
-  return {
-    id,
-    score: heuristicsResult.score || 0,
-    label: card.dataset.algorithmLabel,
-    title: card.dataset.algorithmTitle,
-    reason: heuristicsResult.reason
-  };
+    let num = 0n;
+    for (const c of input) {
+      const idx = B58.indexOf(c);
+      if (idx < 0) return '[Invalid Base58]';
+      num = num * 58n + BigInt(idx);
+    }
+    const hex = num.toString(16).padStart(2, '0');
+    const bytes = hex.match(/.{2}/g)?.map(h => parseInt(h, 16)) || [];
+    let leading = 0;
+    for (const c of input) { if (c === '1') leading++; else break; }
+    return new TextDecoder().decode(new Uint8Array([...Array(leading).fill(0), ...bytes]));
+  } catch { return '[Invalid Base58]'; }
 }
 
-function updateHeuristicsSummary(results) {
-  if (!heuristicsSummary) return;
-  heuristicsSummary.innerHTML = '';
-  if (!heuristicsToggle || !heuristicsToggle.checked) {
-    const li = document.createElement('li');
-    li.textContent = 'Enable heuristics to see ranked decoder suggestions.';
-    heuristicsSummary.append(li);
+// ASCII85
+function ascii85Encode(input) {
+  const bytes = new TextEncoder().encode(input);
+  let result = '<~';
+  for (let i = 0; i < bytes.length; i += 4) {
+    let val = 0;
+    const chunk = bytes.slice(i, i + 4);
+    for (let j = 0; j < 4; j++) val = val * 256 + (chunk[j] || 0);
+    if (val === 0 && chunk.length === 4) { result += 'z'; continue; }
+    const chars = [];
+    for (let j = 4; j >= 0; j--) { chars[j] = String.fromCharCode((val % 85) + 33); val = Math.floor(val / 85); }
+    result += chars.slice(0, chunk.length + 1).join('');
+  }
+  return result + '~>';
+}
+
+function ascii85Decode(input) {
+  try {
+    let data = input.replace(/^<~|~>$/g, '').replace(/\s/g, '');
+    data = data.replace(/z/g, '!!!!!');
+    const bytes = [];
+    for (let i = 0; i < data.length; i += 5) {
+      let chunk = data.slice(i, i + 5);
+      while (chunk.length < 5) chunk += 'u';
+      let val = 0;
+      for (const c of chunk) val = val * 85 + (c.charCodeAt(0) - 33);
+      const chunkBytes = [];
+      for (let j = 3; j >= 0; j--) { chunkBytes[j] = val & 0xff; val >>= 8; }
+      const keep = data.slice(i, i + 5).length - 1;
+      bytes.push(...chunkBytes.slice(0, keep));
+    }
+    return new TextDecoder().decode(new Uint8Array(bytes));
+  } catch { return '[Invalid ASCII85]'; }
+}
+
+// ============================================
+// RECIPE MANAGEMENT
+// ============================================
+
+let recipe = [];
+let recipeId = 0;
+
+function addToRecipe(opId, mode = 'encode') {
+  const op = operations[opId];
+  if (!op) return;
+
+  const item = {
+    id: recipeId++,
+    opId,
+    mode,
+    options: {}
+  };
+
+  // Set default options
+  if (op.options) {
+    op.options.forEach(opt => {
+      item.options[opt.name] = opt.default;
+    });
+  }
+
+  recipe.push(item);
+  renderRecipe();
+  if (document.getElementById('auto-bake')?.checked) bake();
+}
+
+function removeFromRecipe(itemId) {
+  recipe = recipe.filter(r => r.id !== itemId);
+  renderRecipe();
+  if (document.getElementById('auto-bake')?.checked) bake();
+}
+
+function moveRecipeItem(itemId, direction) {
+  const idx = recipe.findIndex(r => r.id === itemId);
+  if (idx < 0) return;
+  const newIdx = idx + direction;
+  if (newIdx < 0 || newIdx >= recipe.length) return;
+  [recipe[idx], recipe[newIdx]] = [recipe[newIdx], recipe[idx]];
+  renderRecipe();
+  if (document.getElementById('auto-bake')?.checked) bake();
+}
+
+function updateRecipeOption(itemId, optName, value) {
+  const item = recipe.find(r => r.id === itemId);
+  if (item) {
+    item.options[optName] = value;
+    if (document.getElementById('auto-bake')?.checked) bake();
+  }
+}
+
+function toggleRecipeMode(itemId) {
+  const item = recipe.find(r => r.id === itemId);
+  if (item) {
+    item.mode = item.mode === 'encode' ? 'decode' : 'encode';
+    renderRecipe();
+    if (document.getElementById('auto-bake')?.checked) bake();
+  }
+}
+
+function clearRecipe() {
+  recipe = [];
+  renderRecipe();
+  document.getElementById('output').value = '';
+}
+
+function renderRecipe() {
+  const list = document.getElementById('recipe-list');
+  if (!list) return;
+
+  if (recipe.length === 0) {
+    list.innerHTML = '<p class="cyberchef__recipe-empty mono">Click operations to add them here</p>';
     return;
   }
 
-  const filtered = results
-    .filter(Boolean)
-    .filter((item) => item.score && item.score > 0.05)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 5);
+  list.innerHTML = recipe.map((item, idx) => {
+    const op = operations[item.opId];
+    const optsHtml = op.options ? op.options.map(opt => `
+      <div class="cyberchef__recipe-item-option">
+        <label>${opt.name}:</label>
+        ${opt.type === 'number'
+          ? `<input type="number" value="${item.options[opt.name]}" min="${opt.min || 0}" max="${opt.max || 100}" data-item="${item.id}" data-opt="${opt.name}">`
+          : `<input type="text" value="${item.options[opt.name] || ''}" data-item="${item.id}" data-opt="${opt.name}">`
+        }
+      </div>
+    `).join('') : '';
 
-  if (!filtered.length) {
-    const li = document.createElement('li');
-    li.textContent = 'No strong heuristic matches yet — try adjusting options or a different sample.';
-    heuristicsSummary.append(li);
+    return `
+      <div class="cyberchef__recipe-item" data-item-id="${item.id}">
+        <div class="cyberchef__recipe-item-header">
+          <span class="cyberchef__recipe-item-name mono">${op.name}</span>
+          <div class="cyberchef__recipe-item-controls">
+            <button class="cyberchef__recipe-item-btn mono" data-action="mode" data-item="${item.id}" title="Toggle encode/decode">${item.mode === 'encode' ? 'ENC' : 'DEC'}</button>
+            <button class="cyberchef__recipe-item-btn mono" data-action="up" data-item="${item.id}" ${idx === 0 ? 'disabled' : ''}>↑</button>
+            <button class="cyberchef__recipe-item-btn mono" data-action="down" data-item="${item.id}" ${idx === recipe.length - 1 ? 'disabled' : ''}>↓</button>
+            <button class="cyberchef__recipe-item-btn cyberchef__recipe-item-btn--delete mono" data-action="delete" data-item="${item.id}">×</button>
+          </div>
+        </div>
+        ${optsHtml ? `<div class="cyberchef__recipe-item-options">${optsHtml}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+
+  // Add event listeners
+  list.querySelectorAll('[data-action]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const itemId = parseInt(btn.dataset.item);
+      switch (btn.dataset.action) {
+        case 'delete': removeFromRecipe(itemId); break;
+        case 'up': moveRecipeItem(itemId, -1); break;
+        case 'down': moveRecipeItem(itemId, 1); break;
+        case 'mode': toggleRecipeMode(itemId); break;
+      }
+    });
+  });
+
+  list.querySelectorAll('[data-opt]').forEach(input => {
+    input.addEventListener('input', () => {
+      const itemId = parseInt(input.dataset.item);
+      const value = input.type === 'number' ? parseInt(input.value) : input.value;
+      updateRecipeOption(itemId, input.dataset.opt, value);
+    });
+  });
+}
+
+// ============================================
+// BAKE (EXECUTE RECIPE)
+// ============================================
+
+function bake() {
+  const input = document.getElementById('input')?.value || '';
+  const output = document.getElementById('output');
+  if (!output) return;
+
+  if (recipe.length === 0) {
+    output.value = input;
     return;
   }
 
-  filtered.forEach((item) => {
-    const li = document.createElement('li');
-    const score = Math.round((item.score || 0) * 100);
-    li.innerHTML = `<span class="score">${score.toString().padStart(2, '0')}%</span> ${item.title}: ${item.reason}`;
-    heuristicsSummary.append(li);
-  });
-}
+  let result = input;
 
-function updateAll() {
-  const results = cards.map((card) => updateCard(card));
-  updateHeuristicsSummary(results);
-}
+  for (const item of recipe) {
+    const op = operations[item.opId];
+    if (!op) continue;
 
-cards.forEach((card) => {
-  card.querySelectorAll('[data-option-input]').forEach((input) => {
-    input.addEventListener('input', updateAll);
-    input.addEventListener('change', updateAll);
-  });
-});
-
-if (textInput) {
-  textInput.addEventListener('input', updateAll);
-}
-
-if (heuristicsToggle) {
-  heuristicsToggle.addEventListener('change', updateAll);
-}
-
-document.querySelectorAll('.btn[data-action]').forEach((button) => {
-  button.addEventListener('click', () => {
-    const action = button.dataset.action;
-    if (!textInput) return;
-    if (action === 'clear') {
-      textInput.value = '';
-      updateAll();
+    try {
+      const fn = item.mode === 'encode' ? op.encode : op.decode;
+      result = fn(result, item.options);
+    } catch (e) {
+      result = `[Error in ${op.name}: ${e.message}]`;
+      break;
     }
-    if (action === 'sample') {
-      textInput.value = 'Gur synt vf va gur qrpevcgvba.';
-      updateAll();
+  }
+
+  output.value = result;
+}
+
+// ============================================
+// UI INITIALIZATION
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Operation buttons
+  document.querySelectorAll('[data-op]').forEach(btn => {
+    btn.addEventListener('click', () => addToRecipe(btn.dataset.op));
+  });
+
+  // Search filter
+  const search = document.getElementById('op-search');
+  if (search) {
+    search.addEventListener('input', () => {
+      const q = search.value.toLowerCase();
+      document.querySelectorAll('[data-op]').forEach(btn => {
+        const name = btn.textContent.toLowerCase();
+        const id = btn.dataset.op.toLowerCase();
+        btn.hidden = q && !name.includes(q) && !id.includes(q);
+      });
+      document.querySelectorAll('.cyberchef__category').forEach(cat => {
+        const visible = cat.querySelectorAll('[data-op]:not([hidden])').length > 0;
+        cat.style.display = visible ? '' : 'none';
+      });
+    });
+  }
+
+  // Clear recipe
+  document.getElementById('clear-recipe')?.addEventListener('click', clearRecipe);
+
+  // Bake button
+  document.getElementById('bake-btn')?.addEventListener('click', bake);
+
+  // Auto bake on input
+  document.getElementById('input')?.addEventListener('input', () => {
+    if (document.getElementById('auto-bake')?.checked) bake();
+  });
+
+  // Clear input
+  document.getElementById('clear-input')?.addEventListener('click', () => {
+    const input = document.getElementById('input');
+    if (input) { input.value = ''; bake(); }
+  });
+
+  // Load sample
+  document.getElementById('load-sample')?.addEventListener('click', () => {
+    const input = document.getElementById('input');
+    if (input) {
+      input.value = 'SGVsbG8gV29ybGQhIFRoaXMgaXMgYSB0ZXN0IG1lc3NhZ2Uu';
+      bake();
     }
   });
-});
 
-updateAll();
+  // Copy output
+  document.getElementById('copy-output')?.addEventListener('click', async () => {
+    const output = document.getElementById('output');
+    if (output) {
+      await navigator.clipboard.writeText(output.value);
+    }
+  });
+
+  // Use output as input
+  document.getElementById('use-as-input')?.addEventListener('click', () => {
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    if (input && output) {
+      input.value = output.value;
+      bake();
+    }
+  });
+
+  renderRecipe();
+});

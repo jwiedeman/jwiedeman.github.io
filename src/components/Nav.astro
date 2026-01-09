@@ -2,7 +2,9 @@
 const { title = 'JWIEDEMAN' } = Astro.props;
 ---
 <nav class="primary-nav" aria-label="Primary navigation">
-  <a href="/" class="nav-brand" data-astro-prefetch>{title}</a>
+  <a href="/" class="nav-brand" data-astro-prefetch>
+    <span class="nav-brand__j">J</span><span class="nav-brand__rest">WIEDEMAN</span>
+  </a>
   <div class="nav-links">
     <a href="/work" class="nav-link" data-astro-prefetch>
       <span class="nav-index">01</span><span class="nav-text">Work</span>
@@ -31,16 +33,28 @@ const { title = 'JWIEDEMAN' } = Astro.props;
 
   .nav-brand {
     font-family: var(--font-sans);
-    font-size: var(--text-12);
-    font-weight: 600;
-    letter-spacing: 0.35em;
+    font-size: var(--text-14);
+    font-weight: 700;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--color-text);
     text-decoration: none;
     border-bottom: none;
+    display: flex;
+    align-items: baseline;
   }
 
-  .nav-brand:hover {
+  .nav-brand__j {
+    color: var(--color-accent);
+    font-weight: 800;
+    margin-right: -0.05em;
+  }
+
+  .nav-brand__rest {
+    color: var(--color-text);
+  }
+
+  .nav-brand:hover .nav-brand__rest {
     color: var(--color-accent);
   }
 
@@ -51,8 +65,8 @@ const { title = 'JWIEDEMAN' } = Astro.props;
 
   .nav-link {
     font-family: var(--font-mono);
-    font-size: var(--text-11);
-    font-weight: 400;
+    font-size: var(--text-12);
+    font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-text);
@@ -65,9 +79,9 @@ const { title = 'JWIEDEMAN' } = Astro.props;
   }
 
   .nav-index {
-    font-size: var(--text-9);
+    font-size: var(--text-10);
     color: var(--text-alpha-35);
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: 0.02em;
     transition: color 0.2s ease;
   }
@@ -92,7 +106,7 @@ const { title = 'JWIEDEMAN' } = Astro.props;
     }
 
     .nav-brand {
-      font-size: var(--text-10);
+      font-size: var(--text-11);
       letter-spacing: 0.2em;
     }
 
@@ -101,7 +115,8 @@ const { title = 'JWIEDEMAN' } = Astro.props;
     }
 
     .nav-link {
-      font-size: var(--text-9);
+      font-size: var(--text-10);
+      font-weight: 600;
       padding: 0 var(--space-2);
       border-left: 1px solid var(--border-faint);
     }
@@ -127,7 +142,7 @@ const { title = 'JWIEDEMAN' } = Astro.props;
     }
 
     .nav-link {
-      font-size: var(--text-10);
+      font-size: var(--text-11);
     }
   }
 </style>

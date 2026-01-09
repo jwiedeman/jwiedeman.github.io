@@ -1,0 +1,155 @@
+---
+import '../../../styles/global.css';
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Market forecasting playground that processes historical prices through a compact MLP with real-time learning visualization." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>NeuralStocks / JWIEDEMAN</title>
+</head>
+<body class="theme-light">
+  <nav class="neural-back-nav">
+    <a href="/lab/ai/" class="mono">← Back to AI Lab</a>
+  </nav>
+  <div id="app">
+    <header>
+      <div class="title">MARKET ARENA — HISTORICAL FORECAST LAB</div>
+      <div class="subtitle">A compact network learns on rolling windows of historical prices. Watch the forecaster emerge through stochastic gradient descent.</div>
+    </header>
+
+    <main class="split">
+      <section class="pane left">
+        <div class="panel-header">MARKET PLAYBACK — ACTUAL VS FORECAST</div>
+        <canvas id="priceChart" width="540" height="280"></canvas>
+        <div class="chart-hint">Orange: actual historical close · Blue: model forecast for the next session.</div>
+        <canvas id="errorChart" width="540" height="140"></canvas>
+        <div class="chart-hint">Mean absolute error per streaming mini-batch.</div>
+
+        <div class="hud">
+          <div>Latest close: <span id="latestActual">—</span></div>
+          <div>Model forecast: <span id="latestPred">—</span></div>
+          <div>Absolute error: <span id="latestError">—</span></div>
+        </div>
+        <div class="hud secondary">
+          <div>Dataset progress: <span id="datasetProgress">—</span></div>
+          <div>Lookback window: <span id="windowSizeLabel">—</span></div>
+          <div>Hidden units: <span id="hiddenUnitsLabel">—</span></div>
+        </div>
+
+        <div class="panel-sub">Rolling training stats</div>
+        <div class="stats compact">
+          <div>Steps processed: <span id="stepCount">0</span></div>
+          <div>Mean absolute error: <span id="mae">—</span></div>
+          <div>Root mean square error: <span id="rmse">—</span></div>
+          <div>Best MAE: <span id="bestMae">—</span></div>
+          <div>Learning rate: <span id="lrLabel">—</span></div>
+        </div>
+      </section>
+
+      <section class="pane right training-pane">
+        <div class="panel-header">TIME-SERIES TRAINING LAB</div>
+        <div class="training-layout">
+          <div class="panel-card intro-card">
+            <div class="explain">
+              <strong>Sequence-in, price-out.</strong> We feed a sliding window of recent closes into a compact tanh MLP and update it after every prediction. No tricks: just stochastic gradient descent nudging the same network forward in time.
+            </div>
+            <blockquote>
+              "Markets are a mathematical collective hallucination." — Inspired by Benoit Mandelbrot
+            </blockquote>
+          </div>
+
+          <div class="panel-card controls-card">
+            <div class="controls row">
+              <button id="startBtn">START</button>
+              <button id="pauseBtn" disabled>PAUSE</button>
+              <button id="resetBtn">RESET NETWORK</button>
+            </div>
+
+            <div class="grid-2 compact-grid">
+              <div>
+                <div class="label">Learning rate (α)</div>
+                <input type="range" id="learningRate" min="0.005" max="0.200" step="0.005" value="0.050" />
+                <div class="val" id="learningRateVal">0.050</div>
+              </div>
+              <div>
+                <div class="label">Hidden units</div>
+                <input type="range" id="hiddenUnits" min="4" max="48" step="1" value="18" />
+                <div class="val" id="hiddenUnitsVal">18</div>
+              </div>
+            </div>
+
+            <div class="grid-2 compact-grid">
+              <div>
+                <div class="label">Lookback window</div>
+                <input type="range" id="windowSize" min="8" max="48" step="1" value="24" />
+                <div class="val" id="windowSizeVal">24</div>
+              </div>
+              <div>
+                <div class="label">Feature noise</div>
+                <input type="range" id="noise" min="0.000" max="0.050" step="0.001" value="0.010" />
+                <div class="val" id="noiseVal">0.010</div>
+              </div>
+            </div>
+
+            <div class="grid-2 compact-grid">
+              <div>
+                <div class="label">Step delay (ms)</div>
+                <input type="range" id="delayMs" min="0" max="300" step="20" value="100" />
+                <div class="val" id="delayMsVal">100</div>
+              </div>
+              <div class="hint-block">Zero delay = fastest possible training. Raise it to watch learning unfold slowly.</div>
+            </div>
+          </div>
+
+          <div class="panel-card results-card">
+            <div class="panel-sub">Recent forecasts</div>
+            <ul id="recentList" class="recent-list"></ul>
+          </div>
+
+          <div class="panel-card data-card">
+            <div class="panel-sub">Dataset feed</div>
+            <div class="stats stats-tight">
+              <div>Instrument: <span id="instrumentLabel">SPY</span></div>
+              <div>Points streamed: <span id="pointsStreamed">0</span></div>
+              <div>Replay loops: <span id="loopCount">0</span></div>
+            </div>
+            <div class="dataset-note">Source: Historical daily closes rotated through the training window.</div>
+          </div>
+
+          <div class="panel-card tab-card full-span">
+            <div class="panel-sub">Model internals</div>
+            <div class="tab-buttons model-tabs">
+              <button class="tab-button active" data-tab="forecaster-input">Input → Hidden weights</button>
+              <button class="tab-button" data-tab="forecaster-output">Hidden → Output weights</button>
+              <button class="tab-button" data-tab="raw">Raw parameters</button>
+            </div>
+            <div class="tab-panels">
+              <div class="tab-panel active" data-tab="forecaster-input">
+                <canvas id="weightsCanvas" width="520" height="220"></canvas>
+                <div class="chart-hint">Rows: hidden neurons · Columns: lookback steps. Orange = positive influence · Teal = negative.</div>
+              </div>
+              <div class="tab-panel" data-tab="forecaster-output">
+                <canvas id="outputCanvas" width="520" height="140"></canvas>
+                <div class="chart-hint">Contribution of each hidden neuron on the final price prediction.</div>
+              </div>
+              <div class="tab-panel" data-tab="raw">
+                <details class="weights-raw">
+                  <summary>Inspect raw weight tensors</summary>
+                  <pre id="weightsRaw">—</pre>
+                </details>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script is:inline src="/neural/neuralstocks/spy_daily.js"></script>
+  <script is:inline src="/neural/shared/ui.js"></script>
+  <script is:inline type="module" src="/neural/neuralstocks/main.js"></script>
+</body>
+</html>

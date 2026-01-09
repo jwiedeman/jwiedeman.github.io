@@ -3,12 +3,17 @@ layout: ../../../layouts/Layout.astro
 title: "Demo Arcade Intelligence"
 description: "Reinforcement learning sandbox with live human-versus-agent matchups and telemetry."
 ---
+<div class="container">
+  <header class="page-header">
+    <div class="page-header__meta">
+      <span class="section-index">Lab / AI / AI-009</span>
+      <span class="classification classification--accent">Exhibition Ready</span>
+    </div>
+    <h1 class="page-header__title">Demo Arcade Intelligence</h1>
+    <p class="page-header__subtitle">Reinforcement Learning Showcase</p>
+  </header>
 
-<p class="mono"><a href="/lab/ai/">← Back to AI Lab index</a></p>
-
-# Demo Arcade Intelligence
-
-<p class="mono">Project ID: AI-004 · Stage: Exhibition-ready showcase with continuous training</p>
+  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
 
 ## Mission Profile
 
@@ -46,12 +51,4 @@ Demo Arcade Intelligence is an experiential lab installation that pits reinforce
 2. Release a public telemetry API for researchers interested in strategy evolution data.
 3. Explore portable cabinet kits for traveling exhibitions and partner campuses.
 
-## Collaboration Signals
-
-- **Program sponsor:** Experience Design Lab
-- **Primary engineer:** Reinforcement Learning Architect
-- **Contact:** <a href="mailto:lab@jessicawiedeman.com" class="mono">lab@jessicawiedeman.com</a>
-
-<hr />
-
-<p class="mono">Document updated: 2024-05-12</p>
+</div>

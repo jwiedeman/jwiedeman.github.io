@@ -3,12 +3,17 @@ layout: ../../../layouts/Layout.astro
 title: "Phone Agent"
 description: "Voice-first assistant that triages inbound calls, schedules follow-ups, and syncs with CRM systems."
 ---
+<div class="container">
+  <header class="page-header">
+    <div class="page-header__meta">
+      <span class="section-index">Lab / AI / AI-008</span>
+      <span class="classification classification--accent">Production Beta</span>
+    </div>
+    <h1 class="page-header__title">Phone Agent</h1>
+    <p class="page-header__subtitle">Conversational Voice Assistant</p>
+  </header>
 
-<p class="mono"><a href="/lab/ai/">← Back to AI Lab index</a></p>
-
-# Phone Agent
-
-<p class="mono">Project ID: AI-003 · Stage: Controlled production beta with lab partners</p>
+  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
 
 ## Mission Profile
 
@@ -45,12 +50,4 @@ The Phone Agent is a conversational concierge that fields inbound calls, answers
 2. Launch proactive callback capability tied to the lab's marketing automation engine.
 3. Integrate agent performance metrics into the shared Lab operations scorecard.
 
-## Collaboration Signals
-
-- **Program sponsor:** Customer Experience Studio
-- **Primary engineer:** Conversational AI Lead
-- **Contact:** <a href="mailto:lab@jessicawiedeman.com" class="mono">lab@jessicawiedeman.com</a>
-
-<hr />
-
-<p class="mono">Document updated: 2024-05-12</p>
+</div>

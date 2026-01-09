@@ -3,12 +3,17 @@ layout: ../../../layouts/Layout.astro
 title: "Mycology Classification"
 description: "Vision transformer tuned for field-grade fungal identification and risk guidance."
 ---
+<div class="container">
+  <header class="page-header">
+    <div class="page-header__meta">
+      <span class="section-index">Lab / AI / AI-007</span>
+      <span class="classification classification--accent">Field Trials</span>
+    </div>
+    <h1 class="page-header__title">Mycology Classification</h1>
+    <p class="page-header__subtitle">Vision Transformer for Fungal Identification</p>
+  </header>
 
-<p class="mono"><a href="/lab/ai/">← Back to AI Lab index</a></p>
-
-# Mycology Classification
-
-<p class="mono">Project ID: AI-002 · Stage: Field trials with citizen science partners</p>
+  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
 
 ## Mission Profile
 
@@ -52,12 +57,4 @@ The mycology classifier augments field researchers and foragers with instant, hi
 2. Expand spore print recognition from lab captures to crowd-sourced macro lens attachments.
 3. Publish an interpretability brief outlining key morphological differentiators per class.
 
-## Collaboration Signals
-
-- **Program sponsor:** Biodiversity Initiative
-- **Primary engineer:** Applied CV Lead, Biosensing Pod
-- **Contact:** <a href="mailto:lab@jessicawiedeman.com" class="mono">lab@jessicawiedeman.com</a>
-
-<hr />
-
-<p class="mono">Document updated: 2024-05-12</p>
+</div>

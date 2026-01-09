@@ -3,16 +3,21 @@ layout: ../../../layouts/Layout.astro
 title: "Mushroom Forecasting Alerts"
 description: "Probabilistic growth predictions that combine weather, soil, and observation networks."
 ---
+<div class="container">
+  <header class="page-header">
+    <div class="page-header__meta">
+      <span class="section-index">Lab / AI / AI-010</span>
+      <span class="classification classification--accent">Regional Rollout</span>
+    </div>
+    <h1 class="page-header__title">Mushroom Forecasting Alerts</h1>
+    <p class="page-header__subtitle">Predictive Fruiting Notifications</p>
+  </header>
 
-<p class="mono"><a href="/lab/ai/">← Back to AI Lab index</a></p>
-
-# Mushroom Forecasting Alerts
-
-<p class="mono">Project ID: AI-005 · Stage: Regional rollout with conservation partners</p>
+  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
 
 ## Mission Profile
 
-Mushroom Forecasting Alerts delivers “weather-style” notifications for foragers, land stewards, and researchers. The platform ingests meteorological feeds, sensor telemetry, and classification sightings to predict when and where particular species are likely to fruit.
+Mushroom Forecasting Alerts delivers "weather-style" notifications for foragers, land stewards, and researchers. The platform ingests meteorological feeds, sensor telemetry, and classification sightings to predict when and where particular species are likely to fruit.
 
 ## Core Capabilities
 
@@ -44,14 +49,6 @@ Mushroom Forecasting Alerts delivers “weather-style” notifications for forag
 
 1. Launch a notification API for third-party hiking and outdoor planning apps.
 2. Extend coverage beyond temperate forests to coastal ecosystems and alpine zones.
-3. Publish an annual “State of the Mycelium” report with longitudinal trend analysis.
+3. Publish an annual "State of the Mycelium" report with longitudinal trend analysis.
 
-## Collaboration Signals
-
-- **Program sponsor:** Conservation Technology Group
-- **Primary engineer:** Environmental Data Scientist
-- **Contact:** <a href="mailto:lab@jessicawiedeman.com" class="mono">lab@jessicawiedeman.com</a>
-
-<hr />
-
-<p class="mono">Document updated: 2024-05-12</p>
+</div>

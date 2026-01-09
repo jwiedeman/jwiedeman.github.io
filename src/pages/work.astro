@@ -1,77 +1,602 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const expertise = [
+  { id: '01', name: 'Adobe Analytics', category: 'PLATFORM' },
+  { id: '02', name: 'Google Tag Manager', category: 'PLATFORM' },
+  { id: '03', name: 'GA4', category: 'PLATFORM' },
+  { id: '04', name: 'Data Layer Architecture', category: 'SYSTEMS' },
+  { id: '05', name: 'Server-Side Tracking', category: 'SYSTEMS' },
+  { id: '06', name: 'SDK Integration', category: 'SYSTEMS' },
+  { id: '07', name: 'Analytics QA', category: 'PROCESS' },
+  { id: '08', name: 'GDPR / CCPA / HIPAA', category: 'COMPLIANCE' },
+  { id: '09', name: 'API Integrations', category: 'SYSTEMS' },
+  { id: '10', name: 'OTT & Mobile', category: 'PLATFORM' },
+];
+
+const certifications = [
+  { name: 'Adobe Reports & Analytics', issuer: 'ADOBE', year: '2022', id: 'CERT-001' },
+  { name: 'SAFe 5 PO/PM', issuer: 'SCALED AGILE', year: '2023', id: 'CERT-002' },
+  { name: 'SAFe 5 Practitioner', issuer: 'SCALED AGILE', year: '2022', id: 'CERT-003' },
+  { name: 'Google Tag Manager', issuer: 'GOOGLE', year: '—', id: 'CERT-004' },
+  { name: 'Google Analytics 360', issuer: 'GOOGLE', year: '—', id: 'CERT-005' },
+  { name: 'Google Ads Certified', issuer: 'GOOGLE', year: '—', id: 'CERT-006' },
+];
+
+const experience = [
+  {
+    id: 'EXP-001',
+    dates: '2025–PRESENT',
+    title: 'LEAD ANALYTICS ARCHITECT',
+    company: 'Universal Music Group',
+    type: 'CONTRACT',
+    status: 'ACTIVE',
+    desc: 'Analytics architecture for the world\'s largest music company. Measurement strategies and data layer implementations across global digital properties.',
+    highlights: [],
+    award: null,
+  },
+  {
+    id: 'EXP-002',
+    dates: '2024–2025',
+    title: 'LEAD ANALYTICS ARCHITECT',
+    company: 'U.S. Dept. of Health & Human Services',
+    type: 'CONTRACT',
+    status: 'COMPLETE',
+    desc: 'Analytics architecture for federal digital properties. Compliant measurement strategies meeting strict regulatory requirements.',
+    highlights: [],
+    award: null,
+  },
+  {
+    id: 'EXP-003',
+    dates: '2022–2025',
+    title: 'DIGITAL ANALYTICS ENGINEER',
+    company: 'Fox Corporation',
+    type: 'FULL-TIME',
+    status: 'COMPLETE',
+    desc: 'Analytics strategy, implementation, and QA for FOX Digital Consumer Products Engineering across web, mobile, OTT, and server-side platforms.',
+    highlights: [
+      'Enterprise solutions: Adobe Analytics, GTM, GA4, custom SDKs',
+      'Data layer architectures for scalable taxonomy across platforms',
+      'Root cause analysis: DB billing tier fix saved time and cost',
+      'Automated tag validation reducing QA time 40%+',
+      'Compliance: GDPR, CCPA, HIPAA, GxP',
+    ],
+    award: { icon: '★', text: 'Q3 2023 MVP — Applied Data & Insights' },
+  },
+  {
+    id: 'EXP-004',
+    dates: '2018–2022',
+    title: 'DIGITAL ANALYTICS ENGINEER',
+    company: 'Logical Position',
+    type: 'FULL-TIME',
+    status: 'COMPLETE',
+    desc: 'Technical authority for analytics implementation across 1,000+ SMB and enterprise clients. Cross-platform measurement solutions.',
+    highlights: [
+      'Adobe Analytics, GA, GTM with ad platform integrations',
+      'Custom JavaScript tracking and event-driven APIs',
+      'Tagging taxonomies across hundreds of properties',
+      'Automated tag audit and reporting systems',
+    ],
+    award: { icon: '❄', text: '2021 GitHub Arctic Code Vault Contributor' },
+  },
+  {
+    id: 'EXP-005',
+    dates: '2016–2018',
+    title: 'TECHNICAL OPERATIONS',
+    company: 'MMC',
+    type: 'CONTRACT',
+    status: 'COMPLETE',
+    desc: 'Infrastructure operations and networking for distributed systems. SMB networks, remote monitoring, and compliance documentation.',
+    highlights: [],
+    award: null,
+  },
+];
 ---
 <Layout title="Work">
-  <div class="container">
-    <h1>Work</h1>
-    <div class="grid">
-      <article class="card span-12">
-        <div class="label">2022&ndash;Present</div>
-        <div>
-          <h2>Analytics Manager &middot; Fox Corporation</h2>
-          <p>Lead analytics strategy, implementation, and QA for FOX Digital Consumer Products Engineering across web, mobile, OTT, and server-side platforms. Own the full lifecycle from measurement design to deployment, ensuring Adobe Analytics and GTM implementations meet technical, compliance, and business needs in highly visible, regulated environments.</p>
-          <ul>
-            <li>Designed, documented, and delivered enterprise analytics solutions for digital properties, integrating with Adobe Analytics, Google Tag Manager, GA4, and custom SDKs.</li>
-            <li>Built and maintained data layer architectures, enabling accurate event tracking and scalable taxonomy across multiple platforms and brands.</li>
-            <li>Led cross-team troubleshooting to resolve systemic performance bottlenecks, including identifying a slow BI process root cause (low DB billing tier), resulting in immediate time and cost savings.</li>
-            <li>Automated tag deployment and validation processes, reducing manual QA time by 40%+ while improving data integrity.</li>
-            <li>Partnered with engineering, BI, product, and compliance teams to ensure data met GDPR, CCPA, HIPAA, and GxP standards.</li>
-            <li>Developed and executed analytics QA frameworks for OTT and mobile platforms, identifying and remediating SDK integration gaps.</li>
-            <li>Provided implementation guidance and best practices to analysts, engineers, and product owners to accelerate project delivery.</li>
-          </ul>
-          <p><strong>Key Skills:</strong> Adobe Analytics • Google Tag Manager • Data Layer Architecture • Server-Side GTM • SDK Integration • Analytics QA • GA4 • Event Tracking • Compliance (GDPR, CCPA, HIPAA, GxP) • API Integrations • BI Enablement • Cross-Team Problem Solving</p>
-        </div>
-      </article>
+  <div class="work-page">
+    <!-- Hero Section -->
+    <header class="work-header">
+      <div class="work-header__meta">
+        <span class="section-index">Personnel File</span>
+        <span class="classification classification--accent">Operational</span>
+      </div>
+      <h1 class="work-header__title">
+        Anomalous<br/>Systems
+      </h1>
+      <p class="work-header__subtitle">Predictable Outcomes</p>
+      <p class="work-header__intro">
+        Enterprise analytics architecture across web, mobile, OTT, and server-side platforms.
+        Measurement design to deployment. Technical implementation to business outcomes.
+        Data that is accurate, compliant, and actionable.
+      </p>
+    </header>
 
-      <article class="card span-12">
-        <div class="label">2018&ndash;2022</div>
-        <div>
-          <h2>Analytics Engineer &middot; Logical Position</h2>
-          <p>Served as the technical authority for digital analytics implementation across 1,000+ SMB and enterprise clients, leading the design, deployment, and QA of cross-platform measurement solutions that improved marketing attribution, campaign optimization, and BI reporting accuracy.</p>
-          <ul>
-            <li>Architected and deployed Adobe Analytics, Google Analytics, and GTM solutions, integrating with advertising platforms (Google Ads, Facebook Ads, Bing Ads).</li>
-            <li>Created custom JavaScript tracking scripts, data layers, and event-driven APIs to support advanced analytics and remarketing capabilities.</li>
-            <li>Established and enforced tagging taxonomies across hundreds of web properties, ensuring scalable, efficient, and accurate data capture.</li>
-            <li>Built automated tag audit and reporting processes, enabling faster detection and resolution of data discrepancies.</li>
-            <li>Partnered with BI teams to create data validation dashboards, ensuring parity across Amplitude, Adobe, and other analytics platforms.</li>
-            <li>Delivered training and documentation to marketing and engineering teams on analytics QA, debugging, and tag management.</li>
-            <li>Led troubleshooting for complex cross-domain tracking, SDK integrations, and server-side event routing.</li>
-          </ul>
-          <p><strong>Key Skills:</strong> Adobe Analytics • Google Analytics • GTM • Data Layer Design • Tag Management • JavaScript • API Integrations • BI Reporting • Cross-Domain Tracking • Analytics QA • Compliance Awareness • Performance Optimization</p>
-        </div>
-      </article>
+    <!-- Expertise Grid -->
+    <section class="work-section">
+      <div class="work-section__header">
+        <span class="section-index">01</span>
+        <h2 class="work-section__title">Core Systems</h2>
+      </div>
+      <div class="expertise-matrix">
+        {expertise.map(skill => (
+          <div class="expertise-cell">
+            <span class="expertise-cell__id mono">{skill.id}</span>
+            <span class="expertise-cell__name">{skill.name}</span>
+            <span class="expertise-cell__cat mono">{skill.category}</span>
+          </div>
+        ))}
+      </div>
+    </section>
 
-      <article class="card span-12">
-        <div class="label">2016&ndash;2018</div>
-        <div>
-          <h2>Technical Support &middot; MMC</h2>
-          <p>Provided technical operations, networking, and support for a distributed crypto mining infrastructure, ensuring uptime, performance, and compliance across multiple remote sites.</p>
-          <ul>
-            <li>Designed, deployed, and managed SMB networks and remote monitoring for 25+ mining systems.</li>
-            <li>Monitored performance and capacity to prevent overload and maintain optimal uptime.</li>
-            <li>Coordinated hardware planning, procurement, and replacement to maintain operational capacity.</li>
-            <li>Performed firmware updates, version locking, and preventive maintenance.</li>
-            <li>Created and maintained compliance and operational documentation for systems and processes.</li>
-            <li>Worked cross-functionally with operations, engineering, and vendors to align technical needs with business goals.</li>
-          </ul>
-          <p><strong>Key Skills:</strong> Networking • Remote Monitoring • Hardware Planning • Compliance Documentation • Performance Optimization</p>
-        </div>
-      </article>
+    <!-- Experience Timeline -->
+    <section class="work-section">
+      <div class="work-section__header">
+        <span class="section-index">02</span>
+        <h2 class="work-section__title">Operational History</h2>
+      </div>
 
-      <article class="card span-12">
-        <div class="label">2014&ndash;2016</div>
-        <div>
-          <h2>Support Specialist &middot; Maletis Beverage</h2>
-          <p>Delivered IT and operational support for a regional beverage distributor, ensuring continuity of business systems and technical workflows.</p>
-          <ul>
-            <li>Provided Tier 1 &amp; 2 technical support for hardware, software, and network issues.</li>
-            <li>Supported inventory, distribution, and sales systems to maintain operational flow.</li>
-            <li>Assisted with system upgrades and deployments, minimizing downtime.</li>
-            <li>Maintained clear communication with non-technical staff to quickly resolve issues.</li>
-          </ul>
-          <p><strong>Key Skills:</strong> Technical Support • System Deployment • Troubleshooting • Communication Skills</p>
+      <div class="ops-timeline">
+        {experience.map((exp, index) => (
+          <article class="ops-entry" data-status={exp.status.toLowerCase()}>
+            <div class="ops-entry__rail">
+              <span class="ops-entry__index mono">{exp.id}</span>
+              <div class="ops-entry__line"></div>
+            </div>
+            <div class="ops-entry__content">
+              <div class="ops-entry__header">
+                <div class="ops-entry__meta">
+                  <span class="ops-entry__dates mono">{exp.dates}</span>
+                  <span class={`ops-entry__status mono ${exp.status === 'ACTIVE' ? 'status--active' : 'status--inactive'}`}>
+                    {exp.status}
+                  </span>
+                </div>
+                <span class="ops-entry__type mono">{exp.type}</span>
+              </div>
+              <h3 class="ops-entry__title">{exp.title}</h3>
+              <p class="ops-entry__company">{exp.company}</p>
+              <p class="ops-entry__desc">{exp.desc}</p>
+              {exp.highlights.length > 0 && (
+                <ul class="ops-entry__highlights">
+                  {exp.highlights.map(h => (
+                    <li>{h}</li>
+                  ))}
+                </ul>
+              )}
+              {exp.award && (
+                <div class="ops-entry__award">
+                  <span class="ops-entry__award-icon">{exp.award.icon}</span>
+                  <span>{exp.award.text}</span>
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="work-section">
+      <div class="work-section__header">
+        <span class="section-index">03</span>
+        <h2 class="work-section__title">Credentials</h2>
+      </div>
+
+      <div class="certs-matrix">
+        {certifications.map(cert => (
+          <div class="cert-row">
+            <span class="cert-row__id mono">{cert.id}</span>
+            <span class="cert-row__name">{cert.name}</span>
+            <span class="cert-row__issuer mono">{cert.issuer}</span>
+            <span class="cert-row__year mono">{cert.year}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Volunteer -->
+    <section class="work-section work-section--last">
+      <div class="work-section__header">
+        <span class="section-index">04</span>
+        <h2 class="work-section__title">Field Operations</h2>
+      </div>
+
+      <div class="volunteer-block">
+        <div class="volunteer-block__header">
+          <span class="mono">VOL-001</span>
+          <span class="status status--active">Active</span>
         </div>
-      </article>
-    </div>
+        <div class="volunteer-block__body">
+          <span class="volunteer-block__dates mono">2014–PRESENT</span>
+          <h3 class="volunteer-block__org">Team Rubicon</h3>
+          <p class="volunteer-block__desc">
+            Disaster response operations. Military veterans and first responders
+            deploying emergency response teams.
+          </p>
+        </div>
+      </div>
+    </section>
   </div>
 </Layout>
+
+<style>
+  .work-page {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: var(--space-5) var(--page-inline);
+  }
+
+  /* Header */
+  .work-header {
+    padding: var(--space-6) 0 var(--space-7);
+    border-bottom: 2px solid var(--color-text);
+    margin-bottom: var(--space-6);
+  }
+
+  .work-header__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .work-header__title {
+    font-size: clamp(3rem, 12vw, 5rem);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-2);
+  }
+
+  .work-header__subtitle {
+    font-family: var(--font-mono);
+    font-size: var(--text-14);
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-5);
+  }
+
+  .work-header__intro {
+    font-size: var(--text-16);
+    line-height: 1.7;
+    color: var(--color-muted);
+    max-width: 36rem;
+  }
+
+  /* Sections */
+  .work-section {
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--border-faint);
+  }
+
+  .work-section--last {
+    border-bottom: none;
+  }
+
+  .work-section__header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .work-section__title {
+    font-size: var(--text-12);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  /* Expertise Matrix */
+  .expertise-matrix {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1px;
+    background: var(--border-faint);
+    border: 1px solid var(--border-faint);
+  }
+
+  .expertise-cell {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-bg);
+    flex: 0 0 calc(33.333% - 1px);
+    min-width: 14rem;
+  }
+
+  @media (max-width: 900px) {
+    .expertise-cell {
+      flex: 0 0 calc(50% - 1px);
+    }
+  }
+
+  @media (max-width: 540px) {
+    .expertise-cell {
+      flex: 0 0 100%;
+    }
+  }
+
+  .expertise-cell__id {
+    font-size: var(--text-9);
+    color: var(--color-accent);
+    letter-spacing: 0.1em;
+  }
+
+  .expertise-cell__name {
+    font-size: var(--text-12);
+    font-weight: 500;
+  }
+
+  .expertise-cell__cat {
+    font-size: var(--text-8);
+    color: var(--color-muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* Operations Timeline */
+  .ops-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .ops-entry {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-4);
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--border-faint);
+  }
+
+  .ops-entry:last-child {
+    border-bottom: none;
+  }
+
+  .ops-entry__rail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    width: 5rem;
+  }
+
+  .ops-entry__index {
+    font-size: var(--text-9);
+    color: var(--color-muted);
+    letter-spacing: 0.1em;
+  }
+
+  .ops-entry__line {
+    flex: 1;
+    width: 1px;
+    background: var(--border-faint);
+    min-height: 2rem;
+  }
+
+  .ops-entry[data-status="active"] .ops-entry__line {
+    background: var(--color-accent);
+  }
+
+  .ops-entry__content {
+    flex: 1;
+  }
+
+  .ops-entry__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-2);
+  }
+
+  .ops-entry__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .ops-entry__dates {
+    font-size: var(--text-11);
+    color: var(--color-accent);
+    letter-spacing: 0.1em;
+  }
+
+  .ops-entry__status {
+    font-size: var(--text-9);
+    letter-spacing: 0.1em;
+  }
+
+  .ops-entry__type {
+    font-size: var(--text-9);
+    color: var(--color-muted);
+    letter-spacing: 0.1em;
+  }
+
+  .ops-entry__title {
+    font-size: var(--text-20);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-bottom: var(--space-1);
+    text-transform: uppercase;
+  }
+
+  .ops-entry__company {
+    font-size: var(--text-14);
+    color: var(--color-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .ops-entry__desc {
+    font-size: var(--text-14);
+    line-height: 1.6;
+    color: var(--color-text);
+    max-width: 32rem;
+  }
+
+  .ops-entry__highlights {
+    margin-top: var(--space-3);
+    padding: 0;
+    list-style: none;
+  }
+
+  .ops-entry__highlights li {
+    position: relative;
+    font-size: var(--text-12);
+    line-height: 1.6;
+    color: var(--color-muted);
+    padding-left: var(--space-3);
+    margin-bottom: var(--space-1);
+  }
+
+  .ops-entry__highlights li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+  }
+
+  .ops-entry__award {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding: var(--space-1) var(--space-3);
+    background: var(--surface-tint);
+    border-left: 2px solid var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-11);
+    color: var(--color-accent);
+  }
+
+  .ops-entry__award-icon {
+    font-size: var(--text-14);
+  }
+
+  /* Certifications Matrix */
+  .certs-matrix {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-faint);
+  }
+
+  .cert-row {
+    display: grid;
+    grid-template-columns: 5rem 1fr 8rem 4rem;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--border-faint);
+    align-items: center;
+  }
+
+  .cert-row:last-child {
+    border-bottom: none;
+  }
+
+  .cert-row__id {
+    font-size: var(--text-9);
+    color: var(--color-muted);
+    letter-spacing: 0.1em;
+  }
+
+  .cert-row__name {
+    font-size: var(--text-12);
+    font-weight: 500;
+  }
+
+  .cert-row__issuer {
+    font-size: var(--text-10);
+    color: var(--color-accent);
+    letter-spacing: 0.1em;
+  }
+
+  .cert-row__year {
+    font-size: var(--text-11);
+    color: var(--color-muted);
+    text-align: right;
+  }
+
+  /* Volunteer Block */
+  .volunteer-block {
+    border: 1px solid var(--border-faint);
+    border-left: 3px solid var(--color-accent);
+  }
+
+  .volunteer-block__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) var(--space-3);
+    background: var(--surface-panel);
+    border-bottom: 1px solid var(--border-faint);
+    font-size: var(--text-10);
+    color: var(--color-muted);
+  }
+
+  .volunteer-block__body {
+    padding: var(--space-3);
+  }
+
+  .volunteer-block__dates {
+    font-size: var(--text-10);
+    color: var(--color-accent);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: var(--space-1);
+  }
+
+  .volunteer-block__org {
+    font-size: var(--text-16);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: var(--space-2);
+  }
+
+  .volunteer-block__desc {
+    font-size: var(--text-14);
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .ops-entry {
+      grid-template-columns: 1fr;
+    }
+
+    .ops-entry__rail {
+      flex-direction: row;
+      width: auto;
+      margin-bottom: var(--space-2);
+    }
+
+    .ops-entry__line {
+      display: none;
+    }
+
+    .cert-row {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-1);
+    }
+
+    .cert-row__id {
+      display: none;
+    }
+
+    .cert-row__issuer {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .cert-row__year {
+      grid-column: 2;
+      grid-row: 2;
+    }
+  }
+</style>

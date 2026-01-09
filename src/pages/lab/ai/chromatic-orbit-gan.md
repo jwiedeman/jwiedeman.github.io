@@ -1,13 +1,19 @@
 ---
-layout: ../../../../layouts/Layout.astro
+layout: ../../../layouts/Layout.astro
 title: "Chromatic Orbit GAN"
 description: "Spiral-and-wavefield GAN that paints 64×64 orbital textures directly in the browser."
 ---
+<div class="container">
+  <header class="page-header">
+    <div class="page-header__meta">
+      <span class="section-index">Lab / AI / AI-002</span>
+      <span class="classification classification--accent">Interactive Demo</span>
+    </div>
+    <h1 class="page-header__title">Chromatic Orbit GAN</h1>
+    <p class="page-header__subtitle">64×64 Orbital Texture Generator</p>
+  </header>
 
-<p class="mono"><a href="/lab/ai/zoo/">← Return to AI Zoo index</a></p>
-
-<h1>Chromatic Orbit GAN</h1>
-<p class="mono">Exhibit ID: GAN-002 · Output resolution: 64×64 · Latent width: 8</p>
+  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
 
 ## Mission Profile
 
@@ -383,3 +389,4 @@ runtime.
 
   render();
 </script>
+</div>

@@ -1,67 +1,362 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+
+const modules = [
+  {
+    id: 'LAB-001',
+    index: '01',
+    title: 'Artificial Intelligence',
+    href: '/lab/ai/',
+    description: 'Machine learning systems, generative models, and neural architectures.',
+    status: 'ACTIVE',
+    type: 'PRIMARY',
+  },
+  {
+    id: 'LAB-002',
+    index: '02',
+    title: 'Analytics',
+    href: '/lab/analytics/',
+    description: 'Measurement infrastructure, instrumentation protocols, and data architecture.',
+    status: 'ACTIVE',
+    type: 'PRIMARY',
+  },
+  {
+    id: 'LAB-003',
+    index: '03',
+    title: 'Advertising',
+    href: '/lab/ads/',
+    description: 'Campaign systems, attribution modeling, and programmatic tooling.',
+    status: 'ACTIVE',
+    type: 'SECONDARY',
+  },
+  {
+    id: 'LAB-004',
+    index: '04',
+    title: 'Marketing',
+    href: '/lab/marketing/',
+    description: 'Growth engineering, audience systems, and messaging frameworks.',
+    status: 'ACTIVE',
+    type: 'SECONDARY',
+  },
+  {
+    id: 'LAB-005',
+    index: '05',
+    title: 'Art',
+    href: '/lab/art/',
+    description: 'Generative systems, visual computation, and aesthetic research.',
+    status: 'EXPERIMENTAL',
+    type: 'TERTIARY',
+  },
+  {
+    id: 'LAB-006',
+    index: '06',
+    title: 'Cryptography',
+    href: '/lab/cryptography/',
+    description: 'Classical ciphers, encoding systems, and signal analysis.',
+    status: 'EXPERIMENTAL',
+    type: 'TERTIARY',
+  },
+];
 ---
 <Layout title="Lab" headingTracker={false}>
-  <div class="container">
-    <header class="page-header">
-      <h1 class="page-header__title">Lab</h1>
-      <p class="page-header__subtitle">Research & Development Archive</p>
+  <div class="lab-page">
+    <!-- Header -->
+    <header class="lab-header">
+      <div class="lab-header__meta">
+        <span class="section-index">Research Division</span>
+        <span class="classification classification--accent">Active Projects</span>
+      </div>
+      <h1 class="lab-header__title">R&D<br/>Archive</h1>
+      <p class="lab-header__subtitle">Experimental Systems & Documentation</p>
+      <p class="lab-header__intro">
+        Research modules covering analytics infrastructure, machine learning systems,
+        and experimental tooling. Each section contains operational documentation
+        and reference materials.
+      </p>
     </header>
 
-    <div class="grid--modules">
-      <article class="module module--accent">
-        <span class="module__index">SECTION 001</span>
-        <span class="module__index-large">01</span>
-        <div class="module__content">
-          <h2 class="module__title"><a href="/lab/ai/">Artificial Intelligence</a></h2>
-          <p class="module__description">Machine learning systems, generative models, and neural architectures.</p>
-        </div>
-      </article>
-
-      <article class="module module--accent">
-        <span class="module__index">SECTION 002</span>
-        <span class="module__index-large">02</span>
-        <div class="module__content">
-          <h2 class="module__title"><a href="/lab/analytics/">Analytics</a></h2>
-          <p class="module__description">Measurement infrastructure, instrumentation protocols, and data architecture.</p>
-        </div>
-      </article>
-
-      <article class="module module--secondary">
-        <span class="module__index">SECTION 003</span>
-        <span class="module__index-large">03</span>
-        <div class="module__content">
-          <h2 class="module__title"><a href="/lab/ads/">Advertising</a></h2>
-          <p class="module__description">Campaign systems, attribution modeling, and programmatic tooling.</p>
-        </div>
-      </article>
-
-      <article class="module module--secondary">
-        <span class="module__index">SECTION 004</span>
-        <span class="module__index-large">04</span>
-        <div class="module__content">
-          <h2 class="module__title"><a href="/lab/marketing/">Marketing</a></h2>
-          <p class="module__description">Growth engineering, audience systems, and messaging frameworks.</p>
-        </div>
-      </article>
-
-      <article class="module">
-        <span class="module__index">SECTION 005</span>
-        <span class="module__index-large">05</span>
-        <div class="module__content">
-          <h2 class="module__title"><a href="/lab/art/">Art</a></h2>
-          <p class="module__description">Generative systems, visual computation, and aesthetic research.</p>
-        </div>
-      </article>
-
-      <article class="module">
-        <span class="module__index">SECTION 006</span>
-        <span class="module__index-large">06</span>
-        <div class="module__content">
-          <h2 class="module__title"><a href="/lab/cryptography/">Cryptography</a></h2>
-          <p class="module__description">Classical ciphers, encoding systems, and signal analysis.</p>
-        </div>
-      </article>
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span class="status-bar__count mono">{modules.length} MODULES INDEXED</span>
+      <span class="status-bar__line"></span>
+      <span class="status-bar__status mono">
+        <span class="status-dot"></span>
+        SYSTEMS OPERATIONAL
+      </span>
     </div>
+
+    <!-- Modules Grid -->
+    <section class="modules-section">
+      <div class="section-label">
+        <span class="section-index">01</span>
+        <span class="section-title mono">PROJECT INDEX</span>
+      </div>
+
+      <div class="modules-grid">
+        {modules.map(mod => (
+          <a href={mod.href} class="module-card" data-type={mod.type.toLowerCase()}>
+            <div class="module-card__header">
+              <span class="module-card__id mono">{mod.id}</span>
+              <span class={`module-card__status mono status--${mod.status.toLowerCase()}`}>
+                {mod.status}
+              </span>
+            </div>
+            <div class="module-card__index">{mod.index}</div>
+            <div class="module-card__body">
+              <h2 class="module-card__title">{mod.title}</h2>
+              <p class="module-card__desc">{mod.description}</p>
+            </div>
+            <div class="module-card__footer">
+              <span class="module-card__action mono">ACCESS →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
   </div>
 </Layout>
+
+<style>
+  .lab-page {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: var(--space-5) var(--page-inline);
+  }
+
+  /* Header */
+  .lab-header {
+    padding: var(--space-6) 0 var(--space-5);
+    border-bottom: 2px solid var(--color-text);
+    margin-bottom: var(--space-4);
+  }
+
+  .lab-header__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .lab-header__title {
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-2);
+  }
+
+  .lab-header__subtitle {
+    font-family: var(--font-mono);
+    font-size: var(--text-14);
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-4);
+  }
+
+  .lab-header__intro {
+    font-size: var(--text-14);
+    line-height: 1.7;
+    color: var(--color-muted);
+    max-width: 40rem;
+  }
+
+  /* Status Bar */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--border-faint);
+  }
+
+  .status-bar__count {
+    font-size: var(--text-10);
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+    flex-shrink: 0;
+  }
+
+  .status-bar__line {
+    flex: 1;
+    height: 1px;
+    background: var(--border-faint);
+  }
+
+  .status-bar__status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-10);
+    letter-spacing: 0.1em;
+    color: #4ade80;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    background: currentColor;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Section Label */
+  .section-label {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .section-title {
+    font-size: var(--text-11);
+    letter-spacing: 0.2em;
+    color: var(--color-muted);
+  }
+
+  /* Modules Section */
+  .modules-section {
+    padding: var(--space-5) 0;
+  }
+
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    gap: var(--space-4);
+  }
+
+  /* Module Card */
+  .module-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-faint);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .module-card:hover {
+    border-color: var(--color-accent);
+  }
+
+  .module-card[data-type="primary"] {
+    border-left: 3px solid var(--color-accent);
+  }
+
+  .module-card[data-type="secondary"] {
+    border-left: 3px solid var(--color-secondary, #5a7d9a);
+  }
+
+  .module-card[data-type="tertiary"] {
+    border-left: 3px solid var(--color-muted);
+  }
+
+  .module-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) var(--space-3);
+    background: var(--surface-panel);
+    border-bottom: 1px solid var(--border-faint);
+  }
+
+  .module-card__id {
+    font-size: var(--text-9);
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+  }
+
+  .module-card__status {
+    font-size: var(--text-8);
+    letter-spacing: 0.1em;
+    padding: 2px var(--space-1);
+  }
+
+  .module-card__status.status--active {
+    color: #4ade80;
+  }
+
+  .module-card__status.status--experimental {
+    color: var(--color-accent);
+  }
+
+  .module-card__index {
+    position: absolute;
+    top: var(--space-5);
+    right: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-text);
+    opacity: 0.06;
+    pointer-events: none;
+  }
+
+  .module-card__body {
+    padding: var(--space-4) var(--space-3);
+    flex: 1;
+  }
+
+  .module-card__title {
+    font-size: var(--text-18);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: var(--space-2);
+    transition: color 0.2s ease;
+  }
+
+  .module-card:hover .module-card__title {
+    color: var(--color-accent);
+  }
+
+  .module-card__desc {
+    font-size: var(--text-12);
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+
+  .module-card__footer {
+    padding: var(--space-2) var(--space-3);
+    border-top: 1px solid var(--border-faint);
+    background: var(--surface-panel);
+  }
+
+  .module-card__action {
+    font-size: var(--text-10);
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    transition: transform 0.2s ease;
+    display: inline-block;
+  }
+
+  .module-card:hover .module-card__action {
+    transform: translateX(4px);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .modules-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .status-bar {
+      flex-wrap: wrap;
+    }
+
+    .status-bar__line {
+      order: 3;
+      flex: 0 0 100%;
+      margin-top: var(--space-2);
+    }
+  }
+</style>

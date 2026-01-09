@@ -3,16 +3,21 @@ layout: ../../../layouts/Layout.astro
 title: "Foot Traffic Intelligence"
 description: "Fusion of on-prem sensors and predictive models to map movement across venues in near real time."
 ---
+<div class="container">
+  <header class="page-header">
+    <div class="page-header__meta">
+      <span class="section-index">Lab / AI / AI-006</span>
+      <span class="classification classification--accent">Pilot Deployment</span>
+    </div>
+    <h1 class="page-header__title">Foot Traffic Intelligence</h1>
+    <p class="page-header__subtitle">Multi-Modal Occupancy & Flow Analysis</p>
+  </header>
 
-<p class="mono"><a href="/lab/ai/">← Back to AI Lab index</a></p>
-
-# Foot Traffic Intelligence
-
-<p class="mono">Project ID: AI-001 · Stage: Pilot deployments in flagship venues</p>
+  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
 
 ## Mission Profile
 
-This dossier documents the lab's multi-modal counting platform. The objective is to quantify footfall and dwell time across interior and exterior spaces without storing personally identifiable imagery. By pairing passive Wi-Fi probing with camera silhouettes and door magnetometry, the system maintains privacy while delivering operations teams a live situational picture.
+This module documents the lab's multi-modal counting platform. The objective is to quantify footfall and dwell time across interior and exterior spaces without storing personally identifiable imagery. By pairing passive Wi-Fi probing with camera silhouettes and door magnetometry, the system maintains privacy while delivering operations teams a live situational picture.
 
 ## Core Capabilities
 
@@ -47,12 +52,4 @@ This dossier documents the lab's multi-modal counting platform. The objective is
 2. Introduce counterfactual simulations that model the impact of staffing adjustments on dwell time.
 3. Package deployment scripts and compliance documentation for partner rollouts.
 
-## Collaboration Signals
-
-- **Program sponsor:** Experience Operations Group
-- **Primary engineer:** Lab Systems Lead, Embedded Intelligence
-- **Contact:** <a href="mailto:lab@jessicawiedeman.com" class="mono">lab@jessicawiedeman.com</a>
-
-<hr />
-
-<p class="mono">Document updated: 2024-05-12</p>
+</div>

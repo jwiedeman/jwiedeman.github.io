@@ -1,8 +1,8 @@
 /*
   Global design system
-  Black budget infrastructure aesthetic. Timeless brutalism informed by
-  1970s NASA mission control, Swedish institutional minimalism, and the
-  quiet confidence of systems maintained across millennia.
+  BLACK BUDGET INFRASTRUCTURE
+  Skunkworks aesthetic. Cold war mission control.
+  Classified documentation. Systems that outlast empires.
 */
 
 :root {
@@ -15,10 +15,13 @@
   --space-6: 4rem;
   --space-7: 6rem;
 
-  /* typography */
+  /* typography - industrial precision */
   --font-sans: 'Helvetica Neue', Helvetica, Arial, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Liberation Sans', sans-serif;
   --font-mono: 'SF Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", 'Courier New', monospace;
 
+  --text-8: 0.5rem;
+  --text-9: 0.5625rem;
+  --text-10: 0.625rem;
   --text-11: 0.6875rem;
   --text-12: 0.75rem;
   --text-14: 0.875rem;
@@ -28,6 +31,7 @@
   --text-32: 2rem;
   --text-48: 3rem;
   --text-64: 4rem;
+  --text-80: 5rem;
 
   --page-inline: clamp(1.5rem, 4vw, 4rem);
   --layout-max-width: min(72rem, calc(100vw - var(--page-inline) * 2));
@@ -40,25 +44,25 @@
 }
 
 .theme-light {
-  /* Warm archival paper - like aged technical documentation */
-  --color-bg: #f7f6f3;
-  --color-bg-subtle: #efede8;
-  --color-text: #1a1918;
-  --color-muted: #6b6560;
-  --color-rule: #d4d0c8;
+  /* Dark carbon - aerospace grade charcoal */
+  --color-bg: #141414;
+  --color-bg-subtle: #1a1a1a;
+  --color-text: #d9d4cc;
+  --color-muted: #807a72;
+  --color-rule: #2a2926;
 
-  /* Oxblood - institutional authority, aged leather */
-  --color-accent: #8b2635;
-  /* Dusty sage - Swedish pastoral, oxidized copper */
-  --color-secondary: #5d7c6f;
+  /* NASA safety orange - mission critical, high visibility */
+  --color-accent: #ff6b35;
+  /* Steel blue - aviation instrumentation */
+  --color-secondary: #5a7d9a;
   --color-link: var(--color-accent);
 
-  --surface-raised: #fdfcfa;
-  --surface-panel: #f2f0eb;
-  --surface-tint: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));
-  --surface-tint-secondary: color-mix(in srgb, var(--color-secondary) 10%, var(--color-bg));
-  --shadow-soft: 0 1px 2px rgba(26, 25, 24, 0.06), 0 8px 24px rgba(26, 25, 24, 0.08);
-  --shadow-strong: 0 2px 4px rgba(26, 25, 24, 0.08), 0 16px 48px rgba(26, 25, 24, 0.12);
+  --surface-raised: #1c1c1c;
+  --surface-panel: #181818;
+  --surface-tint: color-mix(in srgb, var(--color-accent) 10%, var(--color-bg));
+  --surface-tint-secondary: color-mix(in srgb, var(--color-secondary) 12%, var(--color-bg));
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-strong: 0 2px 4px rgba(0, 0, 0, 0.4), 0 16px 48px rgba(0, 0, 0, 0.5);
 
   --accent-alpha-80: color-mix(in srgb, var(--color-accent) 80%, transparent);
   --accent-alpha-40: color-mix(in srgb, var(--color-accent) 40%, transparent);
@@ -70,9 +74,9 @@
   --text-alpha-20: color-mix(in srgb, var(--color-text) 20%, transparent);
 
   --border-strong: var(--color-text);
-  --border-medium: color-mix(in srgb, var(--color-text) 40%, transparent);
-  --border-soft: color-mix(in srgb, var(--color-rule) 80%, transparent);
-  --border-faint: color-mix(in srgb, var(--color-rule) 50%, transparent);
+  --border-medium: color-mix(in srgb, var(--color-text) 30%, transparent);
+  --border-soft: color-mix(in srgb, var(--color-rule) 90%, transparent);
+  --border-faint: color-mix(in srgb, var(--color-rule) 60%, transparent);
   --accent-outline: var(--color-accent);
   --mix-accent-rule-60: color-mix(in srgb, var(--color-accent) 60%, var(--color-rule));
   --mix-accent-rule-40: color-mix(in srgb, var(--color-accent) 40%, var(--color-rule));
@@ -87,21 +91,21 @@
 }
 
 .theme-dark {
-  /* Deep void - not pure black, slight warmth */
-  --color-bg: #0c0b0a;
-  --color-bg-subtle: #141312;
-  --color-text: #e8e4df;
-  --color-muted: #8a847c;
-  --color-rule: #2a2825;
+  /* Deep space black - darker aerospace variant */
+  --color-bg: #0a0a0a;
+  --color-bg-subtle: #121212;
+  --color-text: #ccc8c0;
+  --color-muted: #706b64;
+  --color-rule: #252422;
 
-  /* Amber/ochre - aged brass, warning systems, candlelight */
-  --color-accent: #d4a855;
-  /* Dusty rose - faded empire, weathered terracotta */
-  --color-secondary: #b87c7c;
+  /* NASA safety orange - mission critical */
+  --color-accent: #ff6b35;
+  /* Steel blue - aviation instrumentation */
+  --color-secondary: #5a7d9a;
   --color-link: var(--color-accent);
 
-  --surface-raised: #1a1816;
-  --surface-panel: #141312;
+  --surface-raised: #161616;
+  --surface-panel: #0e0e0e;
   --surface-tint: color-mix(in srgb, var(--color-accent) 10%, var(--color-bg));
   --surface-tint-secondary: color-mix(in srgb, var(--color-secondary) 12%, var(--color-bg));
   --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -791,6 +795,69 @@ select:focus-visible {
   /* On mobile: hide sidebar, show only top nav */
   .heading-tracker__rail {
     display: none !important;
+  }
+
+  /* Mobile toggle button */
+  .heading-tracker__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-medium);
+    cursor: pointer;
+    font-size: var(--text-11);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    transition: all var(--transition-base);
+  }
+
+  .heading-tracker__toggle:hover {
+    border-color: var(--color-accent);
+    color: var(--color-text);
+  }
+
+  .heading-tracker__toggle-icon::after {
+    content: '+';
+    font-weight: 400;
+  }
+
+  .heading-tracker__toggle[aria-expanded='true'] .heading-tracker__toggle-icon::after {
+    content: '−';
+  }
+
+  .heading-tracker__top-nav {
+    padding: var(--space-3);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-medium);
+    border-top: none;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+
+  .heading-tracker__top-nav[hidden] {
+    display: none;
+  }
+
+  .heading-tracker__top {
+    margin-bottom: var(--space-4);
+  }
+}
+
+/* Desktop: hide mobile toggle */
+@media (min-width: 64rem) {
+  .heading-tracker__toggle {
+    display: none;
+  }
+
+  .heading-tracker__top-nav {
+    display: block !important;
+  }
+
+  .heading-tracker__top-nav[hidden] {
+    display: block !important;
   }
 }
 
@@ -1558,5 +1625,1338 @@ body::after {
 
   .page-header__title {
     font-size: clamp(var(--text-32), 12vw, var(--text-48));
+  }
+}
+
+/* ============================================
+   SKUNKWORKS / BLACK BUDGET UTILITIES
+   Classified documentation aesthetic
+   ============================================ */
+
+/* Section index numbers - large technical callouts */
+.section-index {
+  font-family: var(--font-mono);
+  font-size: var(--text-10);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  color: var(--color-accent);
+  text-transform: uppercase;
+}
+
+.section-index::before {
+  content: '//';
+  opacity: 0.5;
+  margin-right: 0.25em;
+}
+
+/* Classification labels */
+.classification {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0.25em 0.75em;
+  font-family: var(--font-mono);
+  font-size: var(--text-9);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid currentColor;
+}
+
+.classification--accent {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.classification--muted {
+  color: var(--color-muted);
+  border-color: var(--border-medium);
+}
+
+/* Technical labels */
+.tech-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-9);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.tech-label--accent {
+  color: var(--color-accent);
+}
+
+/* Data blocks - for technical specs */
+.data-block {
+  display: grid;
+  gap: 1px;
+  background: var(--border-faint);
+  border: 1px solid var(--border-faint);
+}
+
+.data-block__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg);
+  font-family: var(--font-mono);
+  font-size: var(--text-12);
+}
+
+.data-block__label {
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: var(--text-10);
+}
+
+.data-block__value {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.data-block__value--accent {
+  color: var(--color-accent);
+}
+
+/* Redacted text effect */
+.redacted {
+  background: var(--color-text);
+  color: var(--color-text);
+  user-select: none;
+  padding: 0 0.25em;
+}
+
+/* Grid overlay pattern */
+.grid-overlay {
+  position: relative;
+}
+
+.grid-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border-faint) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-faint) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Scanline effect */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Brutal dividers */
+.divider {
+  height: 2px;
+  background: var(--color-text);
+  margin: var(--space-4) 0;
+}
+
+.divider--accent {
+  background: var(--color-accent);
+}
+
+.divider--thin {
+  height: 1px;
+  background: var(--border-faint);
+}
+
+.divider--dashed {
+  height: 0;
+  border: none;
+  border-top: 1px dashed var(--border-medium);
+}
+
+/* Status indicators */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-mono);
+  font-size: var(--text-10);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+}
+
+.status--active {
+  color: #4ade80;
+}
+
+.status--inactive {
+  color: var(--color-muted);
+}
+
+.status--warning {
+  color: var(--color-accent);
+}
+
+/* Coordinates / technical notation */
+.coords {
+  font-family: var(--font-mono);
+  font-size: var(--text-11);
+  color: var(--color-muted);
+  letter-spacing: 0.05em;
+}
+
+.coords::before {
+  content: '[';
+  opacity: 0.5;
+}
+
+.coords::after {
+  content: ']';
+  opacity: 0.5;
+}
+
+/* Heavy borders */
+.border-heavy {
+  border: 2px solid var(--color-text);
+}
+
+.border-heavy--accent {
+  border-color: var(--color-accent);
+}
+
+/* Brutalist cards */
+.brutal-card {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-faint);
+  border-left: 3px solid var(--color-accent);
+}
+
+.brutal-card__header {
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-panel);
+  border-bottom: 1px solid var(--border-faint);
+  font-family: var(--font-mono);
+  font-size: var(--text-10);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-muted);
+}
+
+.brutal-card__body {
+  padding: var(--space-3);
+}
+
+/* Terminal-style text */
+.terminal {
+  font-family: var(--font-mono);
+  font-size: var(--text-12);
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.terminal__prompt {
+  color: var(--color-accent);
+}
+
+.terminal__prompt::before {
+  content: '> ';
+  opacity: 0.6;
+}
+
+/* Oversized display numbers */
+.display-number {
+  font-family: var(--font-mono);
+  font-size: clamp(var(--text-48), 10vw, var(--text-80));
+  font-weight: 700;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  color: var(--color-text);
+}
+
+.display-number--accent {
+  color: var(--color-accent);
+}
+
+.display-number--ghost {
+  color: var(--border-medium);
+}
+
+/* ============================================
+   LAB CONTENT PAGES - Aerospace documentation
+   ============================================ */
+
+/* Lab page headers - enhanced with meta info */
+.page-header {
+  position: relative;
+}
+
+.page-header__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+/* Lab cards - refined aerospace treatment */
+.card h2 {
+  font-size: var(--text-18);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  margin-bottom: var(--space-2);
+}
+
+.card h2 a {
+  color: var(--color-text);
+  border-bottom: none;
+  transition: color var(--transition-base);
+}
+
+.card h2 a:hover {
+  color: var(--color-accent);
+}
+
+.card p {
+  font-size: var(--text-14);
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+
+.card ul {
+  margin: var(--space-2) 0;
+  padding-left: var(--space-3);
+}
+
+.card li {
+  font-size: var(--text-12);
+  line-height: 1.6;
+  color: var(--color-muted);
+  margin-bottom: var(--space-1);
+}
+
+.card a.mono {
+  font-size: var(--text-10);
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  text-transform: uppercase;
+}
+
+/* Lab markdown content - prose styling */
+.container h1 {
+  font-size: clamp(var(--text-32), 8vw, var(--text-48));
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 2px solid var(--color-text);
+}
+
+.container h2 {
+  font-size: var(--text-20);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-top: var(--space-5);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-faint);
+}
+
+.container h3 {
+  font-size: var(--text-16);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-2);
+  color: var(--color-accent);
+}
+
+.container > p,
+.heading-tracker__content > p {
+  font-size: var(--text-14);
+  line-height: 1.8;
+  color: var(--color-text);
+  max-width: 42rem;
+}
+
+.container > p em,
+.heading-tracker__content > p em {
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+/* Lab content code blocks */
+.container pre,
+.heading-tracker__content pre {
+  padding: var(--space-3);
+  background: var(--surface-panel);
+  border: 1px solid var(--border-faint);
+  border-left: 3px solid var(--color-accent);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-12);
+  line-height: 1.6;
+}
+
+.container code,
+.heading-tracker__content code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.1em 0.3em;
+  background: var(--surface-tint);
+  color: var(--color-accent);
+}
+
+.container pre code,
+.heading-tracker__content pre code {
+  padding: 0;
+  background: transparent;
+  color: var(--color-text);
+}
+
+/* Lab content blockquotes */
+.container blockquote,
+.heading-tracker__content blockquote {
+  margin: var(--space-4) 0;
+  padding: var(--space-3);
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--color-accent);
+  background: var(--surface-tint);
+  font-style: italic;
+  color: var(--color-muted);
+}
+
+.container blockquote p,
+.heading-tracker__content blockquote p {
+  margin: 0;
+}
+
+/* Lab content tables */
+.container table,
+.heading-tracker__content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-4) 0;
+  font-size: var(--text-12);
+}
+
+.container th,
+.heading-tracker__content th {
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-panel);
+  border: 1px solid var(--border-faint);
+  font-family: var(--font-mono);
+  font-size: var(--text-10);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--color-muted);
+}
+
+.container td,
+.heading-tracker__content td {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-faint);
+  vertical-align: top;
+}
+
+.container tr:hover td,
+.heading-tracker__content tr:hover td {
+  background: var(--surface-tint);
+}
+
+/* Lab content lists */
+.container > ul,
+.container > ol,
+.heading-tracker__content > ul,
+.heading-tracker__content > ol {
+  margin: var(--space-3) 0;
+  padding-left: var(--space-4);
+}
+
+.container > ul li,
+.container > ol li,
+.heading-tracker__content > ul li,
+.heading-tracker__content > ol li {
+  font-size: var(--text-14);
+  line-height: 1.7;
+  margin-bottom: var(--space-1);
+  color: var(--color-text);
+}
+
+.container > ul li::marker,
+.heading-tracker__content > ul li::marker {
+  color: var(--color-accent);
+}
+
+/* Lab scaffold pages - italic intro text */
+.container > p:first-of-type em,
+.heading-tracker__content > p:first-of-type em {
+  display: block;
+  padding: var(--space-3);
+  background: var(--surface-tint);
+  border-left: 3px solid var(--color-secondary);
+  font-size: var(--text-12);
+  line-height: 1.7;
+  color: var(--color-muted);
+  margin-bottom: var(--space-4);
+}
+
+/* ============================================
+   NEURAL LAB MODULES - Interactive demos
+   Unified styling for NeuralMatch, NeuralGo,
+   NeuralStocks, and SGD visualizer
+   ============================================ */
+
+/* Neural module variables */
+.theme-light {
+  --neural-bg-panel: var(--surface-panel);
+  --neural-bg-raised: var(--surface-raised);
+  --neural-fg-strong: #f0ece6;
+  --neural-success: #4a9;
+  --neural-error: #e55;
+  --neural-market-up: var(--color-accent);
+  --neural-market-down: var(--color-secondary);
+}
+
+/* Back navigation for neural modules */
+.neural-back-nav {
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg-subtle);
+  border-bottom: 2px solid var(--color-rule);
+}
+
+.neural-back-nav a {
+  color: var(--color-text);
+  text-decoration: none;
+  border-bottom: none;
+  font-size: var(--text-12);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  transition: color var(--transition-base);
+}
+
+.neural-back-nav a:hover {
+  color: var(--color-accent);
+}
+
+/* Neural app container */
+#app {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: var(--space-2) var(--space-3);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Neural header */
+#app header {
+  margin-bottom: var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+#app .title {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: var(--text-18);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--neural-fg-strong);
+}
+
+#app .subtitle {
+  font-size: var(--text-12);
+  color: var(--color-muted);
+  margin-top: var(--space-1);
+  line-height: 1.4;
+}
+
+/* Split layout for neural modules */
+#app .split {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(400px, 520px) 1fr;
+  gap: var(--space-3);
+  align-items: start;
+  min-height: 0;
+}
+
+/* Neural panes */
+#app .pane {
+  background: var(--neural-bg-panel);
+  border: 1px solid var(--color-rule);
+  padding: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#app .pane.left {
+  gap: var(--space-2);
+  position: sticky;
+  top: var(--space-2);
+}
+
+#app .pane.right {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(100vh - 120px);
+}
+
+/* Panel headers */
+#app .panel-header {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--text-12);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  padding-bottom: var(--space-1);
+  margin-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+#app .panel-sub {
+  font-weight: 600;
+  font-size: var(--text-12);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--neural-fg-strong);
+  margin: var(--space-2) 0 var(--space-1);
+}
+
+/* HUD displays */
+#app .hud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  font-size: var(--text-14);
+  font-variant-numeric: tabular-nums;
+}
+
+#app .hud span {
+  color: var(--neural-fg-strong);
+  font-weight: 500;
+}
+
+#app .hud.secondary {
+  font-size: var(--text-12);
+  color: var(--color-muted);
+}
+
+#app .hud.secondary span {
+  color: var(--color-text);
+  font-weight: 400;
+}
+
+/* Training layout */
+#app .training-pane {
+  padding: var(--space-2);
+}
+
+#app .training-layout {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+  flex: 1;
+  min-height: 0;
+}
+
+#app .training-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-height: 0;
+}
+
+/* Panel cards */
+#app .panel-card {
+  background: var(--neural-bg-raised);
+  border: 1px solid var(--color-rule);
+  padding: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+#app .panel-card.intro-card {
+  flex: 0 0 auto;
+}
+
+#app .card-wide,
+#app .full-span {
+  grid-column: 1 / -1;
+}
+
+/* Neural buttons */
+#app button {
+  font-family: var(--font-mono);
+  font-size: var(--text-12);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 10px 16px;
+  min-height: 40px;
+  background: var(--neural-bg-raised);
+  color: var(--color-text);
+  border: 1px solid var(--color-rule);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+#app button:hover {
+  background: var(--color-bg-subtle);
+  border-color: var(--color-accent);
+  color: var(--neural-fg-strong);
+}
+
+#app button:active {
+  background: var(--color-bg);
+  transform: translateY(1px);
+}
+
+#app button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Controls layout */
+#app .controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+#app .controls.row {
+  align-items: center;
+}
+
+/* Grid layouts */
+#app .grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+/* Form elements */
+#app .label {
+  font-size: var(--text-11);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  margin-bottom: 6px;
+}
+
+#app .val {
+  font-size: var(--text-14);
+  font-variant-numeric: tabular-nums;
+  color: var(--neural-fg-strong);
+}
+
+/* Range inputs */
+#app input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: var(--color-rule);
+  border-radius: 0;
+  cursor: pointer;
+}
+
+#app input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--color-accent);
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition-base);
+}
+
+#app input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+#app input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--color-accent);
+  border: none;
+  cursor: pointer;
+}
+
+#app input[type="range"]:focus-visible {
+  outline: none;
+}
+
+#app input[type="range"]:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px var(--color-bg), 0 0 0 5px var(--color-accent);
+}
+
+/* Explain/intro blocks */
+#app .explain {
+  font-size: var(--text-14);
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg-subtle);
+  border-left: 3px solid var(--color-accent);
+  padding: var(--space-2);
+}
+
+#app .explain strong {
+  color: var(--neural-fg-strong);
+}
+
+#app blockquote {
+  margin: var(--space-2) 0 0;
+  padding: var(--space-1) var(--space-2);
+  border-left: 2px solid var(--color-muted);
+  background: transparent;
+  font-size: var(--text-12);
+  font-style: italic;
+  color: var(--color-muted);
+}
+
+/* Stats displays */
+#app .stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px var(--space-2);
+  font-size: var(--text-14);
+}
+
+#app .stats div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-1);
+}
+
+#app .stats span {
+  font-variant-numeric: tabular-nums;
+  color: var(--neural-fg-strong);
+  font-weight: 500;
+}
+
+#app .stats.compact {
+  font-size: var(--text-12);
+}
+
+#app .stats-tight {
+  gap: 6px;
+  font-size: var(--text-12);
+}
+
+/* Model display */
+#app .model-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+}
+
+#app .model-block {
+  padding: var(--space-1);
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-rule);
+}
+
+#app .model-title {
+  font-size: var(--text-11);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+  margin-bottom: var(--space-1);
+}
+
+/* Canvas elements */
+#app canvas {
+  display: block;
+  width: 100%;
+  background: var(--neural-bg-raised);
+  border: 1px solid var(--color-rule);
+}
+
+#app #board {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Hints and captions */
+#app .chart-hint,
+#app .capture-hint,
+#app .weights-legend,
+#app .weight-caption,
+#app .weights-bias,
+#app .hint-block,
+#app .dataset-note {
+  font-size: var(--text-11);
+  color: var(--color-muted);
+  line-height: 1.4;
+  margin-top: 6px;
+}
+
+/* Weights visualization */
+#app .weights-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: var(--space-2);
+}
+
+#app .weights-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+#app .weights-section-title {
+  font-weight: 600;
+  font-size: var(--text-12);
+  color: var(--neural-fg-strong);
+}
+
+#app .weights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: var(--space-1);
+}
+
+#app .weight-unit {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#app .weight-unit canvas {
+  max-height: 100px;
+  image-rendering: pixelated;
+}
+
+#app .output-weights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+}
+
+#app .output-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Raw weights display */
+#app .weights-raw {
+  margin-top: var(--space-2);
+}
+
+#app .weights-raw summary {
+  cursor: pointer;
+  font-size: var(--text-11);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  padding: var(--space-1) 0;
+}
+
+#app .weights-raw summary:hover {
+  color: var(--color-text);
+}
+
+#app .weights-raw pre {
+  margin: var(--space-1) 0 0;
+  padding: var(--space-2);
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-rule);
+  font-size: var(--text-11);
+  line-height: 1.4;
+  max-height: 200px;
+  overflow: auto;
+}
+
+/* Tabs */
+#app .tab-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: var(--space-2);
+}
+
+#app .tab-button {
+  flex: 1;
+  min-width: 120px;
+  font-size: var(--text-11);
+  padding: 8px 12px;
+  min-height: 36px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--neural-bg-raised);
+  color: var(--color-muted);
+  border: 1px solid var(--color-rule);
+  transition: all var(--transition-base);
+}
+
+#app .tab-button:hover {
+  color: var(--color-text);
+  border-color: var(--color-accent);
+}
+
+#app .tab-button.active {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent);
+  font-weight: 600;
+}
+
+#app .tab-panels {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#app .tab-panel {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+  min-height: 0;
+}
+
+#app .tab-panel.active {
+  display: flex;
+}
+
+/* Confidence row */
+#app .confidence-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+#app .confidence-row div {
+  white-space: nowrap;
+}
+
+/* Board legend */
+#app .board-legend {
+  font-size: var(--text-11);
+  color: var(--color-muted);
+  text-align: center;
+  margin-top: var(--space-1);
+}
+
+/* ============================================
+   NEURAL MODULE - NeuralMatch specific
+   ============================================ */
+
+#app #matchBoard {
+  width: 100%;
+  background: #0a0c10;
+  border: 1px solid var(--color-rule);
+}
+
+#app .pattern-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#app .pattern-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--color-rule);
+  font-size: var(--text-12);
+}
+
+#app .pattern-list li:last-child {
+  border-bottom: none;
+}
+
+#app .pattern-list li span {
+  font-variant-numeric: tabular-nums;
+}
+
+#app .pattern-list li span:last-child {
+  color: var(--neural-fg-strong);
+  font-weight: 500;
+}
+
+#app .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  padding: 3px 8px;
+  font-size: var(--text-10);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   NEURAL MODULE - NeuralGo specific
+   ============================================ */
+
+#app #board {
+  background: #c4a35a;
+  border: 1px solid var(--color-rule);
+}
+
+#app .capture-grid {
+  margin-top: var(--space-1);
+}
+
+/* ============================================
+   NEURAL MODULE - NeuralStocks specific
+   ============================================ */
+
+#app .fatal-error {
+  background: #2a1a1a;
+  border: 1px solid #c44;
+  color: #f88;
+  padding: var(--space-2);
+  margin: 0 0 var(--space-2);
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.4;
+}
+
+#app .recent-list,
+#app .trade-log {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+#app .recent-list li,
+#app .trade-log li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(3, auto);
+  gap: var(--space-1);
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--color-rule);
+  font-size: var(--text-12);
+}
+
+#app .recent-list li:last-child,
+#app .trade-log li:last-child {
+  border-bottom: none;
+}
+
+#app .recent-list li span,
+#app .trade-log li span {
+  font-variant-numeric: tabular-nums;
+}
+
+#app .recent-list li .error {
+  color: var(--color-muted);
+}
+
+#app .recent-list li .error.over,
+#app .trade-log li .side.buy,
+#app .trade-log li .pnl.gain {
+  color: var(--neural-market-up);
+}
+
+#app .recent-list li .error.under,
+#app .trade-log li .side.sell,
+#app .trade-log li .pnl.loss {
+  color: var(--neural-market-down);
+}
+
+#app .recent-list li .error.low {
+  color: var(--neural-success);
+}
+
+#app .recent-list li .error.bad {
+  color: var(--neural-error);
+}
+
+#app .trade-log li .side {
+  font-weight: 600;
+}
+
+/* Forward projections table */
+#app .forward-wrapper {
+  margin-top: var(--space-2);
+  max-height: 220px;
+  overflow: auto;
+}
+
+#app .forward-empty {
+  font-size: var(--text-12);
+  color: var(--color-muted);
+  padding: var(--space-2) 0;
+}
+
+#app .forward-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-12);
+}
+
+#app .forward-table th,
+#app .forward-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--color-rule);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#app .forward-table th {
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: var(--text-10);
+}
+
+#app .forward-table th:first-child,
+#app .forward-table td:first-child,
+#app .forward-table th:nth-child(2),
+#app .forward-table td:nth-child(2) {
+  text-align: left;
+}
+
+#app .forward-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+#app .forward-table td.positive {
+  color: var(--neural-market-up);
+}
+
+#app .forward-table td.negative {
+  color: var(--neural-market-down);
+}
+
+#app .forward-table td.neutral {
+  color: var(--color-muted);
+}
+
+#app .model-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+#app .trading-stats {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+#app .trading-stats .policy-metric.gain {
+  color: var(--neural-market-up);
+}
+
+#app .trading-stats .policy-metric.loss {
+  color: var(--neural-market-down);
+}
+
+#app .canvas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-2);
+}
+
+/* ============================================
+   NEURAL MODULE - Responsive
+   ============================================ */
+
+@media (max-width: 1400px) {
+  #app .training-layout {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #app .split {
+    grid-template-columns: 1fr;
+  }
+
+  #app .pane.right {
+    min-height: auto;
+    max-height: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  #app {
+    padding: var(--space-2);
+  }
+
+  #app .split {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  #app .pane.left {
+    position: static;
+  }
+
+  #app .pane.right {
+    max-height: none;
+  }
+
+  #app .training-layout {
+    grid-template-columns: 1fr;
+  }
+
+  #app .tab-buttons {
+    flex-direction: column;
+  }
+
+  #app .tab-button {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  #app .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  #app .stats {
+    grid-template-columns: 1fr;
+  }
+
+  #app .model-grid,
+  #app .output-weights-grid {
+    grid-template-columns: 1fr;
   }
 }

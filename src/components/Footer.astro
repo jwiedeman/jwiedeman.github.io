@@ -1,11 +1,99 @@
 ---
 const year = new Date().getFullYear();
+
+const quotes = [
+  // Alan Watts
+  { text: "We seldom realize, for example, that our most private thoughts and emotions are not actually our own. For we think in terms of languages and images which we did not invent, but which were given to us by our society.", author: "Alan Watts" },
+  { text: "The meaning of life is just to be alive. It is so plain and so obvious and so simple. And yet, everybody rushes around in a great panic as if it were necessary to achieve something beyond themselves.", author: "Alan Watts" },
+  { text: "This is the real secret of life — to be completely engaged with what you are doing in the here and now. And instead of calling it work, realize it is play.", author: "Alan Watts" },
+  { text: "Technology is destructive only in the hands of people who do not realize that they are one and the same process as the universe.", author: "Alan Watts" },
+  { text: "What I am really saying is that you don't need to do anything, because if you see yourself in the correct way, you are all as much extraordinary phenomenon of nature as trees, clouds, the patterns in running water, the shape of fire, the arrangement of the stars.", author: "Alan Watts" },
+  { text: "The art of living is neither careless drifting on the one hand nor fearful clinging to the past on the other. It consists in being sensitive to each moment, in regarding it as utterly new and unique.", author: "Alan Watts" },
+
+  // Lao Tzu
+  { text: "Knowing others is intelligence; knowing yourself is true wisdom. Mastering others is strength; mastering yourself is true power.", author: "Lao Tzu" },
+  { text: "If you are depressed you are living in the past. If you are anxious you are living in the future. If you are at peace you are living in the present.", author: "Lao Tzu" },
+  { text: "Life is a series of natural and spontaneous changes. Don't resist them; that only creates sorrow. Let reality be reality. Let things flow naturally forward in whatever way they like.", author: "Lao Tzu" },
+  { text: "Do the difficult things while they are easy and do the great things while they are small. A journey of a thousand miles must begin with a single step.", author: "Lao Tzu" },
+
+  // Eckhart Tolle
+  { text: "The primary cause of unhappiness is never the situation but your thoughts about it. Be aware of the thoughts you are thinking.", author: "Eckhart Tolle" },
+  { text: "Life will give you whatever experience is most helpful for the evolution of your consciousness. How do you know this is the experience you need? Because this is the experience you are having at the moment.", author: "Eckhart Tolle" },
+  { text: "The power for creating a better future is contained in the present moment: You create a good future by creating a good present.", author: "Eckhart Tolle" },
+  { text: "To recognize one's own insanity is, of course, the arising of sanity, the beginning of healing and transcendence.", author: "Eckhart Tolle" },
+
+  // Terence McKenna
+  { text: "The syntactical nature of reality, the real secret of magic, is that the world is made of words. And if you know the words that the world is made of, you can make of it whatever you wish.", author: "Terence McKenna" },
+  { text: "You are a divine being. You matter, you count. You come from realms of unimaginable power and light, and you will return to those realms.", author: "Terence McKenna" },
+  { text: "We have been to the moon, we have charted the depths of the ocean and the heart of the atom, but we have a fear of looking inward to ourselves because we sense that is where all the contradictions flow together.", author: "Terence McKenna" },
+  { text: "The apocalypse is not something which is coming. The apocalypse has arrived in major portions of the planet and it's only because we live within a bubble of incredible privilege that we still have the luxury of anticipating the apocalypse.", author: "Terence McKenna" },
+  { text: "You are not naked when you take off your clothes. You still wear your religious assumptions, your prejudices, your fears, your illusions, your delusions.", author: "Terence McKenna" },
+  { text: "Nature loves courage. You make the commitment and nature will respond to that commitment by removing impossible obstacles.", author: "Terence McKenna" },
+
+  // Marcus Aurelius
+  { text: "The object of life is not to be on the side of the majority, but to escape finding oneself in the ranks of the insane.", author: "Marcus Aurelius" },
+  { text: "When you arise in the morning, think of what a precious privilege it is to be alive — to breathe, to think, to enjoy, to love.", author: "Marcus Aurelius" },
+  { text: "Accept the things to which fate binds you, and love the people with whom fate brings you together, and do so with all your heart.", author: "Marcus Aurelius" },
+  { text: "How much time he gains who does not look to see what his neighbor says or does or thinks, but only at what he himself is doing.", author: "Marcus Aurelius" },
+
+  // Ram Dass
+  { text: "I would like my life to be a statement of love and compassion — and where it isn't, that's where my work lies.", author: "Ram Dass" },
+
+  // Carl Jung
+  { text: "The meeting of two personalities is like the contact of two chemical substances: if there is any reaction, both are transformed.", author: "Carl Jung" },
+  { text: "Your visions will become clear only when you can look into your own heart. Who looks outside, dreams; who looks inside, awakes.", author: "Carl Jung" },
+  { text: "People will do anything, no matter how absurd, in order to avoid facing their own souls. They will practice Indian yoga and all its exercises, observe a strict regimen of diet, learn theosophy by heart, or mechanically repeat mystic texts from the literature of the whole world — all because they cannot get on with themselves.", author: "Carl Jung" },
+  { text: "Loneliness does not come from having no people around you, but from being unable to communicate the things that seem important to you.", author: "Carl Jung" },
+
+  // Scientists & Philosophers
+  { text: "The nitrogen in our DNA, the calcium in our teeth, the iron in our blood, the carbon in our apple pies were made in the interiors of collapsing stars. We are made of starstuff.", author: "Carl Sagan" },
+  { text: "Imagination is more important than knowledge. For knowledge is limited, whereas imagination embraces the entire world, stimulating progress, giving birth to evolution.", author: "Albert Einstein" },
+  { text: "A human being is a part of the whole called by us universe, a part limited in time and space. He experiences himself, his thoughts and feeling as something separated from the rest, a kind of optical delusion of his consciousness.", author: "Albert Einstein" },
+  { text: "The snake which cannot cast its skin has to die. As well the minds which are prevented from changing their opinions; they cease to be mind.", author: "Friedrich Nietzsche" },
+  { text: "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.", author: "Ralph Waldo Emerson" },
+];
+
+// Pick a random quote on each page load
+const quoteIndex = Math.floor(Math.random() * quotes.length);
+const quote = quotes[quoteIndex];
 ---
-<footer class="site-footer hairline-top">
-  <div class="container">
-    <div class="footer-content">
-      <span class="footer-copy">&copy; {year} JWIEDEMAN</span>
-      <span class="footer-status mono">OPERATIONAL</span>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <!-- Quote Section -->
+    <div class="footer-quote">
+      <blockquote class="footer-quote__text">"{quote.text}"</blockquote>
+      <cite class="footer-quote__author mono">— {quote.author}</cite>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <!-- Main Footer Content -->
+    <div class="footer-main">
+      <div class="footer-col">
+        <span class="footer-label mono">Contact</span>
+        <a href="mailto:joshua.f.wiedeman@gmail.com" class="footer-link mono">joshua.f.wiedeman@gmail.com</a>
+      </div>
+
+      <div class="footer-col">
+        <span class="footer-label mono">Code</span>
+        <a href="https://github.com/jwiedeman" target="_blank" rel="noopener" class="footer-link mono">github.com/jwiedeman</a>
+      </div>
+
+      <div class="footer-col">
+        <span class="footer-label mono">Status</span>
+        <span class="footer-status mono">
+          <span class="footer-status__dot"></span>
+          Operational
+        </span>
+      </div>
+    </div>
+
+    <div class="footer-divider footer-divider--thin"></div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom">
+      <span class="footer-copy mono">&copy; {year} JWIEDEMAN</span>
+      <span class="footer-meta mono">Portland, OR — 45.5152° N, 122.6784° W</span>
     </div>
   </div>
 </footer>
@@ -13,30 +101,138 @@ const year = new Date().getFullYear();
 <style>
   .site-footer {
     margin-top: auto;
+    background: var(--surface-panel);
+    border-top: 2px solid var(--color-text);
   }
 
-  .site-footer .container {
-    padding-block: var(--space-3);
+  .footer-inner {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: var(--space-5) var(--page-inline);
   }
 
-  .footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--space-2);
-    flex-wrap: wrap;
-    font-size: var(--text-12);
-    letter-spacing: 0.06em;
+  /* Quote */
+  .footer-quote {
+    padding: var(--space-4) 0;
+    max-width: 40rem;
+  }
+
+  .footer-quote__text {
+    font-size: var(--text-14);
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--color-text);
+    margin: 0 0 var(--space-2);
+    opacity: 0.9;
+  }
+
+  .footer-quote__author {
+    font-size: var(--text-10);
+    font-style: normal;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
     text-transform: uppercase;
   }
 
-  .footer-copy {
+  /* Dividers */
+  .footer-divider {
+    height: 1px;
+    background: var(--border-faint);
+    margin: var(--space-3) 0;
+  }
+
+  .footer-divider--thin {
+    background: var(--border-faint);
+  }
+
+  /* Main Grid */
+  .footer-main {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .footer-label {
+    font-size: var(--text-9);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
     color: var(--color-muted);
-    font-weight: 600;
+  }
+
+  .footer-link {
+    font-size: var(--text-11);
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+    border-bottom: none;
+    transition: color var(--transition-base);
+  }
+
+  .footer-link:hover {
+    color: var(--color-accent);
   }
 
   .footer-status {
-    color: var(--color-accent);
-    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-11);
+    color: #4ade80;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .footer-status__dot {
+    width: 6px;
+    height: 6px;
+    background: currentColor;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Bottom */
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) 0 0;
+  }
+
+  .footer-copy {
+    font-size: var(--text-10);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .footer-meta {
+    font-size: var(--text-9);
+    letter-spacing: 0.05em;
+    color: var(--color-muted);
+    opacity: 0.6;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .footer-main {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      gap: var(--space-1);
+      text-align: center;
+    }
   }
 </style>

@@ -45,9 +45,17 @@ const sideListId = `${contentId}-rail`;
     </nav>
   </aside>
   <div class="heading-tracker__main">
-    <div class="heading-tracker__top hairline-bottom" data-heading-top hidden>
-      <p class="heading-tracker__top-label mono">{topLabel}</p>
-      <nav aria-label={topLabel}>
+    <div class="heading-tracker__top" data-heading-top hidden>
+      <button
+        class="heading-tracker__toggle mono"
+        data-heading-toggle
+        aria-expanded="false"
+        aria-controls={topListId}
+      >
+        <span class="heading-tracker__toggle-label">{topLabel}</span>
+        <span class="heading-tracker__toggle-icon" aria-hidden="true"></span>
+      </button>
+      <nav class="heading-tracker__top-nav" aria-label={topLabel} data-heading-top-nav hidden>
         <ol id={topListId} class="heading-tracker__list" data-heading-top-list></ol>
       </nav>
     </div>
@@ -56,9 +64,9 @@ const sideListId = `${contentId}-rail`;
     </div>
   </div>
 </div>
-<script type="module">
-  const contentId = {JSON.stringify(contentId)};
-  const selectorFallback = {JSON.stringify(headingsSelector)};
+<script type="module" define:vars={{ contentId, headingsSelector }}>
+  const contentIdValue = contentId;
+  const selectorFallback = headingsSelector;
 
   const escapeSelector = (value) => {
     if (typeof CSS !== 'undefined' && typeof CSS.escape === 'function') {
@@ -145,7 +153,7 @@ const sideListId = `${contentId}-rail`;
       const topSection = wrapper.querySelector('[data-heading-top]');
       const railSection = wrapper.querySelector('[data-heading-rail]');
 
-      const activeContentId = wrapper.dataset.contentId || contentId;
+      const activeContentId = wrapper.dataset.contentId || contentIdValue;
       const content = wrapper.querySelector(`#${escapeSelector(activeContentId)}`);
 
       if (!content || !topList || !railList || !topSection || !railSection) {
@@ -209,6 +217,18 @@ const sideListId = `${contentId}-rail`;
       railSection.hidden = false;
       wrapper.classList.add('heading-tracker--active');
       wrapper.classList.remove('heading-tracker--empty');
+
+      // Mobile toggle functionality
+      const toggleBtn = wrapper.querySelector('[data-heading-toggle]');
+      const topNav = wrapper.querySelector('[data-heading-top-nav]');
+      if (toggleBtn && topNav) {
+        toggleBtn.addEventListener('click', () => {
+          const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+          toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+          topNav.hidden = isExpanded;
+          wrapper.classList.toggle('heading-tracker--expanded', !isExpanded);
+        });
+      }
 
       const links = Array.from(wrapper.querySelectorAll('[data-heading-link]'));
 

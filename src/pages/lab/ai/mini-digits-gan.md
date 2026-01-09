@@ -1,13 +1,19 @@
 ---
-layout: ../../../../layouts/Layout.astro
+layout: ../../../layouts/Layout.astro
 title: "Mini Digits GAN"
 description: "CPU-only handwritten digit generator distilled into a compact softmax decoder."
 ---
+<div class="container">
+  <header class="page-header">
+    <div class="page-header__meta">
+      <span class="section-index">Lab / AI / AI-001</span>
+      <span class="classification classification--accent">Interactive Demo</span>
+    </div>
+    <h1 class="page-header__title">Mini Digits GAN</h1>
+    <p class="page-header__subtitle">28×28 Handwriting Generator</p>
+  </header>
 
-<p class="mono"><a href="/lab/ai/zoo/">← Return to AI Zoo index</a></p>
-
-<h1>Mini Digits GAN</h1>
-<p class="mono">Exhibit ID: GAN-001 · Output resolution: 28×28 · Latent width: 10</p>
+  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
 
 ## Mission Profile
 
@@ -273,3 +279,4 @@ digit archetypes. Those coefficients blend pre-rendered glyph bases to emit cris
 
   render();
 </script>
+</div>
