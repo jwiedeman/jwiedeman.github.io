@@ -1,0 +1,128 @@
+# Phone Agent Rule Configuration
+# Markov chain states with trigger patterns and actions
+
+settings:
+  initial_state: "greeting"
+  silence_timeout: 5000  # ms before reprompt
+  max_retries: 2
+  default_escalate: true
+
+states:
+  greeting:
+    on_enter:
+      play: "greetings/welcome.mp3"
+    triggers:
+      - match: "hello|hi|hey"
+        next: "main_menu"
+      - regex: "good (morning|afternoon|evening)"
+        next: "main_menu"
+      - match: "*"  # any response
+        next: "main_menu"
+    timeout:
+      play: "fallback/still_there.mp3"
+      retry: 1
+      next: "main_menu"
+
+  main_menu:
+    on_enter:
+      play: "info/menu_options.mp3"
+    triggers:
+      - match: "hours|open|time|schedule"
+        action:
+          play: "info/business_hours.mp3"
+          next: "anything_else"
+        weight: 1.0
+
+      - match: "location|address|where|directions"
+        action:
+          play: "info/location.mp3"
+          next: "anything_else"
+        weight: 1.0
+
+      - match: "price|cost|how much|pricing"
+        action:
+          play: "info/pricing.mp3"
+          next: "anything_else"
+        weight: 1.0
+
+      - match: "appointment|book|schedule|reserve"
+        action:
+          play: "info/appointments.mp3"
+          next: "collect_name"
+        weight: 1.0
+
+      - match: "person|human|representative|agent|speak|talk"
+        action:
+          play: "transfer/connecting.mp3"
+          escalate: true
+        weight: 2.0  # higher priority
+
+      - match: "bye|goodbye|done|hang up"
+        action:
+          play: "greetings/goodbye.mp3"
+          hangup: true
+
+    fallback:
+      play: "fallback/didnt_understand.mp3"
+      retry: 2
+      escalate_after_retry: true
+
+  anything_else:
+    on_enter:
+      play: "info/anything_else.mp3"
+    triggers:
+      - match: "yes|yeah|sure|more|another"
+        next: "main_menu"
+      - match: "no|nope|done|that's all|bye"
+        action:
+          play: "greetings/goodbye.mp3"
+          hangup: true
+    timeout:
+      play: "greetings/goodbye.mp3"
+      hangup: true
+
+  collect_name:
+    on_enter:
+      play: "booking/ask_name.mp3"
+    triggers:
+      - match: "*"
+        action:
+          store: "caller_name"
+          play: "booking/confirm_name.mp3"
+          next: "collect_phone"
+    fallback:
+      play: "fallback/repeat_name.mp3"
+      retry: 2
+
+  collect_phone:
+    on_enter:
+      play: "booking/ask_phone.mp3"
+    triggers:
+      - regex: "\\d{3}.*\\d{3}.*\\d{4}"
+        action:
+          store: "caller_phone"
+          play: "booking/confirmation.mp3"
+          next: "anything_else"
+    fallback:
+      play: "fallback/repeat_phone.mp3"
+      retry: 2
+      escalate_after_retry: true
+
+# Fuzzy matching configuration
+matching:
+  threshold: 0.7  # rapidfuzz similarity threshold
+  use_stemming: true
+  ignore_filler_words:
+    - "um"
+    - "uh"
+    - "like"
+    - "you know"
+    - "basically"
+
+# Audio settings
+audio:
+  sample_rate: 16000
+  channels: 1
+  format: "wav"
+  normalize: true
+  silence_threshold: 500

@@ -1,0 +1,477 @@
+---
+import '../../styles/global.css';
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Raspberry Pi phone agent with Markov chain response engine and MP3 playback for landline automation." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>Phone Agent / JWIEDEMAN</title>
+  <style is:global>
+    .phone-agent-wrapper {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .project-header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .project-header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--fg-strong);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .project-header .subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 600px;
+    }
+
+    .section {
+      margin-bottom: 48px;
+    }
+
+    .section h2 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section p {
+      color: var(--fg);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .architecture {
+      background: var(--bg-raised);
+      border: 1px solid var(--border);
+      padding: 24px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--fg);
+    }
+
+    .components-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .component-card {
+      background: var(--bg-raised);
+      border: 1px solid var(--border);
+      padding: 20px;
+    }
+
+    .component-card h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--fg-strong);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+
+    .component-card p {
+      font-size: 13px;
+      color: var(--fg);
+      margin-bottom: 12px;
+    }
+
+    .component-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .component-card li {
+      font-size: 12px;
+      color: var(--muted);
+      padding: 4px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .component-card li:first-child {
+      border-top: none;
+    }
+
+    .code-block {
+      background: var(--bg-raised);
+      border: 1px solid var(--border);
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+      overflow-x: auto;
+      color: var(--fg);
+    }
+
+    .code-block .comment {
+      color: var(--muted);
+    }
+
+    .code-block .keyword {
+      color: var(--accent);
+    }
+
+    .code-block .string {
+      color: #5a7d9a;
+    }
+
+    .rule-example {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .rule-example .trigger {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .rule-example .action {
+      font-size: 12px;
+      color: var(--fg);
+    }
+
+    .hardware-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .hardware-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .hardware-list .item {
+      color: var(--fg-strong);
+    }
+
+    .hardware-list .note {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--bg-raised);
+      border: 1px solid var(--border);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    .status-badge.active {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <nav class="neural-back-nav">
+    <a href="/lab/" class="mono">← Back to Lab</a>
+  </nav>
+
+  <div class="phone-agent-wrapper">
+    <header class="project-header">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h1>Phone Agent</h1>
+        <span class="status-badge active">In Development</span>
+      </div>
+      <p class="subtitle">
+        Raspberry Pi-based voice agent for landline phones. Markov chain response matching with MP3 playback,
+        rule-based conversation flows, and optional remote LLM fallback.
+      </p>
+    </header>
+
+    <section class="section">
+      <h2>System Architecture</h2>
+      <pre class="architecture">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           PHONE AGENT SYSTEM                                 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   ┌──────────┐     ┌──────────────┐     ┌──────────────────────────────┐   │
+│   │  PHONE   │────▶│   FXS/ATA    │────▶│      RASPBERRY PI            │   │
+│   │ HANDSET  │◀────│   ADAPTER    │◀────│                              │   │
+│   │  (RJ11)  │     │              │     │  ┌────────────────────────┐  │   │
+│   └──────────┘     └──────────────┘     │  │    AUDIO INTERFACE     │  │   │
+│                                          │  │  - Mic input (STT)     │  │   │
+│                                          │  │  - Speaker out (TTS)   │  │   │
+│                                          │  └───────────┬────────────┘  │   │
+│                                          │              │               │   │
+│                                          │  ┌───────────▼────────────┐  │   │
+│                                          │  │   SPEECH-TO-TEXT       │  │   │
+│                                          │  │   (Vosk/Whisper.cpp)   │  │   │
+│                                          │  └───────────┬────────────┘  │   │
+│                                          │              │               │   │
+│                                          │  ┌───────────▼────────────┐  │   │
+│                                          │  │    RESPONSE ENGINE     │  │   │
+│                                          │  │                        │  │   │
+│                                          │  │  ┌──────────────────┐  │  │   │
+│                                          │  │  │  RULE MATCHER    │  │  │   │
+│                                          │  │  │  (Markov Chain)  │  │  │   │
+│                                          │  │  └────────┬─────────┘  │  │   │
+│                                          │  │           │            │  │   │
+│                                          │  │     ┌─────▼─────┐      │  │   │
+│                                          │  │     │  MATCH?   │      │  │   │
+│                                          │  │     └─────┬─────┘      │  │   │
+│                                          │  │       YES │ NO         │  │   │
+│                                          │  │     ┌─────▼─────┐      │  │   │
+│                                          │  │     │ MP3 PLAY  │      │  │   │
+│                                          │  │     │ or CHAIN  │      │  │   │
+│                                          │  │     └───────────┘      │  │   │
+│                                          │  └────────────────────────┘  │   │
+│                                          └──────────────────────────────┘   │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘</pre>
+    </section>
+
+    <section class="section">
+      <h2>Core Components</h2>
+      <div class="components-grid">
+        <div class="component-card">
+          <h3>Phone Interface</h3>
+          <p>RJ11 connection via FXS adapter (Grandstream HT801 or similar ATA device)</p>
+          <ul>
+            <li>Analog phone signal conversion</li>
+            <li>Ring detection / off-hook handling</li>
+            <li>DTMF tone generation</li>
+            <li>SIP/RTP audio streaming to Pi</li>
+          </ul>
+        </div>
+
+        <div class="component-card">
+          <h3>Speech Recognition</h3>
+          <p>On-device STT using Vosk or Whisper.cpp for real-time transcription</p>
+          <ul>
+            <li>Offline operation (no cloud dependency)</li>
+            <li>Low-latency streaming recognition</li>
+            <li>Custom vocabulary for domain terms</li>
+            <li>Voice activity detection (VAD)</li>
+          </ul>
+        </div>
+
+        <div class="component-card">
+          <h3>Markov Chain Engine</h3>
+          <p>Pattern matching with probabilistic state transitions for natural flow</p>
+          <ul>
+            <li>Keyword/phrase trigger matching</li>
+            <li>Weighted response selection</li>
+            <li>Conversation state tracking</li>
+            <li>Fallback chain handling</li>
+          </ul>
+        </div>
+
+        <div class="component-card">
+          <h3>MP3 Playback</h3>
+          <p>Pre-recorded audio responses for consistent, professional output</p>
+          <ul>
+            <li>Response audio library management</li>
+            <li>Dynamic playlist chaining</li>
+            <li>Volume normalization</li>
+            <li>Interrupt handling (barge-in)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Rule Configuration</h2>
+      <p>
+        Rules define trigger patterns and their corresponding actions. When caller speech matches a trigger,
+        the system executes the action (play MP3, chain to next rule, or escalate).
+      </p>
+
+      <div class="rule-example">
+        <div class="trigger">TRIGGER: "hello" | "hi" | "hey" | "good morning"</div>
+        <div class="action">ACTION: play("greetings/welcome.mp3") → chain("main_menu")</div>
+      </div>
+
+      <div class="rule-example">
+        <div class="trigger">TRIGGER: "hours" | "when are you open" | "what time"</div>
+        <div class="action">ACTION: play("info/business_hours.mp3") → chain("anything_else")</div>
+      </div>
+
+      <div class="rule-example">
+        <div class="trigger">TRIGGER: "speak to someone" | "real person" | "representative"</div>
+        <div class="action">ACTION: play("transfer/please_hold.mp3") → escalate()</div>
+      </div>
+
+      <div class="rule-example">
+        <div class="trigger">TRIGGER: * (no match / timeout)</div>
+        <div class="action">ACTION: play("fallback/didnt_understand.mp3") → retry(2) → escalate()</div>
+      </div>
+
+      <h3 style="margin-top: 24px; font-size: 12px; color: var(--fg-strong); text-transform: uppercase; letter-spacing: 0.04em;">Rule Schema (YAML)</h3>
+      <pre class="code-block"><span class="comment"># rules.yaml - Phone Agent Configuration</span>
+
+<span class="keyword">states:</span>
+  <span class="keyword">greeting:</span>
+    <span class="keyword">triggers:</span>
+      - <span class="string">"hello"</span>
+      - <span class="string">"hi"</span>
+      - <span class="string">"hey"</span>
+      - <span class="keyword">regex:</span> <span class="string">"good (morning|afternoon|evening)"</span>
+    <span class="keyword">action:</span>
+      <span class="keyword">play:</span> <span class="string">"greetings/welcome.mp3"</span>
+      <span class="keyword">next:</span> <span class="string">"main_menu"</span>
+
+  <span class="keyword">main_menu:</span>
+    <span class="keyword">triggers:</span>
+      - <span class="keyword">match:</span> <span class="string">"hours|open|time"</span>
+        <span class="keyword">action:</span>
+          <span class="keyword">play:</span> <span class="string">"info/hours.mp3"</span>
+          <span class="keyword">next:</span> <span class="string">"anything_else"</span>
+      - <span class="keyword">match:</span> <span class="string">"location|address|where"</span>
+        <span class="keyword">action:</span>
+          <span class="keyword">play:</span> <span class="string">"info/location.mp3"</span>
+          <span class="keyword">next:</span> <span class="string">"anything_else"</span>
+      - <span class="keyword">match:</span> <span class="string">"person|human|representative"</span>
+        <span class="keyword">action:</span>
+          <span class="keyword">play:</span> <span class="string">"transfer/hold.mp3"</span>
+          <span class="keyword">escalate:</span> <span class="keyword">true</span>
+    <span class="keyword">fallback:</span>
+      <span class="keyword">play:</span> <span class="string">"fallback/options.mp3"</span>
+      <span class="keyword">retry:</span> <span class="string">2</span>
+
+  <span class="keyword">anything_else:</span>
+    <span class="keyword">triggers:</span>
+      - <span class="keyword">match:</span> <span class="string">"yes|yeah|more"</span>
+        <span class="keyword">action:</span>
+          <span class="keyword">next:</span> <span class="string">"main_menu"</span>
+      - <span class="keyword">match:</span> <span class="string">"no|done|bye"</span>
+        <span class="keyword">action:</span>
+          <span class="keyword">play:</span> <span class="string">"greetings/goodbye.mp3"</span>
+          <span class="keyword">hangup:</span> <span class="keyword">true</span></pre>
+    </section>
+
+    <section class="section">
+      <h2>Hardware Requirements</h2>
+      <ul class="hardware-list">
+        <li>
+          <span class="item">Raspberry Pi 4 (4GB+)</span>
+          <span class="note">Sufficient for Vosk STT + audio processing</span>
+        </li>
+        <li>
+          <span class="item">Grandstream HT801 ATA</span>
+          <span class="note">FXS port for analog phone, SIP to Pi</span>
+        </li>
+        <li>
+          <span class="item">USB Sound Card</span>
+          <span class="note">Better audio quality than Pi onboard</span>
+        </li>
+        <li>
+          <span class="item">Analog Phone Handset</span>
+          <span class="note">Any standard RJ11 phone</span>
+        </li>
+        <li>
+          <span class="item">MicroSD Card (32GB+)</span>
+          <span class="note">OS + audio library storage</span>
+        </li>
+        <li>
+          <span class="item">Power Supply</span>
+          <span class="note">5V 3A for Pi, separate for ATA</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Software Stack</h2>
+      <div class="components-grid">
+        <div class="component-card">
+          <h3>Core Runtime</h3>
+          <ul>
+            <li>Python 3.11+</li>
+            <li>asyncio for concurrent handling</li>
+            <li>pjsua2 for SIP/RTP</li>
+            <li>PyAudio for audio I/O</li>
+          </ul>
+        </div>
+
+        <div class="component-card">
+          <h3>Speech Processing</h3>
+          <ul>
+            <li>Vosk (offline STT)</li>
+            <li>pyttsx3 or espeak (TTS fallback)</li>
+            <li>webrtcvad (voice detection)</li>
+            <li>soundfile for MP3/WAV</li>
+          </ul>
+        </div>
+
+        <div class="component-card">
+          <h3>Rule Engine</h3>
+          <ul>
+            <li>PyYAML for config parsing</li>
+            <li>regex for pattern matching</li>
+            <li>State machine (transitions lib)</li>
+            <li>Fuzzy matching (rapidfuzz)</li>
+          </ul>
+        </div>
+
+        <div class="component-card">
+          <h3>Optional Extensions</h3>
+          <ul>
+            <li>Ollama API (local LLM fallback)</li>
+            <li>Whisper.cpp (better STT)</li>
+            <li>Piper TTS (neural voices)</li>
+            <li>SQLite for call logging</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Project Files</h2>
+      <p>Source code and documentation will be available in the project repository.</p>
+      <pre class="code-block">phone-agent/
+├── config/
+│   ├── rules.yaml          <span class="comment"># Conversation flow rules</span>
+│   └── settings.yaml       <span class="comment"># System configuration</span>
+├── audio/
+│   ├── greetings/          <span class="comment"># Welcome/goodbye MP3s</span>
+│   ├── info/               <span class="comment"># Information responses</span>
+│   ├── fallback/           <span class="comment"># Error/retry prompts</span>
+│   └── transfer/           <span class="comment"># Hold music, transfer notices</span>
+├── src/
+│   ├── main.py             <span class="comment"># Entry point</span>
+│   ├── sip_handler.py      <span class="comment"># SIP/RTP management</span>
+│   ├── speech.py           <span class="comment"># STT/TTS interface</span>
+│   ├── rules_engine.py     <span class="comment"># Markov chain + state machine</span>
+│   ├── audio_player.py     <span class="comment"># MP3 playback control</span>
+│   └── utils.py            <span class="comment"># Helpers</span>
+├── tests/
+├── requirements.txt
+└── README.md</pre>
+    </section>
+  </div>
+</body>
+</html>

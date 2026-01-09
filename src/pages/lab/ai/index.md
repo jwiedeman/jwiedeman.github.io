@@ -52,7 +52,7 @@ headingTracker: false
     <article class="card span-6">
       <div class="label mono">AI-003</div>
       <div>
-        <h2><a href="/lab/ai/neural-match/">NeuralMatch</a></h2>
+        <h2><a href="/projects/neural-match/">NeuralMatch</a></h2>
         <p>
           Synthetic match-3 game evaluator that trains neural models on heavily augmented puzzle layouts to master tile-matching strategies.
         </p>
@@ -61,13 +61,13 @@ headingTracker: false
           <li>Browser-first architecture runs entirely on static files—no backend required.</li>
           <li>Part of the NeuralDojo collection of neural playgrounds.</li>
         </ul>
-        <p><a href="/lab/ai/neural-match/" class="mono">Launch demo →</a></p>
+        <p><a href="/projects/neural-match/" class="mono">Launch demo →</a></p>
       </div>
     </article>
     <article class="card span-6">
       <div class="label mono">AI-004</div>
       <div>
-        <h2><a href="/lab/ai/neural-go/">NeuralGo</a></h2>
+        <h2><a href="/projects/neural-go/">NeuralGo</a></h2>
         <p>
           Self-play laboratory where neural networks learn the ancient game of Go through iterative policy improvement and Monte Carlo tree search.
         </p>
@@ -76,13 +76,13 @@ headingTracker: false
           <li>Visualizes board states, move probabilities, and value predictions in real-time.</li>
           <li>Fully static deployment—runs entirely in your browser.</li>
         </ul>
-        <p><a href="/lab/ai/neural-go/" class="mono">Launch demo →</a></p>
+        <p><a href="/projects/neural-go/" class="mono">Launch demo →</a></p>
       </div>
     </article>
     <article class="card span-6">
       <div class="label mono">AI-005</div>
       <div>
-        <h2><a href="/lab/ai/neural-stocks/">NeuralStocks</a></h2>
+        <h2><a href="/projects/neural-stocks/">NeuralStocks</a></h2>
         <p>
           Market forecasting playground that processes historical prices through a compact MLP with real-time learning visualization.
         </p>
@@ -91,7 +91,7 @@ headingTracker: false
           <li>Compact multilayer perceptron architecture optimized for browser performance.</li>
           <li>Educational tool demonstrating neural network fundamentals on financial data.</li>
         </ul>
-        <p><a href="/lab/ai/neural-stocks/" class="mono">Launch demo →</a></p>
+        <p><a href="/projects/neural-stocks/" class="mono">Launch demo →</a></p>
       </div>
     </article>
     <article class="card span-6">
@@ -127,16 +127,16 @@ headingTracker: false
     <article class="card span-6">
       <div class="label mono">AI-008</div>
       <div>
-        <h2><a href="/lab/ai/phone-agent/">Phone Agent</a></h2>
+        <h2><a href="/projects/phone-agent/">Phone Agent</a></h2>
         <p>
-          Voice-first assistant that triages inbound calls, schedules follow-ups, and writes CRM notes using speech-to-text, LLM reasoning, and calendar sync.
+          Raspberry Pi voice agent for landline phones using Markov chain pattern matching and MP3 playback for automated call handling.
         </p>
         <ul>
-          <li>Conversational state machine guards tone, compliance, and fallback routing to humans.</li>
-          <li>Integrates with Twilio SIP endpoints and the lab's analytics warehouse.</li>
-          <li>Fine-tunes prompts from anonymized transcripts to raise resolution rates.</li>
+          <li>YAML rule engine matches caller speech to trigger patterns with fuzzy matching.</li>
+          <li>Pre-recorded MP3 responses chained via state machine for natural conversation flow.</li>
+          <li>Vosk STT for offline operation—no cloud dependencies or inference required.</li>
         </ul>
-        <p><a href="/lab/ai/phone-agent/" class="mono">Access module →</a></p>
+        <p><a href="/projects/phone-agent/" class="mono">Launch demo →</a></p>
       </div>
     </article>
     <article class="card span-6">
@@ -157,7 +157,7 @@ headingTracker: false
     <article class="card span-6">
       <div class="label mono">AI-010</div>
       <div>
-        <h2><a href="/lab/ai/pattern-match-learner/">Pattern Match Learner</a></h2>
+        <h2><a href="/projects/pattern-match-learner/">Pattern Match Learner</a></h2>
         <p>
           Interactive neural network that learns to classify 8×8 pixel patterns through stochastic gradient descent.
         </p>
@@ -166,7 +166,7 @@ headingTracker: false
           <li>Draw your own patterns and see live predictions with confidence scores.</li>
           <li>Visualizes loss landscape trajectory and emergent weight structures.</li>
         </ul>
-        <p><a href="/lab/ai/pattern-match-learner/" class="mono">Launch demo →</a></p>
+        <p><a href="/projects/pattern-match-learner/" class="mono">Launch demo →</a></p>
       </div>
     </article>
   </div>

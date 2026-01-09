@@ -1,0 +1,34 @@
+# Phone Agent Dependencies
+# Raspberry Pi compatible
+
+# Core
+pyyaml>=6.0
+numpy>=1.24.0
+
+# Audio processing
+soundfile>=0.12.0
+sounddevice>=0.4.6
+
+# Speech recognition (offline)
+vosk>=0.3.45
+
+# Voice activity detection
+webrtcvad>=2.0.10
+
+# Fuzzy matching for rule triggers
+rapidfuzz>=3.0.0
+
+# SIP/VoIP (optional - for direct SIP)
+# pjsua2 - install via system package manager
+
+# Text-to-speech fallback (optional)
+# pyttsx3>=2.90
+
+# Local LLM fallback (optional)
+# ollama>=0.1.0
+
+# Improved STT (optional)
+# whisper-cpp-python>=0.1.0
+
+# Better TTS (optional)
+# piper-tts>=1.0.0
