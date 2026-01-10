@@ -1,5 +1,105 @@
 ---
 import '../../styles/global.css';
+
+const architectureDiagram = `┌─────────────────────────────────────────────────────────────────────────────┐
+│                           PHONE AGENT SYSTEM                                 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   ┌──────────┐     ┌──────────────┐     ┌──────────────────────────────┐   │
+│   │  PHONE   │────▶│   FXS/ATA    │────▶│      RASPBERRY PI            │   │
+│   │ HANDSET  │◀────│   ADAPTER    │◀────│                              │   │
+│   │  (RJ11)  │     │              │     │  ┌────────────────────────┐  │   │
+│   └──────────┘     └──────────────┘     │  │    AUDIO INTERFACE     │  │   │
+│                                          │  │  - Mic input (STT)     │  │   │
+│                                          │  │  - Speaker out (TTS)   │  │   │
+│                                          │  └───────────┬────────────┘  │   │
+│                                          │              │               │   │
+│                                          │  ┌───────────▼────────────┐  │   │
+│                                          │  │   SPEECH-TO-TEXT       │  │   │
+│                                          │  │   (Vosk/Whisper.cpp)   │  │   │
+│                                          │  └───────────┬────────────┘  │   │
+│                                          │              │               │   │
+│                                          │  ┌───────────▼────────────┐  │   │
+│                                          │  │    RESPONSE ENGINE     │  │   │
+│                                          │  │                        │  │   │
+│                                          │  │  ┌──────────────────┐  │  │   │
+│                                          │  │  │  RULE MATCHER    │  │  │   │
+│                                          │  │  │  (Markov Chain)  │  │  │   │
+│                                          │  │  └────────┬─────────┘  │  │   │
+│                                          │  │           │            │  │   │
+│                                          │  │     ┌─────▼─────┐      │  │   │
+│                                          │  │     │  MATCH?   │      │  │   │
+│                                          │  │     └─────┬─────┘      │  │   │
+│                                          │  │       YES │ NO         │  │   │
+│                                          │  │     ┌─────▼─────┐      │  │   │
+│                                          │  │     │ MP3 PLAY  │      │  │   │
+│                                          │  │     │ or CHAIN  │      │  │   │
+│                                          │  │     └───────────┘      │  │   │
+│                                          │  └────────────────────────┘  │   │
+│                                          └──────────────────────────────┘   │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘`;
+
+const yamlSchema = `<span class="comment"># rules.yaml - Phone Agent Configuration</span>
+
+<span class="keyword">states:</span>
+  <span class="keyword">greeting:</span>
+    <span class="keyword">triggers:</span>
+      - <span class="string">"hello"</span>
+      - <span class="string">"hi"</span>
+      - <span class="string">"hey"</span>
+      - <span class="keyword">regex:</span> <span class="string">"good (morning|afternoon|evening)"</span>
+    <span class="keyword">action:</span>
+      <span class="keyword">play:</span> <span class="string">"greetings/welcome.mp3"</span>
+      <span class="keyword">next:</span> <span class="string">"main_menu"</span>
+
+  <span class="keyword">main_menu:</span>
+    <span class="keyword">triggers:</span>
+      - <span class="keyword">match:</span> <span class="string">"hours|open|time"</span>
+        <span class="keyword">action:</span>
+          <span class="keyword">play:</span> <span class="string">"info/hours.mp3"</span>
+          <span class="keyword">next:</span> <span class="string">"anything_else"</span>
+      - <span class="keyword">match:</span> <span class="string">"location|address|where"</span>
+        <span class="keyword">action:</span>
+          <span class="keyword">play:</span> <span class="string">"info/location.mp3"</span>
+          <span class="keyword">next:</span> <span class="string">"anything_else"</span>
+      - <span class="keyword">match:</span> <span class="string">"person|human|representative"</span>
+        <span class="keyword">action:</span>
+          <span class="keyword">play:</span> <span class="string">"transfer/hold.mp3"</span>
+          <span class="keyword">escalate:</span> <span class="keyword">true</span>
+    <span class="keyword">fallback:</span>
+      <span class="keyword">play:</span> <span class="string">"fallback/options.mp3"</span>
+      <span class="keyword">retry:</span> <span class="string">2</span>
+
+  <span class="keyword">anything_else:</span>
+    <span class="keyword">triggers:</span>
+      - <span class="keyword">match:</span> <span class="string">"yes|yeah|more"</span>
+        <span class="keyword">action:</span>
+          <span class="keyword">next:</span> <span class="string">"main_menu"</span>
+      - <span class="keyword">match:</span> <span class="string">"no|done|bye"</span>
+        <span class="keyword">action:</span>
+          <span class="keyword">play:</span> <span class="string">"greetings/goodbye.mp3"</span>
+          <span class="keyword">hangup:</span> <span class="keyword">true</span>`;
+
+const projectFiles = `phone-agent/
+├── config/
+│   ├── rules.yaml          # Conversation flow rules
+│   └── settings.yaml       # System configuration
+├── audio/
+│   ├── greetings/          # Welcome/goodbye MP3s
+│   ├── info/               # Information responses
+│   ├── fallback/           # Error/retry prompts
+│   └── transfer/           # Hold music, transfer notices
+├── src/
+│   ├── main.py             # Entry point
+│   ├── sip_handler.py      # SIP/RTP management
+│   ├── speech.py           # STT/TTS interface
+│   ├── rules_engine.py     # Markov chain + state machine
+│   ├── audio_player.py     # MP3 playback control
+│   └── utils.py            # Helpers
+├── tests/
+├── requirements.txt
+└── README.md`;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -214,45 +314,7 @@ import '../../styles/global.css';
 
     <section class="section">
       <h2>System Architecture</h2>
-      <pre class="architecture">
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           PHONE AGENT SYSTEM                                 │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│   ┌──────────┐     ┌──────────────┐     ┌──────────────────────────────┐   │
-│   │  PHONE   │────▶│   FXS/ATA    │────▶│      RASPBERRY PI            │   │
-│   │ HANDSET  │◀────│   ADAPTER    │◀────│                              │   │
-│   │  (RJ11)  │     │              │     │  ┌────────────────────────┐  │   │
-│   └──────────┘     └──────────────┘     │  │    AUDIO INTERFACE     │  │   │
-│                                          │  │  - Mic input (STT)     │  │   │
-│                                          │  │  - Speaker out (TTS)   │  │   │
-│                                          │  └───────────┬────────────┘  │   │
-│                                          │              │               │   │
-│                                          │  ┌───────────▼────────────┐  │   │
-│                                          │  │   SPEECH-TO-TEXT       │  │   │
-│                                          │  │   (Vosk/Whisper.cpp)   │  │   │
-│                                          │  └───────────┬────────────┘  │   │
-│                                          │              │               │   │
-│                                          │  ┌───────────▼────────────┐  │   │
-│                                          │  │    RESPONSE ENGINE     │  │   │
-│                                          │  │                        │  │   │
-│                                          │  │  ┌──────────────────┐  │  │   │
-│                                          │  │  │  RULE MATCHER    │  │  │   │
-│                                          │  │  │  (Markov Chain)  │  │  │   │
-│                                          │  │  └────────┬─────────┘  │  │   │
-│                                          │  │           │            │  │   │
-│                                          │  │     ┌─────▼─────┐      │  │   │
-│                                          │  │     │  MATCH?   │      │  │   │
-│                                          │  │     └─────┬─────┘      │  │   │
-│                                          │  │       YES │ NO         │  │   │
-│                                          │  │     ┌─────▼─────┐      │  │   │
-│                                          │  │     │ MP3 PLAY  │      │  │   │
-│                                          │  │     │ or CHAIN  │      │  │   │
-│                                          │  │     └───────────┘      │  │   │
-│                                          │  └────────────────────────┘  │   │
-│                                          └──────────────────────────────┘   │
-│                                                                              │
-└─────────────────────────────────────────────────────────────────────────────┘</pre>
+      <pre class="architecture" set:html={architectureDiagram}></pre>
     </section>
 
     <section class="section">
@@ -332,46 +394,7 @@ import '../../styles/global.css';
       </div>
 
       <h3 style="margin-top: 24px; font-size: 12px; color: var(--fg-strong); text-transform: uppercase; letter-spacing: 0.04em;">Rule Schema (YAML)</h3>
-      <pre class="code-block"><span class="comment"># rules.yaml - Phone Agent Configuration</span>
-
-<span class="keyword">states:</span>
-  <span class="keyword">greeting:</span>
-    <span class="keyword">triggers:</span>
-      - <span class="string">"hello"</span>
-      - <span class="string">"hi"</span>
-      - <span class="string">"hey"</span>
-      - <span class="keyword">regex:</span> <span class="string">"good (morning|afternoon|evening)"</span>
-    <span class="keyword">action:</span>
-      <span class="keyword">play:</span> <span class="string">"greetings/welcome.mp3"</span>
-      <span class="keyword">next:</span> <span class="string">"main_menu"</span>
-
-  <span class="keyword">main_menu:</span>
-    <span class="keyword">triggers:</span>
-      - <span class="keyword">match:</span> <span class="string">"hours|open|time"</span>
-        <span class="keyword">action:</span>
-          <span class="keyword">play:</span> <span class="string">"info/hours.mp3"</span>
-          <span class="keyword">next:</span> <span class="string">"anything_else"</span>
-      - <span class="keyword">match:</span> <span class="string">"location|address|where"</span>
-        <span class="keyword">action:</span>
-          <span class="keyword">play:</span> <span class="string">"info/location.mp3"</span>
-          <span class="keyword">next:</span> <span class="string">"anything_else"</span>
-      - <span class="keyword">match:</span> <span class="string">"person|human|representative"</span>
-        <span class="keyword">action:</span>
-          <span class="keyword">play:</span> <span class="string">"transfer/hold.mp3"</span>
-          <span class="keyword">escalate:</span> <span class="keyword">true</span>
-    <span class="keyword">fallback:</span>
-      <span class="keyword">play:</span> <span class="string">"fallback/options.mp3"</span>
-      <span class="keyword">retry:</span> <span class="string">2</span>
-
-  <span class="keyword">anything_else:</span>
-    <span class="keyword">triggers:</span>
-      - <span class="keyword">match:</span> <span class="string">"yes|yeah|more"</span>
-        <span class="keyword">action:</span>
-          <span class="keyword">next:</span> <span class="string">"main_menu"</span>
-      - <span class="keyword">match:</span> <span class="string">"no|done|bye"</span>
-        <span class="keyword">action:</span>
-          <span class="keyword">play:</span> <span class="string">"greetings/goodbye.mp3"</span>
-          <span class="keyword">hangup:</span> <span class="keyword">true</span></pre>
+      <pre class="code-block" set:html={yamlSchema}></pre>
     </section>
 
     <section class="section">
@@ -452,25 +475,7 @@ import '../../styles/global.css';
     <section class="section">
       <h2>Project Files</h2>
       <p>Source code and documentation will be available in the project repository.</p>
-      <pre class="code-block">phone-agent/
-├── config/
-│   ├── rules.yaml          <span class="comment"># Conversation flow rules</span>
-│   └── settings.yaml       <span class="comment"># System configuration</span>
-├── audio/
-│   ├── greetings/          <span class="comment"># Welcome/goodbye MP3s</span>
-│   ├── info/               <span class="comment"># Information responses</span>
-│   ├── fallback/           <span class="comment"># Error/retry prompts</span>
-│   └── transfer/           <span class="comment"># Hold music, transfer notices</span>
-├── src/
-│   ├── main.py             <span class="comment"># Entry point</span>
-│   ├── sip_handler.py      <span class="comment"># SIP/RTP management</span>
-│   ├── speech.py           <span class="comment"># STT/TTS interface</span>
-│   ├── rules_engine.py     <span class="comment"># Markov chain + state machine</span>
-│   ├── audio_player.py     <span class="comment"># MP3 playback control</span>
-│   └── utils.py            <span class="comment"># Helpers</span>
-├── tests/
-├── requirements.txt
-└── README.md</pre>
+      <pre class="code-block" set:html={projectFiles}></pre>
     </section>
   </div>
 </body>
