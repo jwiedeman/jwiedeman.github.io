@@ -61,11 +61,12 @@ const modules = [
 <Layout title="Lab" headingTracker={false}>
   <div class="lab-page">
     <!-- Header -->
-    <header class="lab-header">
+    <header class="lab-header page-hero">
       <div class="lab-header__meta">
         <span class="section-index">Research Division</span>
         <span class="classification classification--accent">Active Projects</span>
       </div>
+      <div class="page-hero__rule"></div>
       <h1 class="lab-header__title">R&D<br/>Archive</h1>
       <p class="lab-header__subtitle">Experimental Systems & Documentation</p>
       <p class="lab-header__intro">
@@ -138,7 +139,7 @@ const modules = [
   }
 
   .lab-header__title {
-    font-size: clamp(2.5rem, 10vw, 4.5rem);
+    font-size: clamp(3rem, 12vw, 6rem);
     font-weight: 800;
     line-height: 0.9;
     letter-spacing: -0.04em;

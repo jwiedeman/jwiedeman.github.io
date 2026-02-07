@@ -85,6 +85,15 @@ const showHeadingTracker = Boolean(trackerConfig.enabled);
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title} / JWIEDEMAN</title>
+
+    <!-- Google Analytics (GA4) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-LJ6DYZXJNT"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-LJ6DYZXJNT');
+    </script>
   </head>
   <body>
     {showNav && <Nav />}

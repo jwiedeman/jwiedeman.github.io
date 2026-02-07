@@ -20,11 +20,12 @@ const interests = [
 <Layout title="About">
   <div class="about-page">
     <!-- Header -->
-    <header class="about-header">
+    <header class="about-header page-hero">
       <div class="about-header__meta">
         <span class="section-index">About</span>
         <span class="classification classification--accent">Portland, OR</span>
       </div>
+      <div class="page-hero__rule"></div>
       <h1 class="about-header__title">Hey,<br/>I'm Josh</h1>
       <p class="about-header__subtitle">Analytics Engineer</p>
     </header>
@@ -160,7 +161,7 @@ const interests = [
   }
 
   .about-header__title {
-    font-size: clamp(2.5rem, 10vw, 4.5rem);
+    font-size: clamp(3rem, 12vw, 6rem);
     font-weight: 800;
     line-height: 0.9;
     letter-spacing: -0.04em;

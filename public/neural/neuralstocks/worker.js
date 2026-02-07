@@ -1,6 +1,7 @@
 // Historical closes courtesy of Stooq. We load a multi-instrument universe captured in market_history.js
 // and fall back to the legacy spy_daily.js stream if needed.
-importScripts('market_history.js', 'spy_daily.js');
+try { importScripts('market_history.js'); } catch (_) { /* optional multi-instrument universe */ }
+importScripts('spy_daily.js');
 
 const earliestDateStr = '2000-01-01';
 const latestDateLimit = '2025-12-31';

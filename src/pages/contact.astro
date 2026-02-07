@@ -1,0 +1,151 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const channels = [
+  { id: 'CH-001', label: 'Email', value: 'joshua.f.wiedeman@gmail.com', href: 'mailto:joshua.f.wiedeman@gmail.com' },
+  { id: 'CH-002', label: 'Code', value: 'github.com/jwiedeman', href: 'https://github.com/jwiedeman' },
+  { id: 'CH-003', label: 'Location', value: 'Portland, OR \u2014 45.5152\u00b0 N, 122.6784\u00b0 W', href: null },
+];
+---
+<Layout title="Contact">
+  <div class="contact-page">
+    <header class="contact-header page-hero">
+      <div class="contact-header__meta">
+        <span class="section-index">Transmission</span>
+        <span class="classification classification--accent">Open Channel</span>
+      </div>
+      <div class="page-hero__rule"></div>
+      <h1 class="contact-header__title">Contact</h1>
+    </header>
+
+    <section class="contact-section">
+      <div class="contact-section__header">
+        <span class="section-index">01</span>
+        <h2 class="contact-section__title">Direct Channels</h2>
+      </div>
+
+      <div class="contact-grid">
+        {channels.map(ch => (
+          <div class="contact-item">
+            <div class="contact-item__header">
+              <span class="contact-item__id mono">{ch.id}</span>
+              <span class="contact-item__label mono">{ch.label}</span>
+            </div>
+            <div class="contact-item__value">
+              {ch.href ? (
+                <a href={ch.href} class="mono" target={ch.href.startsWith('http') ? '_blank' : undefined} rel={ch.href.startsWith('http') ? 'noopener' : undefined}>
+                  {ch.value}
+                </a>
+              ) : (
+                <span class="mono">{ch.value}</span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .contact-page {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: var(--space-5) var(--page-inline);
+  }
+
+  /* Header */
+  .contact-header {
+    padding: var(--space-6) 0 var(--space-5);
+    border-bottom: 2px solid var(--color-text);
+    margin-bottom: var(--space-5);
+  }
+
+  .contact-header__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .contact-header__title {
+    font-size: clamp(3rem, 12vw, 6rem);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+
+  /* Section */
+  .contact-section {
+    padding: var(--space-5) 0;
+  }
+
+  .contact-section__header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .contact-section__title {
+    font-size: var(--text-12);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  /* Contact Grid */
+  .contact-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--border-faint);
+    border: 1px solid var(--border-faint);
+  }
+
+  .contact-item {
+    background: var(--color-bg);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .contact-item__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+  }
+
+  .contact-item__id {
+    font-size: var(--text-9);
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+  }
+
+  .contact-item__label {
+    font-size: var(--text-9);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .contact-item__value {
+    font-size: var(--text-14);
+  }
+
+  .contact-item__value a {
+    color: var(--color-text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-faint);
+    transition: color var(--transition-base), border-color var(--transition-base);
+  }
+
+  .contact-item__value a:hover {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+  }
+
+  .contact-item__value span {
+    color: var(--color-text);
+  }
+</style>

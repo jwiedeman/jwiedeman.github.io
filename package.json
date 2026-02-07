@@ -13,6 +13,7 @@
     "test:pages": "node scripts/test-pages.js"
   },
   "dependencies": {
+    "@jwiedeman/gtm-kit": "^1.2.0",
     "astro": "^4.10.0",
     "simplex-noise": "^4.0.3"
   }

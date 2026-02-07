@@ -20,11 +20,12 @@ function formatDate(date: Date) {
 <Layout title="Blog">
   <div class="blog-page">
     <!-- Header -->
-    <header class="blog-header">
+    <header class="blog-header page-hero">
       <div class="blog-header__meta">
         <span class="section-index">Archive</span>
         <span class="classification classification--accent">Public</span>
       </div>
+      <div class="page-hero__rule"></div>
       <h1 class="blog-header__title">Signal<br/>Log</h1>
       <p class="blog-header__subtitle">Transmissions & Dispatches</p>
     </header>
@@ -275,7 +276,7 @@ function formatDate(date: Date) {
   }
 
   .blog-header__title {
-    font-size: clamp(2.5rem, 10vw, 4.5rem);
+    font-size: clamp(3rem, 12vw, 6rem);
     font-weight: 800;
     line-height: 0.9;
     letter-spacing: -0.04em;
