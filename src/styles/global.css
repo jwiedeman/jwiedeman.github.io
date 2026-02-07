@@ -1,8 +1,8 @@
 /*
   Global design system
-  BLACK BUDGET INFRASTRUCTURE
-  Skunkworks aesthetic. Cold war mission control.
-  Classified documentation. Systems that outlast empires.
+  SWISS INTERNATIONAL STYLE — 1995
+  Warm paper backgrounds. Bold condensed type. Structured grids.
+  Numbered indices. Technical metadata. Minimal accent color.
 */
 
 :root {
@@ -44,25 +44,25 @@
 }
 
 .theme-light {
-  /* Dark carbon - aerospace grade charcoal */
-  --color-bg: #141414;
-  --color-bg-subtle: #1a1a1a;
-  --color-text: #d9d4cc;
-  --color-muted: #807a72;
-  --color-rule: #2a2926;
+  /* Warm off-white paper */
+  --color-bg: #f5f3f0;
+  --color-bg-subtle: #edeae5;
+  --color-text: #1a1a1a;
+  --color-muted: #6b6560;
+  --color-rule: #d5d0ca;
 
-  /* NASA safety orange - mission critical, high visibility */
+  /* NASA safety orange — pops on light */
   --color-accent: #ff6b35;
-  /* Steel blue - aviation instrumentation */
-  --color-secondary: #5a7d9a;
+  /* Slightly darker blue for contrast on light */
+  --color-secondary: #3d6b8e;
   --color-link: var(--color-accent);
 
-  --surface-raised: #1c1c1c;
-  --surface-panel: #181818;
+  --surface-raised: #ffffff;
+  --surface-panel: #eae7e2;
   --surface-tint: color-mix(in srgb, var(--color-accent) 10%, var(--color-bg));
   --surface-tint-secondary: color-mix(in srgb, var(--color-secondary) 12%, var(--color-bg));
-  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.4);
-  --shadow-strong: 0 2px 4px rgba(0, 0, 0, 0.4), 0 16px 48px rgba(0, 0, 0, 0.5);
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-strong: 0 2px 4px rgba(0, 0, 0, 0.08), 0 16px 48px rgba(0, 0, 0, 0.12);
 
   --accent-alpha-80: color-mix(in srgb, var(--color-accent) 80%, transparent);
   --accent-alpha-40: color-mix(in srgb, var(--color-accent) 40%, transparent);
@@ -74,7 +74,7 @@
   --text-alpha-20: color-mix(in srgb, var(--color-text) 20%, transparent);
 
   --border-strong: var(--color-text);
-  --border-medium: color-mix(in srgb, var(--color-text) 30%, transparent);
+  --border-medium: color-mix(in srgb, var(--color-text) 20%, transparent);
   --border-soft: color-mix(in srgb, var(--color-rule) 90%, transparent);
   --border-faint: color-mix(in srgb, var(--color-rule) 60%, transparent);
   --accent-outline: var(--color-accent);
@@ -1804,7 +1804,7 @@ body::after {
 }
 
 .status--active {
-  color: #4ade80;
+  color: #16a34a;
 }
 
 .status--inactive {
@@ -2743,9 +2743,9 @@ body::after {
    ============================================ */
 
 #app .fatal-error {
-  background: #2a1a1a;
-  border: 1px solid #c44;
-  color: #f88;
+  background: #fff0f0;
+  border: 1px solid #c53030;
+  color: #c53030;
   padding: var(--space-2);
   margin: 0 0 var(--space-2);
   font-weight: 500;
@@ -2857,7 +2857,7 @@ body::after {
 }
 
 #app .forward-table tbody tr:nth-child(even) {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(0, 0, 0, 0.02);
 }
 
 #app .forward-table td.positive {

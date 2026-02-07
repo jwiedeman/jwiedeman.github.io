@@ -1,0 +1,206 @@
+---
+interface Props {
+  title?: string;
+}
+const { title = 'JWIEDEMAN' } = Astro.props;
+const year = new Date().getFullYear();
+
+const navLinks = [
+  { index: '01', label: 'Work', href: '/work' },
+  { index: '02', label: 'Lab', href: '/lab' },
+  { index: '03', label: 'Blog', href: '/blog' },
+  { index: '04', label: 'About', href: '/about' },
+];
+---
+<section class="swiss-hero">
+  <!-- Decorative SVG topo lines -->
+  <svg class="swiss-hero__topo" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path d="M0 400 Q300 350 600 400 T1200 380" fill="none" stroke="currentColor" stroke-width="0.5"/>
+    <path d="M0 420 Q300 380 600 430 T1200 400" fill="none" stroke="currentColor" stroke-width="0.5"/>
+    <path d="M0 440 Q250 400 500 450 T1000 430 T1200 420" fill="none" stroke="currentColor" stroke-width="0.5"/>
+    <path d="M0 460 Q200 430 450 470 T900 450 T1200 440" fill="none" stroke="currentColor" stroke-width="0.5"/>
+    <path d="M0 480 Q350 450 700 490 T1200 460" fill="none" stroke="currentColor" stroke-width="0.5"/>
+    <path d="M0 300 Q400 270 800 310 T1200 290" fill="none" stroke="currentColor" stroke-width="0.5"/>
+    <path d="M0 320 Q350 290 700 330 T1200 310" fill="none" stroke="currentColor" stroke-width="0.5"/>
+    <path d="M0 540 Q300 510 600 550 T1200 520" fill="none" stroke="currentColor" stroke-width="0.5"/>
+    <path d="M0 560 Q250 530 500 570 T1000 550 T1200 540" fill="none" stroke="currentColor" stroke-width="0.5"/>
+    <path d="M0 600 Q400 570 800 610 T1200 590" fill="none" stroke="currentColor" stroke-width="0.5"/>
+  </svg>
+
+  <div class="swiss-hero__inner">
+    <!-- Top metadata bar -->
+    <header class="swiss-hero__meta">
+      <span class="swiss-hero__label mono">Digital Analytics Engineer</span>
+      <span class="swiss-hero__label mono">Portland, OR — 45.5152° N, 122.6784° W</span>
+      <span class="swiss-hero__label mono">EST. 1995</span>
+    </header>
+
+    <!-- Orange accent rule -->
+    <div class="swiss-hero__rule"></div>
+
+    <!-- Main title -->
+    <h1 class="swiss-hero__title">{title}</h1>
+
+    <!-- Numbered navigation -->
+    <nav class="swiss-hero__nav" aria-label="Main navigation">
+      {navLinks.map(link => (
+        <a href={link.href} class="swiss-hero__nav-item">
+          <span class="swiss-hero__nav-index mono">{link.index}</span>
+          <span class="swiss-hero__nav-label">{link.label}</span>
+        </a>
+      ))}
+    </nav>
+
+    <!-- Footer info -->
+    <footer class="swiss-hero__footer">
+      <a href="mailto:joshua.f.wiedeman@gmail.com" class="swiss-hero__footer-link mono">joshua.f.wiedeman@gmail.com</a>
+      <a href="https://github.com/jwiedeman" target="_blank" rel="noopener" class="swiss-hero__footer-link mono">github.com/jwiedeman</a>
+    </footer>
+  </div>
+</section>
+
+<style>
+  .swiss-hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--color-bg);
+    overflow: hidden;
+  }
+
+  /* Decorative topo contour lines */
+  .swiss-hero__topo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--color-rule);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .swiss-hero__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 72rem;
+    width: 100%;
+    margin: 0 auto;
+    padding: var(--space-5) var(--page-inline);
+  }
+
+  /* Top metadata labels */
+  .swiss-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+
+  .swiss-hero__label {
+    font-size: var(--text-10);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  /* Orange accent bar */
+  .swiss-hero__rule {
+    width: 4rem;
+    height: 4px;
+    background: var(--color-accent);
+    margin-bottom: var(--space-4);
+  }
+
+  /* Main title */
+  .swiss-hero__title {
+    font-family: var(--font-sans);
+    font-size: clamp(4rem, 12vw, 12rem);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin: 0 0 var(--space-6);
+  }
+
+  /* Numbered navigation */
+  .swiss-hero__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-bottom: var(--space-7);
+    padding-top: var(--space-4);
+    border-top: 2px solid var(--color-text);
+  }
+
+  .swiss-hero__nav-item {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    text-decoration: none;
+    border-bottom: none;
+    color: var(--color-text);
+    transition: color var(--transition-base);
+  }
+
+  .swiss-hero__nav-item:hover {
+    color: var(--color-accent);
+    border-bottom: none;
+  }
+
+  .swiss-hero__nav-index {
+    font-size: var(--text-10);
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+  }
+
+  .swiss-hero__nav-label {
+    font-family: var(--font-sans);
+    font-size: var(--text-20);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  /* Footer links */
+  .swiss-hero__footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .swiss-hero__footer-link {
+    font-size: var(--text-11);
+    letter-spacing: 0.02em;
+    color: var(--color-muted);
+    border-bottom: none;
+    transition: color var(--transition-base);
+  }
+
+  .swiss-hero__footer-link:hover {
+    color: var(--color-accent);
+    border-bottom: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .swiss-hero__title {
+      font-size: clamp(3rem, 16vw, 6rem);
+    }
+
+    .swiss-hero__meta {
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .swiss-hero__nav {
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+  }
+</style>

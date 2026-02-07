@@ -11,15 +11,15 @@ import '../../styles/global.css';
   <title>Pattern Match Learner / JWIEDEMAN</title>
   <style is:global>
     :root {
-                --bg: #141414;
-                --bg-subtle: #1a1a1a;
-                --bg-panel: #181818;
-                --bg-raised: #1c1c1c;
-                --fg: #d9d4cc;
-                --fg-strong: #f0ece6;
-                --accent: #ff6b35;
-                --muted: #9a958e;
-                --border: #3a3836;
+                --bg: var(--color-bg, #f5f3f0);
+                --bg-subtle: var(--color-bg-subtle, #edeae5);
+                --bg-panel: var(--surface-panel, #eae7e2);
+                --bg-raised: var(--surface-raised, #ffffff);
+                --fg: var(--color-text, #1a1a1a);
+                --fg-strong: var(--color-text, #1a1a1a);
+                --accent: var(--color-accent, #ff6b35);
+                --muted: var(--color-muted, #6b6560);
+                --border: var(--color-rule, #d5d0ca);
             }
 
             * {
