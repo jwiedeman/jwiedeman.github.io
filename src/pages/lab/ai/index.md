@@ -18,12 +18,14 @@ headingTracker: false
     <span class="section-header__line"></span>
   </div>
 
-  <div class="grid">
-    <article class="card span-6">
-      <div class="label mono">AI-001</div>
-      <div>
-        <h2><a href="/lab/ai/mini-digits-gan/">Mini Digits GAN</a></h2>
-        <p>
+  <div class="modules-grid">
+    <article class="module-card">
+      <div class="module-card__header">
+        <span class="module-card__id mono">AI-001</span>
+      </div>
+      <div class="module-card__body">
+        <h2 class="module-card__title"><a href="/lab/ai/mini-digits-gan/">Mini Digits GAN</a></h2>
+        <p class="module-card__desc">
           Compact 28×28 handwriting generator distilled from a digit-focused GAN and exported as a single dense decoder.
         </p>
         <ul>
@@ -31,14 +33,18 @@ headingTracker: false
           <li>Monochrome glyph basis renders crisply for retro dashboards and HUD mockups.</li>
           <li>Runs entirely on typed arrays—no TensorFlow.js or WebGL runtime required.</li>
         </ul>
-        <p><a href="/lab/ai/mini-digits-gan/" class="mono">Access module →</a></p>
+      </div>
+      <div class="module-card__footer">
+        <a href="/lab/ai/mini-digits-gan/" class="module-card__action mono">ACCESS →</a>
       </div>
     </article>
-    <article class="card span-6">
-      <div class="label mono">AI-002</div>
-      <div>
-        <h2><a href="/lab/ai/chromatic-orbit-gan/">Chromatic Orbit GAN</a></h2>
-        <p>
+    <article class="module-card">
+      <div class="module-card__header">
+        <span class="module-card__id mono">AI-002</span>
+      </div>
+      <div class="module-card__body">
+        <h2 class="module-card__title"><a href="/lab/ai/chromatic-orbit-gan/">Chromatic Orbit GAN</a></h2>
+        <p class="module-card__desc">
           64×64 chromatic field generator that blends spiral, radial, and interference bases for psychedelic orbital motifs.
         </p>
         <ul>
@@ -46,14 +52,18 @@ headingTracker: false
           <li>Outputs upscale cleanly for posters, dashboards, or shader inspiration.</li>
           <li>Includes autoplay option for looping gallery reels right in the browser.</li>
         </ul>
-        <p><a href="/lab/ai/chromatic-orbit-gan/" class="mono">Access module →</a></p>
+      </div>
+      <div class="module-card__footer">
+        <a href="/lab/ai/chromatic-orbit-gan/" class="module-card__action mono">ACCESS →</a>
       </div>
     </article>
-    <article class="card span-6">
-      <div class="label mono">AI-003</div>
-      <div>
-        <h2><a href="/projects/neural-match/">NeuralMatch</a></h2>
-        <p>
+    <article class="module-card">
+      <div class="module-card__header">
+        <span class="module-card__id mono">AI-003</span>
+      </div>
+      <div class="module-card__body">
+        <h2 class="module-card__title"><a href="/projects/neural-match/">NeuralMatch</a></h2>
+        <p class="module-card__desc">
           Synthetic match-3 game evaluator that trains neural models on heavily augmented puzzle layouts to master tile-matching strategies.
         </p>
         <ul>
@@ -61,14 +71,18 @@ headingTracker: false
           <li>Browser-first architecture runs entirely on static files—no backend required.</li>
           <li>Part of the NeuralDojo collection of neural playgrounds.</li>
         </ul>
-        <p><a href="/projects/neural-match/" class="mono">Launch demo →</a></p>
+      </div>
+      <div class="module-card__footer">
+        <a href="/projects/neural-match/" class="module-card__action mono">LAUNCH DEMO →</a>
       </div>
     </article>
-    <article class="card span-6">
-      <div class="label mono">AI-004</div>
-      <div>
-        <h2><a href="/projects/neural-go/">NeuralGo</a></h2>
-        <p>
+    <article class="module-card">
+      <div class="module-card__header">
+        <span class="module-card__id mono">AI-004</span>
+      </div>
+      <div class="module-card__body">
+        <h2 class="module-card__title"><a href="/projects/neural-go/">NeuralGo</a></h2>
+        <p class="module-card__desc">
           Self-play laboratory where neural networks learn the ancient game of Go through iterative policy improvement and Monte Carlo tree search.
         </p>
         <ul>
@@ -76,14 +90,18 @@ headingTracker: false
           <li>Visualizes board states, move probabilities, and value predictions in real-time.</li>
           <li>Fully static deployment—runs entirely in your browser.</li>
         </ul>
-        <p><a href="/projects/neural-go/" class="mono">Launch demo →</a></p>
+      </div>
+      <div class="module-card__footer">
+        <a href="/projects/neural-go/" class="module-card__action mono">LAUNCH DEMO →</a>
       </div>
     </article>
-    <article class="card span-6">
-      <div class="label mono">AI-005</div>
-      <div>
-        <h2><a href="/projects/neural-stocks/">NeuralStocks</a></h2>
-        <p>
+    <article class="module-card">
+      <div class="module-card__header">
+        <span class="module-card__id mono">AI-005</span>
+      </div>
+      <div class="module-card__body">
+        <h2 class="module-card__title"><a href="/projects/neural-stocks/">NeuralStocks</a></h2>
+        <p class="module-card__desc">
           Market forecasting playground that processes historical prices through a compact MLP with real-time learning visualization.
         </p>
         <ul>
@@ -91,14 +109,18 @@ headingTracker: false
           <li>Compact multilayer perceptron architecture optimized for browser performance.</li>
           <li>Educational tool demonstrating neural network fundamentals on financial data.</li>
         </ul>
-        <p><a href="/projects/neural-stocks/" class="mono">Launch demo →</a></p>
+      </div>
+      <div class="module-card__footer">
+        <a href="/projects/neural-stocks/" class="module-card__action mono">LAUNCH DEMO →</a>
       </div>
     </article>
-    <article class="card span-6">
-      <div class="label mono">AI-006</div>
-      <div>
-        <h2><a href="/lab/ai/foot-traffic-intelligence/">Foot Traffic Intelligence</a></h2>
-        <p>
+    <article class="module-card">
+      <div class="module-card__header">
+        <span class="module-card__id mono">AI-006</span>
+      </div>
+      <div class="module-card__body">
+        <h2 class="module-card__title"><a href="/lab/ai/foot-traffic-intelligence/">Foot Traffic Intelligence</a></h2>
+        <p class="module-card__desc">
           Multi-modal counting that fuses Wi-Fi probing, camera feeds, and door sensors to quantify movement across venues in near real time.
         </p>
         <ul>
@@ -106,14 +128,18 @@ headingTracker: false
           <li>Forecast module predicts surges so staff can stage resources before congestion starts.</li>
           <li>Output dashboards plug into the analytics stack already deployed in the lab.</li>
         </ul>
-        <p><a href="/lab/ai/foot-traffic-intelligence/" class="mono">Access module →</a></p>
+      </div>
+      <div class="module-card__footer">
+        <a href="/lab/ai/foot-traffic-intelligence/" class="module-card__action mono">ACCESS →</a>
       </div>
     </article>
-    <article class="card span-6">
-      <div class="label mono">AI-007</div>
-      <div>
-        <h2><a href="/lab/ai/mycology-classification/">Mycology Classification</a></h2>
-        <p>
+    <article class="module-card">
+      <div class="module-card__header">
+        <span class="module-card__id mono">AI-007</span>
+      </div>
+      <div class="module-card__body">
+        <h2 class="module-card__title"><a href="/lab/ai/mycology-classification/">Mycology Classification</a></h2>
+        <p class="module-card__desc">
           A fine-tuned vision transformer that learns from herbarium scans, macro photography, and spore print imagery to identify fungal species.
         </p>
         <ul>
@@ -121,14 +147,18 @@ headingTracker: false
           <li>Outputs include toxicity risk bands, look-alike warnings, and habitat metadata.</li>
           <li>Packaging targets a lightweight mobile inference bundle for offline use in forests.</li>
         </ul>
-        <p><a href="/lab/ai/mycology-classification/" class="mono">Access module →</a></p>
+      </div>
+      <div class="module-card__footer">
+        <a href="/lab/ai/mycology-classification/" class="module-card__action mono">ACCESS →</a>
       </div>
     </article>
-    <article class="card span-6">
-      <div class="label mono">AI-008</div>
-      <div>
-        <h2><a href="/projects/phone-agent/">Phone Agent</a></h2>
-        <p>
+    <article class="module-card">
+      <div class="module-card__header">
+        <span class="module-card__id mono">AI-008</span>
+      </div>
+      <div class="module-card__body">
+        <h2 class="module-card__title"><a href="/projects/phone-agent/">Phone Agent</a></h2>
+        <p class="module-card__desc">
           Raspberry Pi voice agent for landline phones using Markov chain pattern matching and MP3 playback for automated call handling.
         </p>
         <ul>
@@ -136,14 +166,18 @@ headingTracker: false
           <li>Pre-recorded MP3 responses chained via state machine for natural conversation flow.</li>
           <li>Vosk STT for offline operation—no cloud dependencies or inference required.</li>
         </ul>
-        <p><a href="/projects/phone-agent/" class="mono">Launch demo →</a></p>
+      </div>
+      <div class="module-card__footer">
+        <a href="/projects/phone-agent/" class="module-card__action mono">LAUNCH DEMO →</a>
       </div>
     </article>
-    <article class="card span-6">
-      <div class="label mono">AI-009</div>
-      <div>
-        <h2><a href="/lab/ai/mushroom-forecasting-alerts/">Mushroom Forecasting Alerts</a></h2>
-        <p>
+    <article class="module-card">
+      <div class="module-card__header">
+        <span class="module-card__id mono">AI-009</span>
+      </div>
+      <div class="module-card__body">
+        <h2 class="module-card__title"><a href="/lab/ai/mushroom-forecasting-alerts/">Mushroom Forecasting Alerts</a></h2>
+        <p class="module-card__desc">
           Probabilistic growth model that ingests NOAA weather feeds, soil sensors, and phenology logs to forecast which species will fruit within a radius.
         </p>
         <ul>
@@ -151,14 +185,18 @@ headingTracker: false
           <li>Spatial tiles combine habitat suitability with recent mycology classification sightings.</li>
           <li>Designed as a "weather-style" notification system that surfaces safe-foraging windows.</li>
         </ul>
-        <p><a href="/lab/ai/mushroom-forecasting-alerts/" class="mono">Access module →</a></p>
+      </div>
+      <div class="module-card__footer">
+        <a href="/lab/ai/mushroom-forecasting-alerts/" class="module-card__action mono">ACCESS →</a>
       </div>
     </article>
-    <article class="card span-6">
-      <div class="label mono">AI-010</div>
-      <div>
-        <h2><a href="/projects/pattern-match-learner/">Pattern Match Learner</a></h2>
-        <p>
+    <article class="module-card">
+      <div class="module-card__header">
+        <span class="module-card__id mono">AI-010</span>
+      </div>
+      <div class="module-card__body">
+        <h2 class="module-card__title"><a href="/projects/pattern-match-learner/">Pattern Match Learner</a></h2>
+        <p class="module-card__desc">
           Interactive neural network that learns to classify 8×8 pixel patterns through stochastic gradient descent.
         </p>
         <ul>
@@ -166,7 +204,9 @@ headingTracker: false
           <li>Draw your own patterns and see live predictions with confidence scores.</li>
           <li>Visualizes loss landscape trajectory and emergent weight structures.</li>
         </ul>
-        <p><a href="/projects/pattern-match-learner/" class="mono">Launch demo →</a></p>
+      </div>
+      <div class="module-card__footer">
+        <a href="/projects/pattern-match-learner/" class="module-card__action mono">LAUNCH DEMO →</a>
       </div>
     </article>
   </div>
