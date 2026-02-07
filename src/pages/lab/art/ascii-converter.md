@@ -70,7 +70,7 @@ headingTracker: false
         <label class="mono" for="ascii-bg">Background</label>
         <select id="ascii-bg" data-bg>
           <option value="transparent">Transparent</option>
-          <option value="#141414">Dark (#141414)</option>
+          <option value="#f5f3f0">Light (#f5f3f0)</option>
           <option value="#000000">Black (#000000)</option>
           <option value="#ffffff">White (#ffffff)</option>
           <option value="custom">Custom</option>
@@ -79,7 +79,7 @@ headingTracker: false
 
       <div class="ascii-tool__control-group" data-custom-bg-group hidden>
         <label class="mono" for="ascii-custom-bg">Custom Background</label>
-        <input type="color" id="ascii-custom-bg" value="#141414" data-custom-bg />
+        <input type="color" id="ascii-custom-bg" value="#f5f3f0" data-custom-bg />
       </div>
 
       <div class="ascii-tool__control-group">
@@ -381,7 +381,7 @@ headingTracker: false
       colorMode: 'none',
       customColor: '#ff6b35',
       bg: 'transparent',
-      customBg: '#141414',
+      customBg: '#f5f3f0',
       fontSize: 10,
       contrast: 1,
       invert: false,
@@ -720,7 +720,7 @@ headingTracker: false
   downloadHtmlBtn.addEventListener('click', () => {
     const { bg, customBg, fontSize, colorMode } = state.settings;
     const bgColor = bg === 'custom' ? customBg : bg;
-    const textColor = colorMode === 'none' ? '#d9d4cc' : '';
+    const textColor = colorMode === 'none' ? '#1a1a1a' : '';
 
     const html = `<!DOCTYPE html>
 <html>
@@ -728,7 +728,7 @@ headingTracker: false
   <meta charset="UTF-8">
   <title>ASCII Art</title>
   <style>
-    body { margin: 0; padding: 20px; background: ${bgColor === 'transparent' ? '#141414' : bgColor}; }
+    body { margin: 0; padding: 20px; background: ${bgColor === 'transparent' ? '#f5f3f0' : bgColor}; }
     pre { font-family: monospace; font-size: ${fontSize}px; line-height: 1; ${textColor ? `color: ${textColor};` : ''} margin: 0; }
   </style>
 </head>
