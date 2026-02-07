@@ -235,16 +235,19 @@ const modules = [
   .module-card {
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--border-faint);
+    border: 1px solid var(--color-rule);
     text-decoration: none;
     color: inherit;
     transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
+    background: var(--surface-raised);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   }
 
   .module-card:hover {
     border-color: var(--color-accent);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
   .module-card[data-type="primary"] {
@@ -296,13 +299,13 @@ const modules = [
     font-size: clamp(3rem, 8vw, 5rem);
     font-weight: 700;
     line-height: 1;
-    color: var(--color-text);
-    opacity: 0.06;
+    color: var(--color-rule);
+    opacity: 0.6;
     pointer-events: none;
   }
 
   .module-card__body {
-    padding: var(--space-4) var(--space-3);
+    padding: var(--space-4);
     flex: 1;
   }
 
@@ -320,14 +323,14 @@ const modules = [
   }
 
   .module-card__desc {
-    font-size: var(--text-12);
-    line-height: 1.6;
+    font-size: var(--text-14);
+    line-height: 1.7;
     color: var(--color-muted);
   }
 
   .module-card__footer {
-    padding: var(--space-2) var(--space-3);
-    border-top: 1px solid var(--border-faint);
+    padding: var(--space-2) var(--space-4);
+    border-top: 1px solid var(--color-rule);
     background: var(--surface-panel);
   }
 
