@@ -40,7 +40,7 @@ const breadcrumbs = rawSegments
   }))
   .filter(({ label }) => label.length > 0);
 
-const shouldShowBreadcrumbs = showNav && breadcrumbs.length > 0;
+const shouldShowBreadcrumbs = showNav && breadcrumbs.length > 1;
 
 const normalizeTrackerConfig = (value: any) => {
   if (value === null || value === undefined) {
@@ -78,13 +78,17 @@ const trackerContentId = trackerConfig.contentId ?? 'tracked-content';
 const showHeadingTracker = Boolean(trackerConfig.enabled);
 ---
 <!DOCTYPE html>
-<html lang="en" class="theme-light">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#000000" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title} / JWIEDEMAN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet" />
+    <title>{title === 'JWiedeman' ? 'JWIEDEMAN' : `${title} / JWIEDEMAN`}</title>
 
     <!-- Google Analytics (GA4) -->
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-LJ6DYZXJNT"></script>
@@ -98,7 +102,7 @@ const showHeadingTracker = Boolean(trackerConfig.enabled);
   <body>
     {showNav && <Nav />}
     {shouldShowBreadcrumbs && (
-      <nav class="slug-trail hairline-bottom" aria-label="Breadcrumb">
+      <nav class="slug-trail" aria-label="Breadcrumb">
         <div class="container mono">
           <ol class="breadcrumb-list">
             {breadcrumbs.map((crumb, index) => (

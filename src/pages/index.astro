@@ -1,7 +1,182 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import SwissHero from '../components/SwissHero.astro';
+
+const sections = [
+  { label: 'Work', href: '/work', note: 'Analytics architecture — UMG, HHS, Fox' },
+  { label: 'Lab', href: '/lab', note: 'AI, analytics, advertising, hardware' },
+  { label: 'Blog', href: '/blog', note: 'Notes, when there are notes' },
+  { label: 'About', href: '/about', note: 'Who, how, why' },
+];
 ---
-<Layout title="JWiedeman" description="Digital analytics engineering and experimental projects by Joshua Wiedeman." showNav={false} showFooter={false}>
-  <SwissHero title="JWIEDEMAN" />
+<Layout title="JWiedeman" description="Digital analytics engineering and experimental projects by Joshua Wiedeman." headingTracker={false}>
+  <div class="home">
+    <header class="home__head">
+      <h1 class="home__title">JW&#8209;001</h1>
+      <div class="home__meta">
+        <strong>Joshua Wiedeman</strong>
+        <span>Digital Analytics Engineer</span>
+        <span>Portland, OR</span>
+      </div>
+    </header>
+
+    <ul class="home__index">
+      {sections.map((s) => (
+        <li>
+          <a href={s.href}>{s.label}</a>
+          <span class="home__note">{s.note}</span>
+        </li>
+      ))}
+    </ul>
+
+    <figure class="home__plate" aria-hidden="true">
+      <canvas id="plate" width="320" height="96"></canvas>
+    </figure>
+  </div>
+
+  <script>
+    // Ordered-dither (Bayer 4x4) plate of a slow interference field.
+    const canvas = document.getElementById('plate') as HTMLCanvasElement | null;
+    const ctx = canvas?.getContext('2d');
+    if (canvas && ctx) {
+      const W = canvas.width;
+      const H = canvas.height;
+      const bayer = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+      const img = ctx.createImageData(W, H);
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const draw = (t: number) => {
+        const d = img.data;
+        for (let y = 0; y < H; y++) {
+          for (let x = 0; x < W; x++) {
+            const u = x / W - 0.5;
+            const v = (y / H - 0.5) * (H / W);
+            const r1 = Math.hypot(u + 0.18, v);
+            const r2 = Math.hypot(u - 0.22, v + 0.05);
+            let val = 0.5 + 0.25 * Math.sin(r1 * 70 - t) + 0.25 * Math.sin(r2 * 55 + t * 0.7);
+            val *= 1 - Math.min(1, Math.abs(u) * 1.1);
+            const on = val * 16 > bayer[(y & 3) * 4 + (x & 3)];
+            const i = (y * W + x) * 4;
+            const c = on ? 232 : 0;
+            d[i] = d[i + 1] = d[i + 2] = c;
+            d[i + 3] = 255;
+          }
+        }
+        ctx.putImageData(img, 0, 0);
+      };
+
+      if (reduce) {
+        draw(0);
+      } else {
+        let t = 0;
+        const tick = () => {
+          t += 0.02;
+          draw(t);
+          requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    }
+  </script>
 </Layout>
+
+<style>
+  .home {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0 var(--page-inline);
+  }
+
+  .home__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-3);
+    padding: var(--space-6) 0 var(--space-2);
+    border-bottom: 1px solid var(--color-text);
+  }
+
+  .home__title {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 17vw, 11rem);
+    font-weight: 400;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    margin: 0;
+  }
+
+  .home__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    font-family: var(--font-sans);
+    font-size: var(--text-16);
+    line-height: 1.35;
+    padding-bottom: 0.6em;
+  }
+
+  .home__index {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-4) 0 var(--space-5);
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .home__index li {
+    display: flex;
+    gap: var(--space-2);
+    align-items: baseline;
+  }
+
+  .home__index li::before {
+    content: '\2022';
+    color: var(--color-text);
+  }
+
+  .home__index a {
+    font-size: var(--text-18);
+    min-width: 5.5rem;
+    text-decoration: none;
+  }
+
+  .home__note {
+    color: var(--color-muted);
+    font-size: var(--text-12);
+  }
+
+  .home__plate {
+    margin: 0 0 var(--space-5);
+    border: 1px solid var(--color-rule);
+  }
+
+  .home__plate canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+  }
+
+  @media (max-width: 640px) {
+    .home__head {
+      flex-direction: column;
+      align-items: flex-start;
+      padding-top: var(--space-5);
+    }
+
+    .home__meta {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .home__index li {
+      flex-wrap: wrap;
+      gap: 0 var(--space-2);
+    }
+
+    .home__note {
+      flex-basis: 100%;
+      padding-left: 1.25rem;
+    }
+  }
+</style>

@@ -1,3 +1,6 @@
+> **Current design direction (2026-09) — supersedes the NASA/light-theme guidance below.**
+> The site is dark-only: black field, IBM Plex Mono for body and display type, IBM Plex Sans bold for small meta labels, 1px rules, no shadows, no rounded corners. The only color is the swatch strip in the header (`--swatch-*` tokens). Links underline and invert on hover. Interior pages use `src/components/PageHeader.astro` (large mono title left, right-aligned meta block). Lab sections are AI, Analytics, Advertising, and Hardware; Marketing, Art, and Cryptography were removed. The landing page may be changed.
+
 Codex Agent Development Guidelines (Astro Portfolio Project)
 Project Overview
 

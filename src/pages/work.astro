@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
 
 const expertise = [
   { id: '01', name: 'Adobe Analytics', category: 'PLATFORM' },
@@ -94,23 +95,11 @@ const experience = [
 ---
 <Layout title="Work">
   <div class="work-page">
-    <!-- Hero Section -->
-    <header class="work-header page-hero">
-      <div class="work-header__meta">
-        <span class="section-index">Personnel File</span>
-        <span class="classification classification--accent">Operational</span>
-      </div>
-      <div class="page-hero__rule"></div>
-      <h1 class="work-header__title">
-        Anomalous<br/>Systems
-      </h1>
-      <p class="work-header__subtitle">Predictable Outcomes</p>
-      <p class="work-header__intro">
-        Enterprise analytics architecture across web, mobile, OTT, and server-side platforms.
-        Measurement design to deployment. Technical implementation to business outcomes.
-        Data that is accurate, compliant, and actionable.
-      </p>
-    </header>
+    <PageHeader title="Work" dept="Analytics Architecture" meta={['Web / Mobile / OTT / Server', 'Measurement design to deployment']} />
+    <p class="work-intro">
+      Enterprise analytics architecture across web, mobile, OTT, and server-side platforms.
+      Data that is accurate, compliant, and actionable.
+    </p>
 
     <!-- Expertise Grid -->
     <section class="work-section">
@@ -220,51 +209,22 @@ const experience = [
 </Layout>
 
 <style>
-  .work-page {
-    max-width: 56rem;
-    margin: 0 auto;
-    padding: var(--space-5) var(--page-inline);
-  }
-
-  /* Header */
-  .work-header {
-    padding: var(--space-6) 0 var(--space-7);
-    border-bottom: 2px solid var(--color-text);
-    margin-bottom: var(--space-6);
-  }
-
-  .work-header__meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
+  .work-intro {
+    max-width: 40rem;
+    color: var(--color-muted);
     margin-bottom: var(--space-4);
   }
 
-  .work-header__title {
-    font-size: clamp(3rem, 12vw, 6rem);
-    font-weight: 800;
-    line-height: 0.9;
-    letter-spacing: -0.04em;
-    text-transform: uppercase;
-    margin-bottom: var(--space-2);
+  .work-page {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0 var(--page-inline);
   }
 
-  .work-header__subtitle {
-    font-family: var(--font-mono);
-    font-size: var(--text-14);
-    font-weight: 400;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-    margin-bottom: var(--space-5);
-  }
 
-  .work-header__intro {
-    font-size: var(--text-16);
-    line-height: 1.7;
-    color: var(--color-muted);
-    max-width: 36rem;
-  }
+
+
+
 
   /* Sections */
   .work-section {
@@ -293,12 +253,10 @@ const experience = [
 
   /* Expertise Matrix */
   .expertise-matrix {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1px;
-    background: var(--border-faint);
-    border: 1px solid var(--border-faint);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    border-top: 1px solid var(--color-rule);
+    border-left: 1px solid var(--color-rule);
   }
 
   .expertise-cell {
@@ -307,22 +265,10 @@ const experience = [
     align-items: center;
     gap: var(--space-2);
     padding: var(--space-2) var(--space-3);
-    background: var(--color-bg);
-    flex: 0 0 calc(33.333% - 1px);
-    min-width: 14rem;
+    border-right: 1px solid var(--color-rule);
+    border-bottom: 1px solid var(--color-rule);
   }
 
-  @media (max-width: 900px) {
-    .expertise-cell {
-      flex: 0 0 calc(50% - 1px);
-    }
-  }
-
-  @media (max-width: 540px) {
-    .expertise-cell {
-      flex: 0 0 100%;
-    }
-  }
 
   .expertise-cell__id {
     font-size: var(--text-9);

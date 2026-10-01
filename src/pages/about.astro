@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
 
 const capabilities = [
   { id: 'CAP-001', name: 'Adobe Analytics & GA4 Architecture' },
@@ -19,16 +20,7 @@ const interests = [
 ---
 <Layout title="About">
   <div class="about-page">
-    <!-- Header -->
-    <header class="about-header page-hero">
-      <div class="about-header__meta">
-        <span class="section-index">About</span>
-        <span class="classification classification--accent">Portland, OR</span>
-      </div>
-      <div class="page-hero__rule"></div>
-      <h1 class="about-header__title">Hey,<br/>I'm Josh</h1>
-      <p class="about-header__subtitle">Analytics Engineer</p>
-    </header>
+    <PageHeader title="About" dept="Joshua Wiedeman" meta={['Analytics Engineer', 'Portland, OR']} />
 
     <!-- Intro -->
     <section class="about-section">
@@ -141,42 +133,14 @@ const interests = [
 
 <style>
   .about-page {
-    max-width: 56rem;
+    max-width: 72rem;
     margin: 0 auto;
-    padding: var(--space-5) var(--page-inline);
+    padding: 0 var(--page-inline);
   }
 
-  /* Header */
-  .about-header {
-    padding: var(--space-6) 0 var(--space-5);
-    border-bottom: 2px solid var(--color-text);
-    margin-bottom: var(--space-5);
-  }
 
-  .about-header__meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    margin-bottom: var(--space-4);
-  }
 
-  .about-header__title {
-    font-size: clamp(3rem, 12vw, 6rem);
-    font-weight: 800;
-    line-height: 0.9;
-    letter-spacing: -0.04em;
-    text-transform: uppercase;
-    margin-bottom: var(--space-2);
-  }
 
-  .about-header__subtitle {
-    font-family: var(--font-mono);
-    font-size: var(--text-14);
-    font-weight: 400;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-  }
 
   /* Sections */
   .about-section {

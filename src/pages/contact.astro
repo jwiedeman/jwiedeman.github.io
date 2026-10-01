@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
 
 const channels = [
   { id: 'CH-001', label: 'Email', value: 'joshua.f.wiedeman@gmail.com', href: 'mailto:joshua.f.wiedeman@gmail.com' },
@@ -9,14 +10,7 @@ const channels = [
 ---
 <Layout title="Contact">
   <div class="contact-page">
-    <header class="contact-header page-hero">
-      <div class="contact-header__meta">
-        <span class="section-index">Transmission</span>
-        <span class="classification classification--accent">Open Channel</span>
-      </div>
-      <div class="page-hero__rule"></div>
-      <h1 class="contact-header__title">Contact</h1>
-    </header>
+    <PageHeader title="Contact" dept="Open Channel" meta={['Email preferred']} />
 
     <section class="contact-section">
       <div class="contact-section__header">
@@ -49,32 +43,13 @@ const channels = [
 
 <style>
   .contact-page {
-    max-width: 56rem;
+    max-width: 72rem;
     margin: 0 auto;
-    padding: var(--space-5) var(--page-inline);
+    padding: 0 var(--page-inline);
   }
 
-  /* Header */
-  .contact-header {
-    padding: var(--space-6) 0 var(--space-5);
-    border-bottom: 2px solid var(--color-text);
-    margin-bottom: var(--space-5);
-  }
 
-  .contact-header__meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    margin-bottom: var(--space-4);
-  }
 
-  .contact-header__title {
-    font-size: clamp(3rem, 12vw, 6rem);
-    font-weight: 800;
-    line-height: 0.9;
-    letter-spacing: -0.04em;
-    text-transform: uppercase;
-  }
 
   /* Section */
   .contact-section {

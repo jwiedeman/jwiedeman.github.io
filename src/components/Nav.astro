@@ -1,148 +1,120 @@
 ---
-const { title = 'JWIEDEMAN' } = Astro.props;
+const links = [
+  { label: 'Work', href: '/work' },
+  { label: 'Lab', href: '/lab' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'About', href: '/about' },
+];
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
+
+// Greyscale ramp that trails off the color swatches
+const greys = ['#3a3a3a', '#4a4a4a', '#5c5c5c', '#707070', '#868686', '#9c9c9c', '#b4b4b4', '#cccccc', '#e4e4e4'];
 ---
-<nav class="primary-nav" aria-label="Primary navigation">
-  <a href="/" class="nav-brand" data-astro-prefetch>
-    <span class="nav-brand__j">J</span><span class="nav-brand__rest">WIEDEMAN</span>
-  </a>
-  <div class="nav-links">
-    <a href="/work" class="nav-link" data-astro-prefetch>
-      <span class="nav-index">01</span><span class="nav-text">Work</span>
-    </a>
-    <a href="/blog" class="nav-link" data-astro-prefetch>
-      <span class="nav-index">02</span><span class="nav-text">Blog</span>
-    </a>
-    <a href="/lab" class="nav-link" data-astro-prefetch>
-      <span class="nav-index">03</span><span class="nav-text">Lab</span>
-    </a>
-    <a href="/about" class="nav-link" data-astro-prefetch>
-      <span class="nav-index">04</span><span class="nav-text">About</span>
-    </a>
+<header class="site-header">
+  <div class="site-header__bar">
+    <a href="/" class="site-header__brand" data-astro-prefetch>J. Wiedeman</a>
+    <div class="swatches" aria-hidden="true">
+      <span style="background: var(--swatch-1)"></span>
+      <span style="background: var(--swatch-2)"></span>
+      <span style="background: var(--swatch-3)"></span>
+      <span style="background: var(--swatch-4)"></span>
+      <span style="background: var(--swatch-5)"></span>
+      <span style="background: var(--swatch-6)"></span>
+      <i></i>
+      {greys.map((g) => <span style={`background: ${g}`}></span>)}
+    </div>
   </div>
-</nav>
+  <nav class="site-header__nav" aria-label="Primary">
+    {links.map((link) => (
+      <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined} data-astro-prefetch>
+        {link.label}
+      </a>
+    ))}
+  </nav>
+</header>
 
 <style>
-  .primary-nav {
+  .site-header {
+    padding: var(--space-2) var(--page-inline) 0;
+    max-width: 72rem;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .site-header__bar {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
-    padding: var(--space-3) var(--space-5);
-    background: var(--color-bg);
-    border-bottom: 2px solid var(--color-text);
+    gap: var(--space-3);
   }
 
-  .nav-brand {
+  .site-header__brand {
     font-family: var(--font-sans);
-    font-size: var(--text-14);
     font-weight: 700;
-    letter-spacing: 0.25em;
+    font-size: var(--text-14);
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-text);
     text-decoration: none;
-    border-bottom: none;
-    display: flex;
-    align-items: baseline;
-  }
-
-  .nav-brand__j {
-    color: var(--color-accent);
-    font-weight: 800;
-    margin-right: -0.05em;
-  }
-
-  .nav-brand__rest {
     color: var(--color-text);
+    white-space: nowrap;
   }
 
-  .nav-brand:hover .nav-brand__rest {
-    color: var(--color-accent);
-  }
-
-  .nav-links {
+  .swatches {
     display: flex;
-    gap: var(--space-5);
+    gap: 2px;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
   }
 
-  .nav-link {
-    font-family: var(--font-mono);
+  .swatches span {
+    width: 0.875rem;
+    height: 0.625rem;
+    flex-shrink: 0;
+  }
+
+  .swatches i {
+    width: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .site-header__nav {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-1) 0;
+    margin-top: var(--space-1);
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .site-header__nav a {
     font-size: var(--text-12);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-text);
+    color: var(--color-muted);
     text-decoration: none;
-    border-bottom: none;
-    display: flex;
-    align-items: baseline;
-    gap: 0.5em;
-    transition: color 0.2s ease;
+    padding: 0 0.25em;
+    margin-left: -0.25em;
   }
 
-  .nav-index {
-    font-size: var(--text-10);
-    color: var(--color-accent);
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    transition: color 0.2s ease;
+  .site-header__nav a[aria-current='page'] {
+    color: var(--color-text);
   }
 
-  .nav-link:hover {
-    color: var(--color-accent);
+  .site-header__nav a[aria-current='page']::before {
+    content: '\25A0\00a0';
   }
 
-  .nav-link:hover .nav-index {
-    color: var(--color-accent);
+  .site-header__nav a:hover {
+    color: var(--color-bg);
   }
 
-  .nav-link:focus-visible {
-    outline: 1px solid var(--color-accent);
-    outline-offset: 4px;
-  }
-
-  /* Mobile adjustments */
   @media (max-width: 640px) {
-    .primary-nav {
-      padding: var(--space-3) var(--space-4);
-    }
-
-    .nav-brand {
-      font-size: var(--text-11);
-      letter-spacing: 0.2em;
-    }
-
-    .nav-links {
-      gap: 0;
-    }
-
-    .nav-link {
-      font-size: var(--text-10);
-      font-weight: 600;
-      padding: 0 var(--space-2);
-      border-left: 1px solid var(--border-faint);
-    }
-
-    .nav-link:first-child {
-      border-left: none;
-      padding-left: 0;
-    }
-
-    .nav-index {
+    .swatches span:nth-child(n + 8) {
       display: none;
     }
-  }
 
-  /* Tablet */
-  @media (min-width: 641px) and (max-width: 900px) {
-    .primary-nav {
-      padding: var(--space-3) var(--space-4);
-    }
-
-    .nav-links {
-      gap: var(--space-4);
-    }
-
-    .nav-link {
-      font-size: var(--text-11);
+    .swatches i {
+      display: none;
     }
   }
 </style>
