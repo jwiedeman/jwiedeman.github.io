@@ -1,0 +1,24 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import IndexList from '../../../components/IndexList.astro';
+
+const entries = [
+  { title: 'Google Ads', href: '/lab/ads/google-ads/', description: 'Search, Performance Max, and Display activation.' },
+  { title: 'Meta Ads', href: '/lab/ads/meta-ads/', description: 'Advantage campaign architecture and conversion tracking.' },
+  { title: 'LinkedIn Ads', href: '/lab/ads/linkedin-ads/', description: 'ABM targeting, lead gen forms, and conversion lift.' },
+  { title: 'Microsoft Advertising', href: '/lab/ads/microsoft-advertising/', description: 'Search, audience network, and cross-engine automation.' },
+  { title: 'Amazon Ads', href: '/lab/ads/amazon-ads/', description: 'Retail readiness, DSP architecture, and attribution.' },
+  { title: 'TikTok Ads', href: '/lab/ads/tiktok-ads/', description: 'Spark Ads, creator integrations, and Events API readiness.' },
+  { title: 'X Ads', href: '/lab/ads/x-ads/', description: 'Timeline reach, conversational ads, and site visits.' },
+  { title: 'Reddit Ads', href: '/lab/ads/reddit-ads/', description: 'Community placements, comment strategy, and safety controls.' },
+  { title: 'Pinterest Ads', href: '/lab/ads/pinterest-ads/', description: 'Idea Pins, retail feeds, and conversion insights.' },
+  { title: 'Snapchat Ads', href: '/lab/ads/snapchat-ads/', description: 'AR Lenses, pixel QA, and full-funnel optimization.' },
+].map((e, i) => ({ ...e, kind: 'Playbook', id: `AD-${String(i + 1).padStart(2, '0')}` }));
+---
+<Layout title="Advertising" headingTracker={false}>
+  <div class="container">
+    <PageHeader title="Advertising" dept="Lab / 03" meta={[`${entries.length} playbooks`]} />
+    <IndexList entries={entries} />
+  </div>
+</Layout>

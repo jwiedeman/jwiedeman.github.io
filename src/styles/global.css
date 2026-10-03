@@ -6,6 +6,7 @@
 
 :root {
   color-scheme: dark;
+  accent-color: #e8e8e8;
 
   /* spacing scale */
   --space-1: 0.5rem;
@@ -2281,10 +2282,9 @@ footer .container {
 /* Neural app container */
 #app {
   width: 100%;
-  max-width: 1600px;
+  max-width: 72rem;
   margin: 0 auto;
-  padding: var(--space-2) var(--space-3);
-  min-height: 100vh;
+  padding: var(--space-3) var(--page-inline);
   display: flex;
   flex-direction: column;
 }
@@ -2297,11 +2297,11 @@ footer .container {
 }
 
 #app .title {
-  font-family: var(--font-sans);
-  font-weight: 700;
-  font-size: var(--text-18);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(var(--text-24), 4vw, var(--text-48));
+  letter-spacing: -0.03em;
+  text-transform: none;
   color: var(--neural-fg-strong);
 }
 
@@ -2622,6 +2622,8 @@ footer .container {
 }
 
 #app #board {
+  max-width: 540px;
+  margin-inline: auto;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
@@ -2791,60 +2793,6 @@ footer .container {
 }
 
 /* ============================================
-   NEURAL MODULE - NeuralMatch specific
-   ============================================ */
-
-#app #matchBoard {
-  width: 100%;
-  background: var(--color-bg-subtle);
-  border: 1px solid var(--color-rule);
-}
-
-#app .pattern-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-#app .pattern-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--color-rule);
-  font-size: var(--text-12);
-}
-
-#app .pattern-list li:last-child {
-  border-bottom: none;
-}
-
-#app .pattern-list li span {
-  font-variant-numeric: tabular-nums;
-}
-
-#app .pattern-list li span:last-child {
-  color: var(--neural-fg-strong);
-  font-weight: 500;
-}
-
-#app .badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: var(--color-accent);
-  color: var(--color-bg);
-  padding: 3px 8px;
-  font-size: var(--text-10);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-/* ============================================
    NEURAL MODULE - NeuralGo specific
    ============================================ */
 
@@ -2855,164 +2803,6 @@ footer .container {
 
 #app .capture-grid {
   margin-top: var(--space-1);
-}
-
-/* ============================================
-   NEURAL MODULE - NeuralStocks specific
-   ============================================ */
-
-#app .fatal-error {
-  background: #fff0f0;
-  border: 1px solid #c53030;
-  color: #c53030;
-  padding: var(--space-2);
-  margin: 0 0 var(--space-2);
-  font-weight: 500;
-  text-align: center;
-  line-height: 1.4;
-}
-
-#app .recent-list,
-#app .trade-log {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-#app .recent-list li,
-#app .trade-log li {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) repeat(3, auto);
-  gap: var(--space-1);
-  align-items: baseline;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--color-rule);
-  font-size: var(--text-12);
-}
-
-#app .recent-list li:last-child,
-#app .trade-log li:last-child {
-  border-bottom: none;
-}
-
-#app .recent-list li span,
-#app .trade-log li span {
-  font-variant-numeric: tabular-nums;
-}
-
-#app .recent-list li .error {
-  color: var(--color-muted);
-}
-
-#app .recent-list li .error.over,
-#app .trade-log li .side.buy,
-#app .trade-log li .pnl.gain {
-  color: var(--neural-market-up);
-}
-
-#app .recent-list li .error.under,
-#app .trade-log li .side.sell,
-#app .trade-log li .pnl.loss {
-  color: var(--neural-market-down);
-}
-
-#app .recent-list li .error.low {
-  color: var(--neural-success);
-}
-
-#app .recent-list li .error.bad {
-  color: var(--neural-error);
-}
-
-#app .trade-log li .side {
-  font-weight: 600;
-}
-
-/* Forward projections table */
-#app .forward-wrapper {
-  margin-top: var(--space-2);
-  max-height: 220px;
-  overflow: auto;
-}
-
-#app .forward-empty {
-  font-size: var(--text-12);
-  color: var(--color-muted);
-  padding: var(--space-2) 0;
-}
-
-#app .forward-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--text-12);
-}
-
-#app .forward-table th,
-#app .forward-table td {
-  padding: 6px 8px;
-  border-bottom: 1px solid var(--color-rule);
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#app .forward-table th {
-  font-weight: 600;
-  color: var(--color-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  font-size: var(--text-10);
-}
-
-#app .forward-table th:first-child,
-#app .forward-table td:first-child,
-#app .forward-table th:nth-child(2),
-#app .forward-table td:nth-child(2) {
-  text-align: left;
-}
-
-#app .forward-table tbody tr:nth-child(even) {
-  background: rgba(0, 0, 0, 0.02);
-}
-
-#app .forward-table td.positive {
-  color: var(--neural-market-up);
-}
-
-#app .forward-table td.negative {
-  color: var(--neural-market-down);
-}
-
-#app .forward-table td.neutral {
-  color: var(--color-muted);
-}
-
-#app .model-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-#app .trading-stats {
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-}
-
-#app .trading-stats .policy-metric.gain {
-  color: var(--neural-market-up);
-}
-
-#app .trading-stats .policy-metric.loss {
-  color: var(--neural-market-down);
-}
-
-#app .canvas-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: var(--space-2);
 }
 
 /* ============================================

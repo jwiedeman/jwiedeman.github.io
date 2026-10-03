@@ -1,0 +1,68 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import IndexList from '../../../components/IndexList.astro';
+
+const entries = [
+  {
+    title: 'Mini Digits GAN',
+    href: '/lab/ai/mini-digits-gan/',
+    description: 'Compact 28×28 handwriting generator distilled into a single dense decoder.',
+    kind: 'Demo',
+  },
+  {
+    title: 'Chromatic Orbit GAN',
+    href: '/lab/ai/chromatic-orbit-gan/',
+    description: '64×64 color field generator blending spiral, radial, and interference bases.',
+    kind: 'Demo',
+  },
+  {
+    title: 'NeuralGo',
+    href: '/lab/ai/neural-go/',
+    description: 'Self-play Go with a small policy/value network and Monte Carlo tree search.',
+    kind: 'Demo',
+  },
+  {
+    title: 'Pattern Match Learner',
+    href: '/lab/ai/pattern-match-learner/',
+    description: 'A tiny network learning to classify 8×8 pixel patterns with SGD.',
+    kind: 'Demo',
+  },
+  {
+    title: 'Phone Agent',
+    href: '/lab/ai/phone-agent/',
+    description: 'Raspberry Pi voice agent for landline phones with pattern matching and MP3 playback.',
+    kind: 'Build',
+  },
+  {
+    title: 'Mushroom Forecasting',
+    href: '/lab/ai/mushroom-forecasting-alerts/',
+    description: 'Growth model fusing weather, terrain, and phenology to forecast fruiting.',
+    kind: 'Notes',
+  },
+  {
+    title: 'Mycology Classification',
+    href: '/lab/ai/mycology-classification/',
+    description: 'Vision transformer for field-grade fungal identification.',
+    kind: 'Notes',
+  },
+  {
+    title: 'Call Triage Agent',
+    href: '/lab/ai/call-triage-agent/',
+    description: 'Voice-first assistant concept for triaging inbound calls.',
+    kind: 'Notes',
+  },
+  {
+    title: 'Demo Arcade Intelligence',
+    href: '/lab/ai/demo-arcade-intelligence/',
+    description: 'Reinforcement learning sandbox with human-versus-agent matchups.',
+    kind: 'Notes',
+  },
+].map((e, i) => ({ ...e, id: `AI-${String(i + 1).padStart(2, '0')}` }));
+---
+<Layout title="AI" headingTracker={false}>
+  <div class="container">
+    <PageHeader title="AI" dept="Lab / 01" meta={[`${entries.length} entries`]} />
+    <IndexList entries={entries} />
+  </div>
+</Layout>

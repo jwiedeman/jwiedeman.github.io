@@ -1,0 +1,1234 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+<Layout title="Pattern Match Learner" description="Interactive visualization of how neural networks learn through gradient descent." headingTracker={false}>
+        <div class="pattern-wrapper">
+        <div class="pml-container">
+            <div class="explanation">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 15px; border-bottom: 2px dotted #000; padding-bottom: 8px;">
+                    <h2 style="margin: 0; border: none; padding: 0;">Growing a Neural Network</h2>
+                    <div style="font-size: 14px; color: var(--muted); font-family: 'Berkeley Mono', monospace;">d/dx f(g(x)) = f'(g(x))·g'(x)</div>
+                </div>
+
+                <p>
+                    <strong>What we know:</strong> The exact update rule. At
+                    every single step, we know precisely what will happen:
+                    compute the gradient, multiply by learning rate, subtract
+                    from parameters.
+                </p>
+                <p>
+                    <strong>What we don't know:</strong> How the program that results from repeatedly applying the update rule works internally.
+                </p>
+                <p>
+                    A tiny neural network learns to classify pixel patterns.
+                    Watch the weights visualization evolve. These
+                    weight patterns emerge from nothing but gradient descent. You
+                    didn't design them. They're emergent.
+                </p>
+                <p>
+                    The floating-point numbers in those weights
+                    <em>are executable code</em>—a program that successfully
+                    classifies patterns. But the program is inscrutable. It
+                    works, we just don't automatically understand how. Hit "RESET NETWORK" and
+                    watch completely different weights emerge. Same algorithm,
+                    different solution every time.
+                </p>
+                <p>
+                    <strong>Why this matters:</strong> This is the essence of
+                    modern AI. We design the optimization process, not the
+                    system itself. We understand the principle (minimize loss via
+                    gradient descent), but cannot predict what features,
+                    representations, or behaviors will emerge from billions of
+                    these simple steps. GPT-4 is just this, scaled up.
+                </p>
+
+                <p><strong>Modern AI systems are grown, not built.</strong></p>
+
+                <div style="background: var(--bg-raised); border: 1px solid var(--border); padding: 25px; margin-top: 25px;">
+                    <p style="font-size: 16px; line-height: 1.7; margin: 0; color: var(--fg);">
+                        <strong>"We have a very good idea of sort of roughly what it's doing. But as soon as it gets really complicated, we don't actually know what's going on any more than we know what's going on in your brain."</strong>
+                    </p>
+                    <p style="font-size: 16px; line-height: 1.7; margin-top: 15px; margin-bottom: 15px; color: var(--accent);">
+                        <em>60 Minutes (Pelley: "What do you mean we don't know exactly how it works? It was designed by people.")</em><br>
+                        <strong>"No, it wasn't… we designed the learning algorithm… But we don't really understand exactly how they do those things."</strong>
+                    </p>
+                    <p style="font-size: 13px; margin: 0; color: var(--muted);">
+                        — Geoffrey Hinton, <a href="https://www.youtube.com/watch?v=qrvK_KuIeJk&t=4m46s" target="_blank" style="color: var(--accent); text-decoration: underline;">60 Minutes Interview</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="visualization">
+                    <div
+                        style="
+                            background: var(--bg-raised);
+                            padding: 20px;
+                            border: 1px solid var(--border);
+                            margin-bottom: 20px;
+                        "
+                    >
+                        <h3
+                            style="
+                                color: var(--fg-strong);
+                                margin-bottom: 12px;
+                                font-size: 14px;
+                                font-weight: bold;
+                                text-transform: uppercase;
+                                border-bottom: 1px solid var(--border);
+                                padding-bottom: 8px;
+                            "
+                        >
+                            CLASSIFICATION TASK
+                        </h3>
+                        <p
+                            style="
+                                font-size: 13px;
+                                color: var(--fg);
+                                margin-bottom: 12px;
+                                line-height: 1.5;
+                            "
+                        >
+                            OBJECTIVE: Classify 8×8 pixel patterns into 6
+                            categories. 300 training samples total.
+                        </p>
+                        <div
+                            style="
+                                display: grid;
+                                grid-template-columns: repeat(6, 1fr);
+                                gap: 8px;
+                                font-size: 11px;
+                            "
+                        >
+                            <div style="text-align: center">
+                                <div
+                                    style="
+                                        color: var(--fg);
+                                        margin-bottom: 5px;
+                                        font-weight: bold;
+                                        font-size: 11px;
+                                    "
+                                >
+                                    H-STRIPE
+                                </div>
+                                <div
+                                    style="
+                                        display: grid;
+                                        grid-template-columns: repeat(8, 1fr);
+                                        gap: 0;
+                                        width: 80px;
+                                        height: 80px;
+                                        margin: 0 auto;
+                                        background: #fff;
+                                        border: 3px solid #000;
+                                    "
+                                >
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                            <div style="text-align: center">
+                                <div
+                                    style="
+                                        color: var(--fg);
+                                        margin-bottom: 5px;
+                                        font-weight: bold;
+                                        font-size: 11px;
+                                    "
+                                >
+                                    V-STRIPE
+                                </div>
+                                <div
+                                    style="
+                                        display: grid;
+                                        grid-template-columns: repeat(8, 1fr);
+                                        gap: 0;
+                                        width: 80px;
+                                        height: 80px;
+                                        margin: 0 auto;
+                                        background: #fff;
+                                        border: 3px solid #000;
+                                    "
+                                >
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                            <div style="text-align: center">
+                                <div
+                                    style="
+                                        color: var(--fg);
+                                        margin-bottom: 5px;
+                                        font-weight: bold;
+                                        font-size: 11px;
+                                    "
+                                >
+                                    DIAGONAL
+                                </div>
+                                <div
+                                    style="
+                                        display: grid;
+                                        grid-template-columns: repeat(8, 1fr);
+                                        gap: 0;
+                                        width: 80px;
+                                        height: 80px;
+                                        margin: 0 auto;
+                                        background: #fff;
+                                        border: 3px solid #000;
+                                    "
+                                >
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                </div>
+                            </div>
+                            <div style="text-align: center">
+                                <div
+                                    style="
+                                        color: var(--fg);
+                                        margin-bottom: 5px;
+                                        font-weight: bold;
+                                        font-size: 11px;
+                                    "
+                                >
+                                    CHECKER
+                                </div>
+                                <div
+                                    style="
+                                        display: grid;
+                                        grid-template-columns: repeat(8, 1fr);
+                                        gap: 0;
+                                        width: 80px;
+                                        height: 80px;
+                                        margin: 0 auto;
+                                        background: #fff;
+                                        border: 3px solid #000;
+                                    "
+                                >
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                    <div></div>
+                                    <div style="background: #000"></div>
+                                </div>
+                            </div>
+                            <div style="text-align: center">
+                                <div style="color: var(--fg); margin-bottom: 5px; font-weight: bold; font-size: 11px;">X-CROSS</div>
+                                <div style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 0; width: 60px; height: 60px; margin: 0 auto; background: #fff; border: 3px solid #000;">
+                                    <div style="background: #000"></div><div></div><div></div><div></div><div></div><div></div><div></div><div style="background: #000"></div>
+                                    <div></div><div style="background: #000"></div><div></div><div></div><div></div><div></div><div style="background: #000"></div><div></div>
+                                    <div></div><div></div><div style="background: #000"></div><div></div><div></div><div style="background: #000"></div><div></div><div></div>
+                                    <div></div><div></div><div></div><div style="background: #000"></div><div style="background: #000"></div><div></div><div></div><div></div>
+                                    <div></div><div></div><div></div><div style="background: #000"></div><div style="background: #000"></div><div></div><div></div><div></div>
+                                    <div></div><div></div><div style="background: #000"></div><div></div><div></div><div style="background: #000"></div><div></div><div></div>
+                                    <div></div><div style="background: #000"></div><div></div><div></div><div></div><div></div><div style="background: #000"></div><div></div>
+                                    <div style="background: #000"></div><div></div><div></div><div></div><div></div><div></div><div></div><div style="background: #000"></div>
+                                </div>
+                            </div>
+                            <div style="text-align: center">
+                                <div style="color: var(--fg); margin-bottom: 5px; font-weight: bold; font-size: 11px;">FRAME</div>
+                                <div style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 0; width: 60px; height: 60px; margin: 0 auto; background: #fff; border: 3px solid #000;">
+                                    <div style="background: #000"></div><div style="background: #000"></div><div style="background: #000"></div><div style="background: #000"></div><div style="background: #000"></div><div style="background: #000"></div><div style="background: #000"></div><div style="background: #000"></div>
+                                    <div style="background: #000"></div><div></div><div></div><div></div><div></div><div></div><div></div><div style="background: #000"></div>
+                                    <div style="background: #000"></div><div></div><div></div><div></div><div></div><div></div><div></div><div style="background: #000"></div>
+                                    <div style="background: #000"></div><div></div><div></div><div></div><div></div><div></div><div></div><div style="background: #000"></div>
+                                    <div style="background: #000"></div><div></div><div></div><div></div><div></div><div></div><div></div><div style="background: #000"></div>
+                                    <div style="background: #000"></div><div></div><div></div><div></div><div></div><div></div><div></div><div style="background: #000"></div>
+                                    <div style="background: #000"></div><div></div><div></div><div></div><div></div><div></div><div></div><div style="background: #000"></div>
+                                    <div style="background: #000"></div><div style="background: #000"></div><div style="background: #000"></div><div style="background: #000"></div><div style="background: #000"></div><div style="background: #000"></div><div style="background: #000"></div><div style="background: #000"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <canvas id="patternCanvas"></canvas>
+
+                    <div class="weights-display">
+                        <h3
+                            style="
+                                color: var(--fg);
+                                margin-bottom: 12px;
+                                font-size: 14px;
+                                font-weight: bold;
+                                text-transform: uppercase;
+                            "
+                        >
+                            ALL NETWORK WEIGHTS
+                        </h3>
+                        <p
+                            style="
+                                font-size: 13px;
+                                color: var(--fg);
+                                margin-bottom: 12px;
+                                line-height: 1.5;
+                            "
+                        >
+                            DARKER = HIGHER VALUE. ORANGE = ACTIVE GRADIENT.
+                        </p>
+                        <canvas id="weightsCanvas" style="width: 100%; height: 120px; border: 1px solid var(--border); background: var(--bg-raised);"></canvas>
+                    </div>
+
+                    <div class="network-diagram">
+                        <h3>Live Network Activations</h3>
+                        <canvas id="networkCanvas" style="width: 100%; height: 280px; border: 1px solid var(--border); background: var(--bg-subtle);"></canvas>
+                        <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                            <span style="font-size: 10px; color: var(--muted);">INPUT (64)</span>
+                            <span style="font-size: 10px; color: var(--muted);">HIDDEN (<span id="hiddenCount">6</span>)</span>
+                            <span style="font-size: 10px; color: var(--muted);">OUTPUT (6)</span>
+                        </div>
+                        <p
+                            style="
+                                font-size: 11px;
+                                color: var(--fg);
+                                margin-top: 12px;
+                                text-align: left;
+                                border-top: 2px dotted #000;
+                                padding-top: 8px;
+                            "
+                        >
+                            NODE BRIGHTNESS = ACTIVATION STRENGTH. CONNECTIONS SHOW WEIGHT MAGNITUDE.
+                        </p>
+                    </div>
+
+                    <div class="draw-interface">
+                        <h4>TRY THE NETWORK</h4>
+                        <p
+                            style="
+                                font-size: 13px;
+                                color: var(--fg);
+                                margin-bottom: 12px;
+                                line-height: 1.5;
+                            "
+                        >
+                            Draw an 8×8 pattern and watch the network classify it in real-time.
+                        </p>
+                        <div style="display: flex; gap: 20px; align-items: start;">
+                            <div style="flex-shrink: 0;">
+                                <div class="draw-canvas" id="drawCanvas"></div>
+                                <div class="draw-controls">
+                                    <button id="clearDrawing" class="secondary">
+                                        Clear
+                                    </button>
+                                </div>
+                            </div>
+                            <div style="flex: 1; min-width: 0;">
+                                <div class="prediction">
+                                    PREDICTION: <span id="drawPrediction">—</span>
+                                </div>
+                                <div
+                                    style="
+                                        font-size: 13px;
+                                        color: var(--fg);
+                                        margin-top: 8px;
+                                    "
+                                >
+                                    CONFIDENCE: <span id="drawConfidence">—</span>
+                                </div>
+                                <div style="margin-top: 15px; padding-top: 15px; border-top: 2px dotted #000;">
+                                    <div style="font-size: 12px; color: var(--fg); margin-bottom: 8px; font-weight: bold;">
+                                        HIDDEN LAYER (<span id="hiddenCountDraw">6</span> features)
+                                    </div>
+                                    <div id="activationsViz" style="display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 15px;"></div>
+
+                                    <div style="font-size: 12px; color: var(--fg); margin-bottom: 8px; font-weight: bold; padding-top: 10px; border-top: 1px dotted var(--border);">
+                                        OUTPUT LAYER (4 classes)
+                                    </div>
+                                    <div id="outputActivationsViz" style="display: flex; gap: 4px; flex-wrap: wrap;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <div class="algorithm-box">
+                        <code>for each batch:
+  gradient = ∂Loss/∂θ
+  θ = θ - α · gradient
+
+where:
+  θ = network parameters (weights)
+  α = learning rate (step size)</code>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Learning Rate (α)</label>
+                        <input
+                            type="range"
+                            id="patternLearningRate"
+                            min="0.01"
+                            max="0.4"
+                            step="0.01"
+                            value="0.1"
+                        />
+                        <div class="value">
+                            α = <span id="patternLearningRateValue">0.100</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Hidden Units</label>
+                        <input
+                            type="range"
+                            id="hiddenUnits"
+                            min="2"
+                            max="64"
+                            step="1"
+                            value="6"
+                        />
+                        <div class="value">
+                            <span id="hiddenUnitsValue">6</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Speed</label>
+                        <input
+                            type="range"
+                            id="trainingSpeed"
+                            min="0"
+                            max="1"
+                            step="0.001"
+                            value="0.2"
+                        />
+                        <div class="value">
+                            <span id="trainingSpeedValue">0.2</span>x
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Max Iterations (0 = unlimited)</label>
+                        <input
+                            type="number"
+                            id="maxIterations"
+                            min="0"
+                            max="100000"
+                            step="100"
+                            value="0"
+                            style="width: 100%; padding: 8px; background: var(--bg-raised); color: var(--fg); border: 1px solid var(--border); font-family: inherit;"
+                        />
+                        <div class="value" style="font-size: 11px; color: var(--muted); margin-top: 4px;">
+                            Set to 0 for unlimited training. Otherwise training stops at this iteration count.
+                        </div>
+                    </div>
+
+                    <button id="patternStartBtn">START LEARNING</button>
+                    <button id="patternResetBtn" class="secondary">
+                        RESET NETWORK
+                    </button>
+
+                    <div class="stats">
+                        <div
+                            style="
+                                display: grid;
+                                grid-template-columns: 1fr 150px;
+                                gap: 15px;
+                            "
+                        >
+                            <div>
+                                <div>
+                                    <span class="label">Iteration:</span>
+                                    <span id="patternIteration">0</span>
+                                </div>
+                                <div>
+                                    <span class="label">Loss:</span>
+                                    <span id="patternLoss">0.000</span>
+                                </div>
+                                <div>
+                                    <span class="label">Accuracy:</span>
+                                    <span id="patternAccuracy">0%</span>
+                                </div>
+                                <div>
+                                    <span class="label">Status:</span>
+                                    <span id="patternStatus">Ready</span>
+                                </div>
+                            </div>
+                            <div>
+                                <canvas
+                                    id="lossLandscape"
+                                    style="
+                                        width: 150px;
+                                        height: 120px;
+                                        border: 1px solid var(--border);
+                                        background: var(--bg-raised);
+                                        cursor: pointer;
+                                    "
+                                ></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  <script is:inline src="/neural/pattern-match-learner/main.js"></script>
+</Layout>
+
+<style is:global>
+
+    .pattern-wrapper {
+                --bg: var(--color-bg, #f5f3f0);
+                --bg-subtle: var(--color-bg-subtle, #edeae5);
+                --bg-panel: var(--surface-panel, #eae7e2);
+                --bg-raised: var(--surface-raised, #ffffff);
+                --fg: var(--color-text, #1a1a1a);
+                --fg-strong: var(--color-text, #1a1a1a);
+                --accent: var(--color-accent, #ff6b35);
+                --muted: var(--color-muted, #6b6560);
+                --border: var(--color-rule, #d5d0ca);
+            }
+
+            .pattern-wrapper {
+                max-width: 72rem;
+                margin: 0 auto;
+                padding: var(--space-3) var(--page-inline);
+            }
+
+            .pattern-wrapper .pml-container {
+                max-width: 1400px;
+                margin: 0 auto;
+                border: 1px solid var(--border);
+                overflow-x: hidden;
+            }
+
+            .pattern-wrapper .main-content {
+                display: grid;
+                grid-template-columns: 5fr 2fr;
+                gap: 0;
+            }
+
+            .pattern-wrapper .visualization {
+                background: var(--bg-panel);
+                padding: 24px;
+                border-right: 1px solid var(--border);
+            }
+
+            .pattern-wrapper canvas {
+                width: 100%;
+                border: 1px solid var(--border);
+                background: var(--bg-raised);
+            }
+
+            .pattern-wrapper #patternCanvas {
+                height: auto;
+            }
+
+            .pattern-wrapper .controls {
+                background: var(--bg-panel);
+                padding: 24px;
+            }
+
+            .pattern-wrapper .control-group {
+                margin-bottom: 20px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .pattern-wrapper .control-group label {
+                display: block;
+                color: var(--muted);
+                margin-bottom: 8px;
+                font-size: 11px;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+            }
+
+            .pattern-wrapper .control-group input[type="range"] {
+                width: 100%;
+                margin-bottom: 8px;
+                -webkit-appearance: none;
+                height: 6px;
+                background: var(--border);
+                cursor: pointer;
+            }
+
+            .pattern-wrapper .control-group input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                width: 16px;
+                height: 16px;
+                background: var(--accent);
+                cursor: pointer;
+            }
+
+            .pattern-wrapper .control-group .value {
+                color: var(--fg-strong);
+                font-size: 14px;
+                font-variant-numeric: tabular-nums;
+            }
+
+            .pattern-wrapper button {
+                width: 100%;
+                padding: 10px 16px;
+                min-height: 40px;
+                margin-bottom: 8px;
+                background: var(--bg-raised);
+                color: var(--fg);
+                border: 1px solid var(--border);
+                font-family: inherit;
+                font-size: 12px;
+                font-weight: 500;
+                cursor: pointer;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                transition: all 120ms ease-out;
+            }
+
+            .pattern-wrapper button:hover {
+                background: var(--bg-subtle);
+                border-color: var(--accent);
+                color: var(--fg-strong);
+            }
+
+            .pattern-wrapper button:focus-visible {
+                outline: 2px solid var(--accent);
+                outline-offset: 2px;
+            }
+
+            .pattern-wrapper button.secondary {
+                background: transparent;
+                border: 1px solid var(--border);
+            }
+
+            .pattern-wrapper button.secondary:hover {
+                background: var(--bg-subtle);
+                border-color: var(--accent);
+            }
+
+            .pattern-wrapper .algorithm-box {
+                background: var(--bg-raised);
+                padding: 16px;
+                border: 1px solid var(--border);
+                margin-bottom: 16px;
+            }
+
+            .pattern-wrapper .algorithm-box h3 {
+                color: var(--accent);
+                margin-bottom: 12px;
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+            }
+
+            .pattern-wrapper .algorithm-box code {
+                display: block;
+                color: var(--fg);
+                font-size: 12px;
+                line-height: 1.6;
+                white-space: pre;
+            }
+
+            .pattern-wrapper .stats {
+                background: var(--bg-raised);
+                padding: 16px;
+                border: 1px solid var(--border);
+                margin-top: 16px;
+            }
+
+            .pattern-wrapper .stats div {
+                margin-bottom: 8px;
+                font-size: 13px;
+            }
+
+            .pattern-wrapper .stats .label {
+                color: var(--muted);
+                display: inline-block;
+                width: 100px;
+                font-weight: 500;
+            }
+
+            .pattern-wrapper .draw-interface {
+                background: var(--bg-raised);
+                padding: 16px;
+                border: 1px solid var(--border);
+                margin-top: 16px;
+            }
+
+            .pattern-wrapper .draw-interface h4 {
+                color: var(--fg-strong);
+                margin-bottom: 12px;
+                font-size: 12px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+            }
+
+            .pattern-wrapper .draw-canvas {
+                display: grid;
+                grid-template-columns: repeat(8, 1fr);
+                gap: 1px;
+                width: 320px;
+                margin-bottom: 12px;
+                cursor: crosshair;
+                user-select: none;
+                border: 1px solid var(--border);
+                background: var(--border);
+            }
+
+            .pattern-wrapper .draw-pixel {
+                aspect-ratio: 1;
+                background: var(--bg-raised);
+                border: none;
+                transition: background 60ms;
+            }
+
+            .pattern-wrapper .draw-pixel:hover {
+                background: var(--bg-subtle);
+            }
+
+            .pattern-wrapper .draw-pixel.active {
+                background: var(--fg);
+            }
+
+            .pattern-wrapper .draw-controls {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+
+            .pattern-wrapper .draw-controls button {
+                flex: 1;
+                padding: 10px;
+                font-size: 13px;
+            }
+
+            .pattern-wrapper .prediction {
+                font-size: 14px;
+                color: var(--fg-strong);
+                margin-top: 12px;
+                font-weight: 600;
+            }
+
+            .pattern-wrapper .explanation {
+                background: var(--bg-subtle);
+                padding: 24px;
+                border-bottom: 1px solid var(--border);
+                font-family: 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+            }
+
+            .pattern-wrapper .explanation h2 {
+                color: var(--fg-strong);
+                margin-bottom: 16px;
+                font-size: 16px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.02em;
+                border-bottom: 1px solid var(--border);
+                padding-bottom: 8px;
+            }
+
+            .pattern-wrapper .explanation p {
+                margin-bottom: 16px;
+                color: var(--fg);
+                font-size: 14px;
+                line-height: 1.7;
+            }
+
+            .pattern-wrapper .explanation strong {
+                color: var(--fg-strong);
+                font-weight: 600;
+            }
+
+            .pattern-wrapper .explanation em {
+                color: var(--accent);
+                font-style: normal;
+            }
+
+            .pattern-wrapper .weights-display {
+                margin-top: 20px;
+                padding-top: 20px;
+                border-top: 1px solid var(--border);
+            }
+
+            .pattern-wrapper .network-diagram {
+                margin-top: 16px;
+                padding: 16px;
+                background: var(--bg-raised);
+                border: 1px solid var(--border);
+            }
+
+            .pattern-wrapper .network-diagram h3 {
+                color: var(--accent);
+                margin-bottom: 12px;
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                text-align: left;
+            }
+
+            .pattern-wrapper .network-viz {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                gap: 20px;
+                margin-top: 16px;
+            }
+
+            .pattern-wrapper .layer {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .pattern-wrapper .layer-label {
+                font-size: 10px;
+                color: var(--muted);
+                margin-bottom: 5px;
+                text-align: center;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+            }
+
+            .pattern-wrapper .layer-nodes {
+                display: flex;
+                flex-direction: column;
+                gap: 3px;
+            }
+
+            .pattern-wrapper .node {
+                width: 10px;
+                height: 10px;
+                background: var(--bg-raised);
+                border: 1px solid var(--muted);
+            }
+
+            .pattern-wrapper .node.hidden {
+                background: var(--accent);
+                border-color: var(--accent);
+            }
+
+            .pattern-wrapper .node.output {
+                background: var(--secondary);
+                border-color: var(--secondary);
+            }
+
+            .pattern-wrapper .arrow {
+                color: var(--muted);
+                font-size: 18px;
+            }
+
+            .pattern-wrapper h3 {
+                font-size: 12px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: var(--fg-strong);
+            }
+
+            @media (max-width: 768px) {
+
+                .pattern-wrapper {
+                    padding: 12px;
+                }
+
+                .pattern-wrapper .explanation {
+                    padding: 16px;
+                }
+
+                .pattern-wrapper .visualization {
+                    padding: 16px;
+                    border-right: none;
+                    border-bottom: 1px solid var(--border);
+                }
+
+                .pattern-wrapper .controls {
+                    padding: 16px;
+                }
+
+                .pattern-wrapper .main-content {
+                    grid-template-columns: 1fr;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .pattern-wrapper /* Flatten structure with display: contents */
+                .visualization {
+                    display: contents;
+                }
+
+                .pattern-wrapper .controls {
+                    display: contents;
+                }
+
+                .pattern-wrapper /* Order all children directly */
+                .visualization > div:first-child {
+                    order: 1; /* Classification task */
+                    padding: 15px;
+                    background: var(--bg-raised);
+                    margin-bottom: 2px;
+                }
+
+                .pattern-wrapper .visualization > canvas {
+                    order: 2; /* Pattern canvas */
+                    padding: 15px;
+                    background: var(--bg-raised);
+                    margin-bottom: 2px;
+                }
+
+                .pattern-wrapper .visualization .weights-display {
+                    order: 3; /* Weights */
+                    padding: 15px;
+                    background: var(--bg-raised);
+                    margin-bottom: 2px;
+                    border-top: none;
+                }
+
+                .pattern-wrapper .controls .stats {
+                    order: 4;
+                    padding: 15px;
+                    background: var(--bg-raised);
+                    border: none;
+                    margin: 0 0 2px 0;
+                }
+
+                .pattern-wrapper .controls .algorithm-box {
+                    order: 5;
+                    background: var(--bg-raised);
+                    padding: 15px;
+                    margin-bottom: 2px;
+                    border: none;
+                }
+
+                .pattern-wrapper .controls .control-group {
+                    order: 6;
+                    background: var(--bg-raised);
+                    padding: 15px;
+                    margin: 0 0 2px 0;
+                    border-bottom: none;
+                }
+
+                .pattern-wrapper .controls button {
+                    order: 7;
+                    background: var(--bg-raised) !important;
+                    color: var(--fg) !important;
+                    padding: 12px;
+                    margin-bottom: 2px;
+                }
+
+                .pattern-wrapper button:hover {
+                    background: var(--bg-subtle) !important;
+                    color: var(--fg-strong) !important;
+                }
+
+                .pattern-wrapper button:active {
+                    background: var(--bg) !important;
+                    color: var(--fg-strong) !important;
+                }
+
+                .pattern-wrapper .visualization .draw-interface {
+                    order: 8; /* Last */
+                    padding: 15px;
+                    background: var(--bg-raised);
+                    margin: 0;
+                    border: none;
+                }
+
+                .pattern-wrapper .network-diagram {
+                    display: none;
+                }
+
+                .pattern-wrapper .network-viz {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+
+                .pattern-wrapper .arrow {
+                    transform: rotate(90deg);
+                }
+
+                .pattern-wrapper .draw-canvas {
+                    width: 100%;
+                    max-width: none;
+                }
+
+                .pattern-wrapper .draw-interface > div[style*="display: flex"] {
+                    flex-direction: column !important;
+                }
+
+                .pattern-wrapper .draw-interface > div[style*="display: flex"] > div {
+                    flex-shrink: 1 !important;
+                    width: 100% !important;
+                }
+
+                .pattern-wrapper .algorithm-box {
+                    padding: 15px;
+                    overflow-x: auto;
+                }
+
+                .pattern-wrapper .algorithm-box code {
+                    font-size: 11px;
+                }
+
+                .pattern-wrapper .stats {
+                    padding: 15px;
+                }
+
+                .pattern-wrapper .draw-interface {
+                    padding: 15px;
+                }
+
+                .pattern-wrapper canvas {
+                    max-width: 100%;
+                }
+
+                .pattern-wrapper #patternCanvas {
+                    width: 100% !important;
+                }
+
+                .pattern-wrapper .weights-display {
+                    overflow-x: hidden;
+                }
+
+                .pattern-wrapper /* Classification task grid - 2x2 on mobile */
+                .visualization > div > div[style*="grid-template-columns: repeat(4, .pattern-wrapper 1fr)"] {
+                    grid-template-columns: repeat(2, 1fr) !important;
+                }
+            }
+  
+</style>

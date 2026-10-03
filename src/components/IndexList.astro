@@ -1,0 +1,91 @@
+---
+export interface IndexEntry {
+  id: string;
+  title: string;
+  href: string;
+  description: string;
+  /** Short tag shown at the row's end, e.g. "Demo" or "Notes" */
+  kind?: string;
+}
+
+interface Props {
+  entries: IndexEntry[];
+}
+
+const { entries } = Astro.props;
+---
+<ol class="index-list">
+  {entries.map((entry) => (
+    <li>
+      <a href={entry.href} class="index-row">
+        <span class="index-row__id">{entry.id}</span>
+        <span class="index-row__title">{entry.title}</span>
+        <span class="index-row__desc">{entry.description}</span>
+        {entry.kind && <span class="index-row__kind">{entry.kind}</span>}
+      </a>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .index-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-6);
+  }
+
+  .index-row {
+    display: grid;
+    grid-template-columns: 6rem 16rem 1fr 4rem;
+    gap: var(--space-2);
+    align-items: baseline;
+    padding: var(--space-2) var(--space-1);
+    border-bottom: 1px solid var(--color-rule);
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .index-row__id,
+  .index-row__kind {
+    font-size: var(--text-11);
+    color: var(--color-muted);
+  }
+
+  .index-row__kind {
+    text-align: right;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .index-row__title {
+    font-size: var(--text-18);
+    letter-spacing: -0.02em;
+  }
+
+  .index-row__desc {
+    font-size: var(--text-12);
+    color: var(--color-muted);
+  }
+
+  .index-row:hover .index-row__id,
+  .index-row:hover .index-row__desc,
+  .index-row:hover .index-row__kind {
+    color: var(--color-bg);
+  }
+
+  @media (max-width: 720px) {
+    .index-row {
+      grid-template-columns: 4.5rem 1fr;
+      gap: 0.25rem var(--space-2);
+    }
+
+    .index-row__desc {
+      grid-column: 2;
+    }
+
+    .index-row__kind {
+      grid-column: 2;
+      text-align: left;
+    }
+  }
+</style>

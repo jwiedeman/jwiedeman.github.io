@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
+import IndexList from '../../components/IndexList.astro';
 
 const modules = [
   {
@@ -32,67 +33,6 @@ const modules = [
 <Layout title="Lab" headingTracker={false}>
   <div class="container">
     <PageHeader title="Lab" dept="Research & Development" meta={[`${modules.length} sections`]} />
-
-    <ol class="index-list">
-      {modules.map((mod) => (
-        <li>
-          <a href={mod.href} class="index-row">
-            <span class="index-row__id">{mod.id}</span>
-            <span class="index-row__title">{mod.title}</span>
-            <span class="index-row__desc">{mod.description}</span>
-          </a>
-        </li>
-      ))}
-    </ol>
+    <IndexList entries={modules} />
   </div>
 </Layout>
-
-<style>
-  .index-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 var(--space-6);
-  }
-
-  .index-row {
-    display: grid;
-    grid-template-columns: 6rem 16rem 1fr;
-    gap: var(--space-2);
-    align-items: baseline;
-    padding: var(--space-2) var(--space-1);
-    border-bottom: 1px solid var(--color-rule);
-    text-decoration: none;
-    color: var(--color-text);
-  }
-
-  .index-row__id {
-    font-size: var(--text-11);
-    color: var(--color-muted);
-  }
-
-  .index-row__title {
-    font-size: var(--text-20);
-    letter-spacing: -0.02em;
-  }
-
-  .index-row__desc {
-    font-size: var(--text-12);
-    color: var(--color-muted);
-  }
-
-  .index-row:hover .index-row__id,
-  .index-row:hover .index-row__desc {
-    color: var(--color-bg);
-  }
-
-  @media (max-width: 720px) {
-    .index-row {
-      grid-template-columns: 4.5rem 1fr;
-      gap: 0.25rem var(--space-2);
-    }
-
-    .index-row__desc {
-      grid-column: 2;
-    }
-  }
-</style>
