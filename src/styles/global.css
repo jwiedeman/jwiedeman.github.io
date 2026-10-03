@@ -4,6 +4,10 @@
   Color appears only in the swatch strip.
 */
 
+html.layout-wide {
+  --site-max: 100%;
+}
+
 :root {
   color-scheme: dark;
   accent-color: #e8e8e8;
@@ -39,7 +43,9 @@
   --text-80: 5rem;
 
   --page-inline: clamp(1rem, 4vw, 3rem);
-  --layout-max-width: min(72rem, 100%);
+  /* Site measure. Lab detail pages switch to full width via html.layout-wide */
+  --site-max: 72rem;
+  --layout-max-width: min(var(--site-max), 100%);
   --layout-max-width-wide: min(88rem, 100%);
   --transition-base: 120ms linear;
   --transition-slow: 240ms linear;
@@ -2282,7 +2288,7 @@ footer .container {
 /* Neural app container */
 #app {
   width: 100%;
-  max-width: 72rem;
+  max-width: var(--site-max);
   margin: 0 auto;
   padding: var(--space-3) var(--page-inline);
   display: flex;
@@ -2339,9 +2345,7 @@ footer .container {
 }
 
 #app .pane.right {
-  overflow-y: auto;
-  overflow-x: hidden;
-  max-height: calc(100vh - 120px);
+  min-width: 0;
 }
 
 /* Panel headers */
@@ -2397,7 +2401,7 @@ footer .container {
 
 #app .training-layout {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
   gap: var(--space-2);
   flex: 1;
   min-height: 0;

@@ -58,6 +58,8 @@ const normalizeTrackerConfig = (value: any) => {
 const path = Astro.url.pathname;
 const isBlogArticle = path.startsWith('/blog/') && path !== '/blog';
 const isLabPage = path.startsWith('/lab');
+// Lab detail pages (/lab/<section>/<page>) get the full viewport width; indexes keep the site measure.
+const isWide = /^\/lab\/[^/]+\/[^/]+/.test(path);
 
 const defaultTrackerConfig = {
   enabled: isBlogArticle || isLabPage,
@@ -78,7 +80,7 @@ const trackerContentId = trackerConfig.contentId ?? 'tracked-content';
 const showHeadingTracker = Boolean(trackerConfig.enabled);
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class:list={{ 'layout-wide': isWide }}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
