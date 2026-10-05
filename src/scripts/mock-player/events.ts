@@ -16,7 +16,12 @@ export type EventCategory =
   | 'ad'
   | 'ui'
   | 'device'
-  | 'error';
+  | 'error'
+  | 'slate'
+  | 'chapter'
+  | 'engagement'
+  | 'gate'
+  | 'identity';
 
 export type PlayerState =
   | 'idle'
@@ -27,6 +32,7 @@ export type PlayerState =
   | 'seeking'
   | 'ad'
   | 'ended'
+  | 'held'
   | 'error';
 
 export interface PlayerContext {
@@ -69,6 +75,12 @@ export interface AdContext {
   position: number;
   skippable: boolean;
   advertiser: string;
+  /** linear = standard video ad, bumper = 6 s unskippable */
+  adType: 'linear' | 'bumper';
+  /** csai = client-side (separate ad player), ssai = server-side stitched into the stream */
+  insertion: 'csai' | 'ssai';
+  /** Ads are served without personal data when advertising consent is denied. */
+  personalized: boolean;
 }
 
 export interface QoeContext {
@@ -83,7 +95,59 @@ export interface QoeContext {
   droppedFrames: number;
   timePlayedSeconds: number;
   abr: 'auto' | 'manual';
+  /** Connection type id (fiber, lte, satellite, dialup, …). */
   network: string;
+  /** Simulated network path from the viewer to the CDN. */
+  viewerLocation: string;
+  cdnServer: string;
+  rttMs: number;
+  lossPct: number;
+  throughputKbps: number;
+}
+
+/** Who is watching: what enterprise analytics stacks attach to every hit. */
+export interface UserContext {
+  anonymousId: string;
+  /** GA client id (_ga cookie value): random.firstSeenSeconds */
+  gaClientId: string;
+  /** Adobe Experience Cloud ID (AMCV / kndctr cookie) */
+  ecid: string;
+  userId: string | null;
+  loggedIn: boolean;
+  tier: 'anonymous' | 'registered' | 'subscriber';
+  analyticsSessionId: string;
+  sessionNumber: number;
+  sessionStartedAt: string;
+  isNewVisitor: boolean;
+  firstSeen: string;
+  consent: { analytics: boolean; advertising: boolean; personalization: boolean; decided: boolean };
+  experiment: { id: string; variant: string };
+}
+
+/** Where they are watching: page, campaign, and device context. */
+export interface PageContext {
+  url: string;
+  path: string;
+  title: string;
+  referrer: string;
+  search: string;
+  campaign: { source: string; medium: string; name: string; term?: string; content?: string } | null;
+  language: string;
+  timezone: string;
+  screen: string;
+  viewport: string;
+  colorDepth: number;
+  userAgent: string;
+  browser: string;
+  os: string;
+  deviceType: string;
+  connection: string;
+  pageViewId: string;
+}
+
+export interface EventContext {
+  user: UserContext;
+  page: PageContext;
 }
 
 export interface CanonicalEvent {
@@ -97,6 +161,7 @@ export interface CanonicalEvent {
   content: ContentContext | null;
   ad: AdContext | null;
   qoe: QoeContext;
+  context: EventContext;
 }
 
 /** Human descriptions, used by the event reference table and console tooltips. */
@@ -117,7 +182,7 @@ export const EVENT_CATALOG: Record<string, { category: EventCategory; descriptio
   buffer_end: { category: 'buffer', description: 'Enough data buffered; playback continues. Carries stall duration.' },
   bitrate_change: { category: 'quality', description: 'Rendition switched, by ABR or by the viewer.' },
   quality_mode_change: { category: 'quality', description: 'Quality setting changed between Auto and a fixed rendition.' },
-  network_change: { category: 'quality', description: 'Simulated network profile changed.' },
+  network_change: { category: 'quality', description: 'Network path changed: connection type, viewer location, or CDN routing. Carries RTT and throughput.' },
   ad_break_start: { category: 'ad', description: 'An ad pod began (pre, mid, or post-roll).' },
   ad_start: { category: 'ad', description: 'An individual ad in the pod started.' },
   ad_quartile: { category: 'ad', description: 'Ad crossed 25 / 50 / 75 percent.' },
@@ -146,12 +211,59 @@ export const EVENT_CATALOG: Record<string, { category: EventCategory; descriptio
   visibility_change: { category: 'device', description: 'Page hidden or shown (tab switch, app background).' },
   error: { category: 'error', description: 'Playback, network, DRM, or ad error. Carries code and fatality.' },
   error_recovered: { category: 'error', description: 'Player retried and recovered from a non-fatal error.' },
+
+  // Ads beyond linear pods
+  overlay_ad_impression: { category: 'ad', description: 'Non-linear overlay banner shown over playing content.' },
+  overlay_ad_click: { category: 'ad', description: 'Viewer clicked the overlay banner.' },
+  overlay_ad_close: { category: 'ad', description: 'Viewer closed the overlay banner.' },
+  companion_impression: { category: 'ad', description: 'Companion display banner shown beside the player during a linear ad.' },
+  companion_click: { category: 'ad', description: 'Viewer clicked the companion banner.' },
+  pause_ad_impression: { category: 'ad', description: 'Pause ad shown while content is paused.' },
+  pause_ad_click: { category: 'ad', description: 'Viewer clicked the pause ad.' },
+
+  // Slates
+  slate_start: { category: 'slate', description: 'A slate covers the content (pre-show, technical difficulties, ad filler).' },
+  slate_end: { category: 'slate', description: 'Slate removed; carries how long it was up.' },
+
+  // Chapters, calls to action, engagement
+  chapter_start: { category: 'chapter', description: 'Playhead entered a chapter.' },
+  chapter_complete: { category: 'chapter', description: 'Chapter played through to its end.' },
+  chapter_skip: { category: 'chapter', description: 'Viewer left a chapter early by seeking or skipping.' },
+  skip_intro: { category: 'engagement', description: 'Viewer pressed Skip intro.' },
+  cta_impression: { category: 'engagement', description: 'Timed call-to-action shown over the video.' },
+  cta_click: { category: 'engagement', description: 'Viewer clicked the call-to-action.' },
+  endcard_impression: { category: 'engagement', description: 'End card (watch next + subscribe) shown when content ends.' },
+  endcard_click: { category: 'engagement', description: 'Viewer picked a recommendation on the end card.' },
+  subscribe_click: { category: 'engagement', description: 'Viewer clicked Subscribe.' },
+  resume_prompt: { category: 'engagement', description: 'Offered to resume from the saved position.' },
+  resume_accept: { category: 'engagement', description: 'Viewer resumed from the saved position.' },
+  resume_decline: { category: 'engagement', description: 'Viewer chose to start over.' },
+  share: { category: 'engagement', description: 'Viewer shared the video (copy link with timestamp).' },
+  like: { category: 'engagement', description: 'Viewer liked the video.' },
+  unlike: { category: 'engagement', description: 'Viewer removed their like.' },
+  cast_start: { category: 'device', description: 'Started casting to a TV (simulated Chromecast/AirPlay).' },
+  cast_end: { category: 'device', description: 'Stopped casting; playback returns to this device.' },
+  audio_track_change: { category: 'ui', description: 'Switched audio track (e.g. to audio description).' },
+
+  // Gates and identity
+  gate_shown: { category: 'gate', description: 'A gate blocked playback (consent, age, registration, geo).' },
+  gate_passed: { category: 'gate', description: 'Viewer cleared the gate.' },
+  gate_failed: { category: 'gate', description: 'Viewer did not meet the gate (e.g. under age, outside region).' },
+  gate_dismissed: { category: 'gate', description: 'Viewer closed the gate without clearing it.' },
+  consent_update: { category: 'identity', description: 'Consent choices changed; vendors re-evaluate what they may send.' },
+  sign_in: { category: 'identity', description: 'Viewer signed in; the anonymous ID is linked to a user ID (identify).' },
+  sign_out: { category: 'identity', description: 'Viewer signed out.' },
+  identity_reset: { category: 'identity', description: 'Simulated a brand-new visitor (new anonymous ID, cookies cleared).' },
+  campaign_arrival: { category: 'identity', description: 'Simulated landing from a campaign link (UTM parameters).' },
+  page_view: { category: 'identity', description: 'Page loaded; the hit every vendor sends before any video event.' },
 };
 
 export type Listener = (e: CanonicalEvent) => void;
 
 export class EventBus {
   private listeners = new Set<Listener>();
+  /** Supplies user + page context for every event (set by the identity module). */
+  contextProvider: () => EventContext = () => ({ user: {} as UserContext, page: {} as PageContext });
   private seq = 0;
   sessionId = newSessionId();
   readonly history: CanonicalEvent[] = [];
@@ -179,6 +291,7 @@ export class EventBus {
       sessionId: this.sessionId,
       params,
       ...structuredClone(snapshot),
+      context: structuredClone(this.contextProvider()),
     };
     this.history.push(e);
     if (this.history.length > 2000) this.history.shift();

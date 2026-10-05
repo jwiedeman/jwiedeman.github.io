@@ -18,7 +18,7 @@ export interface CatalogItem {
 }
 
 export type FormFactor = 'desktop' | 'mobile' | 'tablet' | 'ctv' | 'embed';
-export type ErrorKind = 'media_decode' | 'network_404' | 'drm_license' | 'ad_vast_303' | 'bandwidth_crash';
+export type ErrorKind = 'media_decode' | 'network_404' | 'drm_license' | 'ad_vast_303' | 'bandwidth_crash' | 'tech_slate';
 
 export interface AdSchedule {
   preroll: boolean;
@@ -26,6 +26,10 @@ export interface AdSchedule {
   postroll: boolean;
   skippable: boolean;
   podSize: number;
+  /** 6 s unskippable bumper at the head of the pre-roll pod. */
+  bumper: boolean;
+  /** Server-side ad insertion: ads stitched into the stream, no skip. */
+  ssai: boolean;
 }
 
 interface AdBreak {
@@ -34,6 +38,21 @@ interface AdBreak {
   index: number;
   at: number; // content seconds; -1 = postroll
   played: boolean;
+  /** Ad server returned nothing; SSAI fills the gap with a slate. */
+  unfilled?: boolean;
+}
+
+interface AdSpec {
+  type: 'linear' | 'bumper';
+  /** Stop the creative at this many seconds (bumpers). */
+  cap: number | null;
+  skippable: boolean;
+}
+
+export interface MenuItem {
+  label: string;
+  pressed: boolean;
+  onClick: () => void;
 }
 
 const PLAYER_NAME = 'jfw-mock-player';
@@ -99,7 +118,27 @@ export class MockPlayer {
   autoplayNext = true;
   quality: 'auto' | string = 'auto';
   rendition!: Rendition;
-  schedule: AdSchedule = { preroll: true, midroll: true, postroll: false, skippable: true, podSize: 2 };
+  schedule: AdSchedule = { preroll: true, midroll: true, postroll: false, skippable: true, podSize: 2, bumper: false, ssai: false };
+  /** Advertising consent; when false, ad requests are non-personalized. */
+  adsPersonalized = true;
+
+  /* Extension points used by features.ts (gates, slates, CTAs, chapters). */
+  /** Checked before the first play of a session; return false to block (and call play() later). */
+  guards: ((reason: string) => boolean)[] = [];
+  /** Called every tick while content (not an ad) is playing. */
+  tickHooks: ((position: number, dt: number) => void)[] = [];
+  /** Extra settings-menu groups (chapters, audio tracks). */
+  menuGroups: { label: string; items: () => MenuItem[] }[] = [];
+  /** Content positions (s) drawn as chapter ticks on the seek bar. */
+  chapterMarks: number[] = [];
+  /** When true, ending content hands off to onFinished instead of the built-in up-next. */
+  useEndCard = false;
+  onFinished: (() => void) | null = null;
+  layer!: HTMLElement;
+  actions!: HTMLElement;
+  private holds = new Set<string>();
+  private heldWasPlaying = false;
+  private slates = new Set<() => void>();
 
   // per-session
   private sessionOpen = false;
@@ -144,6 +183,9 @@ export class MockPlayer {
     adId: string;
     quartiles: Set<number>;
     resume: () => void;
+    specs: AdSpec[];
+    spec: AdSpec | null;
+    done: boolean;
   } | null = null;
 
   constructor(root: HTMLElement, catalog: CatalogItem[]) {
@@ -159,6 +201,8 @@ export class MockPlayer {
     root.querySelectorAll<HTMLElement>('[data-el]').forEach((n) => (this.el[n.dataset.el!] = n));
     this.video = this.el.video as HTMLVideoElement;
     this.adVideo = this.el.adVideo as HTMLVideoElement;
+    this.layer = this.el.layer;
+    this.actions = this.el.actions;
     this.bindVideo();
     this.bindControls();
     this.bindKeys();
@@ -191,18 +235,23 @@ export class MockPlayer {
     let ad: AdContext | null = null;
     if (this.adState && this.adCreative) {
       const s = this.adState;
+      const spec = s.spec ?? s.specs[0];
+      const full = this.adVideo.duration || this.adCreative.duration;
       ad = {
         breakId: s.brk.id,
         breakType: s.brk.type,
         breakPosition: s.brk.index,
         adId: s.adId,
-        adTitle: `${this.adCreative.title} (${s.pod}/${s.podSize})`,
+        adTitle: `${spec?.type === 'bumper' ? 'Bumper: ' : ''}${this.adCreative.title} (${s.pod}/${s.podSize})`,
         podIndex: s.pod,
         podSize: s.podSize,
-        duration: this.adVideo.duration || this.adCreative.duration,
-        position: this.adVideo.currentTime || 0,
-        skippable: this.schedule.skippable,
+        duration: Math.round((spec?.cap ? Math.min(spec.cap, full) : full) * 100) / 100,
+        position: Math.round((this.adVideo.currentTime || 0) * 100) / 100,
+        skippable: !!spec?.skippable,
         advertiser: 'NASA Goddard',
+        adType: spec?.type ?? 'linear',
+        insertion: this.schedule.ssai ? 'ssai' : 'csai',
+        personalized: this.adsPersonalized,
       };
     }
     return {
@@ -248,12 +297,99 @@ export class MockPlayer {
         timePlayedSeconds: Math.round(this.timePlayed * 10) / 10,
         abr: this.quality === 'auto' ? 'auto' : 'manual',
         network: this.net.profile.id,
+        viewerLocation: this.net.location.id,
+        cdnServer: this.net.path.server.id,
+        rttMs: this.net.path.rttMs,
+        lossPct: this.net.path.lossPct,
+        throughputKbps: this.net.path.throughputKbps,
       },
     };
   }
 
   emit(event: string, params: Record<string, unknown> = {}) {
     return this.bus.emit(event, params, this.snapshot());
+  }
+
+  /** Current content position in seconds. */
+  get position() {
+    return this.video.currentTime || 0;
+  }
+
+  get isPlaying() {
+    return this.state === 'playing' || this.state === 'buffering';
+  }
+
+  get holdReasons() {
+    return [...this.holds];
+  }
+
+  /** Block playback (gates, slates). Playback resumes when every hold is released. */
+  hold(reason: string) {
+    if (this.holds.has(reason)) return;
+    if (this.holds.size === 0) this.heldWasPlaying = this.isPlaying || (this.state === 'ad' && !this.adVideo.paused);
+    this.holds.add(reason);
+    if (this.adState) {
+      this.adVideo.pause();
+    } else {
+      this.internalPause = true;
+      this.video.pause();
+      this.internalPause = false;
+      this.waitingFor = 'none';
+      this.el.spinner.hidden = true;
+    }
+    this.setState('held');
+  }
+
+  release(reason: string) {
+    if (!this.holds.delete(reason) || this.holds.size) return;
+    if (this.adState) {
+      this.setState('ad');
+      if (this.heldWasPlaying) this.adVideo.play().catch(() => {});
+      return;
+    }
+    if (this.heldWasPlaying) this.resumeVideo();
+    else this.setState(this.started ? 'paused' : 'idle');
+  }
+
+  /**
+   * Cover the video with a slate. While it is up, content is held. Returns a
+   * function that removes it early. ms = null keeps it up until closed.
+   */
+  showSlate(type: string, title: string, body: string, ms: number | null, onEnd?: () => void) {
+    const el = document.createElement('div');
+    el.className = `mp__slate mp__slate--${type}`;
+    el.innerHTML = '<span class="mp__slate-kicker"></span><strong></strong><p></p><span class="mp__slate-count"></span>';
+    el.querySelector('.mp__slate-kicker')!.textContent = type.replace(/_/g, ' ');
+    el.querySelector('strong')!.textContent = title;
+    el.querySelector('p')!.textContent = body;
+    const count = el.querySelector<HTMLElement>('.mp__slate-count')!;
+    this.layer.append(el);
+    const started = performance.now();
+    const holdKey = `slate:${type}`;
+    const inAd = !!this.adState;
+    if (!inAd) this.hold(holdKey);
+    this.emit('slate_start', { type, title, plannedMs: ms });
+    let timer: number | undefined;
+    let ticker: number | undefined;
+    const close = () => {
+      if (!el.isConnected) return;
+      window.clearTimeout(timer);
+      window.clearInterval(ticker);
+      el.remove();
+      this.slates.delete(close);
+      this.emit('slate_end', { type, durationMs: Math.round(performance.now() - started) });
+      if (!inAd) this.release(holdKey);
+      onEnd?.();
+    };
+    if (ms !== null) {
+      const end = started + ms;
+      const paint = () => (count.textContent = `${Math.max(0, Math.ceil((end - performance.now()) / 1000))}`);
+      paint();
+      ticker = window.setInterval(paint, 250);
+      timer = window.setTimeout(close, ms);
+    }
+    this.slates.add(close);
+    return close;
   }
 
   private setState(s: PlayerState) {
@@ -274,6 +410,8 @@ export class MockPlayer {
     window.clearTimeout(this.nextTimer);
     this.el.upnext.hidden = true;
     this.exitAd(false);
+    for (const close of [...this.slates]) close();
+    this.holds.clear();
 
     this.index = idx;
     this.item = this.content[idx];
@@ -291,19 +429,20 @@ export class MockPlayer {
     this.fatal = false;
     this.waitingFor = 'none';
     this.el.error.hidden = true;
-    this.net.flush(0);
+    this.net.flush(0, 'new');
 
     const d = this.item.duration;
     this.breaks = [];
-    if (this.schedule.preroll) this.breaks.push({ id: 'break-pre', type: 'preroll', index: 0, at: 0, played: false });
-    if (this.schedule.midroll && (this.isLive() || d > 60))
-      this.breaks.push({ id: 'break-mid', type: 'midroll', index: 1, at: this.isLive() ? 90 : Math.round(d / 2), played: false });
-    if (this.schedule.postroll && !this.isLive()) this.breaks.push({ id: 'break-post', type: 'postroll', index: 2, at: -1, played: false });
-
     if (this.isLive()) {
       this.liveStartOffset = Math.min(this.item.duration - 30, 240);
       this.liveStartedAt = performance.now();
     }
+
+    if (this.schedule.preroll) this.breaks.push({ id: 'break-pre', type: 'preroll', index: 0, at: 0, played: false });
+    // Live breaks are scheduled from where the viewer joins the stream (about a minute in).
+    if (this.schedule.midroll && (this.isLive() || d > 60))
+      this.breaks.push({ id: 'break-mid', type: 'midroll', index: 1, at: this.isLive() ? this.liveStartOffset + 60 : Math.round(d / 2), played: false });
+    if (this.schedule.postroll && !this.isLive()) this.breaks.push({ id: 'break-post', type: 'postroll', index: 2, at: -1, played: false });
 
     this.announceLoaded = true;
     this.rendition = this.pickRendition();
@@ -378,6 +517,10 @@ export class MockPlayer {
 
   play() {
     if (this.fatal) return;
+    if (this.holds.size) {
+      this.toast(`Playback is blocked (${[...this.holds].join(', ')})`);
+      return;
+    }
     if (this.adState) {
       this.adVideo.play();
       return;
@@ -387,6 +530,7 @@ export class MockPlayer {
       return;
     }
     if (!this.started) {
+      for (const guard of this.guards) if (!guard('first_play')) return;
       this.started = true;
       this.requestedAt = performance.now();
       this.emit('playback_requested', {});
@@ -492,10 +636,38 @@ export class MockPlayer {
     this.renderSettings();
   }
 
+  private pathParams() {
+    const p = this.net.path;
+    return {
+      connection: p.connection.id,
+      location: p.location.id,
+      server: p.server.id,
+      serverKind: p.serverKind,
+      routing: p.routing,
+      distanceKm: p.distanceKm,
+      rttMs: p.rttMs,
+      lossPct: p.lossPct,
+      linkKbps: p.linkKbps,
+      throughputKbps: p.throughputKbps,
+    };
+  }
+
   setNetwork(id: string) {
     const from = this.net.profile.id;
     if (!this.net.setProfile(id)) return;
-    this.emit('network_change', { from, to: id, kbps: this.net.profile.kbps });
+    this.emit('network_change', { change: 'connection', from, to: id, kbps: this.net.profile.kbps, ...this.pathParams() });
+  }
+
+  setLocation(id: string) {
+    const from = this.net.location.id;
+    if (!this.net.setLocation(id)) return;
+    this.emit('network_change', { change: 'location', from, to: id, ...this.pathParams() });
+  }
+
+  setRouting(mode: string) {
+    const from = this.net.routing;
+    if (!this.net.setRouting(mode)) return;
+    this.emit('network_change', { change: 'routing', from, to: mode, ...this.pathParams() });
   }
 
   private switchRendition(next: Rendition, reason: string) {
@@ -531,11 +703,23 @@ export class MockPlayer {
     this.internalPause = true;
     this.video.pause();
     this.internalPause = false;
-    this.adState = { brk, pod: 0, podSize: brk.type === 'preroll' ? this.schedule.podSize : 1, adId: '', quartiles: new Set(), resume };
+    const ssai = this.schedule.ssai;
+    const specs: AdSpec[] = [];
+    if (brk.type === 'preroll' && this.schedule.bumper) specs.push({ type: 'bumper', cap: 6, skippable: false });
+    const linear = brk.type === 'preroll' ? this.schedule.podSize : 1;
+    for (let i = 0; i < linear; i++) specs.push({ type: 'linear', cap: null, skippable: this.schedule.skippable && !ssai });
+    this.adState = { brk, pod: 0, podSize: specs.length, adId: '', quartiles: new Set(), resume, specs, spec: null, done: false };
     this.root.classList.add('in-ad');
+    this.root.classList.toggle('is-ssai', ssai);
     this.setState('ad');
     this.el.spinner.hidden = true;
-    this.emit('ad_break_start', {});
+    this.emit('ad_break_start', { insertion: ssai ? 'ssai' : 'csai', podSize: specs.length, personalized: this.adsPersonalized });
+    if (brk.unfilled) {
+      // Stitched streams can't skip a gap; the packager fills it with a slate.
+      this.emit('error', { type: 'ad', code: 'VAST_303', message: 'Ad break unfilled; showing filler slate.', fatal: false });
+      this.showSlate('ad_filler', "We'll be right back", 'This break had no ads to play. A real SSAI stream shows a filler slate for the break length.', 6000, () => this.exitAd(true));
+      return;
+    }
     this.nextAd();
   }
 
@@ -544,7 +728,9 @@ export class MockPlayer {
     if (!s || !this.adCreative) return;
     s.pod += 1;
     if (s.pod > s.podSize) return this.exitAd(true);
-    s.adId = `AD-${s.brk.type.toUpperCase()}-${s.pod}`;
+    s.spec = s.specs[s.pod - 1];
+    s.done = false;
+    s.adId = `AD-${s.brk.type.toUpperCase()}-${s.spec.type === 'bumper' ? 'BUMPER' : s.pod}`;
     s.quartiles = new Set();
     const r = this.adCreative.renditions.find((x) => x.id === (this.rendition.bitrateKbps >= 2000 ? 'medium' : 'small')) ?? this.adCreative.renditions[0];
     const a = this.adVideo;
@@ -553,7 +739,7 @@ export class MockPlayer {
     a.volume = this.video.volume;
     a.hidden = false;
     a.currentTime = 0;
-    this.el.adSkip.hidden = !this.schedule.skippable;
+    this.el.adSkip.hidden = !s.spec.skippable;
     this.el.adSkip.setAttribute('disabled', '');
     const go = () => {
       a.removeEventListener('loadedmetadata', go);
@@ -564,6 +750,35 @@ export class MockPlayer {
       });
     };
     a.addEventListener('loadedmetadata', go);
+  }
+
+  /** True while a linear ad is on screen. */
+  get inAd() {
+    return !!this.adState;
+  }
+
+  /** Jump the current ad to near its end (play plans use this to keep moving). */
+  adFastForward(secondsLeft = 1.5) {
+    const s = this.adState;
+    const a = this.adVideo;
+    if (!s || !a.duration) return false;
+    const length = s.spec?.cap ? Math.min(s.spec.cap, a.duration) : a.duration;
+    a.currentTime = Math.max(0, length - secondsLeft);
+    return true;
+  }
+
+  /** Seconds into the current ad. */
+  get adPosition() {
+    return this.adState ? this.adVideo.currentTime : 0;
+  }
+
+  private finishAd() {
+    const s = this.adState;
+    if (!s || s.done) return;
+    s.done = true;
+    this.emit('ad_complete', {});
+    this.adVideo.pause();
+    this.nextAd();
   }
 
   skipAd() {
@@ -587,7 +802,7 @@ export class MockPlayer {
     this.adVideo.pause();
     this.adVideo.removeAttribute('src');
     this.adVideo.hidden = true;
-    this.root.classList.remove('in-ad');
+    this.root.classList.remove('in-ad', 'is-ssai');
     if (complete) s.resume();
   }
 
@@ -763,16 +978,25 @@ export class MockPlayer {
         this.raiseError({ type: 'drm', code: 'DRM_LICENSE_6001', message: 'License request was denied. This video cannot be played.', fatal: true });
         break;
       case 'ad_vast_303':
-        if (this.adState) {
+        if (this.adState && this.schedule.ssai) {
+          this.emit('error', { type: 'ad', code: 'VAST_303', message: 'Stitched ad unavailable; filler slate for the rest of the break.', fatal: false });
+          this.adVideo.pause();
+          this.adState.done = true;
+          this.showSlate('ad_filler', "We'll be right back", 'The rest of this break had no ads. SSAI streams fill the gap with a slate.', 6000, () => this.exitAd(true));
+        } else if (this.adState) {
           this.emit('error', { type: 'ad', code: 'VAST_303', message: 'No ad response for this break.', fatal: false });
           this.exitAd(true);
         } else {
           const pending = this.breaks.find((b) => !b.played && b.type !== 'postroll');
-          if (pending) pending.played = true;
+          if (pending && this.schedule.ssai) pending.unfilled = true;
+          else if (pending) pending.played = true;
           this.emit('error', { type: 'ad', code: 'VAST_303', message: 'Next ad break returned no ads; it will be skipped.', fatal: false });
           this.toast('Next ad break will return no ads (VAST 303)');
           this.renderMarkers();
         }
+        break;
+      case 'tech_slate':
+        this.showSlate('technical_difficulties', 'We are experiencing technical difficulties', 'Stay tuned. The broadcast will resume shortly.', 8000);
         break;
       case 'bandwidth_crash': {
         const prev = this.net.profile.id;
@@ -872,6 +1096,7 @@ export class MockPlayer {
         this.startAdBreak(mid, () => this.resumeVideo());
       }
       if (this.isLive() && v.currentTime > this.liveEdge()) v.currentTime = this.liveEdge();
+      for (const hook of this.tickHooks) hook(v.currentTime, dt);
     }
 
     // ABR decisions, at most every 4 s.
@@ -947,8 +1172,13 @@ export class MockPlayer {
     const a = this.adVideo;
     a.addEventListener('timeupdate', () => {
       const s = this.adState;
-      if (!s || !a.duration) return;
-      const pct = (a.currentTime / a.duration) * 100;
+      if (!s || !a.duration || s.done) return;
+      const length = s.spec?.cap ? Math.min(s.spec.cap, a.duration) : a.duration;
+      if (s.spec?.cap && a.currentTime >= s.spec.cap) {
+        this.finishAd();
+        return;
+      }
+      const pct = (a.currentTime / length) * 100;
       for (const q of [25, 50, 75]) {
         if (pct >= q && !s.quartiles.has(q)) {
           s.quartiles.add(q);
@@ -957,11 +1187,7 @@ export class MockPlayer {
       }
       if (a.currentTime >= SKIP_AFTER_S) this.el.adSkip.removeAttribute('disabled');
     });
-    a.addEventListener('ended', () => {
-      if (!this.adState) return;
-      this.emit('ad_complete', {});
-      this.nextAd();
-    });
+    a.addEventListener('ended', () => this.finishAd());
   }
 
   private onEnded() {
@@ -972,6 +1198,10 @@ export class MockPlayer {
     const finish = () => {
       this.setState('ended');
       this.endSession('completed');
+      if (this.useEndCard && this.onFinished) {
+        this.onFinished();
+        return;
+      }
       if (this.autoplayNext) {
         const next = this.content[(this.index + 1) % this.content.length];
         this.el.upnextTitle.textContent = next.title;
@@ -1016,9 +1246,11 @@ export class MockPlayer {
     <strong data-el="upnextTitle"></strong>
     <span class="mp__upnext-actions"><button data-el="upnextGo">Play now</button><button data-el="upnextCancel">Cancel</button></span>
   </div>
+  <div class="mp__layer" data-el="layer"></div>
   <div class="mp__toast" data-el="toast" hidden></div>
   <div class="mp__top">
     <span class="mp__title" data-el="title"></span>
+    <div class="mp__actions" data-el="actions"></div>
     <button class="mp__live" data-el="live" hidden>LIVE</button>
   </div>
   <div class="mp__chrome" data-el="chrome">
@@ -1263,6 +1495,32 @@ export class MockPlayer {
       this.setAutoplay(!this.autoplayNext);
       this.renderSettings();
     };
+    for (const group of this.menuGroups) {
+      const items = group.items();
+      if (!items.length) continue;
+      const g = document.createElement('div');
+      g.className = 'mp__menu-group';
+      const label = document.createElement('span');
+      label.textContent = group.label;
+      g.append(label);
+      for (const item of items) {
+        const b = document.createElement('button');
+        b.textContent = item.label;
+        b.setAttribute('aria-pressed', String(item.pressed));
+        b.onclick = () => {
+          item.onClick();
+          this.renderSettings();
+        };
+        g.append(b);
+      }
+      m.append(g);
+    }
+  }
+
+  /** Re-render the settings menu and seek-bar markers (after features change them). */
+  refresh() {
+    this.renderSettings();
+    this.renderMarkers();
   }
 
   private renderPlaylist() {
@@ -1291,6 +1549,13 @@ export class MockPlayer {
       tick.style.left = `${(b.at / this.item.duration) * 100}%`;
       m.append(tick);
     }
+    for (const at of this.chapterMarks) {
+      if (at <= 0) continue;
+      const tick = document.createElement('span');
+      tick.className = 'is-chapter';
+      tick.style.left = `${(at / this.item.duration) * 100}%`;
+      m.append(tick);
+    }
   }
 
   private updateVolumeUi() {
@@ -1303,8 +1568,10 @@ export class MockPlayer {
     const s = this.adState;
     const a = this.adVideo;
     if (!s) return;
-    const left = Math.max(0, (a.duration || 0) - a.currentTime);
-    this.el.adLabel.textContent = `Ad ${s.pod} of ${s.podSize} · ${fmt(left)}`;
+    const length = s.spec?.cap ? Math.min(s.spec.cap, a.duration || s.spec.cap) : a.duration || 0;
+    const left = Math.max(0, length - a.currentTime);
+    const kind = s.spec?.type === 'bumper' ? 'Bumper' : 'Ad';
+    this.el.adLabel.textContent = `${kind} ${s.pod} of ${s.podSize}${this.schedule.ssai ? ' · stitched' : ''} · ${fmt(left)}`;
     const wait = Math.ceil(SKIP_AFTER_S - a.currentTime);
     this.el.adSkip.textContent = wait > 0 ? `Skip in ${wait}` : 'Skip ad';
   }

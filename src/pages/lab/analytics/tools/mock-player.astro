@@ -2,7 +2,9 @@
 import Layout from '../../../../layouts/Layout.astro';
 import catalog from '../../../../data/mock-player-catalog.json';
 import { EVENT_CATALOG, type CanonicalEvent } from '../../../../scripts/mock-player/events';
-import { DESTINATIONS } from '../../../../scripts/mock-player/mappers';
+import { DESTINATIONS, DEMO_IDS } from '../../../../scripts/mock-player/mappers';
+import { PLANS } from '../../../../scripts/mock-player/playbooks';
+import { CAMPAIGNS } from '../../../../scripts/mock-player/identity';
 import '../../../../styles/mock-player.css';
 
 const content = catalog.filter((c) => c.kind !== 'ad');
@@ -15,44 +17,59 @@ const sample = (event: string): CanonicalEvent => ({
   seq: 1,
   timestamp: '2026-01-01T00:00:00.000Z',
   sessionId: 'sample',
-  params: { visible: event === 'visibility_change' ? false : undefined, percent: 25, quartile: 25, from: 1, to: 2, code: 'X', type: 'player' },
+  params: { visible: event === 'visibility_change' ? false : undefined, percent: 25, quartile: 25, from: 1, to: 2, code: 'X', type: 'player', analytics: true, advertising: true, personalization: true, chapterName: 'Part 1', chapterIndex: 1, method: 'email', tier: 'subscriber' },
   player: { name: 'jfw-mock-player', version: '1', state: 'playing', formFactor: 'desktop', orientation: 'landscape', fullscreen: false, pip: false, miniPlayer: false, theater: false, muted: false, volume: 1, playbackRate: 1, captions: false, autoplay: true },
   content: { id: 'x', title: 'x', streamType: 'vod', duration: 100, position: 10, percent: 10, playlistIndex: 0, playlistLength: 1 },
-  ad: event.startsWith('ad_') ? { breakId: 'b', breakType: 'preroll', breakPosition: 0, adId: 'a', adTitle: 'a', podIndex: 1, podSize: 1, duration: 28, position: 0, skippable: true, advertiser: 'NASA' } : null,
+  ad: event.startsWith('ad_') ? { breakId: 'b', breakType: 'preroll', breakPosition: 0, adId: 'a', adTitle: 'a', podIndex: 1, podSize: 1, duration: 28, position: 0, skippable: true, advertiser: 'NASA', adType: 'linear', insertion: 'csai', personalized: true } : null,
   qoe: { rendition: 'medium', bitrateKbps: 2300, resolution: '720p', bandwidthKbps: 6000, bufferSeconds: 10, startupMs: 900, rebufferCount: 0, rebufferMs: 0, droppedFrames: 0, timePlayedSeconds: 10, abr: 'auto', network: 'cable' },
+  context: {
+    user: { anonymousId: 'anon_x', gaClientId: '1.1', ecid: '0', userId: 'usr_1', loggedIn: true, tier: 'subscriber', analyticsSessionId: '1', sessionNumber: 1, sessionStartedAt: '', isNewVisitor: true, firstSeen: '', consent: { analytics: true, advertising: true, personalization: true, decided: true }, experiment: { id: 'x', variant: 'control' } },
+    page: { url: 'https://example.com/', path: '/', title: 't', referrer: '', search: '', campaign: null, language: 'en-us', timezone: 'UTC', screen: '1x1', viewport: '1x1', colorDepth: 24, userAgent: '', browser: '', os: '', deviceType: 'desktop', connection: '4g', pageViewId: 'pv_1' },
+  },
 });
-const nameFor = (destId: string, event: string) => {
-  const m = DESTINATIONS.find((d) => d.id === destId)!.map(sample(event)) as { payload: any } | null;
+const label = (destId: string, event: string) => {
+  const m = DESTINATIONS.find((d) => d.id === destId)!.map(sample(event));
   if (!m) return '—';
-  const p = m.payload;
-  if (destId === 'datalayer') return p.event;
-  if (destId === 'ga4') return p.name;
-  if (destId === 'adobe') return p.xdm.eventType;
-  if (destId === 'segment') return p.event;
+  const p = m.payload as Record<string, any>;
+  switch (destId) {
+    case 'ga4':
+      return p.name ?? m.call.split('(')[0] + "('consent')";
+    case 'adobe_aa':
+      return p.events ? `s.tl · ${p.events}` : 's.t() page view';
+    case 'adobe_media':
+      return p.xdm?.eventType ?? m.call.split('(')[1]?.split(',')[0].replace(/'/g, '') ?? '—';
+    case 'segment':
+      return p.event ?? (p.type ? `${p.type}()` : m.call.split('(')[0]);
+    case 'tealium':
+      return p.tealium_event ?? m.call.split('(')[0];
+  }
   return '—';
 };
 const reference = Object.entries(EVENT_CATALOG).map(([event, meta]) => ({
   event,
   ...meta,
-  ga4: nameFor('ga4', event),
-  adobe: nameFor('adobe', event),
-  segment: nameFor('segment', event),
+  ga4: label('ga4', event),
+  aa: label('adobe_aa', event),
+  media: label('adobe_media', event),
+  segment: label('segment', event),
+  tealium: label('tealium', event),
 }));
 ---
-<Layout title="Mock Player" description="An open, fully instrumented video player for practicing media analytics: every player type, control, ad, and QoE event, mapped to GA4, Adobe, Segment, and the dataLayer." headingTracker={false}>
+<Layout title="Mock Player" description="An open, fully instrumented video player for practicing media analytics: every player type, ad format, slate, CTA, gate, and identity signal, emitted as GTM, GA4, Adobe Analytics, Adobe Media, Segment, and Tealium calls." headingTracker={false}>
   <div class="container mpt">
     <header class="mpt__head">
       <h1>Mock Player</h1>
-      <span class="mpt__head-meta">Video analytics trainer · {content.length} NASA clips · 4 destinations</span>
+      <span class="mpt__head-meta">Video analytics trainer · {content.length} NASA clips · {Object.keys(EVENT_CATALOG).length} events · {DESTINATIONS.length} vendors · {PLANS.length} play plans</span>
       <a class="mpt__head-link" href="#reference">How it works ↓</a>
     </header>
 
     <div class="mpt__app" id="mpt-app">
       <section class="mpt__col mpt__stage" data-ff="desktop" data-orientation="landscape" aria-label="Player">
+        <div class="mpt__narration" id="mpt-narration" hidden aria-live="polite"></div>
         <div class="mpt__device">
           <div class="mpt__article" aria-hidden="true">
             <p class="mpt__article-kicker">Embedded article</p>
-            <p>This frame shows the player embedded in an article. Start playback, then scroll the page: once the player leaves the viewport it pops out into the floating mini-player and fires <code>pip_enter</code> with <code>type: "mini"</code>. Scroll back and it docks again.</p>
+            <p>This frame shows the player embedded in an article. Start playback, then scroll this column: once the player leaves view it pops out into the floating mini-player and fires <code>pip_enter</code> with <code>type: "mini"</code>. Scroll back and it docks again.</p>
           </div>
           <div class="mpt__screen"><div id="mp-player"></div></div>
           <div class="mpt__article" aria-hidden="true">
@@ -74,6 +91,7 @@ const reference = Object.entries(EVENT_CATALOG).map(([event, meta]) => ({
           </div>
           <p class="mpt__hint">Arrow keys and Enter work too.</p>
         </div>
+        <div class="mpt__companion" id="mpt-companion" hidden aria-label="Companion ad slot"></div>
         <div class="mpt__group">
           <h2>Playback quality</h2>
           <dl class="mpt__qoe" id="mpt-qoe"></dl>
@@ -81,8 +99,19 @@ const reference = Object.entries(EVENT_CATALOG).map(([event, meta]) => ({
       </section>
 
       <aside class="mpt__col mpt__panel" aria-label="Trainer controls">
-        <div class="mpt__group">
-          <h2>Device</h2>
+        <details class="mpt__sec" open>
+          <summary>Play plans</summary>
+          <select id="mpt-plan" aria-label="Play plan"></select>
+          <p class="mpt__hint" id="mpt-plan-desc"></p>
+          <div class="mpt__inline">
+            <button class="mpt__btn mpt__btn--primary" data-action="plan-run">Run plan</button>
+            <button class="mpt__btn" data-action="plan-stop" disabled>Stop</button>
+            <span class="mpt__hint" id="mpt-plan-progress"></span>
+          </div>
+        </details>
+
+        <details class="mpt__sec" open>
+          <summary>Device</summary>
           <div class="mpt__seg mpt__devices">
             <button data-ff="desktop">Desktop</button>
             <button data-ff="mobile">Mobile</button>
@@ -91,87 +120,195 @@ const reference = Object.entries(EVENT_CATALOG).map(([event, meta]) => ({
             <button data-ff="embed">Embed</button>
           </div>
           <button class="mpt__btn" data-action="rotate" disabled>Rotate device</button>
-        </div>
+        </details>
 
-        <div class="mpt__group">
-          <h2>Network</h2>
-          <select id="mpt-network" aria-label="Network profile"></select>
-          <p class="mpt__hint">Drives the simulated buffer and adaptive bitrate. Try 3G, then Flaky.</p>
-        </div>
+        <details class="mpt__sec" open>
+          <summary>Network path</summary>
+          <label class="mpt__stack">Viewer location <select id="mpt-location" aria-label="Viewer location"></select></label>
+          <label class="mpt__stack">Connection <select id="mpt-network" aria-label="Connection type"></select></label>
+          <label class="mpt__stack">CDN routing <select id="mpt-route" aria-label="CDN routing"></select></label>
+          <dl class="mpt__kv" id="mpt-path"></dl>
+          <p class="mpt__hint" id="mpt-path-note"></p>
+        </details>
 
-        <div class="mpt__group">
-          <h2>Ads <span class="mpt__hint-inline">applies on next load</span></h2>
-          <label><input type="checkbox" data-ad="preroll" /> Pre-roll</label>
-          <label><input type="checkbox" data-ad="midroll" /> Mid-roll at 50%</label>
-          <label><input type="checkbox" data-ad="postroll" /> Post-roll</label>
-          <label><input type="checkbox" data-ad="skippable" /> Skippable after 5 s</label>
-          <label class="mpt__inline">Pre-roll pod <select id="mpt-pod"><option>1</option><option>2</option><option>3</option></select></label>
-          <button class="mpt__btn" data-action="reload">Reload current video</button>
-        </div>
+        <details class="mpt__sec" open>
+          <summary>Identity &amp; consent</summary>
+          <dl class="mpt__kv" id="mpt-identity"></dl>
+          <div class="mpt__grid2">
+            <button class="mpt__btn" data-action="signin">Sign in (usr_48213)</button>
+            <button class="mpt__btn" data-action="signout" hidden>Sign out</button>
+            <button class="mpt__btn" data-action="new-visitor">New visitor</button>
+          </div>
+          <label class="mpt__inline">Arrive from
+            <select id="mpt-campaign">
+              <option value="">(direct)</option>
+              {Object.entries(CAMPAIGNS).map(([k, c]) => <option value={k}>{c.source} / {c.medium}</option>)}
+            </select>
+          </label>
+          <label class="mpt__inline">A/B end card
+            <select id="mpt-variant"><option value="control">control (up next)</option><option value="endcard_v2">endcard_v2 (grid)</option></select>
+          </label>
+          <div class="mpt__checks">
+            <label><input type="checkbox" data-consent="analytics" /> Analytics</label>
+            <label><input type="checkbox" data-consent="advertising" /> Advertising</label>
+            <label><input type="checkbox" data-consent="personalization" /> Personalization</label>
+          </div>
+          <div class="mpt__grid2">
+            <button class="mpt__btn" data-action="save-consent">Save consent</button>
+            <button class="mpt__btn" data-action="reset-consent">Clear (show banner)</button>
+          </div>
+        </details>
 
-        <div class="mpt__group">
-          <h2>Break it</h2>
+        <details class="mpt__sec">
+          <summary>Ads</summary>
+          <div class="mpt__checks">
+            <label><input type="checkbox" data-ad="preroll" /> Pre-roll</label>
+            <label><input type="checkbox" data-ad="bumper" /> Bumper (6 s)</label>
+            <label><input type="checkbox" data-ad="midroll" /> Mid-roll</label>
+            <label><input type="checkbox" data-ad="postroll" /> Post-roll</label>
+            <label><input type="checkbox" data-ad="skippable" /> Skippable</label>
+            <label><input type="checkbox" data-ad="ssai" /> SSAI (stitched)</label>
+            <label><input type="checkbox" data-flag="overlayAd" /> Overlay banner</label>
+            <label><input type="checkbox" data-flag="companion" /> Companion</label>
+            <label><input type="checkbox" data-flag="pauseAd" /> Pause ad</label>
+          </div>
+          <div class="mpt__inline">
+            <label class="mpt__inline">Pod <select id="mpt-pod"><option>1</option><option>2</option><option>3</option></select></label>
+            <button class="mpt__btn" data-action="reload">Reload video</button>
+          </div>
+          <p class="mpt__hint">Ad schedule changes apply when a video loads.</p>
+        </details>
+
+        <details class="mpt__sec">
+          <summary>Experience &amp; gates</summary>
+          <div class="mpt__checks">
+            <label><input type="checkbox" data-flag="chapters" /> Chapters</label>
+            <label><input type="checkbox" data-flag="skipIntro" /> Skip intro</label>
+            <label><input type="checkbox" data-flag="resume" /> Resume prompt</label>
+            <label><input type="checkbox" data-flag="cta" /> Timed CTA</label>
+            <label><input type="checkbox" data-flag="endCard" /> End card</label>
+            <label><input type="checkbox" data-flag="preshow" /> Live pre-show</label>
+            <label><input type="checkbox" data-flag="consentGate" /> Consent banner</label>
+            <label><input type="checkbox" data-flag="ageGate" /> Age gate</label>
+            <label><input type="checkbox" data-flag="registrationGate" /> Sign-in after 30 s</label>
+            <label><input type="checkbox" data-flag="geoBlock" /> Geo-blocked</label>
+          </div>
+          <button class="mpt__btn" data-action="reload">Reload video</button>
+        </details>
+
+        <details class="mpt__sec">
+          <summary>Break it</summary>
           <div class="mpt__grid2">
             <button class="mpt__btn" data-error="bandwidth_crash">Bandwidth crash</button>
             <button class="mpt__btn" data-error="network_404">Rendition 404</button>
             <button class="mpt__btn" data-error="media_decode">Decode error</button>
             <button class="mpt__btn" data-error="drm_license">DRM failure</button>
             <button class="mpt__btn" data-error="ad_vast_303">Empty ad (VAST 303)</button>
+            <button class="mpt__btn" data-error="tech_slate">Tech difficulties</button>
           </div>
-        </div>
+        </details>
 
-        <div class="mpt__group">
-          <h2>Your GTM container</h2>
+        <details class="mpt__sec">
+          <summary>Your GTM container</summary>
           <div class="mpt__inline">
             <input id="mpt-gtm" type="text" placeholder="GTM-XXXXXXX" aria-label="GTM container ID" />
             <button class="mpt__btn" data-action="load-gtm">Load</button>
           </div>
-          <p class="mpt__hint" id="mpt-gtm-status">Optional. Loads your container on this page so you can build tags against <code>mockplayer.*</code> events.</p>
-        </div>
+          <p class="mpt__hint" id="mpt-gtm-status">Loads your container here so you can build tags against <code>mockplayer.*</code> events.</p>
+        </details>
       </aside>
 
       <section class="mpt__col mpt__console" aria-label="Event console">
-      <div class="mpt__console-head">
-        <h2>Events <span id="mpt-count">0</span></h2>
+        <div class="mpt__console-head">
+          <h2>Events <span id="mpt-count">0</span></h2>
+        </div>
         <div class="mpt__tabs" role="tablist">
           <button role="tab" data-dest="canonical" aria-selected="true">Canonical</button>
           {DESTINATIONS.map((d) => <button role="tab" data-dest={d.id} aria-selected="false">{d.label}</button>)}
+          <button role="tab" data-dest="network" aria-selected="false">Network</button>
         </div>
-      </div>
-      <div class="mpt__console-tools">
-        <input id="mpt-search" type="search" placeholder="Filter events" aria-label="Filter events" />
+        <div class="mpt__console-tools">
+          <input id="mpt-search" type="search" placeholder="Filter events" aria-label="Filter events" />
+          <button class="mpt__btn" data-action="pause-log" aria-pressed="false">Pause</button>
+          <button class="mpt__btn" data-action="clear-log">Clear</button>
+          <button class="mpt__btn" data-action="export">Export</button>
+        </div>
         <div class="mpt__cats" id="mpt-cats" aria-label="Categories"></div>
-        <span class="mpt__spacer"></span>
-        <button class="mpt__btn" data-action="pause-log" aria-pressed="false">Pause</button>
-        <button class="mpt__btn" data-action="clear-log">Clear</button>
-        <button class="mpt__btn" data-action="export">Export session</button>
-      </div>
-      <div class="mpt__console-body">
-        <ol class="mpt__log" id="mpt-log" aria-live="off"></ol>
-        <div class="mpt__detail-wrap">
-          <button class="mpt__btn mpt__copy" data-action="copy">Copy</button>
-          <pre class="mpt__detail" id="mpt-detail">Select an event to inspect its payload.</pre>
+        <div class="mpt__console-body">
+          <ol class="mpt__log" id="mpt-log" aria-live="off"></ol>
+          <div class="mpt__detail-wrap">
+            <button class="mpt__btn mpt__copy" data-action="copy">Copy</button>
+            <pre class="mpt__detail" id="mpt-detail">Select an event or request to inspect it.</pre>
+          </div>
         </div>
-      </div>
       </section>
     </div>
 
     <section class="mpt__docs" id="reference">
       <h2>How it works</h2>
-    <p>
-      A real HTML5 player wired for measurement. Switch device types, throttle the network, run ads, break things on purpose,
-      and watch every event go out as a canonical record and as GA4, Adobe Media (Edge), Segment, and dataLayer payloads.
-      Everything also lands on <code>window.dataLayer</code>, so you can point your own GTM container at it.
-    </p>
+      <p>
+        A real HTML5 player wired for measurement. Every interaction becomes one canonical event that carries the player state,
+        content, ad, playback quality, and the viewer's identity and page context. Each event is then shown the way six vendors
+        would receive it: the library call a developer writes, the payload, and the exact HTTP request that library sends.
+        Nothing is sent to those vendors; the demo accounts below don't exist. Everything is also pushed to
+        <code>window.dataLayer</code>, so a GTM container you load fires for real.
+      </p>
+
+      <h2>Play plans</h2>
+      <p>Long scripted sessions that drive the player through the same buttons a viewer uses. Run one and watch the console, or switch tabs mid-plan to follow a single vendor.</p>
+      <ol class="mpt__credits">
+        {PLANS.map((p) => <li><strong>{p.title}</strong> <span>· {p.steps.length} steps · {p.summary}</span></li>)}
+      </ol>
+
+      <h2>Identity and context</h2>
+      <p>
+        The trainer keeps a first-party identity in local storage, the way cookies would: an anonymous ID, a GA client ID, an
+        Adobe ECID, an analytics session that times out after 30 minutes, a session counter, sign-in state and tier, an A/B
+        variant, consent, and campaign parameters. Every vendor format carries them where it expects them:
+        <code>cid</code>/<code>uid</code>/<code>sid</code>/<code>sct</code> for GA4, <code>mid</code> and eVars for Adobe Analytics,
+        an <code>identityMap</code> for Adobe Edge, <code>anonymousId</code>/<code>userId</code>/<code>context</code> for Segment, and
+        the UDO for Tealium. Signing in sends Segment's <code>identify</code> and GA4's <code>login</code> with a <code>user_id</code>.
+      </p>
+
+      <h2>Network path</h2>
+      <p>
+        Choose where the viewer is, how they connect, and which CDN edge serves them. Round-trip time is propagation over fiber
+        (about 1.6× the straight-line distance at 200 km/ms) plus the last mile. Usable throughput is the link speed capped by what one
+        TCP connection sustains at that RTT and packet loss, which is why a 25 Mbps GEO satellite link streams like DSL and 56k dial-up
+        cannot hold even the 180p rendition. New connections pay DNS, TCP, and TLS before the first byte; every segment pays a round trip.
+      </p>
+      <p>
+        The same model times each analytics hit to that vendor's collection region. Far, lossy, or offline viewers produce slow, retried,
+        queued, or dropped hits in the Network tab. Segment's library queues and retries, so its hits arrive late; GA4 and Adobe hits that
+        fail are simply lost. That gap is a common reason vendor numbers disagree, and it is concentrated in rural and mobile audiences.
+      </p>
+
+      <h2>Consent</h2>
+      <p>
+        GTM always receives the push, because consent-aware tags decide what fires. GA4 switches to Consent Mode cookieless pings
+        (<code>gcs=G100</code>, no client ID, no user ID). Adobe, Segment, and Tealium are blocked until analytics consent is granted,
+        and the console marks those rows. Without advertising consent, ads are requested as non-personalized
+        (<code>personalized: false</code>, <code>npa=1</code>).
+      </p>
+
+      <h2>Vendors and demo accounts</h2>
+      <ul class="mpt__credits">
+        <li><strong>GTM</strong> <span>· dataLayer.push with event name <code>mockplayer.&lt;event&gt;</code></span></li>
+        <li><strong>GA4</strong> <span>· gtag.js, measurement ID {DEMO_IDS.ga4}, requests to /g/collect</span></li>
+        <li><strong>Adobe Analytics</strong> <span>· AppMeasurement s.t / s.tl, report suite {DEMO_IDS.adobeRsid}; eVars and events follow a sample solution design (eVar1 title, eVar2 id, eVar5 device, event1 start, event2–4 quartiles, event5 complete, event6 seconds watched, event10–15 ads)</span></li>
+        <li><strong>Adobe Media</strong> <span>· Streaming Media via Edge Network (alloy), datastream {DEMO_IDS.adobeDatastream}</span></li>
+        <li><strong>Segment</strong> <span>· analytics.js Video Spec plus page / identify, write key {DEMO_IDS.segmentWriteKey}</span></li>
+        <li><strong>Tealium</strong> <span>· utag.view / utag.link UDO and the Collect request to EventStream ({DEMO_IDS.tealium.account}/{DEMO_IDS.tealium.profile})</span></li>
+      </ul>
 
       <h2>Event reference</h2>
-      <p>Every canonical event and what it becomes at each destination. A dash means that vendor has no equivalent call (Adobe computes milestones server-side, for example).</p>
+      <p>Every canonical event and what it becomes at each vendor (for a signed-in, fully consented viewer). A dash means that vendor has no equivalent call.</p>
       <div class="mpt__table-wrap">
         <table class="mpt__table">
-          <thead><tr><th>Canonical</th><th>Category</th><th>GA4</th><th>Adobe Media (Edge)</th><th>Segment</th><th>When it fires</th></tr></thead>
+          <thead><tr><th>Canonical</th><th>Category</th><th>GA4</th><th>Adobe Analytics</th><th>Adobe Media</th><th>Segment</th><th>Tealium</th><th>When it fires</th></tr></thead>
           <tbody>
             {reference.map((r) => (
-              <tr><td><code>{r.event}</code></td><td>{r.category}</td><td>{r.ga4}</td><td>{r.adobe}</td><td>{r.segment}</td><td>{r.description}</td></tr>
+              <tr><td><code>{r.event}</code></td><td>{r.category}</td><td>{r.ga4}</td><td>{r.aa}</td><td>{r.media}</td><td>{r.segment}</td><td>{r.tealium}</td><td>{r.description}</td></tr>
             ))}
           </tbody>
         </table>
@@ -181,19 +318,21 @@ const reference = Object.entries(EVENT_CATALOG).map(([event, meta]) => ({
       <p>The player exposes <code>window.mockPlayer</code> and a DOM event, so tests and demos can drive it:</p>
       <pre class="mpt__code"><code>{`window.addEventListener('mockplayer:event', (e) => console.log(e.detail.event, e.detail));
 
-mockPlayer.load('perseverance-landing');   // or an index
-mockPlayer.setNetwork('3g');               // ${['unthrottled', 'fiber', 'cable', 'lte', '3g', 'edge', 'flaky', 'offline'].join(' | ')}
-mockPlayer.setFormFactor('ctv');           // desktop | mobile | tablet | ctv | embed
-mockPlayer.seek(42);
-mockPlayer.setQuality('large');            // auto | large | medium | small | mobile
-mockPlayer.injectError('network_404');     // bandwidth_crash | network_404 | media_decode | drm_license | ad_vast_303
-mockPlayer.map('adobe', mockPlayer.events.at(-1));`}</code></pre>
+mockPlayer.runPlan('ad-ops');              // ${PLANS.map((p) => p.id).join(' | ')}
+mockPlayer.load('perseverance-landing');
+mockPlayer.setConsent({ analytics: true, advertising: false, personalization: false });
+mockPlayer.signIn();
+mockPlayer.setSchedule({ bumper: true, ssai: true });
+mockPlayer.setFlag('registrationGate', true);
+mockPlayer.injectError('tech_slate');
+mockPlayer.requests;                        // every simulated vendor request so far
+mockPlayer.map('tealium', mockPlayer.events.at(-1));`}</code></pre>
 
       <h2>Keyboard</h2>
       <p class="mpt__keys"><kbd>Space</kbd>/<kbd>K</kbd> play · <kbd>J</kbd>/<kbd>L</kbd> ±10 s · <kbd>←</kbd>/<kbd>→</kbd> ±5 s · <kbd>↑</kbd>/<kbd>↓</kbd> volume · <kbd>M</kbd> mute · <kbd>C</kbd> captions · <kbd>F</kbd> fullscreen · <kbd>I</kbd> mini-player · <kbd>T</kbd> theater · <kbd>&lt;</kbd>/<kbd>&gt;</kbd> speed · <kbd>0</kbd>–<kbd>9</kbd> jump · <kbd>Shift</kbd>+<kbd>N</kbd>/<kbd>P</kbd> next/previous</p>
 
       <h2>Content</h2>
-      <p>All clips are NASA public-domain media, streamed from <a href="https://images.nasa.gov" target="_blank" rel="noopener">images.nasa.gov</a> in four renditions (180p to 1080p, about 0.3 to 5 Mbps), which is what the adaptive bitrate switches between. Captions are NASA's own, converted to WebVTT. NASA does not endorse this tool.</p>
+      <p>All clips are NASA public-domain media, streamed from <a href="https://images.nasa.gov" target="_blank" rel="noopener">images.nasa.gov</a> in four renditions (180p to 1080p, about 0.3 to 5 Mbps), which is what the adaptive bitrate switches between. Captions are NASA's own, converted to WebVTT. Chapters, ads, CTAs, and gates are simulated on top. NASA does not endorse this tool.</p>
       <ol class="mpt__credits">
         {catalog.map((c) => <li>{c.title} <span>· {c.center} · {c.date} · {c.kind === 'ad' ? 'used as ad creative' : c.kind === 'live' ? 'simulated live stream' : 'on demand'}</span></li>)}
       </ol>
