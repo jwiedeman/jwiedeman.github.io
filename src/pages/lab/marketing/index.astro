@@ -1,0 +1,377 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import IndexList from '../../../components/IndexList.astro';
+
+// Curated module and tactic order; titles and descriptions come from each page's frontmatter.
+const modules = [
+  {
+    dir: "strategy-and-objectives",
+    name: "Strategy & Objectives",
+    slugs: [
+      "north-star-metric",
+      "jobs-to-be-done-map",
+      "category-design-reframe",
+      "strategic-narrative",
+      "moat-defensibility-story",
+      "rice-ice-prioritization"
+    ]
+  },
+  {
+    dir: "market-research-and-segmentation",
+    name: "Market Research & Segmentation",
+    slugs: [
+      "qual-interviews-5-whys",
+      "conjoint-feature-trade-offs",
+      "rfm-behavioral-segments",
+      "intent-mining-search-forums",
+      "tam-sam-som-sizing",
+      "journey-stage-mapping"
+    ]
+  },
+  {
+    dir: "positioning-and-brand",
+    name: "Positioning & Brand",
+    slugs: [
+      "positioning-a-b-tests",
+      "value-prop-hierarchy",
+      "category-entry-points",
+      "brand-archetypes",
+      "distinctive-brand-assets",
+      "naming-tagline-tests",
+      "visual-identity-guardrails",
+      "brand-mascot-character"
+    ]
+  },
+  {
+    dir: "product-and-packaging",
+    name: "Product & Packaging",
+    slugs: [
+      "freemium-tiering",
+      "bundle-unbundle",
+      "feature-gating",
+      "limited-drops-editions",
+      "starter-kits-samples",
+      "packaging-as-media-qr"
+    ]
+  },
+  {
+    dir: "pricing-and-offers",
+    name: "Pricing & Offers",
+    slugs: [
+      "anchoring-decoy-price",
+      "charm-pricing-99-97",
+      "good-better-best-tiers",
+      "dynamic-demand-pricing",
+      "geo-pricing",
+      "bundled-discounts",
+      "subscribe-and-save",
+      "free-shipping-threshold",
+      "risk-reversal-guarantee",
+      "buy-now-pay-later"
+    ]
+  },
+  {
+    dir: "paid-media",
+    name: "Paid Media",
+    slugs: [
+      "tofu-mofu-bofu-structure",
+      "creative-matrix-testing",
+      "broad-plus-algo-bidding",
+      "lookalikes",
+      "sequential-remarketing",
+      "whitelisted-ugc-ads",
+      "lead-magnet-to-tripwire",
+      "seasonal-event-hijacks",
+      "geo-bid-mods",
+      "dayparting",
+      "holdout-incrementality",
+      "cross-channel-sequencing",
+      "native-lead-forms",
+      "programmatic-native"
+    ]
+  },
+  {
+    dir: "seo-and-content",
+    name: "SEO & Content",
+    slugs: [
+      "topic-clusters-pillars",
+      "programmatic-seo",
+      "internal-linking-entity",
+      "schema-rich-results",
+      "content-refresh-cycles",
+      "pain-claim-gain-posts",
+      "pov-thought-leadership",
+      "data-studies-for-links",
+      "glossary-academy-builds",
+      "ugc-q-and-a-harvesting",
+      "e-e-a-t-signals",
+      "video-seo-chapters"
+    ]
+  },
+  {
+    dir: "social-and-community",
+    name: "Social & Community",
+    slugs: [
+      "repurposing-flywheel",
+      "trend-jacking-rules",
+      "duets-remixes",
+      "localized-memes",
+      "challenge-formats",
+      "live-plus-timed-offers",
+      "proof-carousels",
+      "employee-advocacy",
+      "amas",
+      "reddit-discord-presence",
+      "social-listening-loops",
+      "dm-funnel-scripts"
+    ]
+  },
+  {
+    dir: "influencer-and-partnerships",
+    name: "Influencer & Partnerships",
+    slugs: [
+      "product-seeding",
+      "affiliate-codes-utms",
+      "whitelisting-licensing",
+      "co-branded-drops",
+      "expert-kol-endorsements",
+      "marketplace-bundles",
+      "joint-webinars-lives",
+      "brand-swaps"
+    ]
+  },
+  {
+    dir: "virality-and-referrals",
+    name: "Virality & Referrals",
+    slugs: [
+      "double-sided-rewards",
+      "milestone-waitlists",
+      "feature-unlock-invites",
+      "social-unlock-walls",
+      "leaderboards-streaks",
+      "gifting-features",
+      "shareable-templates",
+      "powered-by-watermark"
+    ]
+  },
+  {
+    dir: "conversion-and-ux-cro",
+    name: "Conversion & UX/CRO",
+    slugs: [
+      "message-market-match",
+      "above-fold-clarity",
+      "one-tap-autofill",
+      "honest-urgency-stock",
+      "trust-badges-density",
+      "exit-intent-offers",
+      "multi-step-forms",
+      "quiz-funnels",
+      "advertorial-pre-sells",
+      "checkout-cross-upsells",
+      "post-purchase-upsells",
+      "onsite-personalization",
+      "ugc-review-widgets",
+      "sticky-ctas-bars",
+      "speed-core-web-vitals",
+      "accessibility-fixes"
+    ]
+  },
+  {
+    dir: "lifecycle-and-retention-email-sms-app",
+    name: "Lifecycle & Retention (Email/SMS/App)",
+    slugs: [
+      "welcome-series",
+      "cart-browse-abandonment",
+      "post-purchase-education",
+      "replenishment-reminders",
+      "churn-reason-win-backs",
+      "pillar-newsletter",
+      "vip-loyalty-tiers",
+      "preference-center",
+      "usage-milestone-nudges",
+      "in-app-messaging",
+      "re-activation-offers",
+      "nps-timed-referral-asks",
+      "review-ugc-requests",
+      "renewal-dunning-ops"
+    ]
+  },
+  {
+    dir: "sales-led-and-b2b-abm",
+    name: "Sales-Led & B2B ABM",
+    slugs: [
+      "icp-scoring-model",
+      "tiered-account-lists",
+      "intent-triggered-outreach",
+      "multithreading-sequences",
+      "abm-landing-pages",
+      "executive-gifting-mailers",
+      "c-suite-roundtables",
+      "verticalized-case-studies"
+    ]
+  },
+  {
+    dir: "events-pr-and-offline",
+    name: "Events, PR & Offline",
+    slugs: [
+      "pitch-angles-calendar",
+      "speaking-slots",
+      "guerrilla-activations",
+      "booth-theater",
+      "experiential-pop-ups",
+      "sponsorship-plus-stage",
+      "rapid-newsjacking",
+      "prable-data-reports"
+    ]
+  },
+  {
+    dir: "local-and-field-marketing",
+    name: "Local & Field Marketing",
+    slugs: [
+      "google-biz-profile-ops",
+      "local-citations-reviews",
+      "flyers-door-hangers-plus-qr",
+      "community-sponsorships",
+      "street-teams-sampling",
+      "nextdoor-ads"
+    ]
+  },
+  {
+    dir: "ecommerce-and-checkout",
+    name: "Ecommerce & Checkout",
+    slugs: [
+      "one-click-checkout",
+      "free-returns-exchanges",
+      "size-fit-calculators",
+      "build-your-own-bundles",
+      "skip-pause-subscriptions",
+      "pre-order-back-in-stock",
+      "gift-with-purchase-tiers",
+      "shop-the-look-modules",
+      "buy-the-set-collections",
+      "tracking-page-upsells"
+    ]
+  },
+  {
+    dir: "mobile-app-growth",
+    name: "Mobile/App Growth",
+    slugs: [
+      "aso-metadata-tests",
+      "aha-moment-onboarding",
+      "push-cadences",
+      "feature-flag-experiments",
+      "rating-prompts-post-win",
+      "deep-linking"
+    ]
+  },
+  {
+    dir: "data-experimentation-and-analytics",
+    name: "Data, Experimentation & Analytics",
+    slugs: [
+      "north-star-dashboard",
+      "mmm-vs-mta-triangulation",
+      "geo-holdouts",
+      "synthetic-controls",
+      "cohort-rfm-tracking",
+      "platform-lift-studies",
+      "creative-taxonomy",
+      "survey-based-lift",
+      "diff-in-diff-analysis",
+      "server-side-conversions"
+    ]
+  },
+  {
+    dir: "behavioral-psychology-and-messaging",
+    name: "Behavioral Psychology & Messaging",
+    slugs: [
+      "reciprocity",
+      "social-proof",
+      "scarcity",
+      "authority",
+      "consistency",
+      "liking",
+      "unity-identity",
+      "loss-aversion",
+      "anchoring",
+      "framing",
+      "decoy-effect",
+      "endowment",
+      "zeigarnik",
+      "goal-gradient",
+      "peak-end-rule",
+      "hyperbolic-discounting",
+      "choice-reduction",
+      "temporal-reframing",
+      "narrative-hero-framing",
+      "metaphor-led-copy"
+    ]
+  },
+  {
+    dir: "platform-specific-micro-plays",
+    name: "Platform-Specific Micro-plays",
+    slugs: [
+      "meta-advantage-plus-shopping",
+      "meta-conversions-api",
+      "meta-thumb-stop-testing",
+      "google-performance-max",
+      "google-dsa-coverage",
+      "google-shopping-feed-ops",
+      "tiktok-spark-ads",
+      "tiktok-sound-on-hooks",
+      "linkedin-conversation-ads",
+      "youtube-6-sec-bumpers",
+      "amazon-subscribe-and-save",
+      "product-hunt-launch-orchestration"
+    ]
+  }
+];
+
+const pages = import.meta.glob('./*/*.md', { eager: true });
+const meta = (dir, slug) => {
+  const page = pages[`./${dir}/${slug}.md`];
+  if (!page) throw new Error(`Missing marketing page: ${dir}/${slug}`);
+  return page.frontmatter;
+};
+
+const pad = (n) => String(n).padStart(2, '0');
+const sections = modules.map((mod, m) => ({
+  ...mod,
+  code: `MK-${pad(m + 1)}`,
+  entries: mod.slugs.map((slug, i) => ({
+    id: `${pad(m + 1)}.${pad(i + 1)}`,
+    title: meta(mod.dir, slug).title,
+    href: `/lab/marketing/${mod.dir}/${slug}/`,
+    description: meta(mod.dir, slug).description,
+  })),
+}));
+const total = sections.reduce((n, s) => n + s.entries.length, 0);
+---
+<Layout title="Marketing" description={`A catalog of ${total} marketing tactics and techniques, organized by module.`} headingTracker={{ enabled: true, headingsSelector: 'h2', minHeadings: 2 }}>
+  <div class="container">
+    <PageHeader title="Marketing" dept="Lab / 04" meta={[`${sections.length} modules`, `${total} tactics`]} />
+    {sections.map((section) => (
+      <section class="mk-module">
+        <h2 id={section.dir}><span class="mk-module__code">{section.code}</span> {section.name}</h2>
+        <IndexList entries={section.entries} />
+      </section>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .mk-module h2 {
+    margin-top: var(--space-5);
+  }
+
+  .mk-module__code {
+    font-size: var(--text-11);
+    color: var(--color-muted);
+    letter-spacing: 0.1em;
+    margin-right: 0.5em;
+  }
+
+  .mk-module :global(.index-list) {
+    margin-bottom: var(--space-3);
+  }
+</style>
