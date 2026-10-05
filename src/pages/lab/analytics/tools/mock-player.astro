@@ -1,0 +1,204 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import PageHeader from '../../../../components/PageHeader.astro';
+import catalog from '../../../../data/mock-player-catalog.json';
+import { EVENT_CATALOG, type CanonicalEvent } from '../../../../scripts/mock-player/events';
+import { DESTINATIONS } from '../../../../scripts/mock-player/mappers';
+import '../../../../styles/mock-player.css';
+
+const content = catalog.filter((c) => c.kind !== 'ad');
+
+// Event reference: run a representative event through each mapper at build time,
+// so the table always matches what the console actually sends.
+const sample = (event: string): CanonicalEvent => ({
+  event,
+  category: EVENT_CATALOG[event].category,
+  seq: 1,
+  timestamp: '2026-01-01T00:00:00.000Z',
+  sessionId: 'sample',
+  params: { visible: event === 'visibility_change' ? false : undefined, percent: 25, quartile: 25, from: 1, to: 2, code: 'X', type: 'player' },
+  player: { name: 'jfw-mock-player', version: '1', state: 'playing', formFactor: 'desktop', orientation: 'landscape', fullscreen: false, pip: false, miniPlayer: false, theater: false, muted: false, volume: 1, playbackRate: 1, captions: false, autoplay: true },
+  content: { id: 'x', title: 'x', streamType: 'vod', duration: 100, position: 10, percent: 10, playlistIndex: 0, playlistLength: 1 },
+  ad: event.startsWith('ad_') ? { breakId: 'b', breakType: 'preroll', breakPosition: 0, adId: 'a', adTitle: 'a', podIndex: 1, podSize: 1, duration: 28, position: 0, skippable: true, advertiser: 'NASA' } : null,
+  qoe: { rendition: 'medium', bitrateKbps: 2300, resolution: '720p', bandwidthKbps: 6000, bufferSeconds: 10, startupMs: 900, rebufferCount: 0, rebufferMs: 0, droppedFrames: 0, timePlayedSeconds: 10, abr: 'auto', network: 'cable' },
+});
+const nameFor = (destId: string, event: string) => {
+  const m = DESTINATIONS.find((d) => d.id === destId)!.map(sample(event)) as { payload: any } | null;
+  if (!m) return '—';
+  const p = m.payload;
+  if (destId === 'datalayer') return p.event;
+  if (destId === 'ga4') return p.name;
+  if (destId === 'adobe') return p.xdm.eventType;
+  if (destId === 'segment') return p.event;
+  return '—';
+};
+const reference = Object.entries(EVENT_CATALOG).map(([event, meta]) => ({
+  event,
+  ...meta,
+  ga4: nameFor('ga4', event),
+  adobe: nameFor('adobe', event),
+  segment: nameFor('segment', event),
+}));
+---
+<Layout title="Mock Player" description="An open, fully instrumented video player for practicing media analytics: every player type, control, ad, and QoE event, mapped to GA4, Adobe, Segment, and the dataLayer." headingTracker={false}>
+  <div class="container mpt">
+    <PageHeader title="Mock Player" dept="Lab / Analytics / Tools" meta={['Video analytics trainer', `${content.length} NASA clips · 4 destinations`]} />
+
+    <p class="mpt__intro">
+      A real HTML5 player wired for measurement. Switch device types, throttle the network, run ads, break things on purpose,
+      and watch every event go out as a canonical record and as GA4, Adobe Media (Edge), Segment, and dataLayer payloads.
+      Everything also lands on <code>window.dataLayer</code>, so you can point your own GTM container at it.
+    </p>
+
+    <div class="mpt__layout">
+      <section class="mpt__stage" data-ff="desktop" data-orientation="landscape" aria-label="Player">
+        <div class="mpt__device">
+          <div class="mpt__article" aria-hidden="true">
+            <p class="mpt__article-kicker">Embedded article</p>
+            <p>This frame shows the player embedded in an article. Start playback, then scroll the page: once the player leaves the viewport it pops out into the floating mini-player and fires <code>pip_enter</code> with <code>type: "mini"</code>. Scroll back and it docks again.</p>
+          </div>
+          <div class="mpt__screen"><div id="mp-player"></div></div>
+          <div class="mpt__article" aria-hidden="true">
+            <p>Publishers use this pattern to keep video visible while readers scroll. For analytics it matters because playback continues while the inline slot is off screen, so viewability and "in focus" reporting need the mini-player state.</p>
+          </div>
+        </div>
+        <div class="mpt__remote" hidden aria-label="TV remote">
+          <span class="mpt__remote-label">Remote</span>
+          <div class="mpt__dpad">
+            <button data-key="ArrowUp" aria-label="Up">▲</button>
+            <button data-key="ArrowLeft" aria-label="Left">◀</button>
+            <button data-key="Enter" aria-label="OK">OK</button>
+            <button data-key="ArrowRight" aria-label="Right">▶</button>
+            <button data-key="ArrowDown" aria-label="Down">▼</button>
+          </div>
+          <div class="mpt__remote-row">
+            <button data-key="Back">Back</button>
+            <button data-key="MediaPlayPause">⏯</button>
+          </div>
+          <p class="mpt__hint">Arrow keys and Enter work too.</p>
+        </div>
+      </section>
+
+      <aside class="mpt__panel" aria-label="Trainer controls">
+        <div class="mpt__group">
+          <h2>Device</h2>
+          <div class="mpt__seg mpt__devices">
+            <button data-ff="desktop">Desktop</button>
+            <button data-ff="mobile">Mobile</button>
+            <button data-ff="tablet">Tablet</button>
+            <button data-ff="ctv">TV</button>
+            <button data-ff="embed">Embed</button>
+          </div>
+          <button class="mpt__btn" data-action="rotate" disabled>Rotate device</button>
+        </div>
+
+        <div class="mpt__group">
+          <h2>Network</h2>
+          <select id="mpt-network" aria-label="Network profile"></select>
+          <p class="mpt__hint">Drives the simulated buffer and adaptive bitrate. Try 3G, then Flaky.</p>
+        </div>
+
+        <div class="mpt__group">
+          <h2>Ads <span class="mpt__hint-inline">applies on next load</span></h2>
+          <label><input type="checkbox" data-ad="preroll" /> Pre-roll</label>
+          <label><input type="checkbox" data-ad="midroll" /> Mid-roll at 50%</label>
+          <label><input type="checkbox" data-ad="postroll" /> Post-roll</label>
+          <label><input type="checkbox" data-ad="skippable" /> Skippable after 5 s</label>
+          <label class="mpt__inline">Pre-roll pod <select id="mpt-pod"><option>1</option><option>2</option><option>3</option></select></label>
+          <button class="mpt__btn" data-action="reload">Reload current video</button>
+        </div>
+
+        <div class="mpt__group">
+          <h2>Break it</h2>
+          <div class="mpt__grid2">
+            <button class="mpt__btn" data-error="bandwidth_crash">Bandwidth crash</button>
+            <button class="mpt__btn" data-error="network_404">Rendition 404</button>
+            <button class="mpt__btn" data-error="media_decode">Decode error</button>
+            <button class="mpt__btn" data-error="drm_license">DRM failure</button>
+            <button class="mpt__btn" data-error="ad_vast_303">Empty ad (VAST 303)</button>
+          </div>
+        </div>
+
+        <div class="mpt__group">
+          <h2>Playback quality</h2>
+          <dl class="mpt__qoe" id="mpt-qoe"></dl>
+        </div>
+
+        <div class="mpt__group">
+          <h2>Your GTM container</h2>
+          <div class="mpt__inline">
+            <input id="mpt-gtm" type="text" placeholder="GTM-XXXXXXX" aria-label="GTM container ID" />
+            <button class="mpt__btn" data-action="load-gtm">Load</button>
+          </div>
+          <p class="mpt__hint" id="mpt-gtm-status">Optional. Loads your container on this page so you can build tags against <code>mockplayer.*</code> events.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="mpt__console" aria-label="Event console">
+      <div class="mpt__console-head">
+        <h2>Events <span id="mpt-count">0</span></h2>
+        <div class="mpt__tabs" role="tablist">
+          <button role="tab" data-dest="canonical" aria-selected="true">Canonical</button>
+          {DESTINATIONS.map((d) => <button role="tab" data-dest={d.id} aria-selected="false">{d.label}</button>)}
+        </div>
+      </div>
+      <div class="mpt__console-tools">
+        <input id="mpt-search" type="search" placeholder="Filter events" aria-label="Filter events" />
+        <div class="mpt__cats" id="mpt-cats" aria-label="Categories"></div>
+        <span class="mpt__spacer"></span>
+        <button class="mpt__btn" data-action="pause-log" aria-pressed="false">Pause</button>
+        <button class="mpt__btn" data-action="clear-log">Clear</button>
+        <button class="mpt__btn" data-action="export">Export session</button>
+      </div>
+      <div class="mpt__console-body">
+        <ol class="mpt__log" id="mpt-log" aria-live="off"></ol>
+        <div class="mpt__detail-wrap">
+          <button class="mpt__btn mpt__copy" data-action="copy">Copy</button>
+          <pre class="mpt__detail" id="mpt-detail">Select an event to inspect its payload.</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="mpt__docs">
+      <h2>Event reference</h2>
+      <p>Every canonical event and what it becomes at each destination. A dash means that vendor has no equivalent call (Adobe computes milestones server-side, for example).</p>
+      <div class="mpt__table-wrap">
+        <table class="mpt__table">
+          <thead><tr><th>Canonical</th><th>Category</th><th>GA4</th><th>Adobe Media (Edge)</th><th>Segment</th><th>When it fires</th></tr></thead>
+          <tbody>
+            {reference.map((r) => (
+              <tr><td><code>{r.event}</code></td><td>{r.category}</td><td>{r.ga4}</td><td>{r.adobe}</td><td>{r.segment}</td><td>{r.description}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Scripting it</h2>
+      <p>The player exposes <code>window.mockPlayer</code> and a DOM event, so tests and demos can drive it:</p>
+      <pre class="mpt__code"><code>{`window.addEventListener('mockplayer:event', (e) => console.log(e.detail.event, e.detail));
+
+mockPlayer.load('perseverance-landing');   // or an index
+mockPlayer.setNetwork('3g');               // ${['unthrottled', 'fiber', 'cable', 'lte', '3g', 'edge', 'flaky', 'offline'].join(' | ')}
+mockPlayer.setFormFactor('ctv');           // desktop | mobile | tablet | ctv | embed
+mockPlayer.seek(42);
+mockPlayer.setQuality('large');            // auto | large | medium | small | mobile
+mockPlayer.injectError('network_404');     // bandwidth_crash | network_404 | media_decode | drm_license | ad_vast_303
+mockPlayer.map('adobe', mockPlayer.events.at(-1));`}</code></pre>
+
+      <h2>Keyboard</h2>
+      <p class="mpt__keys"><kbd>Space</kbd>/<kbd>K</kbd> play · <kbd>J</kbd>/<kbd>L</kbd> ±10 s · <kbd>←</kbd>/<kbd>→</kbd> ±5 s · <kbd>↑</kbd>/<kbd>↓</kbd> volume · <kbd>M</kbd> mute · <kbd>C</kbd> captions · <kbd>F</kbd> fullscreen · <kbd>I</kbd> mini-player · <kbd>T</kbd> theater · <kbd>&lt;</kbd>/<kbd>&gt;</kbd> speed · <kbd>0</kbd>–<kbd>9</kbd> jump · <kbd>Shift</kbd>+<kbd>N</kbd>/<kbd>P</kbd> next/previous</p>
+
+      <h2>Content</h2>
+      <p>All clips are NASA public-domain media, streamed from <a href="https://images.nasa.gov" target="_blank" rel="noopener">images.nasa.gov</a> in four renditions (180p to 1080p, about 0.3 to 5 Mbps), which is what the adaptive bitrate switches between. Captions are NASA's own, converted to WebVTT. NASA does not endorse this tool.</p>
+      <ol class="mpt__credits">
+        {catalog.map((c) => <li>{c.title} <span>· {c.center} · {c.date} · {c.kind === 'ad' ? 'used as ad creative' : c.kind === 'live' ? 'simulated live stream' : 'on demand'}</span></li>)}
+      </ol>
+    </section>
+  </div>
+</Layout>
+
+<script>
+  import { initTrainer } from '../../../../scripts/mock-player/trainer';
+  initTrainer();
+</script>

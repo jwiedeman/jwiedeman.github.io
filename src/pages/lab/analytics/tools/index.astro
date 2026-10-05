@@ -1,0 +1,12 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import PageHeader from '../../../../components/PageHeader.astro';
+import IndexList from '../../../../components/IndexList.astro';
+import { tools } from '../../../../data/analytics-lab';
+---
+<Layout title="Analytics Tools" description="Open tools for building and testing analytics implementations." headingTracker={false}>
+  <div class="container">
+    <PageHeader title="Tools" dept="Lab / Analytics" meta={[`${tools.length} ${tools.length === 1 ? 'tool' : 'tools'}`]} />
+    <IndexList entries={tools} />
+  </div>
+</Layout>

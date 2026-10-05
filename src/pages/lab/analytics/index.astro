@@ -2,20 +2,68 @@
 import Layout from '../../../layouts/Layout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import IndexList from '../../../components/IndexList.astro';
-
-const entries = [
-  { title: 'GA4 Sandbox', href: '/lab/analytics/ga4-sandbox/', description: 'GA4 base snippet with a live event stream for every interaction pattern.' },
-  { title: 'GTM Sandbox', href: '/lab/analytics/gtm-sandbox/', description: 'Google Tag Manager dataLayer pushes and container behavior.' },
-  { title: 'Adobe Analytics', href: '/lab/analytics/adobe-analytics/', description: 'AppMeasurement setup, page views, and link tracking.' },
-  { title: 'Unified Data Layer', href: '/lab/analytics/unified-data-layer/', description: 'One normalized event model routed to any vendor.' },
-  { title: 'Meta Pixel', href: '/lab/analytics/meta-pixel/', description: 'Meta Pixel base code and standard events.' },
-  { title: 'LinkedIn Insight Tag', href: '/lab/analytics/linkedin-pixel/', description: 'LinkedIn Insight Tag and conversion events.' },
-  { title: 'X Pixel', href: '/lab/analytics/x-pixel/', description: 'X (Twitter) pixel base code and events.' },
-].map((e, i) => ({ ...e, kind: 'Sandbox', id: `AN-${String(i + 1).padStart(2, '0')}` }));
+import { sandboxes, tools } from '../../../data/analytics-lab';
 ---
 <Layout title="Analytics" headingTracker={false}>
   <div class="container">
-    <PageHeader title="Analytics" dept="Lab / 02" meta={[`${entries.length} sandboxes`]} />
-    <IndexList entries={entries} />
+    <PageHeader title="Analytics" dept="Lab / 02" meta={[`${sandboxes.length} sandboxes`, `${tools.length} ${tools.length === 1 ? 'tool' : 'tools'}`]} />
+
+    <div class="lab-tabs" role="tablist" aria-label="Analytics lab">
+      <button role="tab" id="tab-sandboxes" aria-controls="panel-sandboxes" aria-selected="true" data-tab="sandboxes">Sandboxes <span>{sandboxes.length}</span></button>
+      <button role="tab" id="tab-tools" aria-controls="panel-tools" aria-selected="false" data-tab="tools">Tools <span>{tools.length}</span></button>
+    </div>
+
+    <section role="tabpanel" id="panel-sandboxes" aria-labelledby="tab-sandboxes">
+      <IndexList entries={sandboxes} />
+    </section>
+    <section role="tabpanel" id="panel-tools" aria-labelledby="tab-tools" hidden>
+      <IndexList entries={tools} />
+    </section>
   </div>
 </Layout>
+
+<script>
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('.lab-tabs [data-tab]'));
+  function select(name: string, updateHash = true) {
+    for (const t of tabs) {
+      const on = t.dataset.tab === name;
+      t.setAttribute('aria-selected', String(on));
+      document.getElementById(`panel-${t.dataset.tab}`)!.hidden = !on;
+    }
+    if (updateHash) history.replaceState(null, '', name === 'sandboxes' ? location.pathname : `#${name}`);
+  }
+  tabs.forEach((t) => t.addEventListener('click', () => select(t.dataset.tab!)));
+  if (location.hash === '#tools') select('tools', false);
+</script>
+
+<style>
+  .lab-tabs {
+    display: flex;
+    margin-bottom: var(--space-2);
+  }
+
+  .lab-tabs button {
+    font-family: var(--font-mono);
+    font-size: var(--text-12);
+    padding: 6px 14px;
+    background: transparent;
+    border: 1px solid var(--border-medium);
+    color: var(--color-muted);
+    cursor: pointer;
+  }
+
+  .lab-tabs button + button {
+    border-left: 0;
+  }
+
+  .lab-tabs button span {
+    margin-left: 6px;
+    opacity: 0.6;
+  }
+
+  .lab-tabs button[aria-selected='true'] {
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-bg);
+  }
+</style>
