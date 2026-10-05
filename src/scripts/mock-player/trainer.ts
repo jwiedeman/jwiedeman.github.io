@@ -279,6 +279,17 @@ export function initTrainer() {
     $('#mpt-gtm-status').textContent = `${id} loaded. Player events arrive as custom events named mockplayer.<event>.`;
   };
 
+  /* ---------------- fit the dashboard to the window ---------------- */
+  // The three columns share one screen; each scrolls on its own. Below the
+  // stacking breakpoint the CSS ignores this and the page scrolls normally.
+  const app = $('#mpt-app');
+  const fit = () => {
+    const top = app.getBoundingClientRect().top + window.scrollY;
+    app.style.setProperty('--mpt-h', `${Math.max(560, window.innerHeight - top - 16)}px`);
+  };
+  fit();
+  window.addEventListener('resize', fit);
+
   /* ---------------- start ---------------- */
   setFormFactor('desktop');
   player.load(0, { autoplay: false, reason: 'initial' });

@@ -1,6 +1,5 @@
 ---
 import Layout from '../../../../layouts/Layout.astro';
-import PageHeader from '../../../../components/PageHeader.astro';
 import catalog from '../../../../data/mock-player-catalog.json';
 import { EVENT_CATALOG, type CanonicalEvent } from '../../../../scripts/mock-player/events';
 import { DESTINATIONS } from '../../../../scripts/mock-player/mappers';
@@ -42,16 +41,14 @@ const reference = Object.entries(EVENT_CATALOG).map(([event, meta]) => ({
 ---
 <Layout title="Mock Player" description="An open, fully instrumented video player for practicing media analytics: every player type, control, ad, and QoE event, mapped to GA4, Adobe, Segment, and the dataLayer." headingTracker={false}>
   <div class="container mpt">
-    <PageHeader title="Mock Player" dept="Lab / Analytics / Tools" meta={['Video analytics trainer', `${content.length} NASA clips · 4 destinations`]} />
+    <header class="mpt__head">
+      <h1>Mock Player</h1>
+      <span class="mpt__head-meta">Video analytics trainer · {content.length} NASA clips · 4 destinations</span>
+      <a class="mpt__head-link" href="#reference">How it works ↓</a>
+    </header>
 
-    <p class="mpt__intro">
-      A real HTML5 player wired for measurement. Switch device types, throttle the network, run ads, break things on purpose,
-      and watch every event go out as a canonical record and as GA4, Adobe Media (Edge), Segment, and dataLayer payloads.
-      Everything also lands on <code>window.dataLayer</code>, so you can point your own GTM container at it.
-    </p>
-
-    <div class="mpt__layout">
-      <section class="mpt__stage" data-ff="desktop" data-orientation="landscape" aria-label="Player">
+    <div class="mpt__app" id="mpt-app">
+      <section class="mpt__col mpt__stage" data-ff="desktop" data-orientation="landscape" aria-label="Player">
         <div class="mpt__device">
           <div class="mpt__article" aria-hidden="true">
             <p class="mpt__article-kicker">Embedded article</p>
@@ -77,9 +74,13 @@ const reference = Object.entries(EVENT_CATALOG).map(([event, meta]) => ({
           </div>
           <p class="mpt__hint">Arrow keys and Enter work too.</p>
         </div>
+        <div class="mpt__group">
+          <h2>Playback quality</h2>
+          <dl class="mpt__qoe" id="mpt-qoe"></dl>
+        </div>
       </section>
 
-      <aside class="mpt__panel" aria-label="Trainer controls">
+      <aside class="mpt__col mpt__panel" aria-label="Trainer controls">
         <div class="mpt__group">
           <h2>Device</h2>
           <div class="mpt__seg mpt__devices">
@@ -120,11 +121,6 @@ const reference = Object.entries(EVENT_CATALOG).map(([event, meta]) => ({
         </div>
 
         <div class="mpt__group">
-          <h2>Playback quality</h2>
-          <dl class="mpt__qoe" id="mpt-qoe"></dl>
-        </div>
-
-        <div class="mpt__group">
           <h2>Your GTM container</h2>
           <div class="mpt__inline">
             <input id="mpt-gtm" type="text" placeholder="GTM-XXXXXXX" aria-label="GTM container ID" />
@@ -133,9 +129,8 @@ const reference = Object.entries(EVENT_CATALOG).map(([event, meta]) => ({
           <p class="mpt__hint" id="mpt-gtm-status">Optional. Loads your container on this page so you can build tags against <code>mockplayer.*</code> events.</p>
         </div>
       </aside>
-    </div>
 
-    <section class="mpt__console" aria-label="Event console">
+      <section class="mpt__col mpt__console" aria-label="Event console">
       <div class="mpt__console-head">
         <h2>Events <span id="mpt-count">0</span></h2>
         <div class="mpt__tabs" role="tablist">
@@ -158,9 +153,17 @@ const reference = Object.entries(EVENT_CATALOG).map(([event, meta]) => ({
           <pre class="mpt__detail" id="mpt-detail">Select an event to inspect its payload.</pre>
         </div>
       </div>
-    </section>
+      </section>
+    </div>
 
-    <section class="mpt__docs">
+    <section class="mpt__docs" id="reference">
+      <h2>How it works</h2>
+    <p>
+      A real HTML5 player wired for measurement. Switch device types, throttle the network, run ads, break things on purpose,
+      and watch every event go out as a canonical record and as GA4, Adobe Media (Edge), Segment, and dataLayer payloads.
+      Everything also lands on <code>window.dataLayer</code>, so you can point your own GTM container at it.
+    </p>
+
       <h2>Event reference</h2>
       <p>Every canonical event and what it becomes at each destination. A dash means that vendor has no equivalent call (Adobe computes milestones server-side, for example).</p>
       <div class="mpt__table-wrap">
