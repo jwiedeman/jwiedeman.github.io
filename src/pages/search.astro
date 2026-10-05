@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SiteSearch from '../components/SiteSearch.astro';
+---
+<Layout title="Search" description="Search every page on the site." headingTracker={false}>
+  <div class="container">
+    <PageHeader title="Search" dept="Full text" meta={['Every page, indexed at build']} />
+    <SiteSearch placeholder="Search the site" sectionChips syncUrl autofocus />
+  </div>
+</Layout>

@@ -34,6 +34,7 @@ const sideListId = `${contentId}-rail`;
   data-tracker-version="1"
 >
   <aside
+    data-pagefind-ignore
     class="heading-tracker__rail"
     aria-label={sideLabel}
     data-heading-rail
@@ -45,7 +46,7 @@ const sideListId = `${contentId}-rail`;
     </nav>
   </aside>
   <div class="heading-tracker__main">
-    <div class="heading-tracker__top" data-heading-top hidden>
+    <div class="heading-tracker__top" data-heading-top data-pagefind-ignore hidden>
       <button
         class="heading-tracker__toggle mono"
         data-heading-toggle

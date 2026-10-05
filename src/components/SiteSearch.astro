@@ -1,0 +1,345 @@
+---
+/**
+ * Static full-text search backed by Pagefind. The index is generated from dist/
+ * after `astro build` (see package.json), so there is no server or API: the
+ * browser fetches only the index fragments a query needs.
+ */
+interface Props {
+  /** Restrict results to one section (matches data-pagefind-filter="section"). */
+  section?: string;
+  /** Show filter chips for every section (site-wide search page). */
+  sectionChips?: boolean;
+  /** CSS selector of content to hide while a query is active (e.g. a browse list). */
+  hideWhileSearching?: string;
+  placeholder?: string;
+  /** Mirror the query into ?q= so searches can be shared and reloaded. */
+  syncUrl?: boolean;
+  autofocus?: boolean;
+}
+
+const {
+  section,
+  sectionChips = false,
+  hideWhileSearching,
+  placeholder = 'Search',
+  syncUrl = false,
+  autofocus = false,
+} = Astro.props;
+---
+<div
+  class="site-search"
+  data-section={section}
+  data-chips={sectionChips ? '' : undefined}
+  data-hide={hideWhileSearching}
+  data-sync-url={syncUrl ? '' : undefined}
+>
+  <label class="site-search__field">
+    <span class="sr-only">{placeholder}</span>
+    <span class="site-search__prompt" aria-hidden="true">/</span>
+    <input
+      type="search"
+      class="site-search__input"
+      placeholder={placeholder}
+      autocomplete="off"
+      spellcheck="false"
+      autofocus={autofocus}
+    />
+  </label>
+  {sectionChips && <div class="site-search__chips" role="group" aria-label="Filter by section"></div>}
+  <p class="site-search__status" role="status" aria-live="polite"></p>
+  <ol class="site-search__results"></ol>
+  <button type="button" class="site-search__more" hidden>Show more</button>
+</div>
+
+<script>
+  type PagefindResult = { data: () => Promise<PagefindData> };
+  type PagefindData = { url: string; excerpt: string; meta: { title?: string }; filters: Record<string, string[]> };
+  type Pagefind = {
+    options: (o: object) => Promise<void>;
+    init: () => void;
+    filters: () => Promise<Record<string, Record<string, number>>>;
+    debouncedSearch: (q: string, o: object, ms: number) => Promise<{ results: PagefindResult[] } | null>;
+  };
+
+  const PAGE_SIZE = 20;
+  let pagefindPromise: Promise<Pagefind | null> | null = null;
+
+  function loadPagefind(): Promise<Pagefind | null> {
+    pagefindPromise ??= (async () => {
+      try {
+        const url = '/pagefind/pagefind.js';
+        const pf = (await import(/* @vite-ignore */ url)) as Pagefind;
+        await pf.options({ excerptLength: 28 });
+        pf.init();
+        return pf;
+      } catch {
+        return null; // index only exists in built output (npm run build)
+      }
+    })();
+    return pagefindPromise;
+  }
+
+  function setup(root: HTMLElement) {
+    const input = root.querySelector<HTMLInputElement>('.site-search__input')!;
+    const status = root.querySelector<HTMLElement>('.site-search__status')!;
+    const list = root.querySelector<HTMLOListElement>('.site-search__results')!;
+    const more = root.querySelector<HTMLButtonElement>('.site-search__more')!;
+    const chips = root.querySelector<HTMLElement>('.site-search__chips');
+    const hideTargets = root.dataset.hide ? Array.from(document.querySelectorAll<HTMLElement>(root.dataset.hide)) : [];
+    const syncUrl = root.dataset.syncUrl !== undefined;
+    let section = root.dataset.section || '';
+    let results: PagefindResult[] = [];
+    let shown = 0;
+
+    const params = new URLSearchParams(location.search);
+    if (params.get('q')) input.value = params.get('q')!;
+    if (chips && params.get('section')) section = params.get('section')!;
+
+    function render(items: PagefindData[]) {
+      for (const item of items) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.className = 'site-search__row';
+        a.href = item.url;
+        const title = document.createElement('span');
+        title.className = 'site-search__title';
+        title.textContent = item.meta.title || item.url;
+        const tag = document.createElement('span');
+        tag.className = 'site-search__tag';
+        // Redundant when the box is already scoped to one section.
+        tag.textContent = root.dataset.section ? '' : item.filters.section?.[0] ?? '';
+        const path = document.createElement('span');
+        path.className = 'site-search__path';
+        path.textContent = decodeURIComponent(item.url).replace(/^\/|\/$/g, '').split('/').slice(0, -1).join(' / ');
+        const excerpt = document.createElement('span');
+        excerpt.className = 'site-search__excerpt';
+        excerpt.innerHTML = item.excerpt; // Pagefind output: our own page text plus <mark> tags
+        a.append(title, tag, path, excerpt);
+        li.append(a);
+        list.append(li);
+      }
+    }
+
+    async function showMore() {
+      const batch = results.slice(shown, shown + PAGE_SIZE);
+      shown += batch.length;
+      render(await Promise.all(batch.map((r) => r.data())));
+      more.hidden = shown >= results.length;
+    }
+
+    async function run() {
+      const q = input.value.trim();
+      if (syncUrl) {
+        const url = new URL(location.href);
+        q ? url.searchParams.set('q', q) : url.searchParams.delete('q');
+        section && chips ? url.searchParams.set('section', section) : url.searchParams.delete('section');
+        history.replaceState(null, '', url);
+      }
+      hideTargets.forEach((el) => (el.hidden = q.length > 0));
+      if (!q) {
+        list.replaceChildren();
+        status.textContent = '';
+        more.hidden = true;
+        return;
+      }
+      const pf = await loadPagefind();
+      if (!pf) {
+        status.textContent = 'Search index not built. Run npm run build.';
+        return;
+      }
+      const search = await pf.debouncedSearch(q, section ? { filters: { section } } : {}, 150);
+      if (search === null) return; // superseded by a newer keystroke
+      results = search.results;
+      shown = 0;
+      list.replaceChildren();
+      status.textContent = results.length
+        ? `${results.length} ${results.length === 1 ? 'result' : 'results'}${section ? ` in ${section}` : ''}`
+        : `No results for "${q}"${section ? ` in ${section}` : ''}`;
+      await showMore();
+    }
+
+    async function buildChips() {
+      if (!chips) return;
+      const pf = await loadPagefind();
+      if (!pf) return;
+      const counts = (await pf.filters()).section ?? {};
+      const names = ['', ...Object.keys(counts).sort()];
+      for (const name of names) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'site-search__chip';
+        b.textContent = name ? `${name} ${counts[name]}` : 'All';
+        b.setAttribute('aria-pressed', String(name === section));
+        b.addEventListener('click', () => {
+          section = name;
+          chips.querySelectorAll('button').forEach((c) => c.setAttribute('aria-pressed', String(c === b)));
+          run();
+        });
+        chips.append(b);
+      }
+    }
+
+    input.addEventListener('input', run);
+    input.addEventListener('focus', () => loadPagefind(), { once: true });
+    more.addEventListener('click', showMore);
+    buildChips();
+    if (input.value) run();
+  }
+
+  document.querySelectorAll<HTMLElement>('.site-search').forEach(setup);
+
+  // "/" focuses the first search box on the page unless you're already typing.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
+    const t = e.target as HTMLElement;
+    if (t.closest('input, textarea, select, [contenteditable="true"]')) return;
+    const box = document.querySelector<HTMLInputElement>('.site-search__input');
+    if (box) {
+      e.preventDefault();
+      box.focus();
+    }
+  });
+</script>
+
+<style>
+  .site-search {
+    margin-bottom: var(--space-4);
+  }
+
+  .site-search__field {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    border: 1px solid var(--border-medium);
+    padding: 0 var(--space-2);
+  }
+
+  .site-search__field:focus-within {
+    border-color: var(--color-text);
+  }
+
+  .site-search__prompt {
+    color: var(--color-muted);
+  }
+
+  .site-search__input {
+    flex: 1;
+    width: 100%;
+    max-width: none;
+    border: 0;
+    background: transparent;
+    padding: var(--space-2) 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-16);
+    color: var(--color-text);
+    outline: none;
+    box-shadow: none;
+  }
+
+  .site-search__input:focus-visible {
+    box-shadow: none;
+  }
+
+  .site-search__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: var(--space-2);
+  }
+
+  .site-search__chips :global(.site-search__chip) {
+    font-family: var(--font-mono);
+    font-size: var(--text-11);
+    padding: 0.25rem 0.6rem;
+    background: transparent;
+    border: 1px solid var(--border-medium);
+    color: var(--color-muted);
+    cursor: pointer;
+  }
+
+  .site-search__chips :global(.site-search__chip[aria-pressed='true']) {
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-bg);
+  }
+
+  .site-search__status {
+    font-size: var(--text-11);
+    color: var(--color-muted);
+    margin: var(--space-2) 0 0;
+    min-height: 1.2em;
+  }
+
+  .site-search__results {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-1) 0 0;
+  }
+
+  .site-search__results :global(.site-search__row) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.25rem var(--space-2);
+    padding: var(--space-2) var(--space-1);
+    border-bottom: 1px solid var(--color-rule);
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .site-search__results :global(.site-search__title) {
+    font-size: var(--text-18);
+    letter-spacing: -0.02em;
+  }
+
+  .site-search__results :global(.site-search__tag) {
+    font-size: var(--text-11);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+    text-align: right;
+  }
+
+  .site-search__results :global(.site-search__path) {
+    grid-column: 1 / -1;
+    font-size: var(--text-11);
+    color: var(--color-muted);
+  }
+
+  .site-search__results :global(.site-search__excerpt) {
+    grid-column: 1 / -1;
+    font-size: var(--text-12);
+    color: var(--color-muted);
+    max-width: 60rem;
+  }
+
+  .site-search__results :global(mark) {
+    background: var(--color-text);
+    color: var(--color-bg);
+    padding: 0 0.1em;
+  }
+
+  .site-search__results :global(.site-search__row:hover) :global(*) {
+    color: var(--color-bg);
+  }
+
+  .site-search__results :global(.site-search__row:hover) :global(mark) {
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  .site-search__more {
+    margin-top: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-12);
+    padding: var(--space-1) var(--space-2);
+    background: transparent;
+    border: 1px solid var(--border-medium);
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .site-search__more:hover {
+    background: var(--color-text);
+    color: var(--color-bg);
+  }
+</style>

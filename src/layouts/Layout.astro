@@ -61,6 +61,22 @@ const isLabPage = path.startsWith('/lab');
 // Lab detail pages (/lab/<section>/<page>) get the full viewport width; indexes keep the site measure.
 const isWide = /^\/lab\/[^/]+\/[^/]+/.test(path);
 
+// Section label used as a Pagefind filter, so search can be scoped (e.g. Marketing only).
+const SECTION_BY_PREFIX: [string, string][] = [
+  ['/lab/marketing', 'Marketing'],
+  ['/lab/ai', 'AI'],
+  ['/lab/analytics', 'Analytics'],
+  ['/lab/ads', 'Advertising'],
+  ['/lab/hardware', 'Hardware'],
+  ['/lab', 'Lab'],
+  ['/blog', 'Blog'],
+  ['/work', 'Work'],
+  ['/about', 'About'],
+  ['/contact', 'Contact'],
+];
+const searchSection = SECTION_BY_PREFIX.find(([prefix]) => path === prefix || path.startsWith(`${prefix}/`))?.[1] ?? 'Home';
+const isSearchPage = path === '/search' || path.startsWith('/search/');
+
 const defaultTrackerConfig = {
   enabled: isBlogArticle || isLabPage,
   containerClass: 'container',
@@ -120,7 +136,8 @@ const showHeadingTracker = Boolean(trackerConfig.enabled);
         </div>
       </nav>
     )}
-    <main class:list={{ 'site-main': true, 'site-main--flush': !showNav }}>
+    <main class:list={{ 'site-main': true, 'site-main--flush': !showNav }} data-pagefind-body={isSearchPage ? undefined : ''}>
+      {!isSearchPage && <span hidden data-pagefind-filter="section">{searchSection}</span>}
       {showHeadingTracker ? (
         <HeadingTracker
           containerClass={trackerConfig.containerClass ?? ''}

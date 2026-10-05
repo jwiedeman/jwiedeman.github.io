@@ -2,6 +2,7 @@
 import Layout from '../../../layouts/Layout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import IndexList from '../../../components/IndexList.astro';
+import SiteSearch from '../../../components/SiteSearch.astro';
 
 // Curated module and tactic order; titles and descriptions come from each page's frontmatter.
 const modules = [
@@ -350,6 +351,7 @@ const total = sections.reduce((n, s) => n + s.entries.length, 0);
 <Layout title="Marketing" description={`A catalog of ${total} marketing tactics and techniques, organized by module.`} headingTracker={{ enabled: true, headingsSelector: 'h2', minHeadings: 2 }}>
   <div class="container">
     <PageHeader title="Marketing" dept="Lab / 04" meta={[`${sections.length} modules`, `${total} tactics`]} />
+    <SiteSearch section="Marketing" placeholder={`Search ${total} tactics`} hideWhileSearching=".mk-module" syncUrl />
     {sections.map((section) => (
       <section class="mk-module">
         <h2 id={section.dir}><span class="mk-module__code">{section.code}</span> {section.name}</h2>

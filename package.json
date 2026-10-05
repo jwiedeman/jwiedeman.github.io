@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
     "test": "npm run build && node scripts/test-pages.js",
@@ -16,5 +16,8 @@
     "@jwiedeman/gtm-kit": "^1.2.0",
     "astro": "^4.10.0",
     "simplex-noise": "^4.0.3"
+  },
+  "devDependencies": {
+    "pagefind": "^1.5.2"
   }
 }
