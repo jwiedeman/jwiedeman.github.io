@@ -1,6 +1,7 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import '../../../styles/analytics-sandbox.css';
+import Ga4Flow from '../../../components/diagrams/Ga4Flow.astro';
 
 const heroCtaParams = {
   content_type: 'hero_cta',
@@ -359,6 +360,7 @@ const tutorialBaseParams = {
           <dd class="mono">https://www.google-analytics.com/mp/collect</dd>
         </div>
       </dl>
+      <Ga4Flow />
     </header>
 
     <nav class="sandbox-outline" aria-label="Interaction index">
@@ -2368,6 +2370,12 @@ const tutorialBaseParams = {
       const args = Array.from(arguments);
       window.dataLayer.push(args);
       appendLog(args);
+      // Feed the data-flow diagram in the header.
+      window.dispatchEvent(
+        new CustomEvent('ga4:hit', {
+          detail: { command: String(args[0]), name: args[0] === 'event' ? String(args[1]) : String(args[0]) }
+        })
+      );
     }
 
     window.gtag = gtag;
