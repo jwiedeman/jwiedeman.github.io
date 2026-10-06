@@ -1,38 +1,39 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Geographic Pricing"
-description: "Setting region-based prices that reflect local purchasing power and competitive dynamics."
+description: "Set prices by region to match local purchasing power and competition."
 ---
 # Geographic Pricing
 
-Geographic pricing (geo-pricing) adjusts product prices based on the customer's location — country, region, or market. A SaaS product priced at $49/month in the United States might be priced at $19/month in India or $35/month in Brazil, reflecting differences in purchasing power, competitive landscapes, and willingness to pay. Geo-pricing unlocks revenue from markets that would otherwise be priced out while protecting premium pricing in markets that can support it. It is standard practice for global SaaS, digital products, and e-commerce companies with international audiences.
+Geographic pricing (geo-pricing) sets different prices by country or region. A SaaS plan at $49/month in the United States might be $19/month in India or $35/month in Brazil. The aim is to sell in markets that your home price would shut out, while keeping full price where buyers can pay it. It is common for global SaaS and digital products.
 
-## Core Concept
+## How it works
 
-The economic principle behind geo-pricing is price discrimination based on ability to pay. A developer in Lagos earning $15,000/year faces a fundamentally different value-for-money calculation than a developer in San Francisco earning $180,000/year, even though they derive the same functional value from the product. Without geo-pricing, you either price for San Francisco (and lose the Lagos market entirely) or price for Lagos (and leave massive revenue on the table in San Francisco). Geo-pricing lets you serve both markets at prices that are locally appropriate, maximizing both total revenue and total market penetration.
+Buyers in different countries get the same value from a product but have very different incomes. One global price forces a bad choice: price for high-income markets and lose the rest, or price low and give up revenue where buyers could pay more. Geo-pricing sets a locally sensible price in each market.
 
-## Implementation
+## How to do it
 
-1. Segment your addressable markets into 3-5 pricing tiers based on purchasing power parity (PPP). A common framework: Tier 1 (US, Canada, UK, Australia, Western Europe) at full price, Tier 2 (Eastern Europe, parts of Asia, Middle East) at 60-70% of full price, Tier 3 (India, Southeast Asia, Africa, Latin America) at 30-50% of full price. Use the World Bank's PPP data as a starting point.
-2. Detect location using IP geolocation. Services like MaxMind, IP2Location, or Cloudflare provide accurate country-level detection. Display the local price on your pricing page automatically, with the local currency and any relevant tax information. Avoid making the customer search for their regional pricing — surface it proactively.
-3. Implement currency localization alongside price localization. Showing $19 USD in Brazil is less effective than showing R$95 BRL. Use a currency conversion service with regularly updated exchange rates, or set fixed local-currency prices that you update quarterly. Display the currency symbol prominently.
-4. Protect against arbitrage. VPN users from Tier 1 countries accessing Tier 3 pricing is a real concern. Common safeguards: require a billing address that matches the detected region, use payment method country of origin as a secondary check, and accept that a small percentage of arbitrage is the cost of global pricing — do not let it prevent you from serving legitimate Tier 3 customers.
-5. Test geo-pricing's impact on revenue by launching in one new market tier at a time. Start with your largest untapped market (often India or Brazil for SaaS companies), introduce localized pricing, and measure new signups, conversion rate, revenue per visitor, and any increase in support requests. Use these results to calibrate pricing for subsequent market tiers.
+1. Group markets into three to five pricing tiers using purchasing power parity data, such as the World Bank's.
+2. Set a discount level per tier. Example: full price in tier 1, 60-70% in tier 2, 30-50% in tier 3.
+3. Detect country by IP and show the local price automatically on the pricing page.
+4. Show prices in local currency. Set fixed local prices and review them on a schedule.
+5. Guard against arbitrage. Require a billing address or payment card from the same country as the price.
+6. Launch one new tier at a time. Measure signups, conversion, and revenue before expanding.
 
-## Key Metrics
+## What to measure
 
-- **Revenue per market tier** — total revenue from each geographic pricing tier, tracked over time to measure whether geo-pricing is growing the global revenue pie rather than shifting revenue from higher tiers to lower ones
-- **Conversion rate by geography** — comparison of pricing page conversion rates before and after introducing localized pricing, typically showing 2-4x improvement in Tier 2-3 markets
-- **Arbitrage rate** — percentage of customers using VPNs or mismatched billing addresses to access lower-tier pricing, which should remain below 2-3% to confirm that safeguards are working
+- **Revenue by pricing tier**: total revenue per tier over time, to confirm growth is new rather than shifted from tier 1.
+- **Conversion rate by country**: pricing page conversion before and after localized prices.
+- **Arbitrage rate**: share of lower-tier customers whose billing country does not match the price region.
 
-## Best Practices
+## Best practices
 
-- Communicate geo-pricing as "localized pricing" or "pricing adjusted for your region" rather than as a "discount." Customers in lower-tier markets should not feel like they are receiving charity — they should feel like the price reflects their local market reality. Framing matters.
-- Adjust not just the price but also the plan features if necessary. Some markets may benefit from a simpler, lower-cost plan that is not offered in Tier 1 markets. A lightweight plan at $5/month might not cannibalize your $49 Tier 1 plan but could unlock an entire market that would otherwise go to a local competitor.
-- Review and update geo-pricing annually. Exchange rates fluctuate, purchasing power shifts, and local competitors enter or exit markets. A price set three years ago in Brazilian reais may no longer be competitive or profitable after currency movements.
+- Call it "pricing for your region," not a discount.
+- Consider a lighter plan for some markets instead of only cutting price.
+- Review prices at least once a year. Exchange rates and local competitors change.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Applying a blanket discount to all non-US markets without considering local competitive dynamics. Some markets (UK, Germany, Australia) have purchasing power close to the US and do not need a discount. Discounting where it is not needed sacrifices revenue without improving conversion.
-- Announcing geo-pricing publicly on social media or blogs. This invites Tier 1 customers to seek Tier 3 pricing and creates a public debate about fairness. Implement geo-pricing quietly through location-detected pricing pages rather than broadcasting it.
-- Ignoring local tax and regulatory requirements. Many countries have VAT, GST, or digital services taxes that must be included in or added to the displayed price. A $19 price that becomes $23 after tax at checkout creates sticker shock and reduces conversion. Display the all-inclusive price whenever possible.
+- Discounting every non-US market. Many high-income countries do not need a discount.
+- Broadcasting regional prices. It invites tier 1 buyers to hunt for lower prices. Let location-based pricing pages do the work.
+- Ignoring local taxes. VAT, GST, and digital services taxes can raise the final price. Show tax-inclusive prices where that is the local norm or requirement.

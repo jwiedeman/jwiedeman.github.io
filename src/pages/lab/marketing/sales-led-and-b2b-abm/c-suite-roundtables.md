@@ -1,39 +1,39 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "C-Suite Roundtables"
-description: "Hosting exclusive executive roundtable events that build relationships and create pipeline with senior buyers."
+description: "Small, invitation-only executive discussions that build relationships with senior buyers."
 ---
 # C-Suite Roundtables
 
-C-suite roundtables are intimate, invitation-only events that bring together 8-15 senior executives for a structured discussion on a topic relevant to their shared challenges. Unlike conferences or webinars, roundtables position your brand as a convener of peer conversations rather than a vendor pitching a product. Attendees come for the peer networking and leave with a positive association with your brand. Well-run roundtables generate pipeline from 40-60% of attendees within 90 days.
+A C-suite roundtable is a small, invitation-only event where 8-15 senior executives discuss a shared challenge. Your brand hosts the conversation instead of pitching a product. Attendees come for the peer discussion. The commercial value comes from the relationships you build during and after the event.
 
-## Core Concept
+## How it works
 
-Senior executives do not attend vendor-hosted events to hear a sales pitch — they attend to learn from peers facing similar challenges. A roundtable succeeds when it creates genuine value through facilitated peer discussion, not through product demonstration. Your brand's role is to curate the guest list, facilitate the conversation, and provide a premium experience. The commercial payoff comes from the relationships built during and after the event, not from a pitch during it.
+Senior executives do not attend vendor events to hear a sales pitch. They attend to learn from peers with similar problems. Your job is to pick the right guests, run a good discussion, and provide a quality setting. Product conversations happen later, in follow-up meetings.
 
-## Implementation
+## How to do it
 
-1. **Choose a topic that is urgent and universal:** Select a challenge that every invitee is actively facing — not your product category, but the business problem your product solves. "Scaling revenue operations while cutting headcount" works better than "CRM automation best practices." The topic should be specific enough to generate real discussion and broad enough that 12+ executives find it relevant.
-2. **Curate the guest list ruthlessly:** Invite 25-30 executives to fill 12-15 seats (expect 40-60% attendance rate). Every invitee should be at a comparable seniority level and facing similar challenges. Mixing a Fortune 500 CEO with a Series A founder creates an awkward dynamic. Homogeneity of experience level drives better conversation.
-3. **Design the experience:** Hold the event at a premium venue — a private dining room, a members-only club, or an executive boardroom. Serve high-quality food and beverage. Plan for a 2-hour format: 15 minutes of networking, 75 minutes of facilitated discussion (not presentation), and 30 minutes of open networking. Hire a professional moderator or use a well-prepared internal executive.
-4. **Facilitate, do not pitch:** Prepare 5-7 discussion questions that guide the conversation without steering it toward your product. Open with a brief framing (2-3 minutes on trends and data), then let the group discuss. Your brand gets mentioned in the introduction and the closing thanks — that is enough. Any product discussion should happen in follow-up meetings, not during the roundtable.
-5. **Execute post-event follow-up:** Within 48 hours, send a personalized thank-you note to each attendee with a summary of key insights from the discussion. Offer a one-on-one follow-up meeting to continue a specific thread from the conversation. The assigned sales rep should reference a specific comment the executive made: "You mentioned struggling with X — I would love to show you how we are helping similar companies."
+1. **Pick an urgent, shared topic.** Choose the business problem your product solves, not your product category. "Scaling revenue operations with a smaller team" works better than "CRM automation best practices."
+2. **Build the guest list.** Invite about twice as many executives as you have seats, since many will decline. Keep seniority and company stage similar so the conversation is useful to everyone.
+3. **Plan the format.** Book a private dining room or boardroom. Plan about two hours: 15 minutes of arrival, 75 minutes of facilitated discussion, and 30 minutes of open conversation. Use a professional moderator or a well-prepared senior executive.
+4. **Facilitate, do not pitch.** Prepare 5-7 discussion questions. Open with 2-3 minutes of framing, then let the group talk. Mention your company only in the welcome and the thank-you.
+5. **Follow up within 48 hours.** Send each attendee a personal thank-you and a summary of key points. Offer a one-on-one meeting that continues a specific thread they raised.
 
-## Key Metrics
+## What to measure
 
-- **Attendance Rate** — percentage of confirmed RSVPs who actually attend; 70%+ indicates strong topic-market fit and effective invitation strategy
-- **Post-Event Meeting Rate** — percentage of attendees who agree to a follow-up one-on-one meeting within 30 days; target 40-60%
-- **Pipeline Generated (90-day)** — dollar value of qualified pipeline created from roundtable attendees within 90 days of the event; divide by total event cost for ROI
+- **Attendance rate**: attendees divided by confirmed RSVPs.
+- **Follow-up meeting rate**: attendees who book a one-on-one within 30 days, divided by attendees.
+- **90-day pipeline**: qualified pipeline from attendee accounts within 90 days, divided by total event cost.
 
-## Best Practices
+## Best practices
 
-- Invite one or two existing customers to participate as peers, not as testimonials — their authentic participation in the discussion is more persuasive than any prepared case study
-- Have your CEO or a senior executive co-host rather than a sales rep — peer-level presence signals that you take the relationship seriously
-- Produce a brief insights report from the discussion (anonymized) and share it with attendees and non-attendees as a content asset — this extends the event's value and creates a reason to follow up with invitees who could not attend
-- Run roundtables quarterly in different cities or verticals to build a recurring franchise that executives look forward to
+- Invite one or two current customers as peers, not as testimonials. Their honest participation is more persuasive than a case study.
+- Have your CEO or another senior executive co-host. Peer-level presence shows you take the relationship seriously.
+- Publish a short, anonymized summary of the discussion. Send it to attendees and to invitees who could not come.
+- Run roundtables on a regular schedule in different cities or industries so they become a recurring series.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Turning the roundtable into a sales presentation — even 5 minutes of product pitch can destroy the trust you built with 2 hours of genuine discussion. The product sells itself in the follow-up, not during the event.
-- Inviting too many people — more than 15 attendees turns a roundtable into a panel, and individual executives get less airtime. Smaller is better for relationship building.
-- Poor moderation — a roundtable without a skilled facilitator devolves into one or two people dominating the conversation. Invest in a moderator who can draw out quiet participants and manage time.
+- Pitching during the event. Even a few minutes of product talk can undo the trust built in the discussion.
+- Inviting too many people. Above about 15 attendees, it becomes a panel and each person gets less time to speak.
+- Weak moderation. Without a skilled facilitator, one or two people dominate. Choose a moderator who can draw out quiet participants and keep time.

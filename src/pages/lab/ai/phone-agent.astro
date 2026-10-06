@@ -1,44 +1,19 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 
-const architectureDiagram = `┌─────────────────────────────────────────────────────────────────────────────┐
-│                           PHONE AGENT SYSTEM                                 │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│   ┌──────────┐     ┌──────────────┐     ┌──────────────────────────────┐   │
-│   │  PHONE   │────▶│   FXS/ATA    │────▶│      RASPBERRY PI            │   │
-│   │ HANDSET  │◀────│   ADAPTER    │◀────│                              │   │
-│   │  (RJ11)  │     │              │     │  ┌────────────────────────┐  │   │
-│   └──────────┘     └──────────────┘     │  │    AUDIO INTERFACE     │  │   │
-│                                          │  │  - Mic input (STT)     │  │   │
-│                                          │  │  - Speaker out (TTS)   │  │   │
-│                                          │  └───────────┬────────────┘  │   │
-│                                          │              │               │   │
-│                                          │  ┌───────────▼────────────┐  │   │
-│                                          │  │   SPEECH-TO-TEXT       │  │   │
-│                                          │  │   (Vosk/Whisper.cpp)   │  │   │
-│                                          │  └───────────┬────────────┘  │   │
-│                                          │              │               │   │
-│                                          │  ┌───────────▼────────────┐  │   │
-│                                          │  │    RESPONSE ENGINE     │  │   │
-│                                          │  │                        │  │   │
-│                                          │  │  ┌──────────────────┐  │  │   │
-│                                          │  │  │  RULE MATCHER    │  │  │   │
-│                                          │  │  │  (Markov Chain)  │  │  │   │
-│                                          │  │  └────────┬─────────┘  │  │   │
-│                                          │  │           │            │  │   │
-│                                          │  │     ┌─────▼─────┐      │  │   │
-│                                          │  │     │  MATCH?   │      │  │   │
-│                                          │  │     └─────┬─────┘      │  │   │
-│                                          │  │       YES │ NO         │  │   │
-│                                          │  │     ┌─────▼─────┐      │  │   │
-│                                          │  │     │ MP3 PLAY  │      │  │   │
-│                                          │  │     │ or CHAIN  │      │  │   │
-│                                          │  │     └───────────┘      │  │   │
-│                                          │  └────────────────────────┘  │   │
-│                                          └──────────────────────────────┘   │
-│                                                                              │
-└─────────────────────────────────────────────────────────────────────────────┘`;
+const architectureDiagram = `Phone handset (RJ11)
+   │  analog line
+   ▼
+ATA with an FXS port (for example Grandstream HT801)
+   │  SIP call + RTP audio over the local network
+   ▼
+Raspberry Pi
+   ├─ SIP client (pjsua2): answer, hang up, send and receive audio
+   ├─ Speech-to-text (Vosk or Whisper.cpp)
+   ├─ Rule engine: match the transcript against rules.yaml
+   │     ├─ match    → play an MP3, move to the next state
+   │     └─ no match → play a fallback MP3, retry, then escalate
+   └─ Audio player: send the MP3 audio back into the call`;
 
 const yamlSchema = `<span class="comment"># rules.yaml - Phone Agent Configuration</span>
 
@@ -94,189 +69,197 @@ const projectFiles = `phone-agent/
 │   ├── main.py             # Entry point
 │   ├── sip_handler.py      # SIP/RTP management
 │   ├── speech.py           # STT/TTS interface
-│   ├── rules_engine.py     # Markov chain + state machine
+│   ├── rules_engine.py     # State machine + keyword matching
 │   ├── audio_player.py     # MP3 playback control
 │   └── utils.py            # Helpers
 ├── tests/
 ├── requirements.txt
 └── README.md`;
 ---
-<Layout title="Phone Agent" description="Raspberry Pi phone agent with Markov chain response engine and MP3 playback for landline automation." headingTracker={false}>
+<Layout title="Phone Agent" description="Design for a Raspberry Pi that answers an analog phone, matches what the caller says against keyword rules, and plays recorded MP3 replies." headingTracker={false}>
   <div class="phone-agent-wrapper">
     <header class="project-header">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <h1>Phone Agent</h1>
-        <span class="status-badge active">In Development</span>
-      </div>
+      <h1>Phone Agent</h1>
       <p class="subtitle">
-        Raspberry Pi-based voice agent for landline phones. Markov chain response matching with MP3 playback,
-        rule-based conversation flows, and optional remote LLM fallback.
+        A Raspberry Pi that answers an analog phone, turns the caller's speech into text, matches it against keyword rules,
+        and plays recorded MP3 replies.
       </p>
+      <p><a href="/lab/ai/">← AI lab</a></p>
     </header>
 
     <section class="section">
-      <h2>System Architecture</h2>
+      <p><strong>Design for a build. Not finished, and the code is not published.</strong></p>
+    </section>
+
+    <section class="section">
+      <h2>How the parts connect</h2>
       <pre class="architecture" set:html={architectureDiagram}></pre>
     </section>
 
     <section class="section">
-      <h2>Core Components</h2>
+      <h2>Parts</h2>
       <div class="components-grid">
         <div class="component-card">
-          <h3>Phone Interface</h3>
-          <p>RJ11 connection via FXS adapter (Grandstream HT801 or similar ATA device)</p>
+          <h3>Phone interface</h3>
+          <p>An ATA (analog telephone adapter) with an FXS port turns the analog phone into a SIP endpoint.</p>
           <ul>
-            <li>Analog phone signal conversion</li>
-            <li>Ring detection / off-hook handling</li>
-            <li>DTMF tone generation</li>
-            <li>SIP/RTP audio streaming to Pi</li>
+            <li>Detects off-hook and rings the phone</li>
+            <li>Detects keypad (DTMF) tones</li>
+            <li>Sends call audio to the Pi over SIP/RTP</li>
           </ul>
         </div>
 
         <div class="component-card">
-          <h3>Speech Recognition</h3>
-          <p>On-device STT using Vosk or Whisper.cpp for real-time transcription</p>
+          <h3>Speech-to-text</h3>
+          <p>Runs on the Pi, with no cloud service.</p>
           <ul>
-            <li>Offline operation (no cloud dependency)</li>
-            <li>Low-latency streaming recognition</li>
-            <li>Custom vocabulary for domain terms</li>
-            <li>Voice activity detection (VAD)</li>
+            <li>Vosk for streaming recognition</li>
+            <li>Optional custom vocabulary for expected words</li>
+            <li>Voice activity detection to find the end of a sentence</li>
           </ul>
         </div>
 
         <div class="component-card">
-          <h3>Markov Chain Engine</h3>
-          <p>Pattern matching with probabilistic state transitions for natural flow</p>
+          <h3>Rule engine</h3>
+          <p>A state machine. Each state has keyword or regex triggers and an action.</p>
           <ul>
-            <li>Keyword/phrase trigger matching</li>
-            <li>Weighted response selection</li>
-            <li>Conversation state tracking</li>
-            <li>Fallback chain handling</li>
+            <li>Keyword, regex, and fuzzy matching</li>
+            <li>Tracks the current state of the call</li>
+            <li>Falls back and retries when nothing matches</li>
+            <li>Optional: pick at random between several recordings for the same reply</li>
           </ul>
         </div>
 
         <div class="component-card">
-          <h3>MP3 Playback</h3>
-          <p>Pre-recorded audio responses for consistent, professional output</p>
+          <h3>MP3 playback</h3>
+          <p>Replies are pre-recorded, so they always sound the same.</p>
           <ul>
-            <li>Response audio library management</li>
-            <li>Dynamic playlist chaining</li>
-            <li>Volume normalization</li>
-            <li>Interrupt handling (barge-in)</li>
+            <li>Folder of MP3 files per topic</li>
+            <li>Play several files in a row</li>
+            <li>Normalize volume</li>
+            <li>Stop playback when the caller starts talking (barge-in)</li>
           </ul>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <h2>Rule Configuration</h2>
+      <h2>Rules</h2>
       <p>
-        Rules define trigger patterns and their corresponding actions. When caller speech matches a trigger,
-        the system executes the action (play MP3, chain to next rule, or escalate).
+        Each rule pairs trigger words with an action. When the caller's words match a trigger, the action runs:
+        play an MP3, move to another state, escalate, or hang up.
       </p>
 
       <div class="rule-example">
         <div class="trigger">TRIGGER: "hello" | "hi" | "hey" | "good morning"</div>
-        <div class="action">ACTION: play("greetings/welcome.mp3") → chain("main_menu")</div>
+        <div class="action">ACTION: play("greetings/welcome.mp3") → next("main_menu")</div>
       </div>
 
       <div class="rule-example">
-        <div class="trigger">TRIGGER: "hours" | "when are you open" | "what time"</div>
-        <div class="action">ACTION: play("info/business_hours.mp3") → chain("anything_else")</div>
+        <div class="trigger">TRIGGER: "hours" | "open" | "time"</div>
+        <div class="action">ACTION: play("info/hours.mp3") → next("anything_else")</div>
       </div>
 
       <div class="rule-example">
-        <div class="trigger">TRIGGER: "speak to someone" | "real person" | "representative"</div>
-        <div class="action">ACTION: play("transfer/please_hold.mp3") → escalate()</div>
+        <div class="trigger">TRIGGER: "person" | "human" | "representative"</div>
+        <div class="action">ACTION: play("transfer/hold.mp3") → escalate()</div>
       </div>
 
       <div class="rule-example">
-        <div class="trigger">TRIGGER: * (no match / timeout)</div>
-        <div class="action">ACTION: play("fallback/didnt_understand.mp3") → retry(2) → escalate()</div>
+        <div class="trigger">TRIGGER: no match or timeout</div>
+        <div class="action">ACTION: play("fallback/options.mp3") → retry up to 2 times</div>
       </div>
 
-      <h3 style="margin-top: 24px; font-size: 12px; color: var(--fg-strong); text-transform: uppercase; letter-spacing: 0.04em;">Rule Schema (YAML)</h3>
+      <h3 style="margin-top: 24px; font-size: 12px; color: var(--fg-strong); text-transform: uppercase; letter-spacing: 0.04em;">Rule file (YAML)</h3>
       <pre class="code-block" set:html={yamlSchema}></pre>
     </section>
 
     <section class="section">
-      <h2>Hardware Requirements</h2>
+      <h2>Hardware</h2>
       <ul class="hardware-list">
         <li>
-          <span class="item">Raspberry Pi 4 (4GB+)</span>
-          <span class="note">Sufficient for Vosk STT + audio processing</span>
+          <span class="item">Raspberry Pi 4 (4 GB or more)</span>
+          <span class="note">Assumed enough for Vosk small models; not yet tested</span>
         </li>
         <li>
           <span class="item">Grandstream HT801 ATA</span>
-          <span class="note">FXS port for analog phone, SIP to Pi</span>
+          <span class="note">FXS port for the phone, SIP to the Pi</span>
         </li>
         <li>
-          <span class="item">USB Sound Card</span>
-          <span class="note">Better audio quality than Pi onboard</span>
+          <span class="item">USB sound card</span>
+          <span class="note">Optional; only needed if audio is not routed over SIP</span>
         </li>
         <li>
-          <span class="item">Analog Phone Handset</span>
+          <span class="item">Analog phone</span>
           <span class="note">Any standard RJ11 phone</span>
         </li>
         <li>
-          <span class="item">MicroSD Card (32GB+)</span>
-          <span class="note">OS + audio library storage</span>
+          <span class="item">microSD card (32 GB or more)</span>
+          <span class="note">OS and audio files</span>
         </li>
         <li>
-          <span class="item">Power Supply</span>
-          <span class="note">5V 3A for Pi, separate for ATA</span>
+          <span class="item">Power supplies</span>
+          <span class="note">5 V 3 A for the Pi; the ATA uses its own adapter</span>
         </li>
       </ul>
     </section>
 
     <section class="section">
-      <h2>Software Stack</h2>
+      <h2>Software</h2>
       <div class="components-grid">
         <div class="component-card">
-          <h3>Core Runtime</h3>
+          <h3>Runtime</h3>
           <ul>
             <li>Python 3.11+</li>
-            <li>asyncio for concurrent handling</li>
+            <li>asyncio</li>
             <li>pjsua2 for SIP/RTP</li>
-            <li>PyAudio for audio I/O</li>
+            <li>PyAudio for local audio I/O</li>
           </ul>
         </div>
 
         <div class="component-card">
-          <h3>Speech Processing</h3>
+          <h3>Speech</h3>
           <ul>
-            <li>Vosk (offline STT)</li>
-            <li>pyttsx3 or espeak (TTS fallback)</li>
-            <li>webrtcvad (voice detection)</li>
-            <li>soundfile for MP3/WAV</li>
+            <li>Vosk (offline speech-to-text)</li>
+            <li>pyttsx3 or espeak (text-to-speech fallback)</li>
+            <li>webrtcvad (voice activity detection)</li>
+            <li>soundfile (audio file reading)</li>
           </ul>
         </div>
 
         <div class="component-card">
-          <h3>Rule Engine</h3>
+          <h3>Rule engine</h3>
           <ul>
-            <li>PyYAML for config parsing</li>
-            <li>regex for pattern matching</li>
-            <li>State machine (transitions lib)</li>
-            <li>Fuzzy matching (rapidfuzz)</li>
+            <li>PyYAML (rule file)</li>
+            <li>re (regex matching)</li>
+            <li>transitions (state machine)</li>
+            <li>rapidfuzz (fuzzy matching)</li>
           </ul>
         </div>
 
         <div class="component-card">
-          <h3>Optional Extensions</h3>
+          <h3>Optional</h3>
           <ul>
-            <li>Ollama API (local LLM fallback)</li>
-            <li>Whisper.cpp (better STT)</li>
-            <li>Piper TTS (neural voices)</li>
-            <li>SQLite for call logging</li>
+            <li>Ollama (local LLM when no rule matches)</li>
+            <li>Whisper.cpp (more accurate speech-to-text)</li>
+            <li>Piper (more natural text-to-speech)</li>
+            <li>SQLite (call log)</li>
           </ul>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <h2>Project Files</h2>
-      <p>Source code and documentation will be available in the project repository.</p>
+      <h2>Open questions</h2>
+      <ul>
+        <li>Where does "escalate" send the call on a single home line? Options: ring another SIP phone, or play a message and hang up.</li>
+        <li>Is Vosk accurate enough on narrowband phone audio (8 kHz)?</li>
+        <li>How long is the delay between the caller stopping and the reply starting?</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Planned file layout</h2>
       <pre class="code-block" set:html={projectFiles}></pre>
     </section>
   </div>

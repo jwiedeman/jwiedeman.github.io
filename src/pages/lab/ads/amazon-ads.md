@@ -1,68 +1,81 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "Amazon Ads Playbook"
-description: "Setup guide for Sponsored Ads, DSP, and retail readiness on Amazon."
+description: "Setup guide for Sponsored Products, Sponsored Brands, Sponsored Display, and Amazon DSP."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Advertising</p>
-  <h1>Amazon Ads Playbook</h1>
-  <p class="intro">Amazon Ads performs best when retail operations and media are planned together. This playbook keeps product detail pages, inventory, and DSP campaigns in sync.</p>
 
-  <section>
-    <h2>Retail readiness</h2>
-    <ul>
-      <li>Confirm Buy Box ownership above 95% for promoted ASINs.</li>
-      <li>Product detail pages must include 6+ images, enhanced A+ content, and at least 25 reviews (4+ star average).</li>
-      <li>Inventory minimum: 30 days cover for each ASIN; coordinate with supply chain to avoid stock-outs.</li>
-    </ul>
-  </section>
+[← Ads lab](/lab/ads/)
 
-  <section>
-    <h2>Sponsored Ads structure</h2>
-    <ul>
-      <li>Separate campaigns for Sponsored Products (automatic vs manual), Sponsored Brands, and Sponsored Display.</li>
-      <li>Manual campaigns: use keyword match type pods (Exact, Phrase, Broad) with shared negative keyword lists.</li>
-      <li>Sponsored Brands: build landing pages in Stores and utilize video placements where available.</li>
-    </ul>
-  </section>
+# Amazon Ads Playbook
 
-  <section>
-    <h2>DSP architecture</h2>
-    <ul>
-      <li>Construct separate orders for Prospecting, Remarketing, and Loyalty with unique frequency caps.</li>
-      <li>Leverage Amazon Marketing Cloud (AMC) audiences for high-value segments.</li>
-      <li>Add third-party verification and measurement tags in the DSP when using external verification.</li>
-    </ul>
-  </section>
+How to set up and run Sponsored Products, Sponsored Brands, Sponsored Display, and Amazon DSP. On Amazon, ad results depend on the product page, price, stock, and reviews, so plan retail and media together.
 
-  <section>
-    <h2>Measurement and reporting</h2>
-    <ul>
-      <li>Use Amazon Attribution tags for off-Amazon media driving to Amazon store pages.</li>
-      <li>Pull search term reports and DSP delivery reports weekly; surface insights to merchandising teams.</li>
-      <li>Feed AMC queries into BI dashboards for path-to-purchase and halo analysis.</li>
-    </ul>
-  </section>
+## Account structure
 
-  <section>
-    <h2>Optimization cadence</h2>
-    <ul>
-      <li><strong>Daily:</strong> Monitor retail health (inventory, Buy Box, pricing) and pause ads if stock dips below threshold.</li>
-      <li><strong>Weekly:</strong> Adjust bids by placement type (Top of Search, Product Pages) and update negative keywords.</li>
-      <li><strong>Monthly:</strong> Evaluate DSP reach/frequency, update AMC segments, and refresh creative assets.</li>
-    </ul>
-  </section>
+- Enroll in Amazon Brand Registry. Sponsored Brands and Stores require it.
+- Group campaigns by product line or brand, then by ad type.
+- Split Sponsored Products into automatic and manual campaigns.
+- Use portfolios to group campaigns and set budget caps.
+- Use a consistent naming pattern, for example `Brand-ProductLine-AdType-Targeting`.
 
-  <section>
-    <h2>Pre-launch checklist</h2>
-    <ul>
-      <li>Sponsored Ads tracking templates tested; budgets allocated per ASIN priority.</li>
-      <li>DSP creatives approved and trafficking complete in the Amazon DSP console.</li>
-      <li>Inventory, pricing, and promotions aligned with campaign calendar.</li>
-      <li>Attribution and AMC reporting dashboards configured for stakeholders.</li>
-    </ul>
-  </section>
+## Tracking and measurement
+
+- Read results in the Amazon Ads console: sales, ACOS (ad cost of sales), and ROAS.
+- Use Amazon Attribution to measure off-Amazon ads (search, social, email) that send traffic to Amazon.
+- Use Amazon Marketing Cloud (AMC) for path-to-purchase, overlap, and new-to-brand analysis.
+- Track total sales, not only ad-attributed sales. Ads can lift organic rank and sales.
+
+## Campaign types
+
+| Type | Use it for |
+| --- | --- |
+| Sponsored Products | Individual product ads in search results and on product pages. Start here. |
+| Sponsored Brands | Logo, headline, and multiple products, or video, at the top of search. Links to a product or your Store. |
+| Sponsored Display | Product and audience targeting on and off Amazon, including retargeting. |
+| Sponsored TV | Streaming TV ads, including on Prime Video. |
+| Amazon DSP | Programmatic display, video, and audio with Amazon audiences, on and off Amazon. |
+
+## Targeting
+
+- Automatic campaigns: use them to find new search terms. Check the search term report weekly.
+- Move converting search terms into manual exact-match campaigns. Add them as negative exact in the automatic campaign.
+- Use product targeting to show ads on competitor and complementary product pages.
+- Defend your own product pages with product targeting on your own ASINs.
+- In DSP, separate prospecting, retargeting, and loyalty audiences and give each its own frequency cap.
+
+## Creative
+
+- The product detail page is the creative. Fix titles, images, bullets, and A+ Content before spending.
+- Advertise only products that win the Buy Box and are in stock.
+- Sponsored Brands: build a Store with category pages to send traffic to.
+- Sponsored Brands video: show the product in the first seconds. Assume sound is off.
+
+## Budget and bidding
+
+- Choose a Sponsored Products bid strategy: dynamic bids down only, dynamic bids up and down, or fixed bids.
+- Use placement adjustments for top of search and product pages based on where sales come from.
+- Set a target ACOS per product based on its margin.
+- Watch for campaigns that run out of budget early in the day.
+
+## Review cadence
+
+- **Daily:** stock, Buy Box, pricing, and budget burn. Pause ads on products that are out of stock.
+- **Weekly:** search term report, negatives, and bid changes.
+- **Monthly:** placement results, DSP reach and frequency, AMC reports, and creative refresh.
+
+## Pre-launch checklist
+
+- [ ] Brand Registry active.
+- [ ] Product pages complete: title, images, bullets, A+ Content.
+- [ ] Advertised products in stock and winning the Buy Box.
+- [ ] Campaign structure, naming, and portfolios set.
+- [ ] Negative keywords and negative product targets added.
+- [ ] Target ACOS set per product.
+- [ ] Amazon Attribution tags on off-Amazon links.
+- [ ] Promotions and price changes aligned with the campaign calendar.
+
 </div>

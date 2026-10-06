@@ -1,38 +1,40 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Affiliate Codes & UTMs"
-description: "Setting up influencer affiliate tracking with unique discount codes and UTM parameters for accurate attribution."
+description: "Track influencer sales with a unique discount code and a tagged link for each creator."
 ---
 # Affiliate Codes & UTMs
 
-Affiliate codes and UTM parameters are the backbone of influencer marketing attribution. Without them, you are flying blind — unable to determine which creators drive real revenue versus vanity impressions. A well-structured tracking system lets you confidently scale spend toward top performers and cut underperformers before wasting budget.
+Give each creator a unique discount code and a UTM-tagged link. Together they show which creators drive sales and which only drive views. With that data you can put more budget behind the creators who sell.
 
-## Core Concept
+## How it works
 
-The system works on two layers: vanity discount codes (e.g., SARAH15) give influencers something memorable to share verbally in stories and videos, while UTM-tagged links capture the click-level data needed for precise digital attribution. Together, they close the measurement gap between content that drives direct clicks and content that drives code redemptions days later through brand recall.
+Tracking works on two layers. A short code (for example, SARAH15) is easy to say out loud in a video or story. A UTM link records the click and the session in your analytics. Codes catch buyers who remember the creator days later. Links catch buyers who click straight through.
 
-## Implementation
+## How to do it
 
-1. Generate unique discount codes per influencer using a consistent naming convention — format as CREATORNAME + discount percentage (e.g., JAKE20) and set up each code in your e-commerce platform (Shopify, WooCommerce) with proper expiration dates and usage limits.
-2. Build UTM-tagged links for each creator using a standardized taxonomy: `utm_source=influencer`, `utm_medium=affiliate`, `utm_campaign=creatorname`, `utm_content=platform-contenttype` (e.g., `utm_content=instagram-reels`) — use a UTM builder template to keep the team consistent.
-3. Shorten tracked links through a branded short domain (e.g., go.yourbrand.com/sarah) using tools like Rebrandly or Bitly Enterprise, which preserves UTM data while giving influencers clean URLs they will actually use.
-4. Set up a reporting dashboard (Google Analytics 4, Looker, or a spreadsheet synced via Supermetrics) that aggregates both code redemptions from your e-commerce backend and UTM-attributed sessions/conversions from analytics — this gives you the full picture per creator.
-5. Reconcile data monthly by comparing code redemptions against UTM-tracked conversions to identify the "dark social" gap — creators whose codes get used heavily but whose links are rarely clicked are driving brand recall, not direct response, and should be evaluated differently.
+1. Create one discount code per creator in your store platform. Use a fixed pattern such as CREATORNAME + discount (JAKE20), and set an end date and usage limit.
+2. Build one UTM link per creator with a fixed scheme: `utm_source=influencer`, `utm_medium=affiliate`, `utm_campaign=creatorname`, `utm_content=platform-format` (for example, `instagram-reels`).
+3. Shorten each link on a branded domain (for example, go.yourbrand.com/sarah). Check that the redirect keeps the UTM parameters.
+4. Build one report per creator that combines code redemptions from your store with UTM sessions and conversions from analytics.
+5. Compare code sales to link sales each month. A creator with many code sales and few clicks drives recall, not clicks. Judge them on total sales, not click data.
 
-## Key Metrics
+## What to measure
 
-- **Revenue Per Creator** — total attributed revenue (code redemptions + UTM-tracked conversions) per influencer, which directly determines whether to renew, scale, or cut the partnership
-- **Code Redemption Rate** — the number of code uses divided by the influencer's estimated reach, indicating how effectively their content drives purchase intent
-- **UTM Click-to-Conversion Rate** — the percentage of UTM-tracked clicks that result in a purchase, revealing landing page and funnel performance for influencer traffic specifically
+- **Revenue per creator**: code revenue plus UTM-attributed revenue, per creator.
+- **Code redemption rate**: code uses divided by the creator's estimated reach for the post.
+- **Link conversion rate**: purchases divided by clicks on the creator's UTM link.
 
-## Best Practices
+## Best practices
 
-- Give influencers both a code AND a link, but let them choose which to emphasize — video-first creators on TikTok and YouTube prefer codes (audiences cannot click mid-video), while blog and Twitter creators prefer links
-- Set affiliate commission tiers that increase with performance (e.g., 10% base, 15% after 50 sales, 20% after 200 sales) to incentivize creators to keep promoting beyond the initial post
-- Implement a 30-day attribution window for code redemptions to capture delayed purchases — most influencer-driven purchases happen 3-14 days after content exposure, not immediately
+- Give every creator both a code and a link.
+- Let video creators lead with the code. Viewers often cannot click during a video.
+- Use commission tiers that rise with sales (for example, 10% base, 15% after 50 sales) so creators keep promoting.
+- Count code redemptions for a set window after the post (for example, 30 days) to catch delayed purchases.
+- Put the exact link, code, and tracking rules in every creator brief.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Using identical UTM parameters for multiple creators or campaigns, which makes your analytics data useless — every creator must have a unique `utm_campaign` value at minimum
-- Forgetting to exclude influencer discount codes from site-wide promotions and coupon aggregator sites — if a code leaks to RetailMeNot, your attribution data becomes meaningless and you will overpay commissions
-- Not communicating tracking requirements clearly in creator briefs — if the influencer uses a naked link instead of your UTM link, you lose all click-level attribution for that post
+- Reusing the same UTM values for several creators. Every creator needs a unique `utm_campaign` at minimum.
+- Letting codes leak to coupon sites. Leaked codes inflate attribution and commission payouts.
+- Creators posting a plain link instead of the tracked one. You lose click data for that post.

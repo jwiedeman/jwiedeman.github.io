@@ -1,38 +1,39 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Zeigarnik Effect"
-description: "Incomplete tasks create mental tension that drives people to seek completion."
+description: "Unfinished tasks stay on people's minds, so show what is left to complete."
 ---
 # Zeigarnik Effect
 
-The Zeigarnik Effect is the psychological finding that people remember and are preoccupied by incomplete tasks far more than completed ones. An unfinished profile, an incomplete onboarding checklist, or an open loop in a story creates mental tension that nags until resolved. In marketing and product design, strategically creating incompleteness drives engagement, return visits, and task completion at rates that completed-state designs cannot match.
+The Zeigarnik effect is the finding that people remember and think about unfinished tasks more than finished ones. An unfinished profile, a half-done onboarding checklist, or an open question in a story creates tension that lingers until resolved. In marketing and product design, showing what is left to do encourages people to come back and finish.
 
-## Core Concept
+## How it works
 
-Discovered by psychologist Bluma Zeigarnik in the 1920s, this effect demonstrates that the human mind treats unfinished tasks as "open cognitive loops" that consume mental resources until closed. The tension is uncomfortable, and people are motivated to complete the task to relieve it. This is why LinkedIn's "Your profile is 72% complete" prompt is so effective — it creates an open loop that feels wrong to leave unresolved. The effect is strongest when the person has already invested effort and can see how close they are to completion.
+Psychologist Bluma Zeigarnik described the effect in the 1920s. An unfinished task stays active in the mind, and people want to close it. That is why prompts like "Your profile is 70% complete" work: leaving it unfinished feels wrong. The effect is strongest when the person has already put in effort and can see how close they are to done.
 
-## Implementation
+## How to do it
 
-1. Add visible progress indicators to multi-step processes — onboarding flows, profile completion, course modules — showing exactly what has been done and what remains
-2. Start users with partial completion rather than zero: a profile that starts at "40% complete" (with pre-filled data) feels closer to the finish line and triggers stronger completion motivation than starting at 0%
-3. Use open loops in content marketing — email subject lines that pose unanswered questions, blog posts with "part 1 of 3" framing, and social posts that tease a revelation all exploit the Zeigarnik Effect
-4. Design checklists with achievable items that build momentum: place 2-3 easy wins at the top so users quickly get to "3 of 7 complete" and feel compelled to finish
-5. Send targeted reminders about incomplete actions — abandoned carts, unfinished applications, half-completed onboarding — that highlight the specific gap: "You're 2 steps away from launching your first campaign"
+1. Add progress indicators to multi-step processes: onboarding, profile setup, and course modules.
+2. Show exactly what is done and what remains.
+3. Start users partway through. Pre-fill known data so a profile starts at, for example, 40% instead of 0%.
+4. Use open loops in content: subject lines that pose a question, "part 1 of 3" series, and posts that promise a follow-up.
+5. Put 2 or 3 easy items at the top of checklists so users reach "3 of 7 complete" quickly.
+6. Send reminders about specific unfinished actions: "You're 2 steps away from launching your first campaign."
 
-## Key Metrics
+## What to measure
 
-- **Completion rate for multi-step flows** — percentage of users who finish onboarding, profiles, or multi-page forms after starting them
-- **Return visit rate after partial completion** — how often users come back specifically to complete an unfinished task
-- **Time-to-completion** — how quickly users finish multi-step processes; shorter times indicate stronger Zeigarnik-driven motivation
+- **Flow completion rate**: the percentage of users who finish onboarding, profiles, or multi-page forms after starting.
+- **Return-to-complete rate**: how often users come back to finish an incomplete task.
+- **Time to completion**: time from starting a multi-step process to finishing it.
 
-## Best Practices
+## Best practices
 
-- Make progress visible and specific — "3 of 5 steps complete" is more compelling than "60% done" because it shows exactly what remains
-- Give users a head start: pre-filling forms, granting initial points, or showing partial completion from the start amplifies the drive to finish
-- Create multiple small completion loops rather than one large one — completing each sub-task provides a dopamine reward that fuels the next
+- Show progress as specific steps: "3 of 5 steps complete" beats "60% done."
+- Give users a head start with pre-filled forms, starter points, or partial completion.
+- Use several small tasks instead of one large one, so each finished step builds momentum.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Creating too many open loops simultaneously, which overwhelms users and causes them to disengage entirely rather than complete any single task
-- Making the remaining steps unclear or unbounded — the Zeigarnik Effect requires a visible endpoint; "almost done" without specifics is not motivating
-- Using the effect manipulatively with fake progress or endless requirements that keep moving the goalpost, which breeds frustration instead of productive tension
+- Opening too many loops at once. Users get overwhelmed and finish nothing.
+- Leaving the end unclear. "Almost done" without specifics does not motivate.
+- Faking progress or adding new requirements just as users finish. It frustrates people.

@@ -1,38 +1,38 @@
 ---
 layout: ../../../layouts/Layout.astro
-title: "Chromatic Orbit GAN"
-description: "Generator that blends spiral, radial, and interference fields into 64×64 color textures in the browser."
+title: "Color Pattern Generator"
+description: "Mixes six math-defined color patterns into 64×64 images with a small hand-set network. Not a trained GAN."
 ---
 <div class="container">
   <header class="page-header">
-    <div class="page-header__meta">
-      <span class="section-index">Lab / AI / AI-002</span>
-      <span class="classification classification--accent">Interactive Demo</span>
-    </div>
-    <h1 class="page-header__title">Chromatic Orbit GAN</h1>
-    <p class="page-header__subtitle">64×64 Color Texture Generator</p>
+    <h1 class="page-header__title">Color Pattern Generator</h1>
+    <p class="page-header__subtitle">Mixes six math-defined color patterns into 64×64 images, using the input and output shape of a GAN generator.</p>
   </header>
 
-  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
+  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← AI lab</a></p>
 
-## Overview
+**Not a trained GAN.** There is no discriminator and no training. The weights are set by hand. The page shows how a small network can map a random vector to an image; the image is a weighted mix of six fixed color patterns.
 
-Chromatic Orbit GAN renders color textures by blending six handcrafted color basis fields. The generator accepts
-an eight-dimensional latent vector, runs it through a two-layer mixer, and outputs signed coefficients that steer spiral, radial,
-and interference fields. Everything executes in vanilla JavaScript with typed arrays—no WebGL, no WASM, and no heavyweight
-runtime.
+## How it works
 
-## Generator Architecture
-
-| Stage | Details |
+| Step | What the code does |
 | --- | --- |
-| Latent sampler | 8 uniform components in \[-1, 1] seeded with Mulberry32 for deterministic playback. |
-| Hidden mixer | Dense 8×8 layer with tanh activation produces intermediate features. |
-| Coefficient head | Dense 6×8 layer with tanh output, normalized to maintain balanced color energy. |
-| Basis decoder | Six 64×64 RGB basis fields generated analytically (spirals, beams, ripples, interference). |
-| Output | Canvas rendering with configurable temperature (energy) and optional autoplay loop. |
+| Random vector | 8 numbers in [-1, 1] from a seeded random generator (Mulberry32). Same seed, same images. |
+| Hidden layer | A fixed 8×8 weight matrix plus bias, then tanh. |
+| Output layer | A fixed 6×8 weight matrix plus bias, then tanh. The 6 results are scaled so their absolute values sum to 1. |
+| Base patterns | Six 64×64 color patterns built from sine and polar formulas: spiral, starburst, ripple, interference, orbit, plasma. |
+| Output | Each pixel is the weighted sum of the six patterns, multiplied by the energy setting. |
 
-## Try it live
+## Controls
+
+- **Seed:** picks the random vectors. Each seed gives 6 images.
+- **Energy:** multiplies all pattern weights. Higher values give stronger color; very high values clip to full brightness.
+- **Generate frame:** adds 53 to the seed.
+- **Randomize seed:** picks a random seed.
+- **Autoplay:** adds 97 to the seed every 1.4 seconds. It stops when the tab is hidden.
+- **Coefficient readout:** the 6 pattern weights for each image.
+
+## Demo
 
 <section class="gan-panel">
   <div class="gan-controls">
@@ -67,11 +67,10 @@ runtime.
   </details>
 </section>
 
-## Implementation Notes
+## Notes
 
-- Basis fields are generated analytically from sine, cosine, and polar transforms, so no image files are shipped.
-- Coefficient normalization preserves relative intensity so colors stay vivid without clipping.
-- Autoplay increments the seed with a prime stride so loops explore the latent space evenly over long runs.
+- The patterns are computed in the browser, so no image files are downloaded.
+- All math uses typed arrays in plain JavaScript. No WebGL or WebAssembly.
 
 <script type="module">
   const SIZE = 64;

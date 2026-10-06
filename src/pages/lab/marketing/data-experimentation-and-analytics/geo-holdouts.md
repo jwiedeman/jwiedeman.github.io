@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Geo Holdouts"
-description: "Using geographic holdout regions to measure the true incremental impact of marketing spend."
+description: "Turn off a channel in some regions and compare results to measure what that channel actually adds."
 ---
 # Geo Holdouts
 
-Geo holdout testing is an incrementality measurement technique where you withhold marketing activity from a set of geographic regions while continuing to advertise in others, then compare business outcomes between the two groups. It is the closest thing to a controlled experiment available for measuring the true causal impact of a marketing channel at scale. Unlike attribution models that estimate credit, geo holdouts directly measure what happens when you turn a channel off.
+A geo holdout test stops a marketing channel in some regions while it keeps running in others, then compares results between the two. It is the closest thing to a controlled experiment for measuring a channel at scale. Attribution models estimate credit. A geo holdout measures what happens when the channel is off.
 
-## Core Concept
+## How it works
 
-The fundamental question in marketing measurement is not "which touchpoint gets credit?" but "what would have happened if we had not spent this money?" Geo holdouts answer this by creating a real-world control group. By pausing all advertising for a specific channel in a set of matched markets (similar in demographics, baseline sales, and seasonality), you can observe the actual difference in outcomes between exposed and unexposed regions. The difference is the incremental lift — the revenue your marketing actually caused, rather than the revenue it merely touched.
+The key measurement question is not "which touchpoint gets credit?" It is "what would have happened if we had not spent this money?" A geo holdout answers it with a real control group. You pause a channel in a set of regions that match the others on population, baseline sales, and seasonality. The difference in outcomes between the two sets is the incremental lift: revenue the channel caused, not just revenue it touched.
 
-## Implementation
+## How to do it
 
-1. Select 10-20 geographic regions (DMAs, states, or metro areas) and use historical data to match them into pairs with similar baseline performance, demographics, and seasonality patterns
-2. Randomly assign one region from each pair to the holdout group (no advertising) and one to the treatment group (advertising continues as normal)
-3. Run the test for 4-8 weeks minimum — shorter tests lack statistical power, and longer tests risk other variables contaminating the results
-4. Measure the difference in conversion rate, revenue, or your primary business outcome between holdout and treatment regions, controlling for any pre-existing baseline differences
-5. Calculate the incremental contribution of the channel by extrapolating the per-region lift to your full footprint, then compare this to the attributed contribution from your MTA or platform reporting
+1. Pick 10 to 20 regions (DMAs, states, or metros). Use past data to pair regions with similar baseline sales, demographics, and seasonality.
+2. Randomly assign one region in each pair to holdout (channel off) and the other to treatment (channel on).
+3. Run the test for at least 4 to 8 weeks. Shorter tests lack power. Much longer tests pick up outside noise.
+4. Compare conversions, revenue, or your main outcome between holdout and treatment regions, adjusting for baseline differences.
+5. Scale the per-region lift to your full footprint. Compare it to what attribution or platform reports claim for the channel.
 
-## Key Metrics
+## What to measure
 
-- **Incremental lift percentage** — the percentage increase in conversions or revenue in treatment regions versus holdout regions, representing the channel's true causal impact
-- **Incremental cost per acquisition (iCPA)** — total spend on the channel divided by the incremental conversions it drove (not total attributed conversions), which is the real efficiency measure
-- **Statistical confidence level** — the probability that the observed difference is real rather than random noise; target 90% confidence minimum before making budget decisions
+- **Incremental lift**: percent difference in conversions or revenue between treatment and holdout regions.
+- **Incremental CPA (iCPA)**: channel spend divided by incremental conversions, not attributed conversions.
+- **Confidence level**: how likely the difference is real rather than noise. Agree on a threshold before the test.
 
-## Best Practices
+## Best practices
 
-- Match holdout and treatment regions on multiple dimensions (population size, income level, historical conversion rate, competitive intensity) to minimize confounding variables
-- Test one channel at a time to isolate its specific impact — testing multiple channels simultaneously makes it impossible to disentangle individual contributions
-- Run holdouts on your largest-spend channels first, where even a small measurement error translates to significant budget misallocation
+- Match regions on several factors: population, income, past conversion rate, and competition.
+- Test one channel at a time so you can tell what caused the result.
+- Start with your largest channels, where measurement errors cost the most.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Choosing holdout regions that are too different from treatment regions, which introduces confounds that invalidate the results
-- Running the test for too short a period, which produces results that lack statistical significance and lead to incorrect conclusions
-- Contamination from organic demand, cross-region spillover (customers in holdout regions seeing ads on national digital platforms), or competitor activity shifts during the test window
+- Using holdout regions that differ too much from treatment regions.
+- Ending the test too early and acting on results that are not significant.
+- Contamination: national digital ads reaching holdout regions, organic demand shifts, or competitor moves during the test.

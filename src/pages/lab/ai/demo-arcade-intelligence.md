@@ -1,54 +1,57 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "Demo Arcade Intelligence"
-description: "Reinforcement learning sandbox with live human-versus-agent matchups."
+description: "Design notes for an arcade setup where people play simple games against reinforcement learning agents."
 ---
 <div class="container">
   <header class="page-header">
-    <div class="page-header__meta">
-      <span class="section-index">Lab / AI / AI-009</span>
-      <span class="classification classification--accent">Concept</span>
-    </div>
     <h1 class="page-header__title">Demo Arcade Intelligence</h1>
-    <p class="page-header__subtitle">Reinforcement Learning Showcase</p>
+    <p class="page-header__subtitle">People play simple arcade games against agents that learn by playing.</p>
   </header>
 
-  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
+  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← AI lab</a></p>
 
-## Overview
+**Concept. Not built; this page describes a proposed design.**
 
-Demo Arcade Intelligence is a concept for an installation that pits reinforcement learners against human challengers in retro-inspired arcade environments. Each game cabinet sends gameplay data to a training cluster, which supports policy updates, interpretability experiments, and a public leaderboard.
+## What it would do
 
-## Core Capabilities
+- Run a few simple arcade-style games (for example Pong or a maze game) on a cabinet or in a browser.
+- Let a visitor play against a reinforcement learning agent, or watch two agents play.
+- Retrain the agents between sessions on recorded games.
+- Show a leaderboard of human and agent scores.
+- Show, after each match, what the agent was paying attention to.
 
-- **Continuous training loop:** Agents retrain after each tournament cycle using Proximal Policy Optimization with curriculum schedules.
-- **Human drop-in mode:** Visitors can instantly jump into the live environment; the system switches to inference-only mode while preserving fair scoring.
-- **Explainability layer:** Post-match summaries show key decision branches, reward contributions, and input sensitivities for each agent run.
+## How it would work
 
-## Systems Overview
+1. The game runs at a fixed frame rate. Human and agent inputs go through the same input path, so neither gets a timing advantage.
+2. During play the agent only runs inference. It does not learn mid-match.
+3. Each match is logged: frames, inputs, scores.
+4. Between sessions, the agent is trained further (for example with PPO) on new self-play games.
+5. A new version replaces the old one only if it scores better on a fixed set of test games.
 
-| Module | Purpose | Notes |
+## Parts
+
+| Part | Role | Candidate tools |
 | --- | --- | --- |
-| Cabinet hardware | FPGA-based controller boards, 120 Hz displays | Deterministic latency pipeline for both human and agent inputs. |
-| Training cluster | Kubernetes-managed GPU workers, Ray RLlib stack | Handles policy rollouts, evaluation, and checkpoint rotation. |
-| Leaderboard service | Astro-powered microsite, Supabase backend | Publishes rankings, highlights top runs, and archives gameplay data. |
+| Game | Rules, rendering, input | Browser canvas or a small game engine |
+| Agent | Pick an action each frame | Small neural network policy |
+| Training | Self-play and updates | Stable-Baselines3 or RLlib on one GPU |
+| Match log | Store games for training and replays | Files or a small database |
+| Leaderboard | Show scores | Static page plus a small API |
+| Match summary | Show agent attention and rewards | Saliency maps, reward-over-time chart |
 
-## Observability
+## Data it would need
 
-- **Run cards:** Automatically generated reports summarize score differentials, policy entropy, and notable events for each match.
-- **Spectator HUD:** Overlays agent attention heatmaps and reward accumulation so audiences can follow strategy shifts in real time.
-- **Admin console:** Allows lab staff to pause training, pin stable checkpoints, or trigger curated exhibition modes.
+- Game environments with a clear reward (score, win or loss).
+- Self-play games for training. Human games are optional extra data.
+- A fixed set of test games to compare agent versions.
 
-## Safety & Fair Play
+## Risks and open questions
 
-- Agents undergo fairness checks to prevent glitch exploitation or soft-lock strategies.
-- Human sessions include accessibility presets such as slowed pace and remappable controls.
-- Leaderboard moderation rules ensure public handles remain appropriate and free from sensitive data.
-
-## Next Milestones
-
-1. Add cooperative co-play scenarios where humans and agents collaborate toward shared objectives.
-2. Release a public gameplay data API for researchers interested in strategy evolution data.
-3. Explore portable cabinet kits for traveling exhibitions and partner campuses.
+- Agents often find bugs in the game and exploit them. Each game needs checks for this.
+- An agent that always wins is not fun. Difficulty may need to be capped or matched to the player.
+- Attention maps look convincing but can be misleading about why the agent acted.
+- A public leaderboard needs name filtering and a way to remove entries.
+- Accessibility: slower game speeds and remappable controls for human players.
 
 </div>

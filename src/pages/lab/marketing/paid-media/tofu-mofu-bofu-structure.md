@@ -1,38 +1,48 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "TOFU/MOFU/BOFU Campaign Structure"
-description: "Structuring paid media campaigns by funnel stage to match messaging with buyer intent."
+description: "Organize paid campaigns by funnel stage so the message matches how ready the buyer is."
 ---
 # TOFU/MOFU/BOFU Campaign Structure
 
-Splitting your paid media campaigns by funnel stage — Top of Funnel (TOFU), Middle of Funnel (MOFU), and Bottom of Funnel (BOFU) — lets you match ad creative, bidding, and targeting to where the buyer actually is in their decision process. Without this structure, you end up serving hard-sell ads to cold audiences and awareness content to people ready to buy, wasting budget in both directions.
+This structure splits paid campaigns into three funnel stages: top (TOFU), middle (MOFU), and bottom (BOFU). Each stage gets its own creative, targeting, and bidding. Without it, cold audiences get hard-sell ads and ready buyers get awareness content.
 
-## Core Concept
+## How it works
 
-Each funnel stage represents a different level of buyer awareness and intent. TOFU campaigns introduce your brand to cold audiences who don't know they have a problem yet. MOFU campaigns nurture warm audiences who are evaluating solutions. BOFU campaigns close hot audiences who are comparing vendors or ready to purchase. The key insight is that each stage requires different creative, different calls to action, different landing pages, and often different bid strategies — treating them as one campaign guarantees suboptimal performance.
+Each stage reflects a different level of awareness and intent.
 
-## Implementation
+- TOFU: cold audiences who may not know your brand or their problem yet.
+- MOFU: warm audiences who are comparing options.
+- BOFU: hot audiences who are ready to buy or choosing a vendor.
 
-1. **Audit your existing campaigns and segment them** — Tag every active campaign as TOFU, MOFU, or BOFU based on the audience it targets and the action it asks for. Most advertisers discover 80%+ of spend is concentrated in one stage.
-2. **Define your TOFU layer** — Build campaigns targeting cold audiences (interests, broad targeting, lookalikes of page engagers) with educational or entertaining content. Optimize for cheap engagement signals: video views, post engagement, or landing page views. Use CPM or ThruPlay bidding.
-3. **Build your MOFU layer** — Create campaigns targeting warm audiences (video viewers 50%+, website visitors 7-30 days, email subscribers who haven't purchased). Serve comparison guides, case studies, webinars, or product demos. Optimize for lead generation or content consumption.
-4. **Set up your BOFU layer** — Target hot audiences (add-to-cart abandoners, pricing page visitors, free trial users, high-intent remarketing pools). Use direct-response creative with urgency, social proof, and clear CTAs. Optimize for purchases or qualified leads with target CPA or ROAS bidding.
-5. **Allocate budget by stage and measure flow-through** — Start with a 60/20/20 split (TOFU/MOFU/BOFU) and adjust based on how efficiently audiences move between stages. Track the cost to move a user from one stage to the next, not just the final conversion cost.
+Each stage needs its own creative, call to action, landing page, and often bid strategy.
 
-## Key Metrics
+## How to do it
 
-- **Cost Per Funnel Stage Transition** — How much it costs to move a user from TOFU audience to MOFU audience (e.g., cost per 50% video viewer, cost per website visitor)
-- **Stage-to-Stage Conversion Rate** — The percentage of TOFU audience members who become MOFU, and MOFU who become BOFU, revealing where your funnel leaks
-- **Blended CAC vs. BOFU-Only CAC** — Comparing the true cost including upper-funnel investment against BOFU-only metrics prevents the illusion that retargeting is "cheap" when it depends on TOFU spend to fill the pool
+1. Tag every active campaign as TOFU, MOFU, or BOFU based on its audience and the action it asks for.
+2. Check how spend is split across the three stages.
+3. Build TOFU campaigns for cold audiences (broad, interests, or lookalikes) with educational or entertaining content.
+4. Optimize TOFU for low-cost signals such as video views, engagement, or landing page views.
+5. Build MOFU campaigns for warm audiences: video viewers, recent site visitors, and subscribers who have not bought.
+6. Serve MOFU audiences comparison guides, case studies, webinars, or demos. Optimize for leads or content views.
+7. Build BOFU campaigns for hot audiences: cart abandoners, pricing page visitors, and trial users.
+8. Use direct-response creative at BOFU with proof and a clear call to action. Optimize for purchases or qualified leads with target CPA or ROAS bidding.
+9. Set a starting budget split, for example 60/20/20 across TOFU/MOFU/BOFU, and adjust based on how well people move between stages.
 
-## Best Practices
+## What to measure
 
-- Keep audience exclusions tight — exclude MOFU audiences from TOFU campaigns and BOFU audiences from MOFU campaigns to prevent double-serving and inflated frequency
-- Refresh TOFU creative every 2-3 weeks since cold audiences burn out fastest; BOFU creative can run longer because the audience pool constantly refreshes from upstream
-- Use sequential messaging so that MOFU creative references what TOFU exposed them to (e.g., "Remember that stat about X? Here's how we solve it")
+- **Cost per stage transition**: spend needed to move a person into the next stage, such as cost per 50% video viewer or cost per site visitor.
+- **Stage-to-stage rate**: share of TOFU audience that becomes MOFU, and MOFU that becomes BOFU.
+- **Blended CAC vs. BOFU-only CAC**: total spend across all stages divided by new customers, compared to BOFU spend alone.
 
-## Common Pitfalls
+## Best practices
 
-- Starving TOFU to fund BOFU — Retargeting pools shrink over time without fresh top-of-funnel input, leading to rising costs and audience fatigue in your highest-intent campaigns
-- Using the same creative across all stages — A testimonial ad works at BOFU but falls flat at TOFU where the audience has no context for who your customer is or why they should care
-- Judging TOFU campaigns by BOFU metrics — Expecting direct conversions from awareness campaigns leads to killing the campaigns that feed your entire funnel
+- Exclude MOFU audiences from TOFU campaigns and BOFU audiences from MOFU campaigns.
+- Refresh TOFU creative often. Cold audiences tire of it fastest.
+- Have MOFU creative pick up where TOFU left off, so the story continues.
+
+## Common pitfalls
+
+- Cutting TOFU to fund BOFU. Remarketing pools shrink without new people coming in.
+- Using the same creative at every stage. A testimonial means little to someone who has never heard of you.
+- Judging TOFU by BOFU metrics. Awareness campaigns are not meant to drive direct sales.

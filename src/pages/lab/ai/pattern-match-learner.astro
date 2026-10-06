@@ -1,61 +1,29 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 ---
-<Layout title="Pattern Match Learner" description="Interactive visualization of how neural networks learn through gradient descent." headingTracker={false}>
+<Layout title="Pattern Match Learner" description="A small neural network learns to classify 8×8 pixel patterns with gradient descent, shown step by step in the browser." headingTracker={false}>
         <div class="pattern-wrapper">
         <div class="pml-container">
             <div class="explanation">
                 <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 15px; border-bottom: 2px dotted #000; padding-bottom: 8px;">
-                    <h2 style="margin: 0; border: none; padding: 0;">Growing a Neural Network</h2>
-                    <div style="font-size: 14px; color: var(--muted); font-family: 'Berkeley Mono', monospace;">d/dx f(g(x)) = f'(g(x))·g'(x)</div>
+                    <h1 style="margin: 0; border: none; padding: 0; font-size: 20px; font-weight: 700; color: var(--fg-strong);">Pattern Match Learner</h1>
+                    <a href="/lab/ai/" style="font-size: 14px;">← AI lab</a>
                 </div>
 
-                <p>
-                    <strong>What we know:</strong> The exact update rule. At
-                    every single step, we know precisely what will happen:
-                    compute the gradient, multiply by learning rate, subtract
-                    from parameters.
-                </p>
-                <p>
-                    <strong>What we don't know:</strong> How the program that results from repeatedly applying the update rule works internally.
-                </p>
-                <p>
-                    A tiny neural network learns to classify pixel patterns.
-                    Watch the weights visualization evolve. These
-                    weight patterns emerge from nothing but gradient descent. You
-                    didn't design them. They're emergent.
-                </p>
-                <p>
-                    The floating-point numbers in those weights
-                    <em>are executable code</em>—a program that successfully
-                    classifies patterns. But the program is inscrutable. It
-                    works, we just don't automatically understand how. Hit "RESET NETWORK" and
-                    watch completely different weights emerge. Same algorithm,
-                    different solution every time.
-                </p>
-                <p>
-                    <strong>Why this matters:</strong> This is the essence of
-                    modern AI. We design the optimization process, not the
-                    system itself. We understand the principle (minimize loss via
-                    gradient descent), but cannot predict what features,
-                    representations, or behaviors will emerge from billions of
-                    these simple steps. GPT-4 is just this, scaled up.
-                </p>
+                <p>A small neural network learns to sort 8×8 black-and-white patterns into six types, in your browser.</p>
 
-                <p><strong>Modern AI systems are grown, not built.</strong></p>
+                <ul style="margin: 0 0 16px; padding-left: 20px; font-size: 14px; line-height: 1.7; color: var(--fg);">
+                    <li><strong>Data:</strong> 300 generated patterns, 50 of each type. Each has random noise: some pixels flipped on or off.</li>
+                    <li><strong>Network:</strong> 64 inputs (one per pixel), one hidden layer with ReLU, 6 outputs with softmax.</li>
+                    <li><strong>Training:</strong> stochastic gradient descent on cross-entropy loss, batches of 4 random patterns.</li>
+                    <li><strong>Accuracy:</strong> measured on the same 300 patterns it trains on. There is no separate test set.</li>
+                </ul>
 
-                <div style="background: var(--bg-raised); border: 1px solid var(--border); padding: 25px; margin-top: 25px;">
-                    <p style="font-size: 16px; line-height: 1.7; margin: 0; color: var(--fg);">
-                        <strong>"We have a very good idea of sort of roughly what it's doing. But as soon as it gets really complicated, we don't actually know what's going on any more than we know what's going on in your brain."</strong>
-                    </p>
-                    <p style="font-size: 16px; line-height: 1.7; margin-top: 15px; margin-bottom: 15px; color: var(--accent);">
-                        <em>60 Minutes (Pelley: "What do you mean we don't know exactly how it works? It was designed by people.")</em><br>
-                        <strong>"No, it wasn't… we designed the learning algorithm… But we don't really understand exactly how they do those things."</strong>
-                    </p>
-                    <p style="font-size: 13px; margin: 0; color: var(--muted);">
-                        — Geoffrey Hinton, <a href="https://www.youtube.com/watch?v=qrvK_KuIeJk&t=4m46s" target="_blank" style="color: var(--accent); text-decoration: underline;">60 Minutes Interview</a>
-                    </p>
-                </div>
+                <p>
+                    Press <strong>Start learning</strong> and watch the loss fall and the weights change.
+                    Press <strong>Reset network</strong> to start again from new random weights. The network
+                    usually reaches similar accuracy with different weights each time.
+                </p>
             </div>
 
             <div class="main-content">
@@ -79,7 +47,7 @@ import Layout from '../../../layouts/Layout.astro';
                                 padding-bottom: 8px;
                             "
                         >
-                            CLASSIFICATION TASK
+                            The task
                         </h3>
                         <p
                             style="
@@ -89,8 +57,8 @@ import Layout from '../../../layouts/Layout.astro';
                                 line-height: 1.5;
                             "
                         >
-                            OBJECTIVE: Classify 8×8 pixel patterns into 6
-                            categories. 300 training samples total.
+                            Sort 8×8 pixel patterns into 6 types. 300 training
+                            patterns in total. Examples without noise:
                         </p>
                         <div
                             style="
@@ -496,7 +464,7 @@ import Layout from '../../../layouts/Layout.astro';
                                 text-transform: uppercase;
                             "
                         >
-                            ALL NETWORK WEIGHTS
+                            All network weights
                         </h3>
                         <p
                             style="
@@ -506,13 +474,13 @@ import Layout from '../../../layouts/Layout.astro';
                                 line-height: 1.5;
                             "
                         >
-                            DARKER = HIGHER VALUE. ORANGE = ACTIVE GRADIENT.
+                            Lighter = higher value. Orange = large gradient on the last step.
                         </p>
                         <canvas id="weightsCanvas" style="width: 100%; height: 120px; border: 1px solid var(--border); background: var(--bg-raised);"></canvas>
                     </div>
 
                     <div class="network-diagram">
-                        <h3>Live Network Activations</h3>
+                        <h3>Network activations</h3>
                         <canvas id="networkCanvas" style="width: 100%; height: 280px; border: 1px solid var(--border); background: var(--bg-subtle);"></canvas>
                         <div style="display: flex; justify-content: space-between; margin-top: 8px;">
                             <span style="font-size: 10px; color: var(--muted);">INPUT (64)</span>
@@ -529,12 +497,12 @@ import Layout from '../../../layouts/Layout.astro';
                                 padding-top: 8px;
                             "
                         >
-                            NODE BRIGHTNESS = ACTIVATION STRENGTH. CONNECTIONS SHOW WEIGHT MAGNITUDE.
+                            Node brightness = activation. Line strength = weight size.
                         </p>
                     </div>
 
                     <div class="draw-interface">
-                        <h4>TRY THE NETWORK</h4>
+                        <h4>Try the network</h4>
                         <p
                             style="
                                 font-size: 13px;
@@ -543,7 +511,7 @@ import Layout from '../../../layouts/Layout.astro';
                                 line-height: 1.5;
                             "
                         >
-                            Draw an 8×8 pattern and watch the network classify it in real-time.
+                            Click cells to draw an 8×8 pattern. The network classifies it as you draw.
                         </p>
                         <div style="display: flex; gap: 20px; align-items: start;">
                             <div style="flex-shrink: 0;">
@@ -556,7 +524,7 @@ import Layout from '../../../layouts/Layout.astro';
                             </div>
                             <div style="flex: 1; min-width: 0;">
                                 <div class="prediction">
-                                    PREDICTION: <span id="drawPrediction">—</span>
+                                    Prediction: <span id="drawPrediction">—</span>
                                 </div>
                                 <div
                                     style="
@@ -565,16 +533,16 @@ import Layout from '../../../layouts/Layout.astro';
                                         margin-top: 8px;
                                     "
                                 >
-                                    CONFIDENCE: <span id="drawConfidence">—</span>
+                                    Confidence: <span id="drawConfidence">—</span>
                                 </div>
                                 <div style="margin-top: 15px; padding-top: 15px; border-top: 2px dotted #000;">
                                     <div style="font-size: 12px; color: var(--fg); margin-bottom: 8px; font-weight: bold;">
-                                        HIDDEN LAYER (<span id="hiddenCountDraw">6</span> features)
+                                        Hidden layer (<span id="hiddenCountDraw">6</span> units)
                                     </div>
                                     <div id="activationsViz" style="display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 15px;"></div>
 
                                     <div style="font-size: 12px; color: var(--fg); margin-bottom: 8px; font-weight: bold; padding-top: 10px; border-top: 1px dotted var(--border);">
-                                        OUTPUT LAYER (4 classes)
+                                        Output layer (6 classes)
                                     </div>
                                     <div id="outputActivationsViz" style="display: flex; gap: 4px; flex-wrap: wrap;"></div>
                                 </div>
@@ -595,7 +563,7 @@ where:
                     </div>
 
                     <div class="control-group">
-                        <label>Learning Rate (α)</label>
+                        <label>Learning rate (α)</label>
                         <input
                             type="range"
                             id="patternLearningRate"
@@ -610,7 +578,7 @@ where:
                     </div>
 
                     <div class="control-group">
-                        <label>Hidden Units</label>
+                        <label>Hidden units (resets network)</label>
                         <input
                             type="range"
                             id="hiddenUnits"
@@ -625,7 +593,7 @@ where:
                     </div>
 
                     <div class="control-group">
-                        <label>Speed</label>
+                        <label>Speed (1.0 = 100 steps per second)</label>
                         <input
                             type="range"
                             id="trainingSpeed"
@@ -640,7 +608,7 @@ where:
                     </div>
 
                     <div class="control-group">
-                        <label>Max Iterations (0 = unlimited)</label>
+                        <label>Max iterations (0 = no limit)</label>
                         <input
                             type="number"
                             id="maxIterations"
@@ -651,13 +619,13 @@ where:
                             style="width: 100%; padding: 8px; background: var(--bg-raised); color: var(--fg); border: 1px solid var(--border); font-family: inherit;"
                         />
                         <div class="value" style="font-size: 11px; color: var(--muted); margin-top: 4px;">
-                            Set to 0 for unlimited training. Otherwise training stops at this iteration count.
+                            Training stops at this step count. 0 means it runs until you pause it.
                         </div>
                     </div>
 
-                    <button id="patternStartBtn">START LEARNING</button>
+                    <button id="patternStartBtn">Start learning</button>
                     <button id="patternResetBtn" class="secondary">
-                        RESET NETWORK
+                        Reset network
                     </button>
 
                     <div class="stats">

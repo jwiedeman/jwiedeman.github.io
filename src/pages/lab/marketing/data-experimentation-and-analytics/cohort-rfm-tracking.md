@@ -1,38 +1,44 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Cohort & RFM Tracking"
-description: "Tracking customer cohorts by Recency, Frequency, and Monetary behavior for segmentation and retention."
+description: "Group customers by when they joined and score them on recency, frequency, and spend to guide retention."
 ---
 # Cohort & RFM Tracking
 
-Cohort analysis groups customers by shared characteristics (usually acquisition date) and tracks their behavior over time, while RFM analysis scores individual customers on three dimensions: how recently they purchased (Recency), how often they purchase (Frequency), and how much they spend (Monetary). Together, these frameworks transform a flat customer database into a dynamic segmentation system that reveals which customers are thriving, which are at risk, and where your marketing dollars will have the highest impact.
+Cohort analysis groups customers by a shared trait, usually the month they first bought, and tracks how each group behaves over time. RFM analysis scores each customer on three things: how recently they bought (Recency), how often they buy (Frequency), and how much they spend (Monetary). Together they show which customers are healthy, which are slipping, and where marketing spend will do the most.
 
-## Core Concept
+## How it works
 
-Cohort analysis reveals trends that aggregate metrics hide. A 5% overall churn rate might mask the fact that your January cohort retains at 95% while your March cohort retains at 80% — indicating a product or acquisition quality problem specific to that period. RFM scoring takes this further by segmenting your existing customer base into actionable groups: "Champions" (high R, high F, high M) who should receive loyalty rewards, "At Risk" customers (formerly high F and M but declining R) who need re-engagement campaigns, and "New Customers" (high R, low F, low M) who need nurturing. The combination gives you both a longitudinal view (cohort) and a point-in-time view (RFM) of customer health.
+Averages hide trends. A steady overall churn rate can hide one monthly cohort that retains well and another that drops off fast, which points to a product change or a weaker acquisition source in that period. RFM turns the current customer base into groups you can act on:
 
-## Implementation
+- **Champions** (high R, F, and M): reward them.
+- **At Risk** (used to buy often and spend well, but not recently): win them back.
+- **New Customers** (recent, low F and M): onboard them.
 
-1. Build cohort tables by grouping customers by acquisition week or month, then tracking key metrics (retention rate, cumulative revenue, order frequency) for each cohort over subsequent periods — visualize this as a heat-map retention triangle
-2. Score every customer on Recency (days since last purchase), Frequency (total number of purchases), and Monetary (total or average spend), then quintile-rank each dimension (1-5 scale) to create a composite RFM score
-3. Define RFM segments using standard groupings: Champions (5-5-5 to 4-4-4), Loyal Customers (high F), Potential Loyalists (recent but low F), At Risk (declining R, previously high F/M), Hibernating (low R, low F), and Lost (lowest R)
-4. Build automated campaigns for each RFM segment: loyalty rewards for Champions, win-back offers for At Risk, onboarding sequences for New Customers, and reactivation campaigns for Hibernating
-5. Overlay cohort and RFM analysis to identify systemic patterns — if customers acquired from a specific channel consistently cluster in low-RFM segments, the channel is delivering poor-quality customers regardless of initial volume
+Cohorts give you the view over time. RFM gives you a snapshot today.
 
-## Key Metrics
+## How to do it
 
-- **Cohort retention curve** — retention rate by period for each acquisition cohort, revealing whether customer quality is improving or degrading over time
-- **RFM segment distribution** — the percentage of your customer base in each RFM segment, tracked monthly to monitor overall base health
-- **Customer lifetime value by cohort and RFM segment** — the expected revenue from each group, used to allocate marketing budget toward the highest-value segments
+1. Group customers by acquisition week or month. For each cohort, track retention rate, cumulative revenue, and order count in each later period. Show it as a retention heat map.
+2. Score every customer on days since last purchase (R), number of purchases (F), and total or average spend (M). Rank each on a 1 to 5 scale by quintile.
+3. Define segments from the scores: Champions, Loyal, Potential Loyalists, At Risk, Hibernating, and Lost.
+4. Set up an automated campaign for each segment: rewards for Champions, win-back offers for At Risk, onboarding for New Customers, reactivation for Hibernating.
+5. Break cohorts down by acquisition channel. If one channel's customers keep landing in low RFM segments, that channel brings in weaker customers, whatever its volume.
 
-## Best Practices
+## What to measure
 
-- Automate cohort and RFM reporting to refresh daily or weekly — stale segmentation data leads to mistimed campaigns (reaching out to "At Risk" customers after they have already churned)
-- Use RFM segments to personalize messaging, offers, and channel selection rather than treating them as reporting labels — Champions get different emails than At Risk customers
-- Track cohort curves for the first 90 days with high granularity (weekly) to catch early retention problems before they compound
+- **Cohort retention curve**: retention rate by period for each cohort, compared across cohorts.
+- **RFM segment distribution**: share of customers in each segment, tracked monthly.
+- **Lifetime value by cohort and segment**: expected revenue per group, used to set budget.
 
-## Common Pitfalls
+## Best practices
 
-- Using RFM analysis on a customer base that is too small or too new, producing segments with too few customers to be statistically or practically meaningful
-- Treating RFM segments as static rather than dynamic — customers move between segments, and your campaigns should trigger based on segment transitions, not snapshots
-- Ignoring the acquisition channel dimension in cohort analysis, which means you cannot distinguish between a product retention problem and an acquisition quality problem
+- Refresh cohort and RFM reports daily or weekly. Stale segments mean you contact At Risk customers after they have already left.
+- Use segments to change messages, offers, and channels. They are not just report labels.
+- Track the first 90 days of each cohort weekly to catch retention problems early.
+
+## Common pitfalls
+
+- Running RFM on a customer base too small or too new to give segments of useful size.
+- Treating segments as fixed. Customers move between them, so trigger campaigns on those moves.
+- Leaving acquisition channel out of cohort analysis. Without it you cannot tell a product problem from an acquisition problem.

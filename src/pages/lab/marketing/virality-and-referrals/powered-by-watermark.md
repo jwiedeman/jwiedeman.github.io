@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Powered-By Watermark"
-description: "Adding product branding to user-generated output to drive organic discovery and awareness at scale."
+description: "Product branding on the things users make, so every output points back to your product."
 ---
 # Powered-By Watermark
 
-A "Powered by" watermark is a branded element embedded in the output your product generates — a logo on a free-tier website, a badge on an embedded form, a watermark on exported images, or a signature line in sent emails. Every piece of content your users create and distribute becomes a billboard for your product. Hotmail's "Get your free email at Hotmail" signature line, WordPress.com's footer branding, and Typeform's "Create your own — it's free" badge are textbook examples that drove millions of signups at zero marginal acquisition cost.
+A "Powered by" watermark is branding placed in the output your product creates: a badge on a free-tier website, a line under an embedded form, a mark on exported images, or a signature line in sent email. Each thing your users publish also shows your product. Hotmail's "Get your free email at Hotmail" signature line is the classic example. Website builders and form tools use the same idea today.
 
-## Core Concept
+## How it works
 
-Powered-by watermarks work because they place your brand in the exact context where it is most relevant. When someone sees a beautifully designed website and notices the "Made with Squarespace" badge, the product is already demonstrated — the website itself is the advertisement. This is infinitely more compelling than a traditional ad because the viewer is experiencing the product's output in a real-world context. The watermark just answers the implicit question: "What tool made this?" at the exact moment of curiosity.
+The watermark appears next to a working example of the product. Someone looking at a well-made site who sees "Made with [Product]" has already seen what the product can do. The watermark answers the viewer's question, "What made this?", at the moment they are curious.
 
-## Implementation
+## How to do it
 
-1. Decide where to place the watermark based on your product's output — for website builders it is a footer badge, for email tools it is a signature line, for design tools it is a corner watermark on exports, for form builders it is a bottom-of-form badge, and for video tools it is an outro card or corner logo. The placement should be visible but not intrusive enough to degrade the user's output quality.
-2. Make the watermark a clickable link that directs to a high-converting landing page specifically designed for watermark traffic — not your homepage, but a page that says "You saw [Product] in action. Here's how you can create the same thing" with a clear CTA to start a free trial.
-3. Offer watermark removal as a premium feature — the free tier includes the watermark, and paid plans remove it. This accomplishes two things simultaneously: it drives upgrades from users who want clean output, and it ensures your highest-volume free users (who produce the most content) are your biggest distribution channel.
-4. Design the watermark to be attractive rather than disruptive — a tasteful "Powered by [Product]" text link or a small, well-designed logo badge generates positive brand association; a garish, oversized watermark that degrades the user's content creates resentment and motivates users to switch to competitors rather than upgrade.
-5. Track watermark-driven traffic by tagging watermark links with unique UTM parameters and monitoring the landing page's conversion rate — segment by product type (which kind of user output drives the most clicks) and optimize your landing page for the specific context of watermark visitors.
+1. Place the watermark where the output is seen: a footer badge for website builders, a signature line for email tools, a corner mark for design exports, a line below forms, an end card for video. Keep it visible but small.
+2. Link the watermark to a landing page built for this traffic, not your homepage. For example: "You just saw [Product] in action. Make your own," with a clear signup button.
+3. Remove the watermark on paid plans. This gives users a reason to upgrade and keeps your highest-volume free users as your widest distribution.
+4. Design it to look good. A small text link or clean badge builds credibility. A large, ugly watermark pushes users to competitors.
+5. Tag watermark links with UTM parameters. Measure the landing page conversion rate, split by the type of output the click came from.
 
-## Key Metrics
+## What to measure
 
-- **Watermark Click-Through Rate (CTR)** — the percentage of people who see the watermark and click through to your landing page (benchmark: 0.5-2% of total watermark impressions), which indicates watermark visibility and curiosity level
-- **Watermark-to-Signup Conversion Rate** — the percentage of watermark clickers who create an account (benchmark: 15-30%), which measures landing page effectiveness for this specific traffic source
-- **Free-to-Paid Conversion via Watermark Removal** — the percentage of free users who upgrade specifically to remove the watermark, which is direct revenue attributable to the watermark strategy
+- **Watermark click-through rate** — clicks on the watermark divided by views of pages or files that show it.
+- **Watermark-to-signup conversion** — signups from watermark traffic divided by watermark clicks.
+- **Upgrades for watermark removal** — upgrades where removing the watermark was the reason, from exit surveys or plan-change data.
 
-## Best Practices
+## Best practices
 
-- A/B test watermark designs (text-only vs. logo, light vs. dark, placement position) to find the version that maximizes click-throughs without degrading user satisfaction — even small design changes can 2-3x the CTR
-- Create a dedicated landing page for watermark traffic that mirrors the context they came from — if they clicked a watermark on a landing page builder, show them landing page examples and a "build your own" CTA; do not send them to a generic homepage
-- Use the watermark as a feedback signal for product-market fit — if your free users are producing large volumes of content that gets distributed widely, your product is genuinely useful and the watermark will compound growth naturally
+- A/B test the design: text vs. logo, light vs. dark, and position.
+- Match the landing page to where the visitor came from. A click from a form builder badge should show form examples and a "build your own" button.
+- Watch how much free-user output gets published. High volume is a sign the product is useful and the watermark will reach more people.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Making the watermark so large or intrusive that it degrades the user's output and drives them to competitors — the watermark should enhance credibility (like a "Made with" badge) rather than feel like a punishment for being on the free tier
-- Not differentiating the watermark landing page from your standard homepage — watermark visitors have already seen your product in action and need a different pitch than cold visitors who have never heard of you
-- Removing the watermark from all plans including the lowest paid tier, which eliminates your organic distribution channel — consider keeping a subtle watermark on lower tiers and only fully removing it on mid-tier plans and above
+- A watermark so large it hurts the user's work. It should read as a "made with" credit, not a penalty for the free plan.
+- Sending watermark clicks to the generic homepage. These visitors have already seen the product and need a different pitch.
+- Removing the watermark on every paid plan. Consider keeping a subtle version on the lowest paid tier.

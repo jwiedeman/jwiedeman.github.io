@@ -1,68 +1,76 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "Reddit Ads Playbook"
-description: "Playbook for community-driven reach and conversion programs on Reddit."
+description: "Setup guide for Reddit ads, community targeting, comment moderation, the Reddit Pixel, and the Conversions API."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Advertising</p>
-  <h1>Reddit Ads Playbook</h1>
-  <p class="intro">Reddit demands authenticity and community alignment. This playbook keeps campaigns aligned with subreddit culture while meeting acquisition targets.</p>
 
-  <section>
-    <h2>Campaign structure</h2>
-    <ul>
-      <li>Split campaigns by objective: Brand Awareness, Traffic, Conversions, App Installs, or Video Views.</li>
-      <li>Use ad group naming: <span class="mono">[Objective]-[Subreddit/Interest]-[Creative]-[Iteration]</span>.</li>
-      <li>Separate prospecting vs retargeting ad groups for clean reporting.</li>
-    </ul>
-  </section>
+[← Ads lab](/lab/ads/)
 
-  <section>
-    <h2>Community targeting</h2>
-    <ul>
-      <li>Hand-select subreddits with active moderation and relevant discussions; avoid broad interest targeting for sensitive products.</li>
-      <li>Engage moderators early if planning AMA or sponsored posts. Provide value-first content.</li>
-      <li>Monitor comments multiple times per day; respond with transparent, human voice.</li>
-    </ul>
-  </section>
+# Reddit Ads Playbook
 
-  <section>
-    <h2>Creative guidance</h2>
-    <ul>
-      <li>Use conversational headlines and direct benefit statements. Include UTM tracking in destination URLs.</li>
-      <li>For video, keep under 15 seconds with text overlays since sound is often muted.</li>
-      <li>Test text posts vs. image posts; some subreddits prefer minimal imagery.</li>
-    </ul>
-  </section>
+How to set up, track, and run Reddit ads. Ads show in feeds and in comment threads, and people can reply to them, so plan for comments.
 
-  <section>
-    <h2>Measurement and safety</h2>
-    <ul>
-      <li>Install Reddit Pixel events via GTM (PageVisit, ViewContent, AddToCart, Purchase, Lead).</li>
-      <li>Enable the Conversion API for server events when dealing with high-value conversions.</li>
-      <li>Set brand safety filters to exclude sensitive inventory; review placements weekly.</li>
-    </ul>
-  </section>
+## Account structure
 
-  <section>
-    <h2>Review cadence</h2>
-    <ul>
-      <li><strong>Daily:</strong> Check comment sentiment and escalate issues to community or PR teams.</li>
-      <li><strong>Weekly:</strong> Adjust bids based on cost per qualified visit and conversion rate; rotate creative variants.</li>
-      <li><strong>Monthly:</strong> Host AMA or community engagement events to support awareness campaigns.</li>
-    </ul>
-  </section>
+- Give each campaign one objective.
+- Split prospecting and retargeting into separate ad groups.
+- Use a consistent naming pattern, for example `Objective-Community-Creative-Version`.
 
-  <section>
-    <h2>Pre-launch checklist</h2>
-    <ul>
-      <li>Pixel validated across funnel events.</li>
-      <li>Community guidelines reviewed for each target subreddit.</li>
-      <li>Comment moderation workflow and escalation chart approved.</li>
-      <li>Budget pacing and anomaly alerts configured.</li>
-    </ul>
-  </section>
+## Tracking and measurement
+
+- Install the Reddit Pixel directly or through Google Tag Manager.
+- Add the Reddit Conversions API for server-side events. Send a matching event ID from both to deduplicate.
+- Map standard events, such as PageVisit, ViewContent, AddToCart, Purchase, Lead, and SignUp.
+- Check events in Events Manager before launch.
+- Add UTM parameters to every destination URL.
+
+## Campaign types
+
+| Objective | Use it for |
+| --- | --- |
+| Brand awareness and reach | Impressions to a defined audience. |
+| Traffic | Clicks to your site. |
+| Conversions | Actions tracked by the pixel, including catalog sales with dynamic product ads. |
+| Video views | Video reach. |
+| App installs | Installs and in-app events. |
+
+## Targeting
+
+- Target communities (subreddits) that discuss your category.
+- Use keyword targeting to reach people reading related posts.
+- Use interest targeting to scale after community targeting works.
+- Build custom audiences from site visitors and customer lists, and lookalikes from them.
+- Read each community's rules before you advertise there.
+
+## Creative
+
+- Write like a person in the community. Plain, direct copy works better than polished ad language.
+- Test text, image, and video posts. Some communities prefer text.
+- Keep video short and add on-screen text. Many people watch without sound.
+- Decide whether to allow comments. If you allow them, someone must read and answer them.
+
+## Budget and bidding
+
+- Use automatic bidding to start. Move to a cost cap or manual bid when you know your target cost.
+- Narrow community targeting can limit delivery. Widen it if the budget does not spend.
+
+## Review cadence
+
+- **Daily:** comments and sentiment. Escalate problems to community or PR teams.
+- **Weekly:** results by community and creative; adjust bids and rotate ads.
+- **Monthly:** compare cost per result with other channels; review brand safety settings.
+
+## Pre-launch checklist
+
+- [ ] Pixel and Conversions API verified, with deduplication.
+- [ ] Rules checked for each target community.
+- [ ] Comment moderation owner and escalation steps agreed.
+- [ ] Brand safety and suitability settings chosen.
+- [ ] UTM parameters on all URLs.
+- [ ] Budgets and spend alerts set.
+
 </div>

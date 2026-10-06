@@ -6,7 +6,7 @@ import { sandboxes, tools } from '../../../data/analytics-lab';
 ---
 <Layout title="Analytics" headingTracker={false}>
   <div class="container">
-    <PageHeader title="Analytics" dept="Lab / 02" meta={[`${sandboxes.length} sandboxes`, `${tools.length} ${tools.length === 1 ? 'tool' : 'tools'}`]} />
+    <PageHeader title="Analytics" dept="Lab" meta={[`${sandboxes.length} sandboxes`, `${tools.length} ${tools.length === 1 ? 'tool' : 'tools'}`]} />
 
     <div class="lab-tabs" role="tablist" aria-label="Analytics lab">
       <button role="tab" id="tab-sandboxes" aria-controls="panel-sandboxes" aria-selected="true" data-tab="sandboxes">Sandboxes <span>{sandboxes.length}</span></button>

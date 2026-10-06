@@ -5,64 +5,64 @@ import IndexList from '../../../components/IndexList.astro';
 
 const entries = [
   {
-    title: 'Mini Digits GAN',
+    title: 'Mini Digits Generator',
     href: '/lab/ai/mini-digits-gan/',
-    description: 'Compact 28×28 handwriting generator distilled into a single dense decoder.',
+    description: 'Blends ten font-drawn digits into 28×28 images from a random seed. Hand-set weights, not a trained GAN.',
     kind: 'Demo',
   },
   {
-    title: 'Chromatic Orbit GAN',
+    title: 'Color Pattern Generator',
     href: '/lab/ai/chromatic-orbit-gan/',
-    description: '64×64 color field generator blending spiral, radial, and interference bases.',
+    description: 'Mixes six math-defined color patterns into 64×64 images from a random seed. Hand-set weights, not a trained GAN.',
     kind: 'Demo',
   },
   {
     title: 'NeuralGo',
     href: '/lab/ai/neural-go/',
-    description: 'Self-play Go with a small policy/value network and Monte Carlo tree search.',
+    description: 'Two small networks play 9×9 Go against each other with one-move lookahead and learn to predict the winner.',
     kind: 'Demo',
   },
   {
     title: 'Pattern Match Learner',
     href: '/lab/ai/pattern-match-learner/',
-    description: 'A tiny network learning to classify 8×8 pixel patterns with SGD.',
+    description: 'A small network learns to sort 8×8 pixel patterns into six types with gradient descent.',
     kind: 'Demo',
   },
   {
     title: 'Phone Agent',
     href: '/lab/ai/phone-agent/',
-    description: 'Raspberry Pi voice agent for landline phones with pattern matching and MP3 playback.',
-    kind: 'Build',
+    description: 'Design for a Raspberry Pi that answers an analog phone and plays MP3 replies based on keyword rules.',
+    kind: 'Design',
   },
   {
     title: 'Mushroom Forecasting',
     href: '/lab/ai/mushroom-forecasting-alerts/',
-    description: 'Growth model fusing weather, terrain, and phenology to forecast fruiting.',
-    kind: 'Notes',
+    description: 'Concept: estimate when and where mushrooms fruit from weather and past sightings.',
+    kind: 'Concept',
   },
   {
     title: 'Mycology Classification',
     href: '/lab/ai/mycology-classification/',
-    description: 'Vision transformer for field-grade fungal identification.',
-    kind: 'Notes',
+    description: 'Concept: suggest likely fungus species from a photo, with safety limits.',
+    kind: 'Concept',
   },
   {
     title: 'Call Triage Agent',
     href: '/lab/ai/call-triage-agent/',
-    description: 'Voice-first assistant concept for triaging inbound calls.',
-    kind: 'Notes',
+    description: 'Concept: a voice assistant that answers calls, handles routine requests, and transfers the rest.',
+    kind: 'Concept',
   },
   {
     title: 'Demo Arcade Intelligence',
     href: '/lab/ai/demo-arcade-intelligence/',
-    description: 'Reinforcement learning sandbox with human-versus-agent matchups.',
-    kind: 'Notes',
+    description: 'Concept: people play simple arcade games against reinforcement learning agents.',
+    kind: 'Concept',
   },
-].map((e, i) => ({ ...e, id: `AI-${String(i + 1).padStart(2, '0')}` }));
+].map((e, i) => ({ ...e, id: String(i + 1).padStart(2, '0') }));
 ---
-<Layout title="AI" headingTracker={false}>
+<Layout title="AI" description="Small machine learning demos that run in the browser, plus design notes for projects not yet built." headingTracker={false}>
   <div class="container">
-    <PageHeader title="AI" dept="Lab / 01" meta={[`${entries.length} entries`]} />
+    <PageHeader title="AI" dept="Lab" meta={[`${entries.length} entries`]} />
     <IndexList entries={entries} />
   </div>
 </Layout>

@@ -1,68 +1,85 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "TikTok Ads Playbook"
-description: "Guide to Spark Ads, creator collaborations, and TikTok pixel instrumentation."
+description: "Setup guide for TikTok ads, Spark Ads, creator content, the TikTok Pixel, and the Events API."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Advertising</p>
-  <h1>TikTok Ads Playbook</h1>
-  <p class="intro">TikTok’s algorithm thrives on creative velocity and strong conversion signals. This playbook covers how to prepare assets, partner with creators, and ensure measurement fidelity.</p>
 
-  <section>
-    <h2>Campaign structure</h2>
-    <ul>
-      <li>Segment campaigns by objective: Reach, Traffic, Lead, App Install, or Conversion. Avoid mixing optimization events within one campaign.</li>
-      <li>Adopt ad group naming: <span class="mono">[Objective]-[Audience]-[Offer]-[Iteration]</span>.</li>
-      <li>Enable automated creative optimization for prospecting campaigns; use manual placements for retargeting.</li>
-    </ul>
-  </section>
+[← Ads lab](/lab/ads/)
 
-  <section>
-    <h2>Creative process</h2>
-    <ul>
-      <li>Ship 3-5 new assets each week. Use the “3-second hook, 15-second story, 3-second CTA” framework.</li>
-      <li>Use Spark Ads to promote top-performing organic posts or creator collaborations.</li>
-      <li>Generate scripts and storyboards with clear product demos, native captions, and trending audio guidance.</li>
-    </ul>
-  </section>
+# TikTok Ads Playbook
 
-  <section>
-    <h2>Creator and community strategy</h2>
-    <ul>
-      <li>Source creators through TikTok Creator Marketplace or vetted agencies; capture usage rights durations in contracts.</li>
-      <li>Provide creative briefs with campaign goals, messaging pillars, and compliance guardrails.</li>
-      <li>Monitor comments for product questions and respond within 1 hour during launch windows.</li>
-    </ul>
-  </section>
+How to set up, track, and run TikTok ads. Results depend mostly on a steady supply of new video.
 
-  <section>
-    <h2>Pixel, events, and API</h2>
-    <ul>
-      <li>Install TikTok Pixel via GTM and map standard events (ViewContent, AddToCart, CompletePayment, SubmitForm).</li>
-      <li>Enable Advanced Matching and Conversions API (Events API) for deduplication and improved attribution.</li>
-      <li>Test events using the TikTok Events Manager diagnostics prior to go-live.</li>
-    </ul>
-  </section>
+## Account structure
 
-  <section>
-    <h2>Optimization and reporting</h2>
-    <ul>
-      <li><strong>Daily:</strong> Monitor learning phase and CPA fluctuations; pause underperforming creatives with low view-through rate.</li>
-      <li><strong>Weekly:</strong> Review creative insights (hook rate, 6s view rate) and refresh assets accordingly.</li>
-      <li><strong>Monthly:</strong> Evaluate conversion lift or brand lift studies to benchmark incremental impact.</li>
-    </ul>
-  </section>
+- Manage ad accounts inside TikTok Business Center.
+- Give each campaign one objective and one optimization event.
+- Use a consistent naming pattern, for example `Objective-Audience-Offer-Version`.
 
-  <section>
-    <h2>Pre-launch checklist</h2>
-    <ul>
-      <li>Pixel and Events API verified with deduplication IDs.</li>
-      <li>Creative backlog prepared for at least 3 weeks of rotations.</li>
-      <li>Creator usage rights documented, Spark Ad codes collected.</li>
-      <li>Spend alerts configured and dashboards ready for real-time pacing.</li>
-    </ul>
-  </section>
+## Tracking and measurement
+
+- Install the TikTok Pixel directly or through Google Tag Manager.
+- Add the Events API for server-side events. Send the same `event_id` from both so TikTok can deduplicate.
+- Turn on advanced matching to send hashed email and phone where you have consent.
+- Map standard events, such as ViewContent, AddToCart, PlaceAnOrder, CompletePayment, and SubmitForm.
+- Test events in Events Manager before launch.
+- Check results with a lift study or holdout when spend is large enough.
+
+## Campaign types
+
+| Objective | Use it for |
+| --- | --- |
+| Reach | Awareness at the lowest cost per impression. |
+| Traffic | Clicks to a site or app. |
+| Video views | Views of a specific video. |
+| Community interaction | Follows and profile visits. |
+| App promotion | Installs and in-app events. |
+| Lead generation | Instant forms or website leads. |
+| Sales | Website conversions and catalog sales. |
+
+Smart+ campaigns automate targeting, bidding, and creative selection. Test them against a manual campaign.
+
+## Targeting
+
+- Start broad. TikTok finds buyers from creative and conversion signals.
+- Add custom audiences (site visitors, customer lists, video viewers) for retargeting and exclusions.
+- Build lookalike audiences from purchasers or high-value leads.
+- Use interest and behavior targeting only if it beats broad in a test.
+
+## Creative
+
+- Shoot vertical 9:16 video that looks native to TikTok.
+- Show the product or the main point in the first seconds.
+- Use captions and on-screen text. Keep text out of the areas covered by the app UI.
+- Use Spark Ads to run organic posts from your account or from creators. Collect authorization codes from creators.
+- Find creators through TikTok One or an agency. Put usage rights and their duration in the contract.
+- Plan new creative every week. Ads wear out fast.
+
+## Budget and bidding
+
+- Bid strategies include maximum delivery, cost cap, and minimum ROAS.
+- An ad group needs about 50 conversions in a week to exit the learning phase. Size budgets for that, or optimize for a higher-volume event.
+- Avoid large edits during learning.
+
+## Review cadence
+
+- **Daily:** spend, learning status, and cost per result.
+- **Weekly:** creative results (hook rate, watch time); replace weak ads.
+- **Monthly:** lift results and creator performance.
+
+## Pre-launch checklist
+
+- [ ] Pixel and Events API firing, with deduplication confirmed.
+- [ ] Optimization event receiving data.
+- [ ] Custom audiences and exclusions built.
+- [ ] At least several weeks of creative ready.
+- [ ] Creator usage rights documented and Spark Ads codes collected.
+- [ ] Captions and safe zones checked.
+- [ ] UTM parameters on all URLs.
+- [ ] Budgets and spend alerts set.
+
 </div>

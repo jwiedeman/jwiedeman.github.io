@@ -1,68 +1,78 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "X Ads Playbook"
-description: "Guidance for awareness and performance programs on X (Twitter)."
+description: "Setup guide for awareness and performance campaigns on X (formerly Twitter), including the X Pixel and Conversions API."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Advertising</p>
-  <h1>X Ads Playbook</h1>
-  <p class="intro">X Ads (formerly Twitter Ads) work best when conversation and reach tactics are planned together. This playbook covers campaign structure, pixel setup, and brand safety.</p>
 
-  <section>
-    <h2>Campaign structure</h2>
-    <ul>
-      <li>Create separate campaigns for Reach, Website Traffic, Conversions, and App objectives. Avoid mixing objectives within one campaign.</li>
-      <li>Use ad group naming: <span class="mono">[Objective]-[Audience]-[Creative]-[Flight]</span>.</li>
-      <li>Enable Frequency Cap for Reach campaigns (1 per user per day unless testing high frequency launches).</li>
-    </ul>
-  </section>
+[← Ads lab](/lab/ads/)
 
-  <section>
-    <h2>Audiences</h2>
-    <ul>
-      <li>Combine keyword targeting (15-25 terms) with follower look-alikes of influential accounts.</li>
-      <li>Deploy tailored audiences from site visitors, customer lists, and app users; refresh lists every 7 days for active programs.</li>
-      <li>Use conversation targeting or event targeting for cultural moments; align creative approvals ahead of time.</li>
-    </ul>
-  </section>
+# X Ads Playbook
 
-  <section>
-    <h2>Creative formats</h2>
-    <ul>
-      <li>Leverage Website Cards and Conversation Cards for performance programs, Video Ads for awareness.</li>
-      <li>Draft copy variations with clear CTAs; limit to 2 hashtags to avoid siphoning traffic.</li>
-      <li>Plan replies for conversation ads. Ensure community managers have macros for follow-up responses.</li>
-    </ul>
-  </section>
+How to set up, track, and run ads on X (formerly Twitter).
 
-  <section>
-    <h2>Pixel and measurement</h2>
-    <ul>
-      <li>Install X Pixel via GTM; verify Page View and conversion events with the Pixel Helper.</li>
-      <li>Implement the Conversions API (CAPI) for server-side events when dealing with gated conversions or app installs.</li>
-      <li>Set up conversion attribution windows per campaign: 1/7 day (view/click) for awareness, 1/30 for performance programs.</li>
-    </ul>
-  </section>
+## Account structure
 
-  <section>
-    <h2>Brand safety</h2>
-    <ul>
-      <li>Apply adjacency controls: block lists, allow lists, and keyword exclusion lists updated weekly.</li>
-      <li>Activate third-party verification (DoubleVerify, IAS) when budgets justify.</li>
-      <li>Monitor conversation threads for sentiment; escalate outliers to comms within 2 hours.</li>
-    </ul>
-  </section>
+- Give each campaign one objective. Do not mix objectives.
+- Use ad groups to split audiences and creative.
+- Use a consistent naming pattern, for example `Objective-Audience-Creative-Flight`.
 
-  <section>
-    <h2>Pre-launch checklist</h2>
-    <ul>
-      <li>Pixel and CAPI events validated across purchase funnel.</li>
-      <li>Conversation reply macros reviewed by legal/PR.</li>
-      <li>Brand safety lists uploaded and associated with campaigns.</li>
-      <li>Budget pacing alerts configured in Ads Manager or third-party stack.</li>
-    </ul>
-  </section>
+## Tracking and measurement
+
+- Install the X Pixel directly or through Google Tag Manager. Check it with the X Pixel Helper.
+- Add the X Conversions API for server-side events.
+- Set attribution windows on purpose and write them down, so reports are read the same way each time.
+- Add UTM parameters to every destination URL.
+
+## Campaign types
+
+| Objective | Use it for |
+| --- | --- |
+| Reach | Impressions to as many people as possible. |
+| Video views | Video reach and completion. |
+| Engagements | Replies, reposts, and likes. |
+| Followers | Account growth. |
+| Website traffic | Clicks to your site. |
+| Website conversions | Actions tracked by the pixel. |
+| App installs | Installs and app re-engagement. |
+
+## Targeting
+
+- Use keyword targeting for topics people post about.
+- Use follower look-alikes of relevant accounts.
+- Upload custom audiences: site visitors, customer lists, and app users.
+- Use conversation or event targeting for planned moments. Approve creative ahead of time.
+
+## Creative
+
+- Formats include image, video, carousel, and website cards.
+- Keep copy short. Use one clear call to action.
+- Limit hashtags. Each one is a link that takes clicks away from your ad.
+- Plan who replies to comments and how fast.
+
+## Budget and bidding
+
+- Bid options include automatic bid, target cost, and maximum bid.
+- Set a frequency cap on reach campaigns.
+- Set daily and total budgets on every campaign.
+
+## Review cadence
+
+- **Daily:** spend, replies, and sentiment. Escalate problems to communications.
+- **Weekly:** results by audience and creative; update brand safety lists.
+- **Monthly:** compare cost per result with other channels.
+
+## Pre-launch checklist
+
+- [ ] X Pixel and Conversions API events verified.
+- [ ] Attribution windows set and recorded.
+- [ ] Custom audiences uploaded.
+- [ ] Brand safety controls set: sensitivity settings and keyword or account block lists.
+- [ ] Third-party verification set up if required.
+- [ ] Reply plan reviewed by communications or legal.
+- [ ] Budgets and frequency caps set.
+
 </div>

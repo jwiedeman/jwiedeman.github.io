@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Broad Targeting + Algorithmic Bidding"
-description: "Leveraging broad audience targeting with algorithm-driven bid strategies to let platform ML find your best customers."
+description: "Give the ad platform a wide audience and a clear conversion goal, and let its bidding find the buyers."
 ---
 # Broad Targeting + Algorithmic Bidding
 
-Broad targeting combined with algorithmic bidding flips the traditional paid media model on its head. Instead of manually narrowing audiences with layered interest and demographic filters, you give the platform's machine learning algorithm a wide audience and a clear conversion signal, then let it figure out who to show your ads to. When done correctly, this approach often outperforms hyper-targeted campaigns because the algorithm has access to thousands of behavioral signals you could never manually replicate.
+Broad targeting means you set few audience limits and let the platform's bidding system decide who sees your ads. You supply a clear conversion signal and a cost goal. The platform uses signals you cannot target by hand to find likely buyers.
 
-## Core Concept
+## How it works
 
-Platform algorithms (Meta's Advantage+, Google's Smart Bidding, TikTok's auto-targeting) process billions of data points about user behavior, purchase history, and content engagement that aren't available in the targeting interface. When you restrict your audience too tightly, you limit the algorithm's ability to find high-value users outside your assumptions. Broad targeting with algorithmic bidding essentially says: "Here's my conversion event and my target cost — find the people most likely to convert at that cost." The algorithm then optimizes bids in real-time, bidding higher for users with strong intent signals and lower (or not at all) for low-probability users.
+Ad platforms see far more about user behavior than their targeting menus expose. Tight interest and demographic layers stop the system from reaching good buyers outside your assumptions. With broad targeting, you tell the platform: "This is the conversion I want and what I will pay for it." The bidding system then bids higher for people likely to convert and lower, or not at all, for everyone else. Examples include Google Smart Bidding with broad match, Meta Advantage+ audiences and Advantage+ sales campaigns, and TikTok's automatic targeting.
 
-## Implementation
+## How to do it
 
-1. **Ensure your conversion tracking is bulletproof** — The algorithm is only as good as the signal you feed it. Verify your pixel, CAPI (Conversions API), or SDK is firing correctly on your true conversion event. If you're optimizing for purchases, make sure revenue values pass through accurately. Bad data in means bad optimization out.
-2. **Start with a proven creative and landing page** — Don't test broad targeting with untested creative. Use your best-performing ads so the algorithm gets clean signal on what works. The variable you're testing is the targeting, not the creative.
-3. **Set up a broad campaign with minimal targeting restrictions** — On Meta, this means selecting your country and age range only (or using Advantage+ Shopping campaigns). On Google, use Performance Max or broad match keywords with Smart Bidding. On TikTok, select broad targeting within your ad group. Remove interest and behavior layers.
-4. **Choose the right algorithmic bid strategy** — For ecommerce, use target ROAS once you have 50+ conversions per week. For lead gen, use target CPA. If you're below those volume thresholds, start with "maximize conversions" to build data, then switch to target-based bidding once the algorithm has learned.
-5. **Run a structured test against your best narrow campaign** — Allocate 20-30% of budget to the broad campaign alongside your existing targeted campaigns. Compare CPA, ROAS, and conversion volume over 2-3 weeks (enough time for the algorithm to exit learning phase). Scale the winner.
+1. Check your conversion tracking. Confirm the pixel, server-side API, or SDK fires once per real conversion and passes revenue values.
+2. Use your best existing ads and landing page. Only the targeting should change in this test.
+3. Build a campaign with minimal limits. On Meta, set country and age only, or use an Advantage+ sales campaign. On Google, use broad match keywords or Performance Max with Smart Bidding. On TikTok, choose automatic or broad targeting.
+4. Pick a bid strategy. Use target CPA for lead gen and target ROAS for ecommerce once you have steady conversion volume. Start with "maximize conversions" or "maximize conversion value" if volume is low, then add a target later.
+5. Test against your best narrow campaign. Give the broad campaign a share of budget, run it long enough to exit the learning phase, and compare CPA, ROAS, and volume. Scale the winner.
 
-## Key Metrics
+## What to measure
 
-- **Cost Per Acquisition (CPA) During vs. After Learning Phase** — Track how CPA changes as the algorithm accumulates data; initial CPA will be high but should stabilize and often beat manual targeting within 1-2 weeks
-- **Conversion Volume at Target Efficiency** — Broad targeting should deliver more total conversions at similar or better CPA; if efficiency is the same but volume doubles, the strategy is working
-- **Audience Overlap Rate** — Check how much the algorithm's actual delivery overlaps with your manually targeted audiences using platform audience insights; low overlap means it found valuable users you were missing
+- **CPA over time**: compare CPA during the learning phase with CPA after it ends.
+- **Conversion volume at target efficiency**: count conversions delivered at or below your target CPA or above your target ROAS.
+- **New vs. returning customers**: check the share of conversions from people who had not bought before.
 
-## Best Practices
+## Best practices
 
-- Feed the algorithm your highest-value conversion event — optimizing for purchases or qualified leads beats optimizing for add-to-carts or page views, even if the volume is lower
-- Give the algorithm enough budget to exit learning phase; Meta recommends 50 conversions per week per ad set, Google needs 30+ conversions per month per campaign
-- Use broad targeting for prospecting campaigns but keep tight remarketing campaigns running separately — the algorithm is best at finding new customers, not closing warm audiences
+- Optimize for your most valuable conversion event, such as a purchase or qualified lead, not a page view or add-to-cart.
+- Budget enough to exit the learning phase. Each platform publishes its own conversion-volume guidance; check it before launch.
+- Keep a separate remarketing or existing-customer setup so prospecting results are not inflated by people who would buy anyway.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Panicking during the learning phase — CPA will spike in the first 3-7 days as the algorithm explores; cutting budget or making changes during this period resets learning and guarantees poor results
-- Using broad targeting with a weak conversion signal — If you're optimizing for a micro-conversion like "time on site" instead of actual purchases, the algorithm will find people who browse but never buy
-- Removing all structure — Some manual segmentation still helps; separating prospecting from remarketing and separating creative themes into distinct ad sets gives the algorithm useful structure while keeping audiences broad
+- Changing budgets or settings during the learning phase. Big edits restart learning.
+- Optimizing for a weak signal. If the goal is time on site, the system will find people who browse and do not buy.
+- Removing all structure. Separating prospecting from remarketing still gives the system useful boundaries.

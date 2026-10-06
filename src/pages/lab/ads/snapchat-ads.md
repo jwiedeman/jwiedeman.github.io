@@ -1,68 +1,78 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "Snapchat Ads Playbook"
-description: "Framework for Snap Ads, AR Lens campaigns, and pixel instrumentation."
+description: "Setup guide for Snapchat ads, AR Lenses, the Snap Pixel, and the Conversions API."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Advertising</p>
-  <h1>Snapchat Ads Playbook</h1>
-  <p class="intro">Snapchat ads run as full-screen vertical video and augmented reality. This playbook covers creative, pixel data, and pacing.</p>
 
-  <section>
-    <h2>Campaign structure</h2>
-    <ul>
-      <li>Organize campaigns by objective: Awareness, Engagement, Traffic, App Installs, or Conversions.</li>
-      <li>Use ad set naming: <span class="mono">[Objective]-[Audience]-[Placement]-[Flight]</span>.</li>
-      <li>Run AR Lens or Filter campaigns separately from Snap Ads to isolate delivery.</li>
-    </ul>
-  </section>
+[← Ads lab](/lab/ads/)
 
-  <section>
-    <h2>Creative requirements</h2>
-    <ul>
-      <li>Video: 1080x1920, 9:16 ratio, 3-180 seconds, with burned-in captions and brand within first 2 seconds.</li>
-      <li>Collection Ads: provide at least 4 product tiles with unique URLs.</li>
-      <li>AR Lenses: deliver lens files, preview video, and icon assets per Snap specs; test lens performance on target devices.</li>
-    </ul>
-  </section>
+# Snapchat Ads Playbook
 
-  <section>
-    <h2>Audience strategy</h2>
-    <ul>
-      <li>Mix Lifestyle Categories, lookalike audiences, and first-party match lists.</li>
-      <li>Deploy Pixel Custom Audiences for retargeting (site visitors, cart abandoners). Refresh within 7 days.</li>
-      <li>Use placement exclusions for Discover publishers if brand safety requires.</li>
-    </ul>
-  </section>
+How to set up, track, and run Snapchat ads. Ads are full-screen vertical video, images, and AR Lenses.
 
-  <section>
-    <h2>Pixel and measurement</h2>
-    <ul>
-      <li>Implement Snap Pixel events: PAGE_VIEW, VIEW_CONTENT, ADD_CART, START_CHECKOUT, PURCHASE, SIGN_UP.</li>
-      <li>Enable the Conversions API (CAPI) for server-side events.</li>
-      <li>Configure conversion windows: 1/7 for upper funnel, 1/28 for conversion programs.</li>
-    </ul>
-  </section>
+## Account structure
 
-  <section>
-    <h2>Optimization and QA</h2>
-    <ul>
-      <li><strong>Daily:</strong> Monitor swipe-up rate, cost per pixel event, and Lens interaction rate.</li>
-      <li><strong>Weekly:</strong> Rotate creative sets; test Lens variations or new filter overlays.</li>
-      <li><strong>Monthly:</strong> Review Mixpanel/GA4 downstream performance for incrementality and cross-channel impact.</li>
-    </ul>
-  </section>
+- Manage ad accounts in Snapchat Ads Manager under one business account.
+- Give each campaign one objective.
+- Run AR Lens campaigns separately from video and image ads.
+- Use a consistent naming pattern, for example `Objective-Audience-Placement-Flight`.
 
-  <section>
-    <h2>Pre-launch checklist</h2>
-    <ul>
-      <li>Pixel events validated with Snap Pixel Helper.</li>
-      <li>AR Lens QA completed (tracking, occlusion, end card functionality).</li>
-      <li>Brand safety lists (publisher and category) applied.</li>
-      <li>Flight calendar shared with community/support teams.</li>
-    </ul>
-  </section>
+## Tracking and measurement
+
+- Install the Snap Pixel directly or through Google Tag Manager. Check it with the Snap Pixel Helper.
+- Add the Conversions API for server-side events. Send a matching event ID from both to deduplicate.
+- Map standard events, such as PAGE_VIEW, VIEW_CONTENT, ADD_CART, START_CHECKOUT, PURCHASE, and SIGN_UP.
+- Set attribution windows on purpose and write them down.
+- Add UTM parameters to every destination URL.
+
+## Campaign types
+
+| Objective | Use it for |
+| --- | --- |
+| Awareness and engagement | Reach, video views, and Lens plays. |
+| Traffic | Clicks to a site or app. |
+| App promotion | Installs and in-app events. |
+| Leads | Instant forms or website leads. |
+| Sales | Website conversions and catalog sales. |
+
+## Targeting
+
+- Use Snap's lifestyle and interest categories, location, and demographics.
+- Upload customer lists and build lookalike audiences from them.
+- Build pixel custom audiences for retargeting site visitors and cart abandoners.
+- Start broad and use automatic placements unless you have a reason to limit them.
+
+## Creative
+
+- Video: 9:16, 1080 x 1920. Show the brand and product in the first seconds.
+- Add captions or on-screen text.
+- Collection ads show a main video or image with product tiles below it. Each tile needs its own URL.
+- Dynamic product ads build ads from your catalog.
+- AR Lenses are built in Lens Studio and go through Snap review. Test them on real devices.
+
+## Budget and bidding
+
+- Use automatic bidding to start. Add a target cost once you know your goal.
+- Set daily budgets at the ad set level and a campaign spend cap.
+
+## Review cadence
+
+- **Daily:** spend, delivery, and cost per pixel event.
+- **Weekly:** rotate creative and test Lens variants.
+- **Monthly:** compare results with analytics and other channels.
+
+## Pre-launch checklist
+
+- [ ] Snap Pixel and Conversions API verified, with deduplication.
+- [ ] Custom and lookalike audiences built.
+- [ ] Creative in 9:16 with captions.
+- [ ] AR Lens tested on target devices and approved (if used).
+- [ ] Brand safety and placement settings chosen.
+- [ ] UTM parameters on all URLs.
+- [ ] Budgets and spend caps set.
+
 </div>

@@ -1,38 +1,39 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Sticky CTAs & Bars"
-description: "Persistent call-to-action bars and buttons that remain visible while scrolling to maintain conversion pressure."
+description: "Keep the main call to action visible while visitors scroll."
 ---
 # Sticky CTAs & Bars
 
-Sticky CTAs are persistent call-to-action elements — fixed headers, floating buttons, bottom bars, or sidebar elements — that remain visible in the viewport as users scroll through your page. Instead of relying on users to scroll back up to find the purchase button or scroll down to reach the next step, sticky elements ensure the desired action is always one click away. On long-form pages and mobile devices, sticky CTAs can increase click-through rates by 20-50% simply by eliminating the distance between decision and action.
+A sticky CTA is a button or bar that stays on screen while the visitor scrolls. It can be a fixed header, a bottom bar, or a floating button. The main action stays one tap away, wherever the visitor is on the page.
 
-## Core Concept
+## How it works
 
-There is a direct relationship between the physical distance to a CTA and the likelihood of clicking it. When a user reads a compelling testimonial halfway down your product page but the "Buy Now" button is 3,000 pixels above them, the friction of scrolling back up is enough to lose a significant percentage of motivated buyers. Sticky CTAs collapse this distance to zero — no matter where the user is on the page, the action button is immediately accessible. This is especially critical on mobile where scroll distance is amplified and navigation is more cumbersome.
+The farther a visitor is from the buy button, the less likely they are to click it. If someone is convinced by a review halfway down the page, scrolling back to the top is enough friction to lose some of them. A sticky CTA removes that distance. This matters most on mobile, where pages are long.
 
-## Implementation
+## How to do it
 
-1. Add a sticky bottom bar on mobile product pages that displays the product name, price, and a prominent "Add to Cart" or "Buy Now" button — this bar should appear after the user scrolls past the initial above-fold CTA (not immediately on page load, which wastes above-fold space) and remain fixed at the bottom of the screen for the rest of the browsing session.
-2. Implement a sticky header bar for site-wide promotions or lead capture — a slim, fixed bar at the top of the page displaying a time-sensitive offer ("Free shipping on orders over $50 — today only") with a CTA button, keeping your best offer visible without interrupting the page content.
-3. On long-form landing pages and blog posts, add a floating CTA button (usually bottom-right) that appears after the user scrolls past a specific threshold (25-50% scroll depth) — this button should be contextually relevant to the page content and collapse into a minimal icon when not hovered to avoid obstructing content.
-4. For pricing pages and comparison pages, implement a sticky comparison bar that keeps the selected plan or product pinned to the top or bottom of the screen while the user scrolls through feature comparisons, with a "Select This Plan" button always accessible.
-5. A/B test sticky CTAs against non-sticky versions to measure the true conversion impact — compare click-through rates on the sticky CTA versus the same CTA in its static position, and monitor whether the sticky element causes any negative effects on engagement metrics (time on page, scroll depth, bounce rate).
+1. On mobile product pages, add a bottom bar with the product name, price, and "Add to cart."
+2. Show the bar only after the original CTA scrolls out of view.
+3. For site-wide offers, add a slim top bar, for example "Free shipping over $50."
+4. On long landing pages and articles, add a small floating button that appears after the visitor scrolls part way.
+5. On pricing and comparison pages, keep the selected plan and a "Select plan" button pinned while visitors scroll the feature table.
+6. A/B test sticky versus non-sticky. Watch conversion rate, scroll depth, and bounce rate.
 
-## Key Metrics
+## What to measure
 
-- **Sticky CTA Click Rate** — the percentage of page visitors who click the sticky CTA specifically (versus other CTAs on the page), which measures whether the persistent element is capturing incremental clicks that would otherwise be lost
-- **Conversion Rate Lift** — the overall page conversion rate with sticky CTAs enabled versus disabled, which is the definitive measure of the tactic's value (typical lift: 10-25% on mobile, 5-15% on desktop)
-- **Scroll-Depth-to-Click Correlation** — analysis of at what scroll depth users click the sticky CTA, which reveals where on the page users are making their decision, informing content optimization for the sections that drive the most conversions
+- **Sticky CTA click rate**: Share of visitors who click the sticky element.
+- **Conversion rate lift**: Page conversion rate with the sticky CTA on versus off.
+- **Scroll depth at click**: How far down the page visitors are when they click. It shows which sections lead to action.
 
-## Best Practices
+## Best practices
 
-- Trigger sticky CTAs after the user scrolls past the initial above-fold CTA — showing a sticky element that duplicates the visible CTA is redundant and wastes screen space; activate the sticky only when the static CTA scrolls out of view
-- Keep sticky bars slim and unobtrusive on mobile — a bottom bar that consumes 15-20% of the screen height feels oppressive and obstructs content; aim for 10% of screen height maximum with a clear, tappable button
-- Include the price and key value proposition in the sticky bar, not just the CTA button — "Premium Plan - $29/mo - Start Free Trial" gives the user enough context to click without needing to scroll back for pricing details
+- Show the sticky CTA only when the static CTA is out of view.
+- Keep mobile bars slim, around 10% of screen height or less.
+- Include the price and plan name in the bar, not just a button.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Making sticky elements so large that they obstruct significant page content, especially on mobile — if users cannot read your product description because a giant bar covers the bottom quarter of their screen, the sticky CTA hurts more than it helps
-- Using sticky CTAs on pages where the primary goal is content consumption (blog posts, documentation, help articles) and the CTA is disruptive to the reading experience — on content pages, use subtle floating elements rather than full-width bars
-- Not accounting for multiple sticky elements stacking — if you have a sticky header, a cookie consent banner, and a sticky bottom CTA all visible simultaneously, they can consume 40%+ of mobile screen space and create a claustrophobic experience
+- Making sticky elements so large they cover content.
+- Using full-width sticky bars on reading pages such as docs and help articles. Use a small floating button instead.
+- Stacking a sticky header, cookie banner, and bottom bar at once. Together they can cover a large part of a phone screen.

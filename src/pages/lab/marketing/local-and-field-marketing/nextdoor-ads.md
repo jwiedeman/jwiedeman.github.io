@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Nextdoor Ads"
-description: "Advertising on Nextdoor for hyperlocal targeting and trusted neighborhood reach."
+description: "Advertise on Nextdoor to reach verified residents in specific neighborhoods."
 ---
 # Nextdoor Ads
 
-Nextdoor is a hyperlocal social network where verified residents discuss neighborhood-specific topics — contractor recommendations, local events, safety alerts, and service reviews. For local businesses, it offers an advertising environment fundamentally different from Meta or Google: the audience is geographically concentrated, contextually primed for local recommendations, and interacting in a trusted community setting. Nextdoor ads reach homeowners and residents who are actively asking for and giving local business recommendations.
+Nextdoor is a neighborhood social network where residents ask for contractor tips, share local events, and review local businesses. For a local business, the audience is close by and often looking for a recommendation. That makes it different from Meta or Google.
 
-## Core Concept
+## How it works
 
-Nextdoor's unique value lies in its verified neighborhood structure and recommendation culture. Unlike Facebook where local business content competes with vacation photos and news articles, Nextdoor's feed is inherently local — users are there specifically to discuss neighborhood-relevant topics. When a user asks "Who is a good plumber in [neighborhood]?" and your business appears in that context, the conversion intent is dramatically higher than a cold Facebook impression. Nextdoor offers both organic tools (free Business Page, the ability to respond to recommendations) and paid advertising (Local Deals, Sponsored Posts, Neighborhood Ads) that place your business in front of verified residents within a specific radius.
+Nextdoor's feed is local by design. People go there to talk about their neighborhood. When someone asks "who is a good plumber nearby?", a business that shows up in that context meets a buyer with intent. Nextdoor offers a free business page, the chance to be recommended by neighbors, and paid ads targeted by area.
 
-## Implementation
+## How to do it
 
-1. Claim your free Nextdoor Business Page — complete your profile with photos, services, hours, and contact information; this is the organic foundation that paid efforts will build on
-2. Engage organically first: respond to recommendation requests in your service area, offer helpful advice (without being overly promotional), and ask happy customers to recommend you on Nextdoor
-3. Launch a Local Deal — a coupon-style offer that appears in the Nextdoor feed for residents in your target neighborhoods; Local Deals include a built-in tracking mechanism showing claims
-4. Test Sponsored Posts for broader reach — these native-looking posts appear in the newsfeed of targeted neighborhoods and can drive awareness for grand openings, seasonal offers, or new service launches
-5. Monitor and respond to the discussion your ads generate — Nextdoor ads frequently generate comment threads where residents share their experiences, which becomes social proof that amplifies or undermines your ad depending on your reputation
+1. Claim your free Nextdoor business page. Add photos, services, hours, and contact details.
+2. Build organic standing first. Answer recommendation requests in your area with useful advice, and ask happy customers to recommend you.
+3. Launch a paid campaign targeted to the neighborhoods you serve, with a specific local offer.
+4. Test a few creative angles: a seasonal offer, a new service, or a "now serving your area" message.
+5. Read and answer comments on your ads. Neighbors' replies become public proof, good or bad.
 
-## Key Metrics
+## What to measure
 
-- **Deal claims and redemptions** — the number of residents who claim your Local Deal and the percentage who actually redeem it, representing the top and bottom of the local conversion funnel
-- **Recommendation count** — the number of organic recommendations your business receives on Nextdoor, which serves as both a social proof asset and a ranking signal within the platform
-- **Cost per new customer from Nextdoor** — total ad spend divided by attributed new customers, benchmarked against your other local acquisition channels (Google Local, direct mail, sponsorships)
+- **Offer claims**: residents who claim or redeem your offer, tracked with a unique code.
+- **Recommendations**: number of neighbor recommendations on your business page.
+- **Cost per new customer**: Nextdoor spend divided by customers attributed to it, compared with your other local channels.
 
-## Best Practices
+## Best practices
 
-- Lead with a generous, specific local offer — "Free gutter inspection for [Neighborhood Name] residents" performs better than generic discounts because it signals local commitment
-- Personalize messaging to the neighborhood level when possible; referencing the neighborhood by name in the ad copy increases relevance and trust
-- Build your organic recommendation base before scaling paid spend; Nextdoor users check your business page before responding to ads, and a page with zero recommendations undermines paid credibility
+- Lead with a specific local offer, for example "Free gutter check for Maple Heights residents."
+- Name the neighborhood in the copy when you can.
+- Build recommendations before you scale spend. People check your page before they respond.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Using the same generic ad copy from other platforms — Nextdoor's community-first culture requires a neighborly, helpful tone rather than aggressive promotional language
-- Ignoring negative comments on your ads or recommendation threads, which are highly visible and can turn a positive ad into a negative brand moment
-- Targeting too broad a radius — Nextdoor's power is hyperlocal precision; a 25-mile radius defeats the purpose and dilutes the neighborhood-level trust that makes the platform effective
+- Reusing ad copy from other platforms. Nextdoor responds to a neighborly, helpful tone.
+- Ignoring negative comments on your ads.
+- Targeting too wide an area. Stick to the neighborhoods you actually serve.

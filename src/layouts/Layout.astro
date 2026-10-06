@@ -82,7 +82,7 @@ const defaultTrackerConfig = {
   containerClass: 'container',
   headingsSelector: 'h2, h3',
   topLabel: isBlogArticle ? 'Article index' : 'On this page',
-  sideLabel: isLabPage ? 'Current module' : 'Current section',
+  sideLabel: 'Current section',
   minHeadings: 2,
 };
 
@@ -144,7 +144,7 @@ const showHeadingTracker = Boolean(trackerConfig.enabled);
           contentId={trackerContentId}
           headingsSelector={trackerConfig.headingsSelector ?? 'h2, h3'}
           topLabel={trackerConfig.topLabel ?? (isBlogArticle ? 'Article index' : 'On this page')}
-          sideLabel={trackerConfig.sideLabel ?? (isLabPage ? 'Current module' : 'Current section')}
+          sideLabel={trackerConfig.sideLabel ?? ('Current section')}
           minHeadings={Number(trackerConfig.minHeadings ?? 2)}
         >
           <slot />

@@ -1,69 +1,81 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "LinkedIn Ads Playbook"
-description: "Guide to B2B demand generation, ABM, and pipeline acceleration on LinkedIn."
+description: "Setup guide for B2B and account-based campaigns on LinkedIn, including Lead Gen Forms and the Conversions API."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Advertising</p>
-  <h1>LinkedIn Ads Playbook</h1>
-  <p class="intro">LinkedIn’s professional graph is ideal for account-based marketing and pipeline acceleration. This guide documents campaign structure, targeting controls, and lead management.</p>
 
-  <section>
-    <h2>Campaign architecture</h2>
-    <ul>
-      <li>Build separate campaign groups for Awareness, Consideration, and Conversion with shared objectives.</li>
-      <li>Use single objective per campaign: Brand Awareness, Website Conversions, or Lead Generation depending on funnel stage.</li>
-      <li>Adopt consistent taxonomy: <span class="mono">[Program]-[Segment]-[Offer]-[Quarter]</span>.</li>
-    </ul>
-  </section>
+[← Ads lab](/lab/ads/)
 
-  <section>
-    <h2>Audience design</h2>
-    <ul>
-      <li>Create matched audiences from CRM lists (CSV or API) segmented by buying committee roles.</li>
-      <li>Layer firmographic filters: industry, company size, seniority, and job function with audience expansion disabled for ABM programs.</li>
-      <li>Retarget site visitors with Insight Tag and video viewers at 25%, 50%, and 75% completion thresholds.</li>
-    </ul>
-  </section>
+# LinkedIn Ads Playbook
 
-  <section>
-    <h2>Creative formats</h2>
-    <p>Deliver value-forward creative that respects professional context.</p>
-    <ul>
-      <li>Use Document Ads for long-form content (whitepapers, research) with ungated preview pages.</li>
-      <li>Use Conversation Ads for multi-path nurture; craft decision trees that map to buyer readiness.</li>
-      <li>When using Lead Gen Forms, prefill custom questions for qualification. Sync responses to CRM within 15 minutes.</li>
-    </ul>
-  </section>
+How to set up, track, and run LinkedIn ads for B2B and account-based marketing.
 
-  <section>
-    <h2>Measurement and integrations</h2>
-    <ul>
-      <li>Validate Insight Tag firing on key pages; map events to conversions within Campaign Manager.</li>
-      <li>Enable Conversion API for server-side events when form fills are captured offsite.</li>
-      <li>Pipe data into marketing automation via native connectors or tools like Zapier/Segment. Ensure UTM parameters align with reporting standards.</li>
-    </ul>
-  </section>
+## Account structure
 
-  <section>
-    <h2>Optimization cadence</h2>
-    <ul>
-      <li><strong>Weekly:</strong> Review frequency, CTR, and cost per qualified visit. Shift budget between campaign groups accordingly.</li>
-      <li><strong>Bi-weekly:</strong> Evaluate creative fatigue; rotate new conversation paths or document assets.</li>
-      <li><strong>Quarterly:</strong> Refresh firmographic filters based on sales feedback and opportunity quality.</li>
-    </ul>
-  </section>
+- Use Campaign Manager inside a LinkedIn Business Manager so ownership stays with the company.
+- Use campaign groups for each program or funnel stage. Give each campaign one objective.
+- Use a consistent naming pattern, for example `Program-Segment-Offer-Quarter`.
 
-  <section>
-    <h2>Pre-launch checklist</h2>
-    <ul>
-      <li>Insight Tag validated and matched audiences above minimum threshold (300 members).</li>
-      <li>Lead Gen Form connectors tested for CRM/marketing automation sync.</li>
-      <li>All creatives pass brand and legal review with accessible contrast and subtitles on video.</li>
-      <li>Budget pacing dashboard configured (Looker Studio, Tableau, or Power BI).</li>
-    </ul>
-  </section>
+## Tracking and measurement
+
+- Install the LinkedIn Insight Tag on every page. Create conversions for key actions.
+- Add the Conversions API to send server-side and CRM events, such as qualified leads and closed deals.
+- Connect Lead Gen Forms to your CRM or marketing automation tool. Test the sync before launch.
+- Add UTM parameters to every destination URL.
+- Report on pipeline and revenue from the CRM, not only on platform leads.
+
+## Campaign types
+
+| Objective | Use it for |
+| --- | --- |
+| Brand awareness | Impressions to a defined audience. |
+| Website visits | Clicks to your site. |
+| Engagement | Social actions and follows. |
+| Video views | Video reach. |
+| Lead generation | Lead Gen Forms filled out on LinkedIn. |
+| Website conversions | Actions tracked on your site. |
+
+## Targeting
+
+- Build matched audiences from company lists and contact lists.
+- Layer job function, seniority, industry, and company size.
+- Turn off audience expansion for account-based programs so you reach only the listed accounts.
+- Retarget website visitors, video viewers, and people who opened a Lead Gen Form.
+- An audience must have at least 300 members to run. Much larger audiences deliver more evenly.
+
+## Creative
+
+- Formats: single image, video, carousel, document ads, conversation ads, message ads, text ads, and Thought Leader Ads.
+- Use document ads to share reports or guides. You can show a preview and gate the rest with a Lead Gen Form.
+- Keep Lead Gen Forms short. Each extra question lowers completion.
+- Use Thought Leader Ads to promote posts from employees.
+- Add captions to video.
+
+## Budget and bidding
+
+- Bid options include maximum delivery, cost cap, and manual bidding.
+- LinkedIn clicks usually cost more than on other social platforms. Plan budget around cost per qualified lead, not cost per click.
+- Use campaign group budgets to cap total program spend.
+
+## Review cadence
+
+- **Weekly:** spend, frequency, cost per lead, and lead quality from sales.
+- **Every two weeks:** creative fatigue; rotate in new ads.
+- **Quarterly:** update company lists and targeting based on pipeline results.
+
+## Pre-launch checklist
+
+- [ ] Insight Tag verified on all pages.
+- [ ] Conversions created and Conversions API connected (if used).
+- [ ] Lead Gen Form sync to CRM tested.
+- [ ] Matched audiences built and above 300 members.
+- [ ] Audience expansion set on purpose for each campaign.
+- [ ] Creative reviewed by brand and legal; video captioned.
+- [ ] UTM parameters on all URLs.
+- [ ] Budgets and end dates set.
+
 </div>

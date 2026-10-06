@@ -1,38 +1,39 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Brand Archetypes"
-description: "Applying Jungian archetypes to brand personality for consistent emotional resonance and audience connection."
+description: "Using a small set of character types to give a brand a consistent personality."
 ---
 # Brand Archetypes
 
-Brand archetypes apply Carl Jung's theory of universal character patterns to brand strategy. The framework maps 12 archetypes — Hero, Outlaw, Magician, Innocent, Explorer, Sage, Everyman, Jester, Lover, Caregiver, Creator, and Ruler — onto brand personalities to create a consistent emotional identity that resonates with audiences at a subconscious level. When a brand commits to an archetype, every piece of communication — tone, visual style, narrative structure, even customer service interactions — gains coherence without requiring a 50-page brand guidelines document.
+Brand archetypes borrow Carl Jung's idea of universal character patterns. The common framework lists 12: Hero, Outlaw, Magician, Innocent, Explorer, Sage, Everyman, Jester, Lover, Caregiver, Creator, and Ruler. Picking one gives every piece of communication a shared reference point: tone, visuals, story structure, and even support replies. It is a shortcut to consistency, not a replacement for brand guidelines.
 
-## Core Concept
+## How it works
 
-Archetypes work because they tap into deeply embedded narrative patterns that humans recognize instinctively across cultures. When Nike embodies the Hero archetype ("Just Do It" — overcome challenges, achieve greatness), audiences do not need to be told what the brand stands for; they feel it. The archetype provides a decision-making shortcut for every creative and communication choice: Would a Hero brand use this tone of voice? Would a Sage brand make this joke? Would a Caregiver brand use aggressive competitive messaging? The answer is usually obvious once the archetype is chosen, which is what makes the framework powerful for scaling brand consistency.
+People recognize these character patterns quickly, across cultures. Nike behaves like a Hero: overcome the challenge, win. Once an archetype is chosen, it answers everyday creative questions. Would a Hero brand use this tone? Would a Sage brand make this joke? Would a Caregiver brand attack a competitor? The answer is usually obvious, which makes the framework useful for keeping many writers and designers consistent.
 
-## Implementation
+## How to do it
 
-1. Audit your current brand personality by reviewing your last 20 pieces of content, your website copy, and 5 customer descriptions of your brand (from interviews or reviews). Tag the emotional tone and character traits expressed. You may find that your brand is already implicitly expressing an archetype — or that it is inconsistently switching between several.
-2. Select a primary archetype and a secondary archetype. The primary drives 80% of your brand expression; the secondary adds nuance and prevents the brand from feeling one-dimensional. Common pairings: Hero + Sage (Nike), Jester + Everyman (Old Spice), Creator + Magician (Apple), Caregiver + Innocent (Johnson & Johnson). Avoid pairing archetypes that contradict each other (Ruler + Jester, Outlaw + Caregiver).
-3. Define how the archetype manifests across brand dimensions. For each archetype, specify: tone of voice (e.g., Hero = confident, direct, motivational), visual style (e.g., Hero = bold colors, dynamic imagery, strong contrast), narrative structure (e.g., Hero = challenge-struggle-triumph), vocabulary (e.g., Hero = "conquer," "achieve," "overcome"), and customer relationship model (e.g., Hero = coach/mentor who empowers the customer).
-4. Create a one-page archetype reference card with do/don't examples for copywriters, designers, and customer-facing teams. Include 3 real examples of on-archetype communication and 3 examples of off-archetype communication from your own brand history. This makes the abstract framework concrete and usable.
-5. Audit all major brand assets against the archetype within 30 days. Flag any website pages, email sequences, ad campaigns, or social posts that violate the archetype tone. Prioritize fixes for the highest-traffic assets first. Going forward, include archetype alignment as a review criterion in every creative brief.
+1. Audit your current personality. Review your last 20 pieces of content, your website copy, and 5 customer descriptions of your brand from interviews or reviews. Tag the tone and traits each one shows.
+2. Choose one primary and one secondary archetype. The primary sets the baseline; the secondary adds range. Avoid pairs that contradict each other, such as Ruler + Jester or Outlaw + Caregiver.
+3. Define how the archetype shows up in each area: tone of voice, visual style, story structure, vocabulary, and the role you play for the customer. Example for Hero: confident and direct tone, bold high-contrast visuals, challenge-struggle-win stories, coach-like relationship.
+4. Write a one-page reference card. Include 3 on-archetype and 3 off-archetype examples from your own past work, with a short note on why each fits or does not.
+5. Audit your major assets within 30 days. Flag website pages, email sequences, ads, and social posts that break the tone. Fix the highest-traffic ones first.
+6. Add "fits the archetype" as a review criterion in every creative brief.
 
-## Key Metrics
+## What to measure
 
-- **Brand personality consistency score** — percentage of brand touchpoints that align with the chosen archetype as rated by an internal audit panel or external brand tracker, measured semi-annually
-- **Emotional attribute association** — survey-based measure of what emotions and personality traits your target audience associates with your brand, compared to the archetype target traits
-- **Brand differentiation index** — percentage of target buyers who describe your brand personality as "distinct from competitors," indicating that the archetype is creating clear separation in the market
+- **Consistency score**: share of sampled touchpoints an internal panel rates as on-archetype, checked twice a year.
+- **Trait association**: survey your audience on which traits they link to your brand and compare them with the target traits.
+- **Perceived distinctiveness**: share of target buyers in a survey who describe your brand's personality as different from competitors.
 
-## Best Practices
+## Best practices
 
-- Choose the archetype that fits your brand's authentic behavior, not the one you wish you were. If your company culture is collaborative and nurturing, forcing a Ruler or Outlaw archetype will feel inauthentic and confuse customers. Archetypes amplify what is real; they cannot fabricate what is not.
-- Study how your archetype's dominant emotion maps to your buyer's psychological state at the moment of purchase. The Sage archetype (trust, wisdom, expertise) works well in categories where buyers feel overwhelmed by complexity. The Hero archetype works in categories where buyers feel held back by limitations. Match the emotional need.
-- Use the archetype to inform not just marketing but product experience. A Jester brand should have a playful onboarding flow. A Sage brand should have educational tooltips. A Creator brand should give users expressive customization options. When the brand archetype extends into the product, the experience feels cohesive.
+- Pick the archetype that matches how your company actually behaves. A collaborative, nurturing culture will not convincingly play Ruler or Outlaw.
+- Match the archetype to the buyer's state of mind. Sage fits buyers overwhelmed by complexity. Hero fits buyers who feel held back.
+- Carry the archetype into the product. A Jester brand can have playful onboarding. A Sage brand can have helpful explanatory tooltips.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Selecting an archetype because a competitor uses it. The whole point is differentiation. If every brand in your category is a Hero, consider the Sage, Outlaw, or Creator archetype to stand apart. Audit competitor archetypes before choosing yours.
-- Treating the archetype as a strict rulebook that prohibits any flexibility. Archetypes are a compass, not handcuffs. A Hero brand can have moments of humor; a Jester brand can have moments of sincerity. The archetype sets the baseline tone — occasional departures add humanity, as long as the baseline remains clear.
-- Choosing an archetype in a leadership offsite and never communicating it to the team. If your copywriters, designers, and customer support reps do not know the archetype and how to apply it, the framework has zero impact. Training and accessible reference materials are non-negotiable.
+- Copying a competitor's archetype. If everyone in your category is a Hero, a different archetype helps you stand apart. Map competitor archetypes before you choose.
+- Treating the archetype as a strict rulebook. It sets the baseline tone. A Hero brand can still be funny sometimes.
+- Choosing an archetype at an offsite and never telling the team. Writers, designers, and support staff need training and a reference card, or the choice has no effect.

@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Unity & Identity"
-description: "Shared identity and in-group belonging as a powerful persuasion mechanism."
+description: "People are most open to influence from those they see as part of their own group."
 ---
 # Unity & Identity
 
-Unity is Robert Cialdini's seventh principle of persuasion, added in his 2016 book *Pre-Suasion*. It goes beyond liking — while liking says "this person is similar to me," unity says "this person is one of us." When people perceive shared identity — same profession, same hometown, same tribe — the influence dynamic shifts from persuasion to collaboration. Brands that successfully create a sense of "we" unlock loyalty, advocacy, and price insensitivity that transactional marketing cannot achieve.
+Unity is the seventh principle of persuasion that Robert Cialdini added in his 2016 book *Pre-Suasion*. Liking says "this person is like me." Unity says "this person is one of us." When people share an identity (same profession, hometown, or community), persuasion starts to feel like collaboration. Brands that build a real sense of "we" earn loyalty and advocacy that transactional marketing does not.
 
-## Core Concept
+## How it works
 
-Unity operates on the principle that humans categorize the world into in-groups and out-groups, and we are dramatically more receptive to influence from our in-group. This is deeper than demographic similarity — it is about shared identity categories: "I am a founder," "I am a designer," "I am a runner." When a brand positions itself as part of the customer's identity group (not just serving it, but belonging to it), resistance to influence nearly disappears. Apple's "Think Different" did not sell computers; it defined a tribe. Harley-Davidson does not sell motorcycles; it sells membership in a brotherhood.
+People sort the world into in-groups and out-groups, and they are far more open to influence from their own group. This goes beyond demographics to identity: "I am a founder," "I am a designer," "I am a runner." When a brand belongs to the customer's group instead of just selling to it, resistance drops. Apple's "Think Different" campaign spoke to an identity, not computer specs. Harley-Davidson sells belonging as much as motorcycles.
 
-## Implementation
+## How to do it
 
-1. Identify the identity your best customers already hold — what do they call themselves? What tribe do they belong to? Mine community forums, Reddit, and customer interviews for the language they use to describe their group
-2. Position your brand as a member of that identity group, not an outsider selling to it — use "we" language, share the same struggles, demonstrate insider knowledge that only a true member would have
-3. Create rituals and symbols that reinforce belonging — proprietary terminology, community traditions, visual markers (think Salesforce's Trailblazer identity or HubSpot's inbound movement)
-4. Build community infrastructure that lets members connect with each other, not just with your brand — Slack groups, annual events, user conferences, and ambassador programs
-5. Define the out-group clearly (without being hostile) — "We are for bootstrapped founders, not VC-backed startups" clarifies who belongs and strengthens in-group identity
+1. Find out what your best customers call themselves. Read community forums, Reddit, and interview transcripts for the words they use.
+2. Speak as a member of that group, not an outsider. Use "we," share the same struggles, and show insider knowledge.
+3. Create shared rituals and symbols: your own terms, community traditions, and visual markers (for example, Salesforce's Trailblazer identity).
+4. Build spaces where members connect with each other, not just with you: Slack groups, events, user conferences, and ambassador programs.
+5. State clearly, without hostility, who the brand is not for: "We are for bootstrapped founders, not VC-backed startups."
 
-## Key Metrics
+## What to measure
 
-- **Community participation rate** — percentage of customers who actively engage in brand community spaces
-- **Self-identification rate** — how often customers use your tribal language unprompted (calling themselves "Trailblazers," "HubSpotters," etc.)
-- **Customer lifetime value by community engagement** — community members should show meaningfully higher LTV than non-members
+- **Community participation rate**: the percentage of customers active in community spaces each month.
+- **Self-identification**: how often customers use your community's terms unprompted, from social listening or interviews.
+- **LTV by community engagement**: compare customer lifetime value for active community members and non-members.
 
-## Best Practices
+## Best practices
 
-- Earn the right to claim unity by genuinely being part of the community — founder story, team composition, and company values must authentically align with the identity you are claiming
-- Celebrate community members publicly — spotlight customers, share their wins, and position them as the heroes, not your brand
-- Create shared language and inside references that make members feel like insiders — this is the social glue that turns customers into tribe members
+- Only claim an identity you actually share. Your founding story, team, and values must fit it.
+- Celebrate members publicly. Spotlight customers and share their wins.
+- Develop shared language and inside references that help members feel like insiders.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Appropriating an identity you do not genuinely belong to — audiences detect inauthenticity immediately and the backlash is severe
-- Creating exclusivity that feels elitist rather than belonging-oriented; the goal is warmth and shared purpose, not gatekeeping
-- Over-indexing on community building before the product delivers real value — unity without substance is just a fan club that eventually dissolves
+- Borrowing an identity you do not belong to. Audiences notice and push back hard.
+- Making the group feel elitist. Aim for belonging, not gatekeeping.
+- Building community before the product delivers. Without real value, the group fades.

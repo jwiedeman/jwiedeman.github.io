@@ -1,68 +1,77 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "Microsoft Advertising Playbook"
-description: "Checklist for Microsoft Search, Audience Network, and import automation."
+description: "Setup guide for Microsoft Advertising search, Shopping, Performance Max, and audience ads, including Google Ads import."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Advertising</p>
-  <h1>Microsoft Advertising Playbook</h1>
-  <p class="intro">Microsoft Advertising complements Google coverage with search scale, audience network placements, and unique LinkedIn profile targeting. This playbook covers structure, Google Ads import, audiences, and measurement.</p>
 
-  <section>
-    <h2>Campaign structure</h2>
-    <ul>
-      <li>Mirror Google Ads naming and campaign segmentation for parity, but tailor budgets to Microsoft market share.</li>
-      <li>Create separate campaigns for Search, Audience Network, and Shopping. Avoid importing Display-only structures.</li>
-      <li>Adopt naming: <span class="mono">[LOB]-[Geo]-[Objective]-[Engine]</span>.</li>
-    </ul>
-  </section>
+[← Ads lab](/lab/ads/)
 
-  <section>
-    <h2>Import and sync</h2>
-    <ul>
-      <li>Schedule Google Import with post-import checks (bid strategy compatibility, negative keyword lists, URL parameters).</li>
-      <li>Audit automated rules to ensure budgets, bids, and ad schedules align with Microsoft auction patterns.</li>
-      <li>Use Multi-platform campaigns only when creative parity is required; otherwise manage Microsoft-native optimizations.</li>
-    </ul>
-  </section>
+# Microsoft Advertising Playbook
 
-  <section>
-    <h2>Audience enhancements</h2>
-    <ul>
-      <li>Apply LinkedIn Profile Targeting (company, industry, job function) as bid modifiers on search campaigns.</li>
-      <li>Leverage In-market Audiences and remarketing lists imported via UET.</li>
-      <li>Use dynamic remarketing for Shopping campaigns with product audiences.</li>
-    </ul>
-  </section>
+How to set up and run Microsoft Advertising alongside Google Ads. Ads show on Bing, partner sites, and the Microsoft Audience Network.
 
-  <section>
-    <h2>Tracking and measurement</h2>
-    <ul>
-      <li>Ensure Universal Event Tracking (UET) tag is firing on all key pages; configure conversion goals accordingly.</li>
-      <li>Integrate offline conversions using the Microsoft Advertising API or automated CSV uploads.</li>
-      <li>Map last-touch, assist, and cross-channel contributions in BI dashboards to understand Microsoft’s incrementality.</li>
-    </ul>
-  </section>
+## Account structure
 
-  <section>
-    <h2>Optimization cadence</h2>
-    <ul>
-      <li><strong>Weekly:</strong> Review search query reports, adjust negatives, and align ad copy to Microsoft-specific queries.</li>
-      <li><strong>Bi-weekly:</strong> Evaluate Audience Network placements; exclude low-quality inventory.</li>
-      <li><strong>Monthly:</strong> Compare cost per acquisition vs. Google. Rebalance budgets based on MER.</li>
-    </ul>
-  </section>
+- Mirror your Google Ads structure and naming so reports line up.
+- Import campaigns with Google Import. Schedule the import if you want changes to keep syncing.
+- After every import, check bid strategies, budgets, negatives, ad extensions, and URL parameters. Not every setting carries over.
+- Set budgets for Microsoft separately. Do not copy Google budgets.
 
-  <section>
-    <h2>Pre-launch checklist</h2>
-    <ul>
-      <li>UET tag validated with Microsoft UET Tag Helper.</li>
-      <li>Conversion goals mapped and imported from Google if applicable.</li>
-      <li>LinkedIn Profile targeting rules approved by stakeholders.</li>
-      <li>Budget pacing reports available to finance and marketing stakeholders.</li>
-    </ul>
-  </section>
+## Tracking and measurement
+
+- Install the Universal Event Tracking (UET) tag on every page. Create conversion goals from it.
+- You can import conversion goals from Google Ads, but confirm UET is recording them.
+- Turn on enhanced conversions and consent mode for UET where required.
+- Send server-side or offline conversions with the Conversions API or offline conversion imports.
+- Auto-tagging adds `msclkid` to URLs. Make sure your site and analytics keep it.
+
+## Campaign types
+
+| Type | Use it for |
+| --- | --- |
+| Search | Text ads on Bing and partner search results. |
+| Shopping | Product ads from a Microsoft Merchant Center feed. |
+| Performance Max | Automated campaigns across Microsoft search and audience inventory. |
+| Audience | Image and native ads on the Microsoft Audience Network. |
+
+## Targeting
+
+- Review search terms weekly. Add negatives.
+- Add remarketing and in-market audiences to search campaigns, starting in observation mode.
+- Use LinkedIn profile targeting (company, industry, job function) as bid adjustments on search.
+- Exclude low-quality publisher sites from audience campaigns.
+
+## Creative
+
+- Reuse Google responsive search ads as a starting point.
+- Add Microsoft-specific assets, such as images and action extensions, where they are available.
+- Test ad copy against Microsoft search terms. Do not assume Google results carry over.
+
+## Budget and bidding
+
+- Use automated bidding: Maximize conversions, Target CPA, Maximize conversion value, or Target ROAS.
+- Expect lower volume than Google. Give automated bidding more time to learn.
+- Compare cost per acquisition with Google and move budget toward the cheaper source.
+
+## Review cadence
+
+- **Daily:** spend and disapproved ads.
+- **Weekly:** search terms, negatives, and any Google Import errors.
+- **Every two weeks:** audience network placements; exclude poor sites.
+- **Monthly:** cost per acquisition versus Google; rebalance budgets.
+
+## Pre-launch checklist
+
+- [ ] UET tag verified with UET Tag Helper.
+- [ ] Conversion goals recording.
+- [ ] Google Import reviewed for unsupported or changed settings.
+- [ ] Negatives and audience exclusions applied.
+- [ ] Merchant Center feed approved (if running Shopping).
+- [ ] Budgets set for Microsoft, not copied from Google.
+- [ ] `msclkid` and UTM parameters preserved through to analytics.
+
 </div>

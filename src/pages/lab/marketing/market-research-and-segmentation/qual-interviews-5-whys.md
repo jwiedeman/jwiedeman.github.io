@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Qualitative Interviews & 5 Whys"
-description: "Running qualitative customer interviews using the 5 Whys technique to uncover root motivations and pain points."
+description: "Run customer interviews with the 5 Whys technique to find the real reasons behind decisions."
 ---
 # Qualitative Interviews & 5 Whys
 
-Qualitative interviews are the fastest path to understanding why customers behave the way they do — something quantitative data alone cannot reveal. The 5 Whys technique, originally developed by Toyota for root cause analysis, adds structure to these conversations by systematically drilling past surface-level answers to reach the underlying motivation. For marketers, this means moving beyond "I chose your product because it had good reviews" to the real decision driver: "I was terrified of looking incompetent in front of my new team."
+Customer interviews explain why people behave as they do, which numbers alone cannot. The 5 Whys, a root-cause technique from Toyota, gives the conversation structure. You keep asking why until you get past the polite first answer to the real driver.
 
-## Core Concept
+## How it works
 
-The 5 Whys works by asking "why" (or a variant like "tell me more about that" or "what made that important") repeatedly after each answer, typically five times, until you reach a root cause or core motivation. Surface answers reflect what customers think they should say. Deeper answers reveal the emotional, social, or functional drivers that actually govern behavior. These root motivations become the foundation for positioning, ad creative, and product messaging that resonates at a visceral level rather than a rational one.
+After each answer, ask "why" or a softer version such as "What made that important?" Repeat until you reach the core motivation, usually within about five rounds. First answers are what people think they should say. Deeper answers show the emotional, social, or practical stakes that drive the decision. Those stakes are the raw material for positioning and creative.
 
-## Implementation
+## How to do it
 
-1. Recruit 8-12 interview participants who represent your target segment and have recently made a relevant decision (purchased, churned, evaluated competitors, or completed onboarding). Recency matters — memory degrades fast, so interview within 30 days of the event.
-2. Prepare a loose interview guide with 5-7 open-ended questions organized around the decision timeline: What triggered the search? What alternatives did you consider? What almost stopped you? What happened after purchase? Do not script follow-up questions — the 5 Whys happen naturally in response to whatever the participant says.
-3. During each interview, listen for surface answers and apply the 5 Whys. When a participant says "I switched because the old tool was slow," ask "Why did that matter?" ("Because I was missing deadlines.") "Why was that a problem?" ("Because my manager started questioning my work.") "Why was that concerning?" ("Because I just got promoted and felt like I was failing.") You have now found the real stake: professional identity and fear of failure.
-4. Record and transcribe every interview (with permission). After all interviews are complete, code the transcripts by tagging recurring themes, root motivations, and exact phrases. Look for patterns that appear in 4+ interviews — these are signals, not noise.
-5. Synthesize findings into a one-page insight brief: top 3-5 root motivations, the most compelling verbatim quotes for each, and specific recommendations for how messaging, positioning, or product experience should change. Share with the full marketing and product team.
+1. Recruit 8 to 12 people from your target segment who recently made a relevant decision: bought, churned, evaluated competitors, or finished onboarding. Interview them soon after the event, while memory is fresh.
+2. Write a loose guide of 5 to 7 open questions along the decision timeline. What triggered the search? What else did you consider? What almost stopped you? What happened after you bought? Do not script follow-ups.
+3. Apply the 5 Whys to surface answers. Example: "I switched because the old tool was slow." Why did that matter? "I was missing deadlines." Why was that a problem? "My manager started questioning my work." Why did that worry you? "I had just been promoted." The real stake is professional reputation.
+4. Record and transcribe each interview with permission. Tag recurring themes, motivations, and exact phrases. Treat patterns that show up in several interviews as signals.
+5. Write a one-page brief: the top 3 to 5 motivations, the best quotes for each, and specific changes to messaging, positioning, or product. Share it with marketing and product.
 
-## Key Metrics
+## What to measure
 
-- **Insight density per interview** — number of actionable root-cause insights uncovered per session, typically 2-4 for a well-conducted 45-minute interview
-- **Theme saturation point** — the interview number at which no new major themes emerge (usually 8-12 for a well-defined segment), indicating sufficient sample size
-- **Insight-to-action conversion** — percentage of interview insights that result in a concrete change to messaging, positioning, or product within 60 days
+- **Insights per interview**: count of actionable root-cause findings from each session.
+- **Theme saturation point**: the interview number after which no new major themes appear.
+- **Insight-to-action rate**: share of findings that lead to a concrete change within 60 days.
 
-## Best Practices
+## Best practices
 
-- Never ask "Would you pay for X?" or "Do you like feature Y?" in a qualitative interview. People are terrible at predicting their future behavior. Instead, ask about past behavior: "Walk me through the last time you tried to solve this problem. What did you actually do?"
-- Schedule interviews for 45 minutes but plan for 30 minutes of questions. The best insights often come in the last 10 minutes when the participant relaxes and speaks more candidly. Rushing kills depth.
-- Pair every qualitative insight with a quantitative validation plan. If 6 out of 10 interviewees mention fear of looking incompetent, design a survey question to test whether that motivation holds at scale before rebuilding your entire messaging around it.
+- Ask about past behavior, not future intent. Skip "Would you pay for X?" Ask "Walk me through the last time you tried to solve this."
+- Book 45 minutes and plan 30 minutes of questions. People often speak most candidly near the end.
+- Pair each insight with a way to test it at scale, such as a survey question, before rebuilding messaging around it.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Asking leading questions that confirm your hypothesis. "Don't you think our reporting feature is better than competitors?" will get you a yes and zero useful information. Ask neutral, open questions: "How do you currently track results? Walk me through it."
-- Stopping at the first or second "why." The real insight is almost never in the first answer. It takes 3-5 layers of probing to get past rationalized responses to the emotional or structural root cause. If your interviews produce only obvious insights, you are not going deep enough.
-- Treating qualitative interviews as a one-time project. The best marketing teams run 3-5 customer interviews per month continuously, not 15 interviews once a year. Ongoing interviews keep the team calibrated to evolving customer language and motivations.
+- Leading questions. "Don't you think our reporting is better?" gets a yes and no information. Ask "How do you track results today?"
+- Stopping at the first or second why. If every insight is obvious, you are not going deep enough.
+- Treating interviews as a one-time project. A few interviews every month keeps the team in touch with how customers talk.

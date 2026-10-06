@@ -1,68 +1,81 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "Pinterest Ads Playbook"
-description: "Guide to discovery commerce campaigns, video and carousel Pins, and conversion tracking on Pinterest."
+description: "Setup guide for Pinterest ads, catalogs and shopping ads, the Pinterest tag, and the Conversions API."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Advertising</p>
-  <h1>Pinterest Ads Playbook</h1>
-  <p class="intro">Pinterest is a visual discovery engine. This playbook covers creative, product feed quality, and conversion tracking.</p>
 
-  <section>
-    <h2>Campaign architecture</h2>
-    <ul>
-      <li>Build separate campaigns for Awareness, Consideration, and Conversions with the appropriate bidding strategy (CPM, CPC, CPA).</li>
-      <li>Adopt ad group naming: <span class="mono">[Objective]-[Audience]-[Creative]-[Season]</span>.</li>
-      <li>Use Shopping campaigns for catalog-driven programs; keep Dynamic Retargeting in its own budget lane.</li>
-    </ul>
-  </section>
+[← Ads lab](/lab/ads/)
 
-  <section>
-    <h2>Creative system</h2>
-    <ul>
-      <li>Produce carousel and video Pins that tell a single story. Include instructional steps, product highlights, and a clear CTA.</li>
-      <li>Vertical video specs: 9:16 ratio, 6-30 seconds, high-resolution imagery, captions for accessibility.</li>
-      <li>Ensure all creatives include tasteful branding and text within safe zones to avoid cropping.</li>
-    </ul>
-  </section>
+# Pinterest Ads Playbook
 
-  <section>
-    <h2>Catalog and feed health</h2>
-    <ul>
-      <li>Sync product feed daily; audit for availability, price accuracy, and taxonomy mapping.</li>
-      <li>Utilize supplemental feeds to localize currency or seasonal assortments.</li>
-      <li>Leverage product groupings by category, price tier, and best sellers for granular reporting.</li>
-    </ul>
-  </section>
+How to set up, track, and run Pinterest ads. People use Pinterest to plan purchases, so ads work best when they look like useful Pins.
 
-  <section>
-    <h2>Measurement and signals</h2>
-    <ul>
-      <li>Deploy Pinterest tag events: page_visit, add_to_cart, signup, lead, checkout.</li>
-      <li>Enable the Conversion API (CAPI) for improved signal resilience.</li>
-      <li>Set attribution windows: 1/30 (view/click) default; tighten to 1/7 for upper funnel experiments.</li>
-    </ul>
-  </section>
+## Account structure
 
-  <section>
-    <h2>Optimization cadence</h2>
-    <ul>
-      <li><strong>Weekly:</strong> Review top search queries and adjust keyword targeting or negatives.</li>
-      <li><strong>Bi-weekly:</strong> Refresh carousel and video assets to maintain engagement.</li>
-      <li><strong>Monthly:</strong> Evaluate assisted conversions and halo impact across discovery channels.</li>
-    </ul>
-  </section>
+- Use a Pinterest business account. Claim your website.
+- Give each campaign one objective.
+- Keep catalog (shopping) campaigns separate from other campaigns.
+- Use a consistent naming pattern, for example `Objective-Audience-Creative-Season`.
 
-  <section>
-    <h2>Pre-launch checklist</h2>
-    <ul>
-      <li>Product feeds validated with no critical errors.</li>
-      <li>Pinterest tag and CAPI events tested in Events Manager.</li>
-      <li>Creative suite uploaded with cover images and text overlays QA’d.</li>
-      <li>Dashboard tracking marketing efficiency ratio (MER) across discovery channels ready.</li>
-    </ul>
-  </section>
+## Tracking and measurement
+
+- Install the Pinterest tag directly or through Google Tag Manager. Check it with the Pinterest Tag Helper.
+- Add the Conversions API for server-side events. Send a matching event ID from both to deduplicate.
+- Map standard events, such as page_visit, add_to_cart, checkout, signup, and lead.
+- Set attribution windows on purpose and write them down.
+- Add UTM parameters to every destination URL.
+
+## Campaign types
+
+| Objective | Use it for |
+| --- | --- |
+| Brand awareness | Impressions to a defined audience. |
+| Video views | Video reach. |
+| Consideration | Clicks to your site. |
+| Conversions | Actions tracked by the tag. |
+| Catalog sales | Shopping ads from your product catalog. |
+
+Performance+ campaigns automate targeting, bidding, and creative. Test them against a manual campaign.
+
+## Targeting
+
+- Use keyword and interest targeting. Pinterest is search-driven, so keywords matter.
+- Build audiences from site visitors, customer lists, and Pin engagers.
+- Build actalike (lookalike) audiences from your best customers.
+- Start broad and let Pinterest expand targeting, then compare with tighter settings.
+
+## Creative
+
+- Use vertical images and video (2:3 for images, 9:16 or 2:3 for video).
+- Show the product in use. Add a short text overlay that says what the Pin is.
+- Formats include standard Pins, video, carousel, collections, and shopping ads.
+- Keep text and logos away from edges that may be cropped.
+- Refresh creative before seasonal peaks. People plan early on Pinterest.
+
+## Budget and bidding
+
+- Use automatic bidding to start. Add a target cost or ROAS goal once results are stable.
+- Launch seasonal campaigns weeks before the season, when planning starts.
+
+## Review cadence
+
+- **Daily:** spend and disapproved ads.
+- **Weekly:** results by keyword, audience, and creative; add negatives.
+- **Every two weeks:** refresh creative.
+- **Monthly:** catalog health and compare cost per result with other channels.
+
+## Pre-launch checklist
+
+- [ ] Website claimed.
+- [ ] Pinterest tag and Conversions API verified, with deduplication.
+- [ ] Catalog uploaded with no critical errors (if selling products).
+- [ ] Audiences and exclusions built.
+- [ ] Creative in vertical formats with text overlays checked.
+- [ ] UTM parameters on all URLs.
+- [ ] Budgets set.
+
 </div>

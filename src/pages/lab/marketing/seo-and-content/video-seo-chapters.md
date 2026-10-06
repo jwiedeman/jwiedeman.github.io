@@ -1,38 +1,42 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Video SEO & Chapters"
-description: "Optimizing video content with chapters, structured metadata, and transcripts to maximize search visibility."
+description: "Use chapters, clear metadata, transcripts, and structured data so videos can be found in search."
 ---
 # Video SEO & Chapters
 
-Video SEO optimizes your video content for discovery in Google Search, YouTube Search, and Google's video carousels. The most impactful techniques are adding chapters (timestamps) that allow Google to surface specific segments for relevant queries, providing structured metadata, and including searchable transcripts. Videos with proper SEO optimization earn 2-3x more organic views because they appear in both traditional search results and video-specific features.
+Video SEO helps your videos get found in Google Search, YouTube search, and Google's video results. The main techniques are chapters (labeled timestamps), clear titles and descriptions, accurate transcripts, and VideoObject structured data on your own site. Chapters let Google link searchers straight to the relevant part of a video.
 
-## Core Concept
+## How it works
 
-Google can't watch your video, but it can read your metadata, timestamps, and transcripts. When you add chapters (timestamps with descriptive labels) to a YouTube video, Google can index each chapter as a standalone searchable unit. A 20-minute video with 8 chapters effectively becomes 8 individually searchable pieces of content, each potentially appearing for different search queries. Combined with VideoObject schema markup on your website, transcripts for full-text indexing, and optimized titles and descriptions, you transform a single video from one ranking opportunity into dozens.
+Search engines rely on text about a video: its title, description, chapter labels, captions, and structured data. Chapters split a long video into labeled sections, and Google can show those sections as "key moments" in search results. A 20-minute video with eight clear chapters can match many more specific searches than its title alone. On your own site, Google generally shows a video result only when the video is the main content of the page.
 
-## Implementation
+## How to do it
 
-1. **Add chapters to every video** — In your YouTube video description, add timestamps in this format: "0:00 Introduction, 2:15 Setting Up Your Account, 5:30 Configuring Integrations." YouTube requires at least 3 timestamps, the first must be 0:00, and each chapter must be at least 10 seconds long. Write chapter titles as search-friendly phrases (use language people actually search for, not clever or cute titles).
-2. **Optimize title, description, and tags** — Your video title should include the primary keyword and be under 60 characters. The description should be 200-500 words, including the target keyword in the first 2 sentences, a detailed summary of the content, links to related resources, and the chapter timestamps. Add 10-15 relevant tags covering the primary keyword, variations, and related topics.
-3. **Add transcripts and closed captions** — Upload a manually reviewed SRT transcript file rather than relying on YouTube's auto-generated captions (which have ~10% error rate and miss industry jargon). The transcript text becomes indexable content that helps the video rank for long-tail queries mentioned in the dialogue. On your website, embed the full transcript below the video for additional SEO value.
-4. **Implement VideoObject schema on your website** — When embedding videos on your site, add VideoObject structured data including: name, description, thumbnailUrl, uploadDate, duration, contentUrl, and embedUrl. Add the hasPart property to mark up individual chapters as Clip objects with their name, startOffset, and endOffset. This enables your website (not just YouTube) to appear in Google's video carousels.
-5. **Create video-focused landing pages** — For key videos, build a dedicated webpage with: the embedded video, full transcript, summary content, related internal links, and a CTA. This page targets the same keywords as the video but through text-based SEO, giving you two chances to rank — once for the video result and once for the webpage. Include VideoObject schema to connect the page to the video.
+1. Add chapters to each YouTube video in the description, for example "0:00 Introduction", "2:15 Set up your account", "5:30 Connect integrations". Start at 0:00, use at least three timestamps, and keep each chapter at least 10 seconds long.
+2. Write chapter labels in the words people search for, not clever titles.
+3. Put the main keyword in a clear video title.
+4. Write a description that summarizes the video in the first two sentences, then add the chapters and links to related resources.
+5. Upload reviewed captions instead of relying on automatic captions, which often get names and technical terms wrong.
+6. On your site, give key videos their own page with the video as the main content, plus the transcript, a short summary, related links, and a next step.
+7. Add VideoObject structured data with name, description, thumbnailUrl, uploadDate, duration, and contentUrl or embedUrl.
+8. Mark key moments with Clip markup (name and startOffset for each chapter), or use SeekToAction so Google can identify moments automatically.
+9. Test the page with the Rich Results Test and check the Video indexing report in Search Console.
 
-## Key Metrics
+## What to measure
 
-- **Chapter Click-Through Rate** — In YouTube Analytics, track which chapters viewers jump to most frequently; this reveals which segments have the strongest standalone search appeal and should be optimized further
-- **Video SERP Features Won** — Count how many of your videos appear in Google's video carousels, featured snippets, or video packs for your target keywords; track this monthly
-- **Transcript-Driven Impressions** — In Google Search Console, filter for pages with embedded transcripts and measure the incremental impressions and clicks from long-tail queries that appear in the transcript but not in the title or description
+- **Video search traffic**: views from YouTube search and Google search, from the traffic source report in YouTube Analytics.
+- **Indexed video pages**: pages Google lists as having an indexed video, from the Video indexing report in Search Console.
+- **Video result clicks**: clicks from video results, from the Search Console Performance report filtered by search appearance.
 
-## Best Practices
+## Best practices
 
-- Write chapter titles as if they're individual page titles — "How to Set Up Google Analytics 4 Event Tracking" is a searchable chapter title; "Part 2: The Fun Stuff" is not
-- Create a thumbnail that includes text overlay of the primary keyword — thumbnails with text achieve higher CTR in both YouTube search and Google video carousels
-- Repurpose video chapters as standalone short-form clips (YouTube Shorts, TikTok, Reels) with links back to the full video; each clip becomes an additional discovery path
+- Write each chapter label like a short page title. "Set up GA4 event tracking" is searchable; "Part 2: The fun stuff" is not.
+- Use a clear, readable thumbnail that shows what the video covers.
+- Cut key chapters into short clips (Shorts, Reels, TikTok) that point back to the full video.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Relying on auto-generated captions — YouTube's automatic transcription gets technical terms, brand names, and industry jargon wrong, which means Google indexes incorrect text; always upload corrected SRT files
-- Using generic chapter labels — "Introduction," "Main Content," "Conclusion" waste the chapter indexing opportunity; every chapter label should be a keyword-rich, search-friendly phrase
-- Only optimizing on YouTube without website embedding — YouTube videos rank in YouTube search, but webpage-embedded videos with schema markup rank in Google Search; you need both for maximum visibility
+- Relying only on automatic captions. Correct names, brand terms, and jargon before publishing.
+- Using generic chapter labels such as "Introduction", "Main content", and "Conclusion".
+- Publishing only on YouTube. A dedicated page on your own site gives you a second way to be found and keeps visitors on your domain.

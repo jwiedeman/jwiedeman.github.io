@@ -1,38 +1,39 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Reciprocity"
-description: "Give value first to create obligation — the Cialdini principle that drives conversions."
+description: "Give something useful first, and people are more willing to give something back."
 ---
 # Reciprocity
 
-Reciprocity is the deeply ingrained social norm that when someone does something valuable for us, we feel compelled to return the favor. In marketing, this means leading with genuine value — free tools, educational content, unexpected gifts — before ever asking for a sale. It is one of Robert Cialdini's six original principles of persuasion and remains one of the most reliable conversion levers available.
+Reciprocity is the social norm that when someone does something useful for us, we feel we should return the favor. In marketing, this means giving real value first (free tools, useful content, unexpected gifts) before asking for a sale. It is one of Robert Cialdini's six original principles of persuasion.
 
-## Core Concept
+## How it works
 
-The reciprocity principle works because humans experience psychological discomfort when they feel indebted. By providing something of genuine value upfront — whether it is a free audit, a useful template, or an insightful piece of content — you create an implicit social debt. The recipient becomes significantly more likely to comply with a subsequent request, whether that is entering an email, booking a demo, or making a purchase.
+People feel uncomfortable being in someone's debt. When you give something useful up front, such as a free audit, a template, or a helpful article, the recipient feels a mild obligation. That makes them more likely to agree to the next request: sharing an email, booking a demo, or buying.
 
-## Implementation
+## How to do it
 
-1. Identify a high-value deliverable your audience genuinely needs (calculator, template, mini-course, audit) and offer it with zero strings attached — no email gate on the first interaction
-2. Personalize the gift when possible; a tailored recommendation triggers stronger reciprocity than a generic PDF everyone receives
-3. Make the value obvious and immediate — if someone has to work hard to extract benefit, the reciprocity effect weakens
-4. Follow up with a modest ask that is proportional to the value given; a free blog post earns an email opt-in, a free consultation earns a demo request
-5. Reinforce the cycle by continuing to deliver value after the first conversion — each new gift resets the reciprocity loop and deepens the relationship
+1. Pick something your audience needs, such as a calculator, template, mini-course, or audit.
+2. Give it away on the first visit without a form.
+3. Personalize it where you can. A tailored recommendation creates more obligation than a generic PDF.
+4. Make the value obvious right away. If people have to work to get the benefit, the effect weakens.
+5. Follow up with an ask that matches the size of the gift. A blog post earns an email opt-in; a free consultation earns a demo request.
+6. Keep giving after the first conversion.
 
-## Key Metrics
+## What to measure
 
-- **Lead magnet conversion rate** — percentage of visitors who accept the free value offer, indicating perceived value
-- **Downstream conversion rate** — percentage of recipients who complete the subsequent ask (purchase, demo, signup)
-- **Time-to-conversion after gift** — how quickly recipients act after receiving value, revealing reciprocity strength
+- **Offer acceptance rate**: the percentage of visitors who take the free offer.
+- **Downstream conversion rate**: the percentage of recipients who complete the next ask.
+- **Time to conversion**: days between receiving the gift and completing the next ask.
 
-## Best Practices
+## Best practices
 
-- Lead with unexpected generosity — giving more than expected amplifies the effect far beyond a standard lead magnet exchange
-- Make the free offering genuinely useful on its own, not a teaser that only works if they buy; trust compounds
-- Use personalized reciprocity (custom audits, tailored recommendations) over mass-produced assets whenever unit economics allow
+- Give more than people expect.
+- Make the free item useful on its own, not a teaser that only works if they buy.
+- Prefer personalized gifts (custom audits, tailored advice) when the cost per lead allows.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Gating everything behind a form, which kills reciprocity because the exchange feels transactional rather than generous
-- Offering low-value content disguised as a gift (a thinly veiled sales deck labeled as a "guide") which breeds distrust instead of obligation
-- Asking for too much too soon — requesting a credit card after giving away a free checklist violates the proportionality that makes reciprocity work
+- Gating everything behind a form, which turns a gift into a trade.
+- Disguising a sales deck as a "guide." It breeds distrust.
+- Asking for too much too soon, such as a credit card after a free checklist.

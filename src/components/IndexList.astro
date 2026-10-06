@@ -1,6 +1,7 @@
 ---
 export interface IndexEntry {
-  id: string;
+  /** Row label. Defaults to the row number (01, 02, ...). */
+  id?: string;
   title: string;
   href: string;
   description: string;
@@ -15,10 +16,10 @@ interface Props {
 const { entries } = Astro.props;
 ---
 <ol class="index-list">
-  {entries.map((entry) => (
+  {entries.map((entry, i) => (
     <li>
       <a href={entry.href} class="index-row">
-        <span class="index-row__id">{entry.id}</span>
+        <span class="index-row__id">{entry.id ?? String(i + 1).padStart(2, '0')}</span>
         <span class="index-row__title">{entry.title}</span>
         <span class="index-row__desc">{entry.description}</span>
         {entry.kind && <span class="index-row__kind">{entry.kind}</span>}

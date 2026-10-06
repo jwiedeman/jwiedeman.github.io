@@ -1,38 +1,47 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Whitelisted UGC Ads"
-description: "Running paid ads through creator accounts with permission to combine authentic content with paid media scale."
+description: "Run paid ads from a creator's account, with their permission, so the ad shows their name and profile."
 ---
 # Whitelisted UGC Ads
 
-Whitelisted UGC ads (also called creator licensing or spark ads) let you run paid media through a creator's social account instead of your brand's. The ad appears in feeds as if the creator posted it organically, complete with their profile photo, handle, and follower count — but you control the targeting, budget, and optimization. This format consistently outperforms brand-account ads because users scroll past polished brand content but stop for authentic creator content.
+Whitelisting means running paid ads through a creator's account instead of your brand's. The ad shows the creator's name and profile photo, but you control targeting, budget, and optimization. Meta now calls this partnership ads. On TikTok, the equivalent is Spark Ads.
 
-## Core Concept
+## How it works
 
-Whitelisting bridges the gap between organic influencer content and paid advertising. When a creator grants your brand advertising permissions on their account, you can take their organic post (or a custom piece they film for you) and run it as a paid ad to audiences far beyond their followers. The ad inherits the creator's social proof — their profile, their engagement, their authenticity — while you get full control over targeting, spend, and measurement. On Meta this works through branded content ads and the Business Suite partnership system. On TikTok, Spark Ads achieve the same effect natively. The result is paid ads that don't look or feel like paid ads.
+A creator gives your brand permission to advertise with their content. You can then run their post, or a video they make for you, to audiences well beyond their followers.
 
-## Implementation
+The ad carries the creator's identity and voice. You keep control of targeting, spend, and measurement. Many people scroll past polished brand ads but stop for a person they recognize or a post that looks native to the feed.
 
-1. **Source creators who match your customer profile** — Look for creators whose audience demographics mirror your buyer persona, not just those with the most followers. Micro-creators (10K-100K followers) often deliver better performance because their audiences are more engaged and niche-relevant. Use platforms like Aspire, CreatorIQ, or manual outreach to find partners.
-2. **Brief creators for performance, not just brand** — UGC ad creative needs a strong hook in the first 1-2 seconds, a clear problem-solution narrative, and a natural CTA. Provide creators with a brief that includes: the hook angle, key talking points, product demonstration requirements, and CTA language. Let them deliver the content in their own voice and style — over-scripting kills authenticity.
-3. **Set up whitelisting permissions** — On Meta, the creator adds your business as a partner via Instagram Settings > Business > Branded Content, then you create a branded content ad using their post. On TikTok, the creator generates a Spark Ad authorization code from their post, which you enter when creating the ad. Each platform has a slightly different flow, so send creators a step-by-step guide specific to the platform.
-4. **Run the UGC ad with your standard paid media structure** — Target it like any other acquisition ad — lookalikes, broad targeting, or interest-based audiences. Test multiple creator videos against each other and against your brand-account creative. Let the algorithm optimize delivery while you compare performance.
-5. **Manage rights, renewals, and payments** — Get written agreements covering: usage rights duration (typically 60-90 days), which platforms you can run on, whether you can edit the content, and payment terms. Track expiration dates and either renew or pull the ads when rights expire. Build a pipeline of creator content so you always have fresh material in rotation.
+## How to do it
 
-## Key Metrics
+1. Find creators whose audience matches your customer, not just those with the most followers.
+2. Consider smaller creators in your niche. Their audiences are often more engaged.
+3. Write a brief with the hook angle, key points, what to show about the product, and the call to action.
+4. Let creators deliver it in their own voice. Do not over-script.
+5. Ask for a strong hook in the first 1-2 seconds and a clear problem-to-solution story.
+6. Set up permissions. On Meta, the creator approves your brand as a partner for partnership ads, then you build the ad from their post. On TikTok, the creator generates a Spark Ads authorization code and you enter it in Ads Manager.
+7. Send creators a short step-by-step guide for each platform.
+8. Run the ad in your normal campaign structure and targeting.
+9. Test several creator videos against each other and against your brand-account ads.
+10. Sign a written agreement covering how long you can use the content, which platforms, whether you can edit it, and payment.
+11. Track rights end dates. Renew or pull ads before they expire.
 
-- **Thumb-Stop Rate (Hook Rate)** — The percentage of users who watch at least 3 seconds after the ad enters their viewport; whitelisted UGC typically achieves 30-50% higher hook rates than brand-account creative
-- **CPA: Whitelisted UGC vs. Brand Creative** — The direct performance comparison that justifies the creator investment; track this at the ad level within the same campaign to eliminate audience and bidding variables
-- **Content Fatigue Timeline** — How many days or impressions before the whitelisted ad's performance degrades; UGC tends to last longer than polished brand creative but still needs replacement every 3-6 weeks
+## What to measure
 
-## Best Practices
+- **Hook rate**: 3-second video views divided by impressions.
+- **CPA, creator vs. brand**: cost per acquisition for creator ads compared to brand-account ads in the same campaign.
+- **Fatigue timeline**: days or impressions until an ad's CPA starts rising.
 
-- Test multiple creators for the same product and let performance data pick the winner — the creator you think will perform best is often not the one who actually drives the most conversions
-- Negotiate usage rights for paid media separately from organic posting; many creators charge 2-5x their organic rate for whitelisting because your spend amplifies their content to millions
-- Request raw footage in addition to the finished video so you can create multiple edits (different hooks, different lengths, different CTAs) from a single creator shoot
+## Best practices
 
-## Common Pitfalls
+- Test multiple creators for the same product and let results pick the winner.
+- Negotiate paid usage rights separately from organic posting. Expect to pay more for paid usage.
+- Ask for raw footage so you can cut extra versions with different hooks, lengths, and calls to action.
+- Keep a steady pipeline of new creator content so you can rotate ads.
 
-- Choosing creators based on follower count instead of audience fit — A 500K fitness influencer will underperform a 20K creator in your exact niche because the audience overlap with your customer profile is what matters
-- Over-polishing the content — The whole point of UGC is that it looks native and authentic; adding branded intros, logo overlays, or studio-quality editing defeats the purpose and tanks performance
-- Letting rights expire while ads are still running — This creates legal exposure and damaged creator relationships; build a tracking system that alerts you 7 days before any usage rights expire
+## Common pitfalls
+
+- Choosing creators by follower count instead of audience fit.
+- Over-polishing the content. Branded intros, logos, and studio edits make it look like any other ad.
+- Running ads after usage rights expire. Set alerts a week before each end date.

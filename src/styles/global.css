@@ -2904,3 +2904,22 @@ footer .container {
   color: var(--color-muted);
   margin-bottom: var(--space-4);
 }
+
+/* Markdown checklists ("- [ ]"): plain boxes, no bullets, easy to copy into a ticket */
+.contains-task-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.task-list-item {
+  display: flex;
+  gap: 0.6em;
+  align-items: baseline;
+}
+
+.task-list-item input[type='checkbox'] {
+  flex: none;
+  margin: 0;
+  accent-color: var(--color-text);
+  transform: translateY(0.1em);
+}

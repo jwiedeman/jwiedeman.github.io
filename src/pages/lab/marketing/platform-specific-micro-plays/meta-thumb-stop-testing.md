@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Meta Thumb-Stop Testing"
-description: "Testing creative for thumb-stopping power in the Meta feed to maximize ad engagement."
+description: "Test the first seconds of your Meta ads to find openings that make people stop scrolling."
 ---
 # Meta Thumb-Stop Testing
 
-Thumb-stop testing is the practice of systematically testing the first 1-3 seconds of video ads (or the immediate visual impact of static ads) to maximize the likelihood that a user scrolling through their feed will stop and pay attention. In Meta's auction system, creative that stops the scroll earns more engagement, which signals quality to the algorithm, which earns more delivery at lower costs. The thumb-stop is the single most important creative variable because if nobody stops scrolling, nothing else about the ad matters.
+Thumb-stop testing means testing the first one to three seconds of a video ad, or the first glance at a static ad, to see which opening makes people stop scrolling. If nobody stops, nothing else in the ad matters. Ads that hold attention also tend to get cheaper delivery.
 
-## Core Concept
+## How it works
 
-Meta's feed is a ruthless attention market. Users scroll through content at approximately 1.7 seconds per post, meaning your ad has less than 2 seconds to earn attention. The "thumb-stop rate" (also called the "hook rate") measures the percentage of people who watch at least 3 seconds of your video after it appears in their feed. This metric is a leading indicator of all downstream performance: ads with high thumb-stop rates consistently outperform on click-through rate, conversion rate, and cost efficiency because the algorithm rewards engagement with more and cheaper impressions. Thumb-stop testing isolates and optimizes this critical first moment.
+People scroll fast, so an ad has a second or two to earn attention. The thumb-stop rate (also called hook rate) is the share of impressions that turn into a 3-second video view. It is an early signal: ads that hold attention often do better on clicks and conversions too. Thumb-stop testing keeps everything else fixed and changes only the opening so you can see what works.
 
-## Implementation
+## How to do it
 
-1. Identify your current thumb-stop rate baseline: in Ads Manager, create a custom metric for "3-second video views / impressions" and benchmark your existing creative library
-2. Create 5-10 hook variations for a single ad — keep the body and CTA identical, but change only the first 3 seconds: different opening frames, different text overlays, different audio hooks, different visual treatments
-3. Launch a hook-testing campaign structure: one campaign, one ad set with broad targeting, and 5-10 ads each with a different hook on the same core content — let Meta's algorithm distribute impressions
-4. After 48-72 hours and sufficient impressions (minimum 5,000 per variation), rank hooks by thumb-stop rate and kill the bottom performers; let the top 2-3 hooks run to accumulate enough data for downstream conversion analysis
-5. Build a "hook library" of proven openers and apply them to new creative concepts — once you know that "problem statement text overlay in first frame" beats "product shot opening" for your audience, that pattern applies across campaigns
+1. Create a custom metric in Ads Manager: 3-second video plays divided by impressions. Use it to benchmark your current ads.
+2. Make several versions of one ad that differ only in the first three seconds: opening frame, text overlay, or audio.
+3. Put them in one campaign and one ad set with broad targeting so they compete on equal terms.
+4. Once each version has enough impressions (decide the threshold in advance), rank them by thumb-stop rate. Pause the weakest and keep the best few running to collect conversion data.
+5. Record winning openings in a shared hook library and reuse the patterns in new ads.
 
-## Key Metrics
+## What to measure
 
-- **Thumb-stop rate (hook rate)** — 3-second video views divided by impressions; benchmarks vary by industry, but 25-40% is good and 40%+ is excellent
-- **Hold rate** — percentage of thumb-stoppers who watch to 50% or beyond, indicating whether the content after the hook sustains attention
-- **Hook-to-conversion correlation** — track whether higher thumb-stop rates consistently predict lower CPA and higher ROAS across your creative library
+- **Thumb-stop rate (hook rate)**: 3-second video plays divided by impressions.
+- **Hold rate**: views to 50% (or ThruPlays) divided by 3-second plays.
+- **Hook vs CPA**: compare thumb-stop rate with cost per acquisition across ads to check that attention leads to sales.
 
-## Best Practices
+## Best practices
 
-- Open with the most visually arresting or emotionally provocative element — do not build up to the interesting part; the first frame must be the most compelling frame
-- Test text-on-screen hooks against visual-only hooks; many audiences respond more to a bold text statement ("I wasted $50K on ads before learning this") than to a visual alone
-- Design for sound-off first: 85% of Meta feed video is watched without sound initially, so the thumb-stop must work purely on visuals and text overlay
+- Put the most interesting moment in the first frame. Do not build up to it.
+- Test text-on-screen openings against visual-only openings.
+- Design for sound off. Many people watch feed video muted, so the opening must work on visuals and text alone.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Testing hooks with too many other variables changing simultaneously (different hooks, different body content, different audiences), which makes it impossible to isolate what is actually driving the thumb-stop difference
-- Optimizing exclusively for thumb-stop rate while ignoring downstream metrics — a shocking or misleading hook that stops thumbs but does not convert wastes budget on engaged-but-unqualified viewers
-- Giving up on hook testing after one round — the highest-performing creative teams test hooks continuously, building a compounding library of proven openers
+- Changing the body, offer, or audience at the same time as the hook, so you cannot tell what caused the difference.
+- Optimizing only for thumb-stop rate. A misleading hook stops people who never buy.
+- Stopping after one round. Keep testing and keep adding to the hook library.

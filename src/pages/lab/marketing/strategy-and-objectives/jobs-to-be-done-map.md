@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Jobs-to-Be-Done Map"
-description: "Mapping customer goals to product capabilities using the JTBD framework to drive product-market fit."
+description: "Map what customers are trying to get done to what your product does, and find the gaps."
 ---
 # Jobs-to-Be-Done Map
 
-The Jobs-to-Be-Done (JTBD) framework reframes marketing around what customers are trying to accomplish rather than who they are demographically. A JTBD Map connects specific customer goals — functional, emotional, and social — to your product capabilities, revealing gaps, opportunities, and the language customers actually use when seeking solutions. This approach is especially powerful for positioning, messaging, and feature prioritization because it grounds decisions in real demand rather than assumptions.
+The Jobs-to-Be-Done (JTBD) framework focuses on what customers are trying to accomplish, not who they are demographically. A JTBD map links customer goals (functional, emotional, and social) to your product's capabilities. It shows gaps, opportunities, and the words customers use when they look for a solution. Use it for positioning, messaging, and feature priorities.
 
-## Core Concept
+## How it works
 
-Customers do not buy products; they hire them to make progress in a specific life or work situation. A JTBD Map decomposes a job into its process steps (from first thought through completion and evaluation), identifies the outcomes the customer uses to judge success at each step, and rates how underserved or overserved each outcome currently is. The gaps between importance and satisfaction reveal where your product can deliver disproportionate value — and where your marketing messaging should focus.
+Customers do not buy products. They "hire" them to make progress in a specific situation. A JTBD map breaks a job into steps, from first thought to finishing and reviewing the result. For each step it lists the outcomes the customer uses to judge success, then rates how important and how well served each outcome is. Outcomes that are important but poorly served are where your product and your messaging should focus.
 
-## Implementation
+## How to do it
 
-1. Conduct 10-15 "switch interviews" — conversations with recent customers focused on the timeline of events that led them to seek, evaluate, and adopt your product. Capture the push (frustration with old way), pull (attraction of new way), anxiety (fear of switching), and habit (comfort with status quo) forces.
-2. Synthesize interviews into a core job statement using the format: "When I [situation], I want to [motivation], so I can [desired outcome]." Cluster similar jobs and identify the primary job and 2-3 related jobs.
-3. Break the primary job into 8-12 process steps (define, locate, prepare, confirm, execute, monitor, modify, conclude) and list 3-5 desired outcomes per step using the format: "Minimize the time it takes to [outcome]" or "Minimize the likelihood that [negative outcome]."
-4. Survey 100+ target customers to quantify importance and satisfaction for each outcome. Calculate opportunity scores: Importance + (Importance - Satisfaction). Scores above 12 indicate underserved outcomes with high opportunity.
-5. Map your product features to the high-opportunity outcomes. Create a visual map showing which jobs your product nails, which it partially addresses, and which represent whitespace for roadmap or messaging investment.
+1. Run 10 to 15 switch interviews with recent customers. Walk through the timeline that led them to look for, compare, and adopt your product. Record four forces: push (frustration with the old way), pull (appeal of the new way), anxiety (fear of switching), and habit (comfort with the status quo).
+2. Write a core job statement: "When I [situation], I want to [motivation], so I can [desired outcome]." Group similar jobs and pick one primary job and two or three related ones.
+3. Break the primary job into 8 to 12 steps (for example: define, locate, prepare, confirm, execute, monitor, modify, conclude). List three to five outcomes per step, phrased as "Minimize the time it takes to..." or "Minimize the likelihood that...".
+4. Survey at least 100 target customers on the importance and satisfaction of each outcome (1 to 10). Calculate opportunity score = importance + max(importance - satisfaction, 0).
+5. Map your features to the highest-scoring outcomes. Mark which jobs you serve well, which partly, and which not at all. Use the gaps for roadmap and messaging decisions.
 
-## Key Metrics
+## What to measure
 
-- **Opportunity score per outcome** — identifies underserved jobs where importance significantly exceeds current satisfaction (scores above 12 out of 20 signal strong opportunity)
-- **Job coverage rate** — percentage of high-importance outcomes your product addresses versus competitors, revealing positioning strengths
-- **Switch interview conversion insight** — tracks which "push" and "pull" forces most frequently appear in customer switching stories, informing ad creative and landing page copy
+- **Opportunity score per outcome:** importance + max(importance - satisfaction, 0) from the survey. Higher scores mean more underserved; as a rule of thumb, treat scores above 10 as worth a closer look.
+- **Job coverage rate:** high-importance outcomes your product addresses, divided by all high-importance outcomes. Compare against competitors.
+- **Switching forces frequency:** count how often each push and pull force appears across interviews. Use the most common ones in ads and landing pages.
 
-## Best Practices
+## Best practices
 
-- Use the customer's exact language from interviews in your messaging. JTBD interviews are a goldmine for headline copy because they capture how real people describe their frustrations and aspirations, not how marketers imagine they do.
-- Map competitor products to the same outcomes grid. You will often find that competitors cluster around the same outcomes while entire process steps remain unaddressed — that whitespace is your positioning opportunity.
-- Separate functional jobs (get the task done), emotional jobs (feel a certain way), and social jobs (be perceived a certain way). B2B buyers care deeply about social jobs like "look competent to my boss" even though they rarely say so directly.
+- Use customers' exact words from interviews in your copy. They describe frustrations and goals better than marketers do.
+- Map competitors against the same outcomes. Competitors often cluster on the same outcomes and leave whole steps untouched. That gap is a positioning opportunity.
+- Keep functional, emotional, and social jobs separate. B2B buyers care about social jobs like "look competent to my boss," even if they rarely say so.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Confusing product features with jobs. "I want project management software" is not a job — it is a solution. The job might be "Minimize the time it takes to know which tasks are blocking the team." Always dig past the solution to the underlying progress the customer seeks.
-- Interviewing only happy customers. You need switch interviews with people who recently changed solutions, including people who evaluated your product and chose a competitor. The anxiety and habit forces from lost deals are often more instructive than the pull forces from wins.
-- Building a JTBD map once and never updating it. Customer jobs evolve as markets mature and expectations shift. Refresh your outcome surveys annually and after any major product launch to keep the map calibrated.
+- Confusing a solution with a job. "I want project management software" is a solution. The job might be "Minimize the time it takes to know which tasks are blocking the team."
+- Interviewing only happy customers. Talk to people who recently switched, including those who evaluated you and chose a competitor. Lost deals often teach more than wins.
+- Building the map once. Jobs and expectations change. Re-run the outcome survey every year and after major launches.

@@ -1,39 +1,39 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Verticalized Case Studies"
-description: "Industry-specific case studies that demonstrate relevance and reduce perceived risk for target verticals."
+description: "Industry-specific case studies that show prospects your product works in their environment."
 ---
 # Verticalized Case Studies
 
-Verticalized case studies are customer success stories tailored to specific industries, featuring metrics, workflows, and language that resonate with prospects in that vertical. A generic case study says "We helped a company increase revenue by 30%." A verticalized case study says "We helped a 200-bed regional hospital reduce patient readmission rates by 30% while cutting administrative overhead by $1.2M annually." The specificity is what drives conversion — prospects trust stories from companies that look like them.
+A verticalized case study is a customer story written for one industry, using that industry's metrics, workflows, and language. A generic case study says "we helped a company grow revenue." A vertical one says "we helped a regional hospital reduce readmissions and cut administrative work." Prospects trust stories from companies that look like them.
 
-## Core Concept
+## How it works
 
-B2B buyers evaluate solutions through the lens of their own industry. A healthcare buyer wants to know you understand HIPAA requirements, EHR integrations, and value-based care models. A financial services buyer wants to see you handle compliance, multi-entity reporting, and regulatory audits. Verticalized case studies prove that your product works not just in general, but in their specific operating environment with their specific constraints. This reduces perceived implementation risk, which is the primary objection in vertical sales.
+B2B buyers judge solutions through the lens of their own industry. A healthcare buyer wants to see that you understand HIPAA and EHR integrations. A financial services buyer wants to see compliance and audit support. A vertical case study shows your product works in their specific environment and constraints. That lowers perceived implementation risk, which is often the main objection.
 
-## Implementation
+## How to do it
 
-1. **Identify your target verticals:** Select 3-5 industries where you have at least 2-3 referenceable customers each. Prioritize verticals with the highest deal values, shortest sales cycles, and strongest ICP fit. Trying to verticalize for an industry where you have zero customers undermines credibility.
-2. **Interview customers for vertical-specific details:** Go beyond standard case study interviews. Ask about industry-specific challenges (regulatory requirements, seasonal patterns, industry benchmarks), integration requirements unique to their tech stack, and metrics that their peers care about. A healthcare case study should reference readmission rates, not just "operational efficiency."
-3. **Structure for the vertical audience:** Use the vertical's language and frameworks. Lead with the industry challenge (not your product), show the evaluation process (what alternatives they considered and why they chose you), detail the implementation with vertical-specific nuances (compliance requirements met, integrations built), and close with results using industry-standard KPIs.
-4. **Create multiple formats per case study:** Build a detailed PDF (2-3 pages) for late-stage deals, a one-page summary for email attachments and sales decks, a web page version for SEO and paid traffic, a 90-second video testimonial for social and events, and pull quotes for ad creative. One customer interview should yield 5+ content assets.
-5. **Distribute through vertical-specific channels:** Publish case studies on your website organized by industry (not just a generic case study page). Include them in industry-specific email nurtures, sales sequences for vertical-targeted accounts, vertical trade publication placements, and industry conference presentations.
+1. **Pick target verticals.** Choose 3-5 industries where you already have at least two or three referenceable customers. Favor verticals with high deal value, short cycles, and strong fit.
+2. **Ask industry-specific interview questions.** Cover regulatory requirements, seasonal patterns, industry-specific integrations, and the metrics their peers track.
+3. **Structure the story for that audience.** Open with the industry problem, not your product. Describe the alternatives they considered and why they chose you. Cover implementation details specific to the industry. Close with results in that industry's standard KPIs.
+4. **Make several formats from one interview.** Produce a 2-3 page PDF, a one-page summary, a web page, a short video, and pull quotes for ads.
+5. **Distribute through vertical channels.** Organize case studies by industry on your site. Use them in industry email nurtures, vertical sales sequences, trade publications, and industry conferences.
 
-## Key Metrics
+## What to measure
 
-- **Case Study Influence Rate** — percentage of closed-won deals where the prospect engaged with a verticalized case study during the buying cycle; target 40-60%
-- **Vertical Page Conversion Rate** — conversion rate of industry-specific case study pages vs. generic case study pages; verticalized pages typically convert 2-3x higher
-- **Sales Rep Usage Rate** — percentage of sales reps who actively share verticalized case studies in their sequences; if reps are not using them, the content is not resonating with their conversations
+- **Case study influence rate**: closed-won deals where the buyer viewed a vertical case study, divided by all closed-won deals.
+- **Vertical page conversion rate**: conversions on industry case study pages compared with generic case study pages.
+- **Rep usage rate**: reps who include vertical case studies in their sequences, divided by all reps.
 
-## Best Practices
+## Best practices
 
-- Name the customer and include their logo — anonymous case studies ("A major healthcare provider") convert at half the rate of named ones. If the customer cannot be named, get permission to use their logo and industry at minimum.
-- Include a specific quote from a titled executive at the customer — "Our CFO said..." carries more weight than a generic employee testimonial. Executive quotes signal organizational commitment.
-- Update case studies annually with fresh metrics — a case study from three years ago signals stagnation. Adding "After two years, results have compounded to..." keeps the content current and shows sustained value.
-- Build a vertical case study matrix and identify gaps — if you are targeting five industries and only have case studies for three, the missing two represent a content priority, not a marketing gap you can work around
+- Name the customer and show their logo when you can. If you cannot name them, ask to at least state their industry and size.
+- Include a quote from a named executive at the customer. It signals commitment from leadership.
+- Refresh metrics regularly. Adding "after two years, results have grown to..." keeps the story current.
+- Build a matrix of verticals and case studies. Gaps in the matrix are your content priorities.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Writing case studies that read like product documentation — the story should center on the customer's journey and results, not on your product's features. The product is the supporting character, not the protagonist.
-- Creating only one case study per vertical — a single proof point is an anecdote. Two or three case studies in the same vertical demonstrate a pattern and establish vertical expertise.
-- Burying vertical case studies in a generic library — if a healthcare prospect has to scroll past manufacturing and retail case studies to find the healthcare one, most will leave. Organize your website and sales materials so vertical content is immediately accessible.
+- Writing product documentation instead of a story. The customer is the main character. Your product is the supporting role.
+- Having only one case study per vertical. One story is an anecdote. Two or three show a pattern.
+- Burying vertical stories in a generic library. Make industry content easy to find on your site and in sales materials.

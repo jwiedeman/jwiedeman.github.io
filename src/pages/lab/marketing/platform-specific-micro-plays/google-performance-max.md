@@ -1,38 +1,40 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Google Performance Max"
-description: "Google's Performance Max cross-channel campaign type for automated, full-funnel advertising."
+description: "Run one Google Ads campaign across Search, Shopping, Display, YouTube, Discover, Gmail, and Maps."
 ---
 # Google Performance Max
 
-Performance Max (PMax) is Google's AI-driven campaign type that runs ads across all of Google's inventory — Search, Shopping, Display, YouTube, Discover, Gmail, and Maps — from a single campaign. Advertisers provide creative assets (text, images, videos), audience signals, and conversion goals, and Google's algorithm decides where, when, and to whom to show the ads. For e-commerce brands, PMax has largely replaced standalone Shopping campaigns, and for lead-gen businesses, it offers reach across channels that would previously require 5-6 separate campaigns.
+Performance Max (PMax) runs ads across Google's inventory (Search, Shopping, Display, YouTube, Discover, Gmail, and Maps) from one campaign. You supply creative assets, audience signals, and conversion goals. Google decides where, when, and to whom to show the ads.
 
-## Core Concept
+## How it works
 
-PMax represents Google's bet that its algorithm can outperform human media buyers in cross-channel allocation. Instead of setting up separate Search, Shopping, Display, and YouTube campaigns with individual budgets and targeting, PMax treats all channels as a single optimization surface. The algorithm moves budget in real time to whichever channel and audience segment is generating the best results against your conversion goal. The advertiser's role shifts from channel-level media buying to providing the algorithm with high-quality inputs: strong creative assets, accurate conversion tracking, and meaningful audience signals that help the algorithm find the right people faster.
+PMax replaces separate channel campaigns with one budget that Google moves between channels based on results against your conversion goal. Your job moves from channel-level buying to supplying good inputs: accurate conversion tracking, strong creative, and useful audience signals.
 
-## Implementation
+## How to do it
 
-1. Ensure your conversion tracking is robust and accurate — PMax optimizes against your conversion events, so garbage tracking in means garbage optimization out; verify enhanced conversions are enabled and server-side tracking is in place
-2. Create an asset group with comprehensive creative: 5+ headlines, 5+ long headlines, 5+ descriptions, 15+ images (landscape, square, portrait), and at least 1 video (ideally 3-5 in different lengths); if you do not provide video, Google will auto-generate one, and it will be poor quality
-3. Set meaningful audience signals — these are not hard targeting constraints but hints to the algorithm about who to prioritize: add your customer lists, website visitor remarketing lists, and custom intent segments as signals
-4. For e-commerce: connect your Merchant Center product feed and create product-specific asset groups with creative tailored to product categories rather than running one generic asset group
-5. Monitor the Insights tab weekly for search term insights, audience insights, and asset performance ratings — PMax is a black box, but the Insights tab provides some visibility into where your budget is going
+1. Check that conversion tracking is accurate and turn on enhanced conversions. PMax optimizes toward whatever you count as a conversion.
+2. Fill each asset group: several headlines, long headlines, and descriptions; images in landscape, square, and portrait; and at least one video you made. Without a video, Google may generate one from your images.
+3. Add audience signals: customer lists, website visitor lists, and custom segments. These are hints, not hard targeting.
+4. For e-commerce, link Merchant Center and split asset groups by product category, each with matching creative.
+5. Add brand exclusions if you run a separate brand Search campaign.
+6. Review the Insights tab and asset reports every week to see search themes, audiences, and asset performance.
 
-## Key Metrics
+## What to measure
 
-- **Conversion value / cost (ROAS)** — the primary efficiency metric; compare PMax ROAS against your blended account ROAS and against individual channel benchmarks
-- **New customer acquisition rate** — track whether PMax is finding new customers or just retargeting existing ones; use the new customer acquisition goal setting if available
-- **Search term cannibalisation** — monitor whether PMax is absorbing branded search traffic that would have converted organically; check Search terms insights for branded queries
+- **ROAS**: conversion value divided by cost, compared with your account average.
+- **New customer share**: new-customer conversions divided by all conversions. Use the new customer acquisition goal if it fits your business.
+- **Branded search share**: branded queries as a share of PMax search terms in Insights.
 
-## Best Practices
+## Best practices
 
-- Always provide your own high-quality video assets; Google's auto-generated videos are low quality and hurt your brand, and you lose a critical creative lever
-- Use multiple asset groups organized by product category or service line, each with tailored creative and audience signals, rather than one catch-all asset group
-- Run PMax alongside a dedicated branded Search campaign (exact match on your brand terms) to prevent PMax from claiming credit for branded traffic
+- Supply your own video assets.
+- Use several asset groups, organized by product line or service, each with its own creative and signals.
+- Run a separate exact-match brand Search campaign and exclude your brand from PMax.
+- Replace low-rated assets regularly.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Launching PMax with minimal creative assets, which gives the algorithm too little to work with and produces generic, low-performing ad combinations
-- Not excluding branded search terms (through negative keyword lists at the account level), allowing PMax to spend budget on searches that would have found you organically
-- Treating PMax as a set-and-forget campaign — while it is automated, it still requires weekly creative refreshes, audience signal updates, and performance monitoring
+- Launching with too few assets, which leaves Google little to test.
+- Letting PMax take credit for branded searches that would have converted anyway.
+- Treating PMax as set-and-forget. It still needs creative refreshes, signal updates, and a weekly review.

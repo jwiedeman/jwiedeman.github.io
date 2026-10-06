@@ -1,39 +1,41 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Sponsorship + Stage"
-description: "Maximizing event sponsorship visibility through strategic package selection and stage time activation."
+description: "Choose event sponsorships that include stage time, not just logo placement."
 ---
 # Sponsorship + Stage
 
-Event sponsorship combined with stage time is the strategy of selecting conference sponsorships that include speaking opportunities, branded sessions, or demonstration slots — turning a passive logo placement into an active audience engagement. Most sponsorship packages offer logo placement on signage and email blasts, but the real value comes from stage access. A sponsored keynote or breakout session delivers your message to a captive audience in a format that builds trust. Sponsorships with stage time generate 5-10x the pipeline per dollar compared to logo-only sponsorships.
+This tactic means choosing event sponsorships that include a speaking slot, a hosted session, or a demo slot, so you get time in front of the audience rather than just a logo. Most packages offer logos on signs and in emails. The real value is the stage, where your message reaches a seated audience in a format that builds trust.
 
-## Core Concept
+## How it works
 
-Logo placement at events is table stakes — attendees mentally filter out sponsor logos the same way they skip banner ads online. Stage time changes the dynamic entirely. When your executive delivers a 20-minute presentation on the main stage, they are perceived as a trusted expert by the audience, not an advertiser. The sponsorship buys the stage; the content earns the credibility. The combination of paid placement and earned trust is what makes sponsorship-plus-stage the highest-ROI event investment for most B2B companies.
+Attendees tune out sponsor logos the way they ignore banner ads. Stage time is different. When your expert gives a useful 20-minute talk, the audience sees them as an expert, not an advertiser. The sponsorship pays for the slot. The content earns the credibility.
 
-## Implementation
+## How to do it
 
-1. **Evaluate sponsorship packages for stage access:** When reviewing event sponsorship options, prioritize packages that include a speaking slot (keynote, breakout, panel moderation), a product demonstration slot, a hosted roundtable, or a sponsored workshop. If the base package does not include stage time, negotiate for it — many conferences will add a breakout session for an incremental fee.
-2. **Choose the right events:** Select events where at least 30% of attendees match your ICP. Request the attendee list or demographic breakdown from the event organizer before committing. Calculate the cost per ICP-matched attendee: total sponsorship cost divided by the number of attendees who fit your target profile.
-3. **Build a presentation that delivers value:** The sponsored session must teach, not sell. Structure it as a problem-focused talk with practical frameworks that the audience can apply regardless of whether they buy your product. Reference your product only in the context of how you solved a customer's problem. The audience must walk away feeling they learned something, not that they were pitched.
-4. **Activate the full sponsorship package:** Use every element you paid for — booth space with theater presentations, logo placement on event materials, sponsored email to attendees pre-event, mobile app notifications, and any digital advertising opportunities. Coordinate these elements to drive attendance at your speaking session: every touchpoint should promote the talk.
-5. **Run a pre-event and post-event campaign:** Before the event, email and call every target account attending to schedule meetings during the conference. Promote your speaking session on social media and through direct outreach. After the event, follow up within 48 hours with every contact captured, referencing the session and offering the presentation content as a resource.
+1. When comparing packages, favor ones that include a keynote, breakout, panel, workshop, roundtable, or demo slot.
+2. If a package has no stage time, ask for it before signing. Many organizers will add a session.
+3. Ask the organizer for attendee demographics. Calculate cost per target attendee: sponsorship cost divided by attendees who match your buyer profile.
+4. Build a talk that teaches. Focus on a problem and give frameworks the audience can use whether or not they buy. Mention your product only as part of a customer example.
+5. Use every element of the package (booth, emails, app notifications, signage) to drive people to your session.
+6. Before the event, contact target accounts who are attending and book meetings.
+7. Within 48 hours after the event, follow up with every contact, mention the session, and share the slides or recording.
 
-## Key Metrics
+## What to measure
 
-- **Session Attendance** — number of attendees at your sponsored presentation as a percentage of total event attendance; 15-25% of the event audience is a strong showing
-- **Post-Session Meetings Booked** — number of one-on-one meetings booked with target accounts during and after the event; track separately from general booth traffic
-- **Sponsorship Pipeline ROI** — total pipeline generated from event contacts within 90 days divided by total sponsorship investment; target 5-10x return for a well-executed sponsorship
+- **Session attendance**: people at your session divided by total event attendance.
+- **Meetings booked**: one-on-one meetings with target accounts during and after the event, tracked apart from booth traffic.
+- **Pipeline per sponsorship dollar**: pipeline from event contacts within 90 days divided by total sponsorship cost.
 
-## Best Practices
+## Best practices
 
-- Negotiate for the speaking slot during the sponsorship negotiation, not after — once you have signed, your leverage disappears. Make stage time a condition of sponsorship.
-- Position your session title as attendee-focused, not brand-focused — "How [Industry] Leaders Are Cutting Costs by 30%" fills a room. "[Your Brand]: A Product Overview" does not.
-- Use the post-session Q&A to capture the most engaged attendees — people who ask questions are signaling high interest. Have a team member note their names and badge info for priority follow-up.
-- Request the event's attendee contact list as part of the sponsorship package — this list is often the most valuable asset in the deal, more than the logo placement or booth space
+- Make stage time part of the sponsorship deal. You have little leverage after signing.
+- Title the session around the attendee's problem, not your brand.
+- Note the names of people who ask questions in Q&A and follow up with them first.
+- Ask whether the attendee contact list is included, and under what consent terms.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Paying for a premium sponsorship at an event where your audience is not present — a $50K sponsorship at a prestigious conference with the wrong audience is worse than a $5K sponsorship at a niche event with your exact buyers
-- Using the stage time as a product demo — conference audiences did not attend to watch a sales presentation. A product-heavy talk triggers walkouts and damages your brand's reputation with the event community.
-- Not activating the sponsorship beyond the event dates — the attendee list, the recorded session, and the relationships built are all assets that should generate pipeline for months after the event. If your team treats it as a one-and-done, you leave most of the value on the table.
+- Paying for a big-name event where your buyers are not in the room. A small event with the right audience is worth more.
+- Turning the session into a product demo. Audiences leave, and the organizer may not invite you back.
+- Stopping when the event ends. The contacts, recording, and relationships should keep producing pipeline for months.

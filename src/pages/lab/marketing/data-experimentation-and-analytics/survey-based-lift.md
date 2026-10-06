@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Survey-Based Brand Lift"
-description: "Measuring ad impact on brand perception through controlled survey methodology."
+description: "Survey people who saw your ads and people who did not to measure the effect on brand perception."
 ---
 # Survey-Based Brand Lift
 
-Survey-based brand lift studies measure the impact of advertising on brand perception by surveying both an exposed group (people who saw your ads) and a control group (people who did not), then comparing their responses on metrics like brand awareness, ad recall, favorability, and purchase intent. It is the primary method for quantifying the upper-funnel impact of campaigns that do not produce immediate clicks or conversions — brand campaigns, video campaigns, and awareness plays that influence consideration over time.
+A survey-based brand lift study surveys two groups: people who saw your ads (exposed) and people who did not (control). It compares their answers on awareness, ad recall, favorability, and purchase intent. It is the main way to measure campaigns that do not drive immediate clicks, such as brand, video, and awareness campaigns.
 
-## Core Concept
+## How it works
 
-Most marketing measurement focuses on lower-funnel actions (clicks, conversions, purchases), but the majority of advertising's value lies in shaping perceptions that influence future behavior. A prospect who has never heard of your brand converts at a very different rate than one who recalls seeing your ad and has a positive impression. Survey-based lift bridges this measurement gap by directly asking people whether they remember your brand, what they think about it, and whether they would consider purchasing. The lift — the difference between exposed and control responses — isolates the ad's causal impact on these perceptual metrics.
+Most measurement looks at clicks and purchases, but much of advertising's effect is on how people think about a brand, which shapes what they do later. Someone who remembers your ad and likes your brand converts differently from someone who has never heard of you. Brand lift surveys ask people directly what they recall and think. The difference between exposed and control answers is the effect of the ads.
 
-## Implementation
+## How to do it
 
-1. Define the brand metrics you want to measure: aided/unaided awareness, ad recall, brand favorability, message association, purchase consideration, and purchase intent are the standard set — choose 3-5 that align with your campaign objectives
-2. Work with the ad platform (Meta Brand Lift, Google Brand Lift, YouTube BrandConnect) or a third-party research firm (Kantar, Dynata, Lucid) to set up the control/exposed methodology
-3. Design survey questions that are specific and comparable across waves: "Which of the following brands have you heard of in [category]?" (unaided awareness with a list) and "How likely are you to consider [Brand] for your next [purchase]?" (purchase consideration on a 1-5 scale)
-4. Run the survey during or immediately after the campaign flight — brand lift effects decay quickly, so surveying weeks after the campaign ends will understate the true impact
-5. Analyze lift by audience segment, creative variant, and frequency band to understand not just whether the campaign worked but which executions and targeting strategies drove the strongest perception shift
+1. Choose 3 to 5 metrics that match the campaign goal from this set: aided awareness, unaided awareness, ad recall, favorability, message association, consideration, purchase intent.
+2. Set up the exposed and control groups through the ad platform's brand lift tool or a research firm.
+3. Write specific questions you can reuse across studies. For example: "Which of these brands have you heard of in [category]?" and "How likely are you to consider [Brand] for your next [purchase]?" on a 1 to 5 scale.
+4. Survey during or right after the campaign. The effect fades, so late surveys understate it.
+5. Break results down by audience, creative, and frequency to see which ads and targeting moved perception most.
 
-## Key Metrics
+## What to measure
 
-- **Absolute brand lift** — the percentage-point difference in a metric between exposed and control groups (e.g., 38% aided awareness in exposed vs 25% in control = 13 points absolute lift)
-- **Relative brand lift** — the percentage increase relative to the control baseline (13 points / 25% baseline = 52% relative lift), which normalizes for different starting points
-- **Cost per lifted user** — total spend divided by the number of people whose brand perception changed, providing a cost-efficiency metric for upper-funnel campaigns
+- **Absolute lift**: exposed minus control, in percentage points. For example, 38% vs 25% aided awareness is 13 points.
+- **Relative lift**: absolute lift divided by the control rate. In the example, 13 / 25 = 52%.
+- **Cost per lifted user**: spend divided by the estimated number of people whose answer changed.
 
-## Best Practices
+## Best practices
 
-- Run brand lift on campaigns with broad reach and sufficient frequency — studies on narrow audiences with low frequency will not generate enough survey responses for statistical significance
-- Compare brand lift results across campaigns and over time to build benchmark data that tells you what "good" lift looks like for your category
-- Use brand lift insights to optimize creative — if ad recall is strong but favorability is flat, the creative is memorable but not persuasive, which is a specific actionable insight
+- Run studies on campaigns with broad reach and enough frequency to collect enough responses.
+- Keep results from past studies so you know what normal lift looks like in your category.
+- Use the results to fix creative. Strong recall with flat favorability means the ad is memorable but not persuasive.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Surveying too few people or running the study for too short a period, resulting in confidence intervals so wide that the results are inconclusive
-- Asking leading questions that inflate lift numbers: "After seeing this ad for [Brand], how do you feel about them?" primes the response
-- Ignoring the gap between stated intent and actual behavior — high purchase intent lift does not guarantee conversion lift, and the two should be measured separately
+- Too few respondents or too short a study, giving results too wide to use.
+- Leading questions, such as "After seeing this ad for [Brand], how do you feel about them?"
+- Treating stated intent as purchases. Measure intent lift and conversion lift separately.

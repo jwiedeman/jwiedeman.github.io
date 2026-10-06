@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Platform Lift Studies"
-description: "Running platform-native brand and conversion lift studies to measure ad effectiveness."
+description: "Use the ad platforms' built-in lift studies to measure whether ads changed behavior."
 ---
 # Platform Lift Studies
 
-Platform lift studies are controlled experiments offered natively by ad platforms (Meta, Google, TikTok, LinkedIn) that measure the true incremental impact of your ads by comparing a randomly selected exposed group against a holdout group that sees no ads (or a public service announcement instead). Unlike attribution models that assign credit after the fact, lift studies answer the causal question: "Did seeing this ad actually change behavior?" They are the most accessible incrementality measurement tool available to most marketing teams.
+Platform lift studies are controlled experiments built into ad platforms such as Meta, Google, TikTok, and LinkedIn. The platform randomly splits your audience into a group that sees your ads and a group that does not, then compares outcomes. Attribution assigns credit after the fact. A lift study answers a direct question: did seeing this ad change behavior? For most teams it is the easiest way to measure incrementality.
 
-## Core Concept
+## How it works
 
-Lift studies work by applying randomized controlled trial methodology within the ad platform's ecosystem. The platform randomly splits your target audience into a test group (sees your ad) and a control group (sees nothing or a placebo ad). After the campaign runs, the platform measures the difference in a key outcome — brand awareness (brand lift), purchase consideration (search lift), or actual conversions (conversion lift) — between the two groups. The difference is the incremental lift, and because the groups were randomly assigned, confounding variables are controlled. This makes lift studies far more reliable than last-click or even multi-touch attribution for answering "did this campaign work?"
+A lift study is a randomized controlled trial run inside the platform. The test group sees your ad. The control group sees nothing or a placeholder ad. After the campaign, the platform compares an outcome between the groups: awareness (brand lift), searches (search lift), or conversions (conversion lift). Because assignment is random, other factors balance out. That makes lift studies more reliable than last-click or multi-touch attribution for judging whether a campaign worked.
 
-## Implementation
+## How to do it
 
-1. Determine the study type based on your campaign objective: brand lift for awareness campaigns (measures recall, favorability, consideration), conversion lift for performance campaigns (measures incremental purchases, signups, or leads)
-2. Meet the platform's minimum requirements — Meta conversion lift typically requires at least $30K spend over 2+ weeks; Google brand lift requires minimum impression thresholds; plan spend accordingly
-3. Set up the study in the platform's measurement tools (Meta Experiments, Google Brand Lift, TikTok Brand Lift) before the campaign launches — most studies must be configured during campaign creation, not retrofitted
-4. Run the campaign for the full study duration without making major changes to targeting, creative, or budget that could compromise the test's validity
-5. Analyze results by comparing the outcome metric between test and control groups; calculate the cost per incremental conversion (not cost per attributed conversion) and compare this to your efficiency benchmarks
+1. Choose the study type. Use brand lift for awareness campaigns (recall, favorability, consideration). Use conversion lift for performance campaigns (purchases, signups, leads).
+2. Check the platform's minimum spend, duration, and audience size, and budget to meet them.
+3. Set up the study in the platform's measurement tools before launch. Most studies cannot be added afterward.
+4. Run the full study period without major changes to targeting, creative, or budget.
+5. Compare the outcome between test and control. Calculate cost per incremental conversion and compare it to your targets.
 
-## Key Metrics
+## What to measure
 
-- **Incremental lift percentage** — the percentage increase in the target outcome (brand recall, conversions) caused by ad exposure
-- **Cost per incremental result** — total spend divided by incremental outcomes, which is always higher than cost per attributed result and represents the true cost of acquisition
-- **Statistical significance** — the confidence level that the measured lift is real; most platforms require 90% confidence before reporting results as conclusive
+- **Incremental lift**: percent increase in the outcome caused by seeing the ad.
+- **Cost per incremental result**: spend divided by incremental outcomes. Expect it to be higher than cost per attributed result.
+- **Statistical significance**: the confidence that the lift is real, as reported by the platform.
 
-## Best Practices
+## Best practices
 
-- Run lift studies on your highest-spend campaigns first — inaccurate measurement on a $500K/month campaign is far more costly than on a $5K/month campaign
-- Compare lift study results against platform-reported attribution to identify the gap between attributed and incremental performance — this gap is your measurement inflation
-- Use lift study results to calibrate your attribution model: if Meta reports 2x more conversions than the lift study validates, apply a 0.5x deflator to ongoing attributed reporting
+- Start with your largest campaigns, where wrong measurement costs the most.
+- Compare lift results to the platform's attributed results. The gap shows how much attribution overstates.
+- Use the gap to adjust ongoing reports. If attribution shows twice the conversions the study confirms, discount attributed numbers by half.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Ending the study too early because initial results look conclusive — underpowered studies produce unreliable results, and platforms need minimum exposure to generate statistical significance
-- Making creative or targeting changes mid-study, which confounds the test and makes it impossible to determine which version of the campaign was measured
-- Running lift studies on small audiences or low-spend campaigns where the expected lift is too small to detect with statistical confidence
+- Stopping early because early numbers look clear. Underpowered studies give unreliable results.
+- Changing creative or targeting mid-study, which muddies what was measured.
+- Running studies on small audiences or low budgets where the expected lift is too small to detect.

@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Milestone Waitlists"
-description: "Pre-launch waitlists with milestone-based unlocks that incentivize sharing to move up the line."
+description: "A pre-launch waitlist where people earn rewards or move up by referring friends."
 ---
 # Milestone Waitlists
 
-Milestone waitlists combine pre-launch anticipation with referral mechanics by placing signups on a numbered waitlist and rewarding them with perks, early access, or queue jumps as they refer friends. Harry's razors famously used this tactic to collect 100,000 emails in one week before launch. The mechanic works because it layers three psychological drivers: scarcity (limited spots), status (your position on the list), and progress (visible milestones to unlock).
+A milestone waitlist puts each signup in a numbered queue and gives rewards, early access, or a better position for each friend they refer. Before launch, Harry's razors used this approach to collect about 100,000 email addresses in one week. It relies on three motivators: limited access, a visible position, and clear rewards to work toward.
 
-## Core Concept
+## How it works
 
-A standard waitlist captures interest but provides no reason to share. A milestone waitlist transforms passive signups into active promoters by tying tangible rewards to referral counts. Each person who joins sees their position number and a clear roadmap: refer 3 friends to unlock early access, refer 5 to get a free product, refer 10 to join the founding members group. This turns every waitlist member into a distribution channel for your launch.
+A plain waitlist records interest but gives no reason to share. A milestone waitlist ties rewards to referral counts. Each person sees their position and a simple ladder, for example: 3 referrals for early access, 5 for a free product, 10 for founding-member status. Every signup becomes a possible source of more signups.
 
-## Implementation
+## How to do it
 
-1. Build the waitlist landing page with three essential elements: a compelling value proposition that makes people want to join, a clear display of their waitlist position after signup, and a milestone reward chart showing exactly what they unlock at each referral tier (e.g., 3 referrals = early access, 5 = free accessory, 10 = founding member badge).
-2. Generate a unique referral link for each signup immediately after registration and display it prominently with one-click copy and pre-populated share buttons for email, SMS, Twitter, and WhatsApp — the share flow must be frictionless because motivation is highest in the first 60 seconds after signup.
-3. Design 3-5 reward tiers that escalate in value: Tier 1 (1-2 referrals) should be easy to achieve and provide a small but meaningful reward, Tier 2 (3-5 referrals) should be the core motivator for most people, and Tier 3+ (10+ referrals) should be aspirational and create power users who drive outsized referral volume.
-4. Set up automated email sequences triggered by referral milestones — a congratulations email when they hit each tier, a weekly progress update showing their position and how many more referrals they need for the next unlock, and a final "you made it" email when the product launches.
-5. Use tools like Viral Loops, KickoffLabs, or Waitlist.me to manage the technical infrastructure, or build a custom solution with a simple database tracking signup order, referral counts, and reward tier status.
+1. Build the landing page with a clear value proposition, the person's queue position after signup, and a table of rewards by referral count.
+2. Show a unique referral link immediately after signup, with a copy button and prefilled share options for email, SMS, X, and WhatsApp. People are most likely to share right after they sign up.
+3. Set 3 to 5 reward tiers. Make the first tier easy (1 to 2 referrals), the middle tier the main goal for most people, and the top tier a stretch goal.
+4. Automate emails: a confirmation at each tier, a regular progress update with position and referrals needed for the next tier, and a launch email.
+5. Run it on a waitlist tool (for example Viral Loops or KickoffLabs) or build a simple database that tracks signup order, referral counts, and tier.
 
-## Key Metrics
+## What to measure
 
-- **Viral Coefficient** — the average number of new signups generated per existing waitlist member (benchmark: 0.3-0.5 for well-designed milestone waitlists, meaning each person brings in roughly one-third to one-half of a new signup)
-- **Milestone Completion Rate** — the percentage of waitlist members who achieve at least the first reward tier, indicating whether your milestones are set at achievable levels (target: 25-40% reaching Tier 1)
-- **Waitlist-to-Customer Conversion Rate** — the percentage of waitlist members who actually purchase or activate when the product launches, which is the ultimate measure of list quality (benchmark: 10-25% depending on category)
+- **Viral coefficient** — new signups from referrals divided by existing waitlist members.
+- **Milestone completion rate** — members who reach the first tier divided by all members.
+- **Waitlist-to-customer conversion** — members who buy or activate at launch divided by all members.
 
-## Best Practices
+## Best practices
 
-- Show social proof on the waitlist page by displaying the total number of people already signed up and updating it in real time — "Join 14,832 others on the waitlist" creates momentum that increases conversion rates on the page itself
-- Make the first milestone achievable with just 1-2 referrals so that a large percentage of signups experience the dopamine of earning a reward, which motivates them to pursue higher tiers
-- Send position-based urgency emails ("You're #4,521 — refer 2 more friends to jump 2,000 spots") to reactivate dormant waitlist members who signed up but never shared
+- Show a live signup count on the page, for example "Join 14,832 others."
+- Make the first reward reachable with 1 or 2 referrals so many people earn something.
+- Re-engage inactive members with position updates, for example "You're #4,521. Refer 2 friends to move up."
 
-## Common Pitfalls
+## Common pitfalls
 
-- Setting milestone thresholds too high (e.g., "refer 10 friends for any reward") which means 95% of signups never earn anything and stop caring — the first tier should be achievable for the average person
-- Creating a waitlist for a product that has no genuine constraint on access, which makes the waitlist feel like a gimmick — if people discover they could have just signed up directly, trust is damaged
-- Collecting a massive waitlist but having no launch email strategy — a single "we launched" email converts far less than a 3-5 email launch sequence that builds anticipation, explains the product, and creates a deadline for early-access pricing
+- First tier too high. If the first reward needs 10 referrals, almost nobody earns anything and people stop caring.
+- A fake constraint. If people find they could have signed up directly, they stop trusting you.
+- No launch plan. Plan a short email sequence for launch instead of one "we launched" email, and include a clear deadline for early-access pricing.

@@ -1,39 +1,39 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Tiered Account Lists"
-description: "Organizing target accounts into priority tiers that dictate resource allocation and engagement tactics."
+description: "Sorting target accounts into priority tiers that set how much effort each one gets."
 ---
 # Tiered Account Lists
 
-Tiered account lists segment your target accounts into three to four priority levels, each with a distinct engagement strategy and resource allocation. Tier 1 accounts receive fully personalized, high-touch campaigns. Tier 2 gets semi-personalized outreach at the industry or persona level. Tier 3 receives programmatic, one-to-many marketing. This structure prevents the most common ABM failure mode: trying to run one-to-one campaigns for hundreds of accounts and delivering mediocre experiences to all of them.
+A tiered account list splits target accounts into three or four priority levels, each with its own playbook and budget. Tier 1 gets fully personalized, high-touch campaigns. Tier 2 gets outreach tailored by industry or persona. Tier 3 gets scaled, one-to-many marketing. This prevents a common ABM mistake: trying to run one-to-one campaigns for hundreds of accounts and doing all of them poorly.
 
-## Core Concept
+## How it works
 
-Not all target accounts deserve the same investment. A $500K potential deal with a high-ICP-fit account justifies a dedicated campaign, personalized content, and executive engagement. A $50K opportunity with moderate fit does not. Tiered account lists force strategic prioritization by explicitly defining how much time, budget, and creative effort each account receives. The tier determines the playbook, not the other way around.
+Not every account deserves the same investment. A large deal with a strong-fit account justifies a dedicated campaign and executive involvement. A small deal with moderate fit does not. Tiers make the trade-off explicit by defining how much time, budget, and creative effort each account gets. The tier decides the playbook.
 
-## Implementation
+## How to do it
 
-1. **Define tier criteria and sizes:** Tier 1: 10-25 accounts that represent your highest revenue potential and strongest ICP fit — these get truly one-to-one treatment. Tier 2: 50-200 accounts grouped by shared characteristics (industry, size, use case) — these get one-to-few campaigns. Tier 3: 200-1000+ accounts that meet minimum ICP thresholds — these get scaled, programmatic campaigns.
-2. **Build the lists using ICP scores and deal data:** Start with ICP scores and layer in deal size potential, existing relationships, competitive displacement opportunity, and strategic value (logo value, reference-ability). Tier 1 should include accounts where you have an executive sponsor or warm introduction.
-3. **Assign resource allocation per tier:** Tier 1: Dedicated SDR, personalized landing pages, custom content, executive-to-executive outreach, direct mail, and events. Tier 2: Shared SDR coverage, industry-specific content, semi-personalized ads, and persona-based email sequences. Tier 3: Automated nurture, retargeting ads, scaled webinars, and content syndication.
-4. **Align sales and marketing on the lists:** Both teams must agree on which accounts sit in which tier. Hold a quarterly list review meeting where sales and marketing jointly evaluate, promote, and demote accounts. An account that shows strong engagement moves from Tier 2 to Tier 1. An account that has gone silent moves down.
-5. **Track engagement and pipeline by tier:** Build dashboards that show engagement metrics, pipeline generation, and revenue by tier. This validates whether your tier assignments are accurate and whether the differentiated investment is paying off.
+1. **Define tier sizes and criteria.** Example: Tier 1, 10-25 accounts with the highest potential and best fit, treated one-to-one. Tier 2, 50-200 accounts grouped by industry, size, or use case, treated one-to-few. Tier 3, several hundred or more accounts that meet minimum fit, treated one-to-many.
+2. **Build the lists.** Start with ICP scores. Add deal size, existing relationships, competitive displacement chances, and strategic value such as logo or reference value.
+3. **Assign resources per tier.** Tier 1: dedicated SDR, custom landing pages and content, executive outreach, direct mail, and events. Tier 2: shared SDR coverage, industry content, semi-personalized ads, and persona email sequences. Tier 3: automated nurture, retargeting, webinars, and content syndication.
+4. **Agree on the lists with sales.** Hold a quarterly review where sales and marketing promote and demote accounts together. Move engaged accounts up and silent accounts down.
+5. **Report by tier.** Build dashboards for engagement, pipeline, and revenue by tier to check whether the extra investment pays off.
 
-## Key Metrics
+## What to measure
 
-- **Pipeline Generation by Tier** — dollar value of pipeline created for each tier; Tier 1 should generate disproportionately more pipeline per account than Tier 3
-- **Engagement Rate by Tier** — percentage of accounts in each tier showing meaningful engagement (ad clicks, website visits, content downloads, meeting requests); Tier 1 should show 60%+ engagement
-- **Cost Per Opportunity by Tier** — marketing and sales cost to generate one qualified opportunity in each tier; higher costs for Tier 1 are acceptable if win rates are correspondingly higher
+- **Pipeline per account by tier**: pipeline created in each tier, divided by the number of accounts in that tier.
+- **Engagement rate by tier**: accounts with meaningful engagement (visits, clicks, downloads, meetings), divided by accounts in the tier.
+- **Cost per opportunity by tier**: sales and marketing cost for the tier, divided by qualified opportunities created.
 
-## Best Practices
+## Best practices
 
-- Keep Tier 1 small enough that each account gets genuine attention — if your team cannot name every Tier 1 account from memory, the list is too big
-- Assign a named "account owner" from both sales and marketing for every Tier 1 account — shared accountability ensures coordinated outreach instead of competing messages
-- Promote accounts between tiers based on engagement signals, not just firmographic fit — an account that suddenly starts researching your category deserves higher priority regardless of its original score
-- Review and refresh lists quarterly — account priorities change as contracts expire, budgets shift, and competitive dynamics evolve
+- Keep Tier 1 small. If the team cannot name every Tier 1 account from memory, the list is too long.
+- Give each Tier 1 account a named owner in both sales and marketing so outreach is coordinated.
+- Promote accounts on engagement, not only fit. An account that starts researching your category deserves higher priority.
+- Refresh the lists quarterly. Contracts expire, budgets shift, and competitors move.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Making Tier 1 too large — 100 "Tier 1" accounts means none of them actually receive Tier 1 treatment. If you cannot personalize a landing page for each one, it is not truly Tier 1.
-- Assigning tiers based solely on deal size without considering fit — a $1M opportunity at a company that does not match your ICP will waste more resources than it generates
-- Setting tiers once and never adjusting — static lists decay in value. The account that was perfect 6 months ago may have just signed a competitor's three-year contract.
+- Making Tier 1 too big. If you cannot build a custom page for each one, it is not really Tier 1.
+- Tiering by deal size alone. A large deal with poor fit can cost more than it returns.
+- Never adjusting tiers. An account that was ideal six months ago may have just signed a multi-year contract with a competitor.

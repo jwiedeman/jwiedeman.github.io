@@ -338,7 +338,7 @@ const meta = (dir, slug) => {
 const pad = (n) => String(n).padStart(2, '0');
 const sections = modules.map((mod, m) => ({
   ...mod,
-  code: `MK-${pad(m + 1)}`,
+  code: pad(m + 1),
   entries: mod.slugs.map((slug, i) => ({
     id: `${pad(m + 1)}.${pad(i + 1)}`,
     title: meta(mod.dir, slug).title,
@@ -350,7 +350,7 @@ const total = sections.reduce((n, s) => n + s.entries.length, 0);
 ---
 <Layout title="Marketing" description={`A catalog of ${total} marketing tactics and techniques, organized by module.`} headingTracker={{ enabled: true, headingsSelector: 'h2', minHeadings: 2 }}>
   <div class="container">
-    <PageHeader title="Marketing" dept="Lab / 04" meta={[`${sections.length} modules`, `${total} tactics`]} />
+    <PageHeader title="Marketing" dept="Lab" meta={[`${sections.length} modules`, `${total} tactics`]} />
     <SiteSearch section="Marketing" placeholder={`Search ${total} tactics`} hideWhileSearching=".mk-module" syncUrl />
     {sections.map((section) => (
       <section class="mk-module">

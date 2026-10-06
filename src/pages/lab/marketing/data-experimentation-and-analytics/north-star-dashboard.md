@@ -1,38 +1,44 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "North Star Dashboard"
-description: "Building a dashboard centered on the single metric that best captures your product's core value delivery."
+description: "Build a dashboard around the one metric that best shows customers getting value from your product."
 ---
 # North Star Dashboard
 
-A north star dashboard is a centralized reporting view organized around the single metric that best captures the core value your product delivers to customers. Rather than drowning in dozens of KPIs, the team rallies around one number — Spotify uses "time spent listening," Airbnb uses "nights booked," Slack uses "messages sent" — and the dashboard shows how every activity in the business either feeds or undermines that metric. It turns data from noise into focus.
+A north star dashboard is organized around the one metric that best shows customers getting value from your product. Instead of tracking dozens of KPIs equally, the team focuses on one number, such as nights booked for a travel marketplace or messages sent for a chat tool. The dashboard shows how each team's work feeds that number.
 
-## Core Concept
+## How it works
 
-The north star metric (NSM) concept, popularized by Sean Ellis, solves the fundamental problem of dashboard bloat: when you track everything, you optimize nothing. The NSM is the single metric that, if it grows, indicates your business is healthy. It must satisfy three criteria: it reflects value delivered to customers (not just revenue extracted), it is a leading indicator of revenue growth, and it is actionable by multiple teams. The dashboard then layers input metrics (the levers that drive the NSM) underneath, creating a clear cause-and-effect view from daily activities to business outcomes.
+When you track everything, nothing gets focus. The north star metric (NSM), a term popularized by Sean Ellis, is the one number that signals the business is healthy when it grows. A good NSM meets three tests:
 
-## Implementation
+- It reflects value delivered to customers, not just revenue taken.
+- It leads revenue growth.
+- Several teams can move it.
 
-1. Define your north star metric by asking: "What single user action indicates they are getting real value from our product?" — this should correlate with retention and revenue but measure value delivery, not extraction
-2. Identify 3-5 input metrics that directly influence the NSM — for example, if your NSM is "weekly active projects," inputs might be "new signups," "onboarding completion rate," "features adopted per user," and "invite-sent rate"
-3. Build the dashboard with the NSM as the hero metric at the top, input metrics below, and trend lines showing direction and velocity for each — use a tool like Looker, Tableau, or a custom data warehouse view
-4. Set up automated alerts when the NSM or any input metric deviates beyond a defined threshold (typically two standard deviations from the rolling average)
-5. Review the dashboard weekly with leadership and monthly with the full team, using it to prioritize initiatives based on which input metric has the most room for improvement
+Below the NSM, the dashboard shows the input metrics that drive it, linking daily work to outcomes.
 
-## Key Metrics
+## How to do it
 
-- **North star metric trend** — the primary number on the dashboard, tracked daily/weekly with period-over-period comparison
-- **Input metric contribution** — the relative impact of each input metric on the NSM, quantified through regression analysis or controlled experiments
-- **Dashboard engagement rate** — how frequently team members actually view the dashboard; a dashboard nobody checks is not driving alignment
+1. Ask: "What single user action shows they are getting real value?" Check that it correlates with retention and revenue.
+2. Pick 3 to 5 input metrics that drive the NSM. For "weekly active projects," inputs might be new signups, onboarding completion, features adopted per user, and invites sent.
+3. Build the dashboard with the NSM at the top, inputs below, and a trend line for each. Use your BI tool or a warehouse view.
+4. Set alerts when the NSM or an input moves outside a set range, such as two standard deviations from its rolling average.
+5. Review weekly with leadership and monthly with the whole team. Prioritize work on the input with the most room to improve.
 
-## Best Practices
+## What to measure
 
-- Keep the dashboard to one screen — if it requires scrolling, it contains too much information and will not be used for daily decision-making
-- Include both absolute numbers and rates of change: knowing the NSM is 10,000 is less useful than knowing it grew 12% this week
-- Pair the dashboard with a weekly ritual (a 15-minute standup) where each team reports what they did to move their input metric, creating accountability
+- **North star trend**: the NSM by day or week, with period-over-period change.
+- **Input contribution**: how much each input moves the NSM, measured by regression or experiments.
+- **Dashboard usage**: how often people open the dashboard.
 
-## Common Pitfalls
+## Best practices
 
-- Choosing a north star metric that the team cannot meaningfully influence on a weekly basis (annual revenue is an outcome, not a north star)
-- Adding too many input metrics, which recreates the dashboard bloat the NSM was supposed to eliminate — more than 5 inputs is a warning sign
-- Treating the north star as immutable; as your product and market evolve, the NSM should be re-evaluated annually to ensure it still captures core value delivery
+- Fit the dashboard on one screen. If it needs scrolling, it has too much.
+- Show both the number and its rate of change.
+- Pair it with a short weekly meeting where each team reports what it did to move its input.
+
+## Common pitfalls
+
+- Picking a metric the team cannot move week to week. Annual revenue is an outcome, not a north star.
+- Adding too many inputs. More than 5 brings back the clutter you were removing.
+- Never revisiting the NSM. Re-check it yearly as the product and market change.

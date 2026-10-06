@@ -1,37 +1,37 @@
 ---
 layout: ../../../layouts/Layout.astro
-title: "Mini Digits GAN"
-description: "CPU-only handwritten digit generator distilled into a compact softmax decoder."
+title: "Mini Digits Generator"
+description: "Blends ten font-rendered digits into 28×28 images with a small hand-set network. Not a trained GAN."
 ---
 <div class="container">
   <header class="page-header">
-    <div class="page-header__meta">
-      <span class="section-index">Lab / AI / AI-001</span>
-      <span class="classification classification--accent">Interactive Demo</span>
-    </div>
-    <h1 class="page-header__title">Mini Digits GAN</h1>
-    <p class="page-header__subtitle">28×28 Handwriting Generator</p>
+    <h1 class="page-header__title">Mini Digits Generator</h1>
+    <p class="page-header__subtitle">Blends ten font-rendered digits into 28×28 images, using the input and output shape of a GAN generator.</p>
   </header>
 
-  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
+  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← AI lab</a></p>
 
-## Overview
+**Not a trained GAN.** There is no discriminator and no training. The weights are set by hand. The page shows how a generator maps a random vector to an image; the image is a weighted blend of the digits 0–9 drawn in a monospace font.
 
-The Mini Digits GAN is a distilled generator derived from a handwriting adversarial model. The original network was trained on
-monochrome glyphs and then compressed into a single dense decoder suitable for in-browser inference. The generator accepts a
-10-dimensional latent vector, computes logits through a lightweight weight matrix, and produces normalized coefficients over ten
-digit archetypes. Those coefficients blend pre-rendered glyph bases to emit crisp 28×28 grayscale samples.
+## How it works
 
-## Generator Architecture
-
-| Stage | Details |
+| Step | What the code does |
 | --- | --- |
-| Latent sampler | 10 uniform components in \[-1, 1], seeded via Mulberry32 for reproducibility. |
-| Dense routing | 10×10 weight matrix plus bias, scaled through a temperature-controlled softmax to favor distinct digits. |
-| Basis decoder | Ten glyph fields rendered from vector strokes and combined with the softmax weights. |
-| Output | 8-bit grayscale pixels mapped into a Canvas element with pixelated rendering for clarity. |
+| Random vector | 10 numbers in [-1, 1] from a seeded random generator (Mulberry32). Same seed, same images. |
+| Mixing layer | A fixed 10×10 weight matrix plus bias turns the vector into 10 scores, one per digit. |
+| Temperature | Scores are divided by the temperature, then passed through softmax. The result is 10 weights that sum to 1. |
+| Digit images | Each digit 0–9 is drawn once in IBM Plex Mono on a 28×28 canvas. |
+| Output | Each pixel is the weighted sum of the ten digit images, shown as grayscale. |
 
-## Try it live
+## Controls
+
+- **Seed:** picks the random vectors. Each seed gives 9 images.
+- **Temperature:** low values push the weights toward one digit (cleaner images). High values spread them out (blurrier blends).
+- **Generate batch:** adds 1 to the seed.
+- **Randomize seed:** picks a random seed.
+- **Coefficient readout:** the 10 digit weights for each image.
+
+## Demo
 
 <section class="gan-panel">
   <div class="gan-controls">
@@ -65,11 +65,11 @@ digit archetypes. Those coefficients blend pre-rendered glyph bases to emit cris
   </details>
 </section>
 
-## Implementation Notes
+## Notes
 
-- Glyph bases are rendered on-demand into off-screen canvases to keep the shipped payload tiny.
-- Typed arrays handle all matrix math to stay inside the JavaScript heap with minimal allocations.
-- Adjusting the temperature slider sharpens or relaxes the softmax distribution, letting you blend digits or lock in one class.
+- The digit images are drawn in the browser, so no image files are downloaded.
+- All math uses typed arrays in plain JavaScript.
+- A trained GAN would learn its weights from real handwriting (for example MNIST). This page does not.
 
 <script type="module">
   const SIZE = 28;

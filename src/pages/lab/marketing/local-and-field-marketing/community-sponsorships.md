@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Community Sponsorships"
-description: "Sponsoring local events and organizations for brand visibility, trust, and customer acquisition."
+description: "Sponsor local events and groups to build visibility, goodwill, and new customers."
 ---
 # Community Sponsorships
 
-Community sponsorships involve providing financial support, products, or services to local events, teams, charities, and organizations in exchange for brand visibility and community goodwill. Unlike digital advertising which interrupts, sponsorships embed your brand into activities people already care about. A youth soccer team jersey, a booth at the farmers market, or naming rights to a local 5K run create brand impressions in a context of positive emotion and community belonging that no paid ad can replicate.
+A community sponsorship gives money, product, or services to a local event, team, charity, or group in return for visibility. Your brand shows up inside something people already care about: a youth team jersey, a farmers market booth, a local 5K.
 
-## Core Concept
+## How it works
 
-Sponsorships work through two mechanisms: repeated exposure in a positive context (mere-exposure effect combined with positive association) and reciprocity at the community level. When a business supports the things a community values — youth sports, local festivals, charity fundraisers, school programs — residents develop a sense of obligation and warmth toward that business. The brand becomes "one of us" rather than "someone trying to sell to us." This is particularly powerful for businesses competing against national chains, where the "we support your community" positioning creates a genuine competitive moat that large corporations cannot credibly claim.
+Sponsorships work through repeated exposure in a positive setting and through local goodwill. When a business supports youth sports, festivals, or school programs, residents tend to think well of it. This helps local businesses compete with national chains, which cannot credibly claim the same local ties.
 
-## Implementation
+## How to do it
 
-1. Identify sponsorship opportunities that align with your customer demographics — sponsor events and organizations where your ideal customers are participants, attendees, or parents of participants
-2. Negotiate sponsorship packages that include tangible brand placements: logo on event materials, banner placement, table/booth presence, PA announcements, social media mentions, email newsletter inclusion, and website placement
-3. Activate the sponsorship beyond passive logo placement — bring a team to the event, hand out branded items that people actually want to keep (water bottles, tote bags), collect leads through a contest or giveaway, and engage genuinely with attendees
-4. Document everything for content: take photos, shoot short videos, interview organizers and participants — this content extends the sponsorship's reach far beyond event day through social media and email
-5. Track ROI by using sponsorship-specific landing pages, promo codes, or "how did you hear about us?" prompts to attribute new customers back to specific sponsorships
+1. List events and groups where your customers take part, attend, or have children involved.
+2. Negotiate concrete placements: logo on materials, banners, a booth, announcements, social posts, newsletter mentions, and a website listing.
+3. Show up at the event. Bring staff, hand out useful branded items, and collect contacts through a contest or giveaway.
+4. Capture photos, short videos, and quotes from organizers for your social and email channels.
+5. Give each sponsorship its own landing page, promo code, or "how did you hear about us?" option so you can count customers it brings in.
 
-## Key Metrics
+## What to measure
 
-- **Sponsorship-attributed new customers** — the number of new customers who cite the sponsorship as their discovery channel, tracked through promo codes, dedicated URLs, or intake surveys
-- **Brand awareness lift in sponsored geography** — measure unaided brand awareness in the event's catchment area before and after the sponsorship
-- **Community sentiment score** — monitor social media mentions, review sentiment, and direct feedback related to your sponsorship involvement
+- **New customers per sponsorship**: customers who used the sponsorship code, URL, or named it in an intake survey.
+- **Local awareness lift**: unaided brand awareness in the event's area, surveyed before and after.
+- **Community sentiment**: tone of social mentions, reviews, and direct feedback about your involvement.
 
-## Best Practices
+## Best practices
 
-- Choose fewer, deeper sponsorships over many shallow ones — being the title sponsor of one event creates more impact than being one of 20 logo-on-a-banner sponsors at five events
-- Show up in person with your team — sponsorships where the business is physically present and engaging generate 3-5x more goodwill than check-writing-only arrangements
-- Build multi-year sponsorship relationships that compound: the team you sponsor for three consecutive years becomes far more associated with your brand than a one-time engagement
+- Choose a few deep sponsorships over many small ones. Title sponsor of one event beats one logo among twenty.
+- Attend in person. Presence builds more goodwill than a check alone.
+- Sponsor the same groups year after year so the association builds.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Sponsoring events that do not match your customer demographics — a luxury home renovation company sponsoring a college pub crawl creates exposure but not to the right audience
-- Treating sponsorships as passive billboard placements without activating them through presence, content, and lead capture, which wastes the opportunity
-- Failing to measure ROI and continuing to fund sponsorships out of habit or guilt rather than evidence of business impact
+- Sponsoring events whose audience does not match your customers.
+- Treating the sponsorship as a passive logo with no presence, content, or lead capture.
+- Renewing out of habit without checking results.

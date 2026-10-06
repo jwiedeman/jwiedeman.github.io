@@ -1,38 +1,46 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Content Repurposing Flywheel"
-description: "A systematic process for turning one piece of content into 10+ assets across platforms to maximize reach without maximizing effort."
+description: "A repeatable process for turning one core piece of content into many platform-specific posts."
 ---
 # Content Repurposing Flywheel
 
-The repurposing flywheel is a systematic workflow for taking one core piece of content — a podcast episode, webinar, blog post, or video — and transforming it into 10-20+ derivative assets optimized for different platforms and formats. Instead of creating original content for every channel (which is unsustainable), you create one "anchor" asset and systematically extract smaller pieces tailored to each platform's native format. This multiplies your content output by 5-10x without proportionally increasing your production effort.
+The repurposing flywheel is a repeatable workflow for turning one core piece of content (a podcast episode, webinar, blog post, or video) into many smaller assets for different platforms. Instead of making original content for every channel, you make one anchor asset and cut it into pieces that fit each platform. Output goes up without a matching increase in production work.
 
-## Core Concept
+## How it works
 
-Most content teams operate on a "create and publish" linear model: write a blog post, publish it, move to the next one. The flywheel model treats every content asset as raw material for an entire distribution system. A single 45-minute podcast episode contains enough material for 5-8 short video clips, 3-4 LinkedIn text posts, 10+ tweets, 1-2 blog articles, an email newsletter, multiple quote graphics, and a carousel post. The key insight is that each platform has different audience behavior and consumption patterns, so the same ideas need different packaging — not new ideas for every platform.
+Many teams work in a straight line: write a post, publish it, move on. The flywheel treats each asset as raw material. A 45-minute podcast episode can yield several short clips, a few LinkedIn posts, a thread, a blog article, a newsletter section, quote graphics, and a carousel. Each platform's audience behaves differently, so the same ideas need different packaging, not new ideas.
 
-## Implementation
+## How to do it
 
-1. **Choose your anchor format** — Select the content format that captures the most raw material in one session. Long-form video (webinars, podcast recordings, live sessions) is usually the best anchor because it can be broken down into every other format. If video isn't viable, long-form blog posts or newsletter essays work. The anchor should be 15-60 minutes of video or 2,000+ words of written content to provide enough material for derivatives.
-2. **Build your repurposing map** — Document exactly which derivative formats you'll create from each anchor and assign them to platforms. Example map from a podcast episode: 3 short video clips (TikTok, Reels, Shorts), 1 audiogram (Twitter/X), 2 LinkedIn text posts (key insights), 1 Twitter/X thread, 1 blog post (edited transcript), 5 quote graphics (Instagram, LinkedIn), 1 carousel (Instagram, LinkedIn), 1 email newsletter excerpt. This map becomes your standard operating procedure.
-3. **Extract and batch-produce derivatives** — After publishing the anchor content, work through the repurposing map in batches. Cut video clips from the most engaging 60-90 second segments. Pull the strongest quotes for graphics. Summarize key points into platform-native text posts. Use tools like Descript for video editing, Canva for graphics, and Opus Clip or Vizard for automated clip extraction. Batch production is 3-5x faster than creating each piece individually.
-4. **Schedule derivatives across a 2-week distribution window** — Don't dump all derivatives on the same day. Space them across 1-2 weeks with platform-specific timing. Post video clips Tuesday-Thursday when short-form video performs best. Schedule LinkedIn posts during business hours. Send the email newsletter on its regular cadence. This distribution cadence ensures your one anchor piece generates consistent content presence for weeks.
-5. **Track performance and optimize the map** — After running the flywheel for 4-6 weeks, analyze which derivative formats drive the most engagement, traffic, and conversions per platform. Double down on high-performers and cut formats that consistently underperform. The repurposing map should evolve based on data, not stay static.
+1. Pick an anchor format that captures the most material in one session. Long-form video (webinars, podcast recordings, live sessions) works best. Long written pieces work if video isn't practical.
+2. Write a repurposing map listing each derivative and its platform. Example from one podcast episode:
+   - 3 short clips for TikTok, Reels, and Shorts
+   - 2 LinkedIn text posts
+   - 1 thread for X
+   - 1 blog post from the edited transcript
+   - 5 quote graphics
+   - 1 carousel
+   - 1 newsletter excerpt
+3. After the anchor goes live, produce derivatives in one batch. Cut clips from the strongest 60 to 90 second segments. Pull quotes for graphics. Rewrite key points as native text posts.
+4. Use tools to speed this up, such as Descript for editing, Canva for graphics, and an AI clipping tool for first-pass clip selection.
+5. Schedule the derivatives over one to two weeks instead of posting them all at once.
+6. After 4 to 6 weeks, review which formats drove engagement, traffic, and conversions on each platform. Keep the winners and cut the rest.
 
-## Key Metrics
+## What to measure
 
-- **Content Multiplier Ratio** — The number of derivative assets produced per anchor content piece; aim for 10-15x, meaning one podcast episode becomes 10-15 platform-specific posts
-- **Per-Platform Engagement from Derivatives** — Track engagement (likes, comments, shares, clicks) on derivative content versus original content created natively for that platform; well-repurposed content should perform within 80% of native content
-- **Production Time per Derivative** — How long it takes to produce each derivative format; batch repurposing should take 15-30 minutes per derivative compared to 2-4 hours for original platform-native content
+- **Multiplier ratio**: divide derivative assets published by anchor pieces produced.
+- **Derivative performance**: compare engagement and clicks on derivatives with posts made natively for the same platform.
+- **Production time per derivative**: log the minutes spent on each derivative format.
 
-## Best Practices
+## Best practices
 
-- Always adapt, never just repost — a LinkedIn post should not be a tweet copy-pasted into LinkedIn; each derivative should feel native to its platform in format, length, and tone
-- Lead with the most compelling insight, not the chronological beginning — the best clip from a podcast is rarely the first thing said; extract the most engaging 60 seconds regardless of where it falls in the original
-- Create a reusable template library for each derivative format (quote card templates, carousel templates, video clip intros) so production is assembly, not design, each time
+- Adapt every piece. A tweet pasted into LinkedIn is not a LinkedIn post. Match each platform's format, length, and tone.
+- Lead with the strongest moment, not the chronological start.
+- Keep reusable templates for quote cards, carousels, and clip intros so production is assembly, not design.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Repurposing everything from every anchor — Not all anchor content produces good derivatives for every platform; some podcast episodes yield great video clips but poor blog posts, and forcing it produces weak content
-- Ignoring platform context — A 3-minute video works on YouTube but bombs on TikTok where attention spans are 15-30 seconds; each derivative must respect the platform's consumption norms
-- Treating repurposing as an afterthought — If repurposing is an ad hoc task someone does "when they have time," it never happens consistently; build it into the standard content production workflow with dedicated time blocks
+- Forcing every derivative from every anchor. Some episodes make good clips but weak blog posts. Skip what doesn't fit.
+- Ignoring platform norms. A three-minute cut that works on YouTube may need to be much shorter for TikTok or Reels.
+- Treating repurposing as an afterthought. If it happens "when there's time," it won't happen. Schedule it into the production workflow.

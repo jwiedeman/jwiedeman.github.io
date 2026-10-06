@@ -1,39 +1,41 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Build-Your-Own Bundles"
-description: "Letting customers create custom product bundles to increase average order value and perceived value."
+description: "Let customers pick their own set of products for a bundle discount."
 ---
 # Build-Your-Own Bundles
 
-Build-your-own bundles allow customers to select a set number of products from a curated group and receive a discount for purchasing them together. Unlike pre-set bundles that limit choice, customizable bundles give customers control over the combination while the brand controls the economics (minimum quantity, eligible products, discount structure). Build-your-own bundles increase average order value by 25-45% and convert at higher rates than individual product pages because they reframe the purchase decision from "should I buy?" to "which ones should I pick?"
+A build-your-own bundle lets customers pick a set number of products from a curated group and get a discount for buying them together. The customer controls the mix. The brand controls the rules: how many items, which products qualify, and how big the discount is. The question shifts from "should I buy?" to "which ones should I pick?"
 
-## Core Concept
+## How it works
 
-Custom bundles work by combining three psychological drivers: the autonomy of choice (customers value the freedom to personalize), the perceived deal (a discount for buying more feels like a reward for smart shopping), and the completion impulse (once a customer starts building a bundle, the partially filled bundle motivates them to finish). The "pick 3, save 20%" framework is more engaging than a flat product listing because it turns shopping into a game-like experience with a clear goal and a tangible reward.
+Custom bundles combine three motivations. Customers like choosing for themselves. A discount for buying more feels like a reward. And once a bundle is partly filled, people want to finish it. A "pick 3, save 20%" offer gives shopping a clear goal and a visible payoff.
 
-## Implementation
+## How to do it
 
-1. **Define the bundle structure:** Set the rules — number of items per bundle (3, 5, or a range), eligible product categories, and discount mechanism. Common structures: "Pick any 3, get 20% off," "Build a set of 5, pay $99" (flat price), or tiered discounts (10% for 2, 15% for 3, 20% for 4+). The discount should be meaningful enough to motivate the bundle but not deep enough to erode margin below individual unit economics.
-2. **Build the bundle interface:** Create a visual, interactive bundle builder on a dedicated page. Show all eligible products with images, names, and individual prices. Include a running total that updates as products are added, showing the discount growing in real-time. Add a progress indicator ("2 of 3 selected — add one more to save $15"). On mobile, use a sticky bottom bar showing selections and the savings counter.
-3. **Curate the eligible products:** Do not offer every SKU in the bundle. Curate 15-30 products that have similar price points, complementary use cases, and healthy margins. Include 2-3 "hero" products that draw customers to the bundle page and several lesser-known products that benefit from the bundle's traffic.
-4. **Merchandise the bundle across the site:** Feature the bundle builder on the homepage, in the navigation, on product pages ("Add this to a bundle and save"), and in email campaigns. Run a dedicated launch campaign for new bundle options. The bundle page should be a destination, not an afterthought buried in a submenu.
-5. **Analyze bundle composition data:** Track which products are most frequently selected together, which products are never chosen, and where customers abandon the bundle builder. Use this data to refine the eligible product set, adjust pricing tiers, and identify cross-sell opportunities.
+1. Set the bundle rules: items per bundle, eligible products, and the discount type. Examples: "Pick any 3, get 20% off," "Build a set of 5 for $99," or tiers (10% for 2, 15% for 3, 20% for 4+).
+2. Check that the discount still leaves margin above your single-unit economics.
+3. Pick 15 to 30 eligible products with similar prices, related uses, and healthy margins. Include a few best sellers to draw traffic and some lesser-known products that benefit from it.
+4. Build a bundle page that shows each product with image, name, and price, plus a running total and savings that update as items are added.
+5. Add a progress line, for example "2 of 3 selected. Add one more to save $15." On mobile, keep selections and savings in a sticky bottom bar.
+6. Link to the bundle from the homepage, navigation, product pages, and email.
+7. Track which products are picked together, which are never picked, and where people leave the builder. Adjust the product set and pricing from that data.
 
-## Key Metrics
+## What to measure
 
-- **Bundle Conversion Rate** — percentage of bundle page visitors who complete a bundle purchase; target 8-15%, higher than standard product page conversion
-- **Average Order Value Lift** — AOV of bundle orders vs. non-bundle orders; expect a 25-45% increase
-- **Bundle Completion Rate** — percentage of customers who start building a bundle and finish it; below 40% indicates friction in the builder interface or uninspiring product selection
+- **Bundle conversion rate**: bundle purchases divided by bundle page visitors.
+- **AOV lift**: average order value of bundle orders compared with non-bundle orders.
+- **Bundle completion rate**: completed bundles divided by bundles started.
 
-## Best Practices
+## Best practices
 
-- Show the savings prominently and in real-time — "You are saving $27 on this bundle" displayed dynamically as products are added is more motivating than a static "up to 20% off" message
-- Pre-populate bundles with best-selling combinations that the customer can modify — this reduces decision fatigue for new visitors while still allowing customization
-- Include a "staff picks" or "most popular" badge on frequently selected items — social proof within the bundle builder guides customers who are unsure what to choose
-- Offer the bundle as a gift option — "Build a gift set" with gift packaging is a natural extension that drives seasonal revenue spikes
+- Show the savings as it grows ("You are saving $27") rather than a static "up to 20% off."
+- Offer prefilled best-selling combinations that customers can edit. This helps people who do not want to choose from scratch.
+- Mark popular items with a "most popular" badge to guide unsure shoppers.
+- Offer a "build a gift set" version with gift packaging.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Making the bundle interface too complex — a builder that requires more than three clicks to complete one bundle selection will lose customers. Simplicity is non-negotiable.
-- Setting the discount too low to feel worthwhile — "Save 5% when you buy 3" does not motivate bundle behavior. The savings need to feel meaningful — at least 15-20% off the individual prices.
-- Including products with vastly different price points — if the bundle mixes $10 items with $80 items, the perceived value of the discount becomes confusing. Keep eligible products within a 2-3x price range of each other.
+- A builder that takes too many clicks. Keep each selection to one tap.
+- A discount too small to matter. "Save 5% on 3" rarely changes behavior.
+- Mixing very different price points. If $10 and $80 items sit in the same bundle, the deal is hard to judge. Keep eligible products in a narrow price range.

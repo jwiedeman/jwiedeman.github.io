@@ -1,38 +1,42 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Employee Advocacy"
-description: "Empowering and incentivizing employees to share brand content and thought leadership from their personal social accounts."
+description: "Helping employees share company content and their own expertise from their personal accounts."
 ---
 # Employee Advocacy
 
-Employee advocacy programs enable and encourage employees to share company content, industry insights, and personal professional experiences from their own social media accounts. Employee posts consistently earn 8x more engagement than brand account posts because people trust people more than they trust logos. A company with 50 active employee advocates effectively has 50 micro-influencers with combined networks that often exceed the brand's own following by 10x.
+An employee advocacy program helps employees share company content, industry insights, and their own work experience from their personal social accounts. People tend to trust people more than logos. Together, employees' networks are often much larger than the brand's own following.
 
-## Core Concept
+## How it works
 
-Social platform algorithms deprioritize corporate page content and prioritize personal account content. A brand page post on LinkedIn reaches 2-5% of followers. An employee's personal post about the same topic reaches 15-25% of their connections. When employees share content that aligns with the company's message but in their own voice, the combined organic reach dwarfs what the brand page can achieve alone. The key insight is that employee advocacy is not about employees becoming corporate mouthpieces — it's about enabling employees to build their personal brands in a way that naturally intersects with the company's expertise and mission.
+On most platforms, especially LinkedIn, posts from personal accounts usually reach more people than posts from company pages. When employees share ideas that match the company's message in their own words, the combined reach can exceed what the brand page achieves alone. The program is not about turning employees into mouthpieces. It helps them build their own professional reputation in a way that overlaps with the company's expertise.
 
-## Implementation
+## How to do it
 
-1. **Build the business case and get leadership buy-in** — Quantify the potential: take the combined LinkedIn connections of your 20 most active employees, multiply by average organic reach (15%), and compare to your brand page reach. For most B2B companies, employee networks represent 5-10x more reachable professionals than the brand page. Get the CEO and leadership team to commit to posting first — executive participation legitimizes the program.
-2. **Create a content library employees can easily share** — Build a shared repository (Google Drive, Slack channel, or a tool like GaggleAMP, Sprout Social, or PostBeyond) with pre-written posts, suggested captions, images, and links. Provide 3-5 options per week covering: company news, industry insights, thought leadership pieces, and team culture content. Make sharing effortless — the fewer clicks between seeing the content and posting it, the higher the participation rate.
-3. **Train employees on personal branding and social media** — Run a 60-90 minute workshop covering: how to optimize their LinkedIn profile, what content performs well on social, how to add their own perspective to shared content, and basic social media do's and don'ts. The goal is to make employees feel confident and competent, not to turn them into marketing robots. Emphasize that their personal voice is the asset — the company is just providing fuel.
-4. **Launch with a cohort of enthusiastic early adopters** — Don't try to enroll every employee at once. Start with 10-20 people who already post on social media and are excited about the program. These early advocates become proof of concept — when other employees see their colleagues getting engagement, building connections, and receiving recognition, they'll want to participate.
-5. **Recognize, reward, and measure** — Track participation (who's sharing, how often), reach (total impressions from employee posts), and engagement (likes, comments, shares). Publicly recognize top advocates in team meetings, Slack channels, or company newsletters. Consider incentives: gift cards, extra PTO, professional development budgets, or leaderboard-based gamification. Report monthly results to leadership to maintain program support.
+1. Build the business case. Add up the LinkedIn connections of your 20 most active employees and compare that to your company page followers.
+2. Ask the CEO and leadership team to post first. Executive participation makes the program credible.
+3. Set up a shared content library in a Slack channel, a shared drive, or an advocacy tool. Each week, add 3 to 5 items: company news, industry insights, thought leadership, and team culture.
+4. Supply talking points and suggested angles, not finished copy. Keep sharing to as few clicks as possible.
+5. Run a 60 to 90 minute workshop on profile basics, what performs well, how to add a personal take, and what not to share.
+6. Publish short, clear social media guidelines.
+7. Launch with 10 to 20 volunteers who already post. Their results will draw others in.
+8. Add UTM tags to shared links so you can track traffic and leads.
+9. Recognize top advocates publicly and report results to leadership monthly.
 
-## Key Metrics
+## What to measure
 
-- **Participation Rate** — The percentage of enrolled employees who share at least one piece of content per month; aim for 30-50%, as even moderate participation generates significant incremental reach
-- **Employee-Generated Reach vs. Brand Page Reach** — The total impressions generated by employee posts compared to brand page posts; this ratio demonstrates the program's value and justifies continued investment
-- **Referral Traffic and Leads from Employee Posts** — Use UTM-tagged links in shared content to track how much website traffic and how many leads originate from employee advocacy versus other channels
+- **Participation rate**: divide employees who shared at least once this month by employees enrolled.
+- **Employee vs. brand reach**: compare total impressions on employee posts with impressions on brand page posts.
+- **Traffic and leads**: count sessions and leads from UTM-tagged links in employee posts.
 
-## Best Practices
+## Best practices
 
-- Encourage employees to add their own commentary to shared content rather than posting the company's exact copy — personal perspectives outperform corporate messaging every time
-- Include a mix of content types: 50% industry insights and professional development (value for the employee's network), 30% company thought leadership and product content, 20% culture and team content
-- Make it voluntary and never mandate participation — forced advocacy is transparent and damaging; the best programs are ones employees genuinely want to participate in because it helps their own career
+- Ask employees to add their own commentary instead of posting company copy word for word.
+- Mix content: mostly industry insight useful to the employee's network, some company and product content, and some team culture.
+- Keep it voluntary. Forced advocacy is obvious to readers and resented by staff.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Treating employees as broadcast channels — If the program feels like "post this corporate message for us," employees will disengage quickly; the program must provide value to the employee (personal brand building, networking, industry knowledge) not just the company
-- Providing generic, corporate-sounding content — Pre-written posts that read like press releases get zero engagement when posted from personal accounts; provide talking points and suggested angles, not finalized copy
-- Launching without guidelines — Employees need to know what's appropriate to share and what isn't; provide clear, simple social media guidelines that protect both the employee and the company without being so restrictive that nobody wants to participate
+- Treating employees as broadcast channels. If the program only serves the company, people drop out.
+- Supplying press-release copy. Corporate wording posted from a personal account gets little response.
+- Launching without guidelines. People need to know what is appropriate. Keep the rules simple enough that they don't scare anyone off.

@@ -1,39 +1,40 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Cart & Browse Abandonment"
-description: "Automated recovery flows that recapture revenue from abandoned carts and browse sessions."
+description: "Automated emails and texts that bring back shoppers who left items in a cart or viewed products without buying."
 ---
 # Cart & Browse Abandonment
 
-Cart and browse abandonment flows are triggered automations that re-engage shoppers who added items to their cart or viewed products without completing a purchase. Cart abandonment emails recover 5-15% of abandoned carts on average, making them one of the highest-ROI automations in any ecommerce stack. Browse abandonment targets an earlier stage — visitors who showed interest but never added to cart.
+Cart and browse abandonment flows are automated messages sent to shoppers who left without buying. Cart flows target people who added items to a cart. Browse flows target people who viewed products but never added anything.
 
-## Core Concept
+## How it works
 
-Roughly 70% of online shopping carts are abandoned, and the majority of product page visitors leave without adding anything. These are not lost causes — they are warm prospects who demonstrated purchase intent. Recovery flows work by re-presenting the exact products the shopper engaged with, removing friction, and adding urgency or incentive at the right moment. The key is timing: too early feels pushy, too late and they have moved on.
+Most carts are abandoned, and most product page visitors leave without adding to cart. These shoppers have already shown intent. A recovery flow shows them the exact products they looked at, answers common objections, and adds urgency or an incentive at the right time. Timing matters: too early feels pushy, too late and they have moved on.
 
-## Implementation
+## How to do it
 
-1. **Cart Abandonment Email 1 (1 hour post-abandon):** Send a clean reminder with product image, name, price, and a direct link back to the cart. No discount yet. Subject line: reference the specific product. This email alone recovers 40-50% of all abandonment revenue.
-2. **Cart Abandonment Email 2 (24 hours):** Add social proof — reviews, star ratings, or "X people bought this today." Address common objections like shipping cost and return policy. Still no discount for most brands.
-3. **Cart Abandonment Email 3 (48-72 hours):** Introduce an incentive if margin allows — free shipping, 10% off, or a gift with purchase. Include a deadline. This is the last email in the sequence.
-4. **Browse Abandonment Email 1 (2-4 hours):** Show the viewed products alongside bestsellers in the same category. Keep messaging softer — "Still looking?" rather than "You forgot something." No discount.
-5. **Browse Abandonment Email 2 (24 hours):** Highlight differentiators, comparison content, or buying guides related to the browsed category. Include a CTA to the category page rather than a single product.
+1. Send cart email 1 about one hour after abandonment. Show the product image, name, price, and a direct link back to the cart. Name the product in the subject line. Do not offer a discount.
+2. Send cart email 2 at 24 hours. Add reviews or ratings. Answer common objections such as shipping cost and returns.
+3. Send cart email 3 at 48 to 72 hours. If margin allows, offer an incentive such as free shipping, with a clear deadline. End the sequence here.
+4. Send browse email 1 two to four hours after the visit. Show the viewed products next to bestsellers in the same category. Use a soft tone ("Still looking?"). Do not offer a discount.
+5. Send browse email 2 at 24 hours. Link to a buying guide or comparison for the category, and point the CTA at the category page.
+6. Stop the flow as soon as the shopper buys through any channel.
 
-## Key Metrics
+## What to measure
 
-- **Cart Recovery Rate** — percentage of abandoned carts that convert to orders via the flow; 5-15% is standard, 15%+ is excellent
-- **Revenue Per Recipient** — total flow revenue divided by recipients; cart flows should generate $3-$8 per recipient for ecommerce
-- **Discount Dependency Rate** — percentage of recoveries that required an incentive; if over 60%, you are training customers to abandon for discounts
+- **Cart recovery rate**: abandoned carts that become orders through the flow, divided by carts that entered the flow.
+- **Revenue per recipient**: total flow revenue divided by the number of people who received it.
+- **Discount dependency rate**: share of recovered orders that used the flow's incentive.
 
-## Best Practices
+## Best practices
 
-- Dynamically pull the exact cart contents into the email using your ESP's product feed — generic "you left something behind" emails convert 50% less than personalized ones
-- Add an SMS touchpoint 30 minutes after abandonment for high-AOV carts (over $100) — SMS has a 90%+ open rate and creates immediacy
-- Exclude customers who abandon and then purchase through another channel within your flow window to avoid irrelevant follow-ups
-- Test removing the discount entirely from Email 3 — many brands find that urgency messaging alone recovers nearly as much without margin erosion
+- Pull the exact cart contents into the email from your product feed. Generic "you left something behind" emails perform worse.
+- Add an SMS reminder for high-value carts, but only to subscribers who gave SMS consent.
+- Treat first-time visitors and returning customers differently. New visitors need trust signals. Returning customers need a simple reminder.
+- Test a version of email 3 with urgency and no discount. You may recover nearly as much without giving up margin.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Offering a discount in the first abandonment email — this trains repeat visitors to abandon deliberately and wait for the coupon
-- Running the same flow for first-time visitors and returning customers — returning customers need less convincing and more urgency while new visitors need more trust-building
-- Not suppressing customers who completed purchase between emails — nothing damages trust faster than "come back to your cart" after someone already bought
+- Offering a discount in the first email. Repeat shoppers learn to abandon on purpose and wait for the code.
+- Failing to suppress people who already bought. "Come back to your cart" after a purchase damages trust.
+- Running one flow for every audience instead of separating new and returning shoppers.

@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Feature Flag Experiments"
-description: "Using feature flags for controlled rollouts, A/B testing, and rapid experimentation without app store resubmission."
+description: "Use feature flags to roll out, test, and switch off features without a new app store release."
 ---
 # Feature Flag Experiments
 
-Feature flags (also called feature toggles or remote configuration) let you enable or disable features for specific user segments in real time without deploying new code or submitting an app store update. This transforms your app from a static binary release into a dynamic platform where you can run A/B tests on features, gradually roll out changes to increasing percentages of users, instantly kill features that cause problems, and personalize the experience per segment — all controlled from a dashboard.
+Feature flags (also called toggles or remote config) turn features on or off for chosen users without shipping new code or a new app build. You can A/B test features, roll them out gradually, turn off a broken feature at once, and tailor the experience by segment from a dashboard.
 
-## Core Concept
+## How it works
 
-Without feature flags, shipping a new feature means deploying it to 100% of users simultaneously and hoping it works. If it breaks, you submit an emergency update and wait 24-48 hours for app store review. With feature flags, you wrap every new feature in a conditional check that queries a remote configuration service. This lets you control the feature's visibility independently of the code deployment, turning launches from binary (all or nothing) into gradual (1% of users, then 10%, then 50%, then 100%) with real-time kill switches and per-segment targeting.
+Without flags, a new feature reaches every user at once. If it breaks, you need a new release and another app review. With flags, the feature's code checks a remote setting before it runs. Release and visibility become separate. You can go from 1% of users to 10%, 50%, and 100%, with a kill switch at every step.
 
-## Implementation
+## How to do it
 
-1. Choose a feature flag platform (LaunchDarkly, Split.io, Firebase Remote Config, Statsig, or Unleash for self-hosted) and integrate their SDK into your app — the SDK typically requires a single initialization call at app launch and then simple boolean checks wherever you want to conditionally show features.
-2. Establish a feature flag naming convention and lifecycle policy — name flags descriptively (e.g., `new_checkout_flow_v2`, `holiday_promo_banner`), categorize them by type (release flag, experiment flag, ops flag, permission flag), and define a retirement process for removing flags after features are fully launched (stale flags create technical debt).
-3. For controlled rollouts, create a percentage-based rollout rule that starts at 1-5% of users, monitors key metrics (crash rate, error rates, engagement) for 24-48 hours, then incrementally increases to 10%, 25%, 50%, and 100% with monitoring gates at each stage — if any metric degrades, roll back instantly.
-4. For A/B testing, configure the flag to randomly assign users to control (existing behavior) and treatment (new feature) groups, ensure assignment is sticky (same user always sees the same variant), and connect the experiment to your analytics platform to measure the impact on predefined success metrics over a statistically significant sample period.
-5. Build an experimentation review process where the team defines a hypothesis, success metric, sample size, and test duration before launching each experiment — without this discipline, feature flag experiments devolve into random changes with no learnings captured.
+1. Pick a flag platform such as LaunchDarkly, Statsig, Firebase Remote Config, or Unleash (self-hostable). Add its SDK, initialize it at launch, and wrap new features in flag checks.
+2. Set naming and lifecycle rules. Use descriptive names like `new_checkout_flow_v2`. Tag each flag by type: release, experiment, ops, or permission. Define when and how flags get removed.
+3. For a rollout, start at a small percentage. Watch crash rate, error rate, and engagement for a day or two. Step up to 10%, 25%, 50%, and 100%, checking metrics at each step. Roll back if anything gets worse.
+4. For an A/B test, split users randomly into control and treatment. Make assignment sticky so each user always sees the same variant. Send exposure events to your analytics tool.
+5. Before each experiment, write down the hypothesis, the primary metric, the sample size, and the duration.
 
-## Key Metrics
+## What to measure
 
-- **Rollout Incident Rate** — the percentage of feature rollouts that require a rollback due to bugs, performance issues, or metric degradation, which should decrease as you mature your gradual rollout process (target: under 5% of rollouts)
-- **Experiment Velocity** — the number of feature experiments completed per month across the team, which measures how effectively you are using flags to learn and iterate (mature teams run 5-20 experiments per month)
-- **Experiment Win Rate** — the percentage of A/B tests where the treatment outperforms the control on the primary metric, which indicates hypothesis quality (benchmark: 15-30% win rate is healthy; higher usually means you are not taking enough bold bets)
+- **Rollback rate**: share of rollouts that had to be reversed.
+- **Experiment velocity**: experiments completed per month.
+- **Experiment win rate**: share of tests where treatment beats control on the primary metric.
 
-## Best Practices
+## Best practices
 
-- Make feature flags the default for all new features, not just risky ones — the habit of wrapping features in flags creates organizational discipline around gradual rollouts and makes A/B testing a natural part of the development process
-- Set up automated metric monitoring for every flag rollout that alerts on crash rate increases, error log spikes, or engagement drops within the flagged user segment — manual monitoring is too slow and error-prone for production rollouts
-- Clean up resolved feature flags aggressively — once a feature is at 100% rollout and confirmed stable, remove the flag from the codebase within 2 weeks; orphaned flags create technical debt, confuse new team members, and slow down the codebase
+- Put every new feature behind a flag, not just risky ones.
+- Alert automatically on crash, error, or engagement changes within the flagged group.
+- Remove flags soon after a feature is fully rolled out and stable.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Accumulating hundreds of stale feature flags that nobody owns or understands, which creates a fragile, hard-to-reason-about codebase — implement a "flag retirement" process that requires flag removal within 30 days of full rollout
-- Running A/B tests without sufficient sample size or duration, leading to false-positive results that cause you to ship features that do not actually help — use a sample size calculator and commit to statistical significance before calling results
-- Using feature flags for long-term feature gating or permission management instead of purpose-built authorization systems — flags are for temporary experiments and rollouts, not permanent access control; using them as permissions creates unmaintainable complexity
+- Letting stale flags pile up. Nobody knows what they do, and the code gets fragile. Set a removal deadline.
+- Calling tests early or with too few users. Use a sample size calculator and wait for significance.
+- Using flags as permanent access control. Use a proper authorization system for that.

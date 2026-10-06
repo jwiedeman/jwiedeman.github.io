@@ -1,39 +1,42 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Gift-with-Purchase Tiers"
-description: "Tiered gift-with-purchase promotions that incentivize higher cart values through escalating free gifts."
+description: "Offer free gifts that grow with order value to encourage larger carts."
 ---
 # Gift-with-Purchase Tiers
 
-Gift-with-purchase tiers offer free gifts that escalate in value based on the customer's order total — spend $50 and get a sample, spend $100 and get a full-size product, spend $150 and get a premium gift set. This structure consistently increases average order value by 15-30% because customers will add items to their cart specifically to unlock the next gift tier. Unlike flat discounts that erode margin, gifts with purchase move inventory, introduce new products, and create a sense of getting more value without reducing prices.
+Gift-with-purchase (GWP) tiers give a free gift that gets better as the order total rises. For example: spend $50 for a sample, $100 for a full-size product, $150 for a gift set. Customers add items to reach the next tier. Unlike a percentage discount, a gift does not lower your prices, and it can move inventory or introduce new products.
 
-## Core Concept
+## How it works
 
-Tiered gifts work because of the goal gradient effect — the closer a customer gets to a threshold, the more motivated they are to reach it. A customer with $85 in their cart who sees "Spend $100, get a free [desirable product]" is far more likely to add a $20 item than they would be without the incentive. The gift itself costs the brand wholesale, but the incremental revenue from the additional items is at retail margin. This makes GWP promotions more margin-friendly than percentage-off discounts, while feeling equally or more rewarding to the customer.
+People try harder as they get close to a goal. A customer with $85 in the cart who sees "Spend $100, get a free [product]" is more likely to add a $20 item. The gift costs you its wholesale price, while the extra items sell at full retail. That usually makes GWP easier on margin than an across-the-board discount.
 
-## Implementation
+## How to do it
 
-1. **Set the tier thresholds:** Analyze your current AOV distribution. Set the first tier just above your median AOV (if your median is $55, set the first tier at $65). Set the second tier at 1.5-2x your median ($90-$110). Set the third tier at 2.5-3x ($135-$165). The tiers should feel reachable — too far above current spending and customers will not stretch.
-2. **Select compelling gifts:** Choose gifts that have high perceived value but moderate cost. Best options: full-size products customers have not tried (drives trial and future purchases), limited-edition items exclusive to the promotion, branded accessories, or curated sample sets. The top-tier gift should be genuinely desirable — something a customer would consider buying.
-3. **Build the on-site experience:** Display a progress bar in the cart that shows the customer's current total, the next threshold, and what they unlock. As items are added, the progress bar should update in real-time. Show the gift visually alongside the next threshold: "Add $18 more to get [Gift Image]." This progress indicator is the single most important conversion element.
-4. **Promote across channels:** Announce the GWP promotion through email, social media, paid ads, and on-site banners. Show the available gifts on category pages and product pages, not just in the cart. Use urgency: "While supplies last" or "This weekend only" drives faster conversion.
-5. **Manage inventory and duration:** Set aside dedicated gift inventory and track redemption rates by tier daily. If the top-tier gift runs out early, replace it with an equal-value alternative rather than removing the tier. Run GWP promotions for limited periods (1-2 weeks) to maintain urgency and prevent promotion fatigue.
+1. Look at your order value distribution and find the median.
+2. Set the first tier a little above the median, the second around 1.5 to 2 times the median, and the third around 2.5 to 3 times. Keep each tier within reach.
+3. Choose gifts that customers would actually want: full-size products they have not tried, limited-edition items, or branded accessories. Make the top gift something people would consider buying.
+4. Add a cart progress bar that shows the current total, the next threshold, and the gift: "Add $18 more to get [gift]."
+5. Show the available gifts on category and product pages too, not only in the cart.
+6. Announce the promotion by email, social, ads, and site banners, with a clear end date.
+7. Reserve gift inventory and check redemptions by tier daily. If a gift runs out, replace it with one of equal value.
+8. Run each promotion for one to two weeks.
 
-## Key Metrics
+## What to measure
 
-- **Average Order Value Lift** — AOV during the GWP promotion vs. the same period without it; expect a 15-30% increase, with the largest lifts from customers stretching to reach the next tier
-- **Tier Unlock Rate** — percentage of orders that qualify for each gift tier; if fewer than 20% of orders reach the first tier, the threshold is set too high
-- **Incremental Revenue per Gift Dollar** — additional revenue generated by the promotion divided by the wholesale cost of gifts distributed; target a 4-8x return
+- **AOV lift**: average order value during the promotion compared with a similar period without it.
+- **Tier unlock rate**: share of orders that reach each tier.
+- **Revenue per gift dollar**: incremental revenue divided by the wholesale cost of gifts given.
 
-## Best Practices
+## Best practices
 
-- Show the exact dollar amount needed to reach the next tier in the cart — "$18 more for your free gift" is more actionable than "Spend $100 to qualify." Specificity drives action.
-- Use the GWP gifts to introduce new products — gifting a sample or trial size of a recently launched product creates trial without discounting, and 20-30% of customers who try a gift product purchase it at full price later
-- Stack GWP with other promotions strategically — a GWP during a sitewide sale creates compounding perceived value. A GWP during a non-sale period can drive traffic without eroding price perception.
-- Track which gift products drive the most incremental spending — some gifts are more motivating than others. Let the data inform your gift selection for future promotions.
+- Show the exact amount needed: "$18 more for your free gift" beats "Spend $100 to qualify."
+- Use gifts to introduce new products, then track how many recipients later buy them at full price.
+- Decide deliberately whether to combine GWP with a sale. During a sale it adds value. Outside a sale it drives traffic without cutting prices.
+- Track which gifts drive the most extra spending and use that to pick future gifts.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Offering undesirable gifts — leftover inventory that did not sell is not a compelling gift. If customers do not want the gift, it will not motivate them to spend more. The gift must have genuine appeal.
-- Setting too many tiers — more than 3 tiers creates confusion and dilutes the motivation to reach any single one. Three tiers is the sweet spot: accessible, aspirational, and premium.
-- Running GWP promotions constantly — if customers always expect a gift with purchase, it becomes an entitlement rather than a promotion. Limit to 4-6 campaigns per year to maintain excitement and impact.
+- Using unsold leftovers as gifts. If customers do not want the gift, they will not spend more for it.
+- Too many tiers. Three is enough: easy, stretch, and premium.
+- Running GWP all the time. Customers start to expect it. Limit it to a few campaigns a year.

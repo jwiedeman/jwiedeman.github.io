@@ -1,38 +1,48 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Lookalike Audiences"
-description: "Building high-performing lookalike audiences from seed lists to find new customers who resemble your best existing ones."
+description: "Build lookalike audiences from your best customers to find new people who resemble them."
 ---
 # Lookalike Audiences
 
-Lookalike audiences let you take a list of your best customers and ask an ad platform to find millions of new people who share the same behavioral and demographic patterns. This is one of the most consistently effective prospecting tactics in paid media because it combines the targeting precision of first-party data with the reach of broad campaigns. The quality of your seed list is the single biggest factor in whether lookalikes work — garbage in, garbage out.
+A lookalike audience starts from a list of your best customers. The ad platform then finds new people who share their traits. The quality of that seed list matters more than any other setting.
 
-## Core Concept
+## How it works
 
-Ad platforms analyze your seed audience (a customer list, pixel audience, or engagement audience) and identify the common traits among those users — not just demographics, but behavioral patterns like purchase frequency, content engagement, app usage, and thousands of other signals. The platform then scores its entire user base by similarity to your seed and creates an audience of the top percentage of matches. A 1% lookalike on Meta represents roughly 2.4 million people in the US who most closely resemble your seed list. The tighter the percentage, the more similar the audience; the broader the percentage, the more reach but less precision.
+You give the platform a seed audience: a customer list, a pixel audience, or an engagement audience. The platform looks for patterns across that group, including demographics and behavior. It then ranks its users by how closely they match and builds an audience from the top matches.
 
-## Implementation
+A smaller percentage means a closer match and less reach. A larger percentage means more reach and a looser match.
 
-1. **Build high-quality seed audiences** — Your seed list determines everything. Best performers are typically: top 25% of customers by lifetime value, repeat purchasers (3+ orders), high-AOV buyers, or customers acquired in the last 90 days. Avoid using "all customers" as a seed — it dilutes the signal with one-time bargain hunters and refund-heavy buyers. Minimum seed size is 1,000 for Meta, but 5,000-10,000 produces noticeably better results.
-2. **Upload and match your seed** — Use customer lists (email + phone + name for best match rate), pixel-based audiences (purchase events from the last 180 days), or value-based seeds where you pass customer LTV so the algorithm weights high-value customers more heavily. Check your match rate — below 50% means your data quality needs work.
-3. **Create lookalikes at multiple percentage tiers** — Build 1%, 1-3%, 3-5%, and 5-10% lookalikes from the same seed. The 1% is your highest-quality prospecting audience. The 1-3% and 3-5% give you scale when the 1% saturates. Avoid going above 10% — at that point you're essentially running broad targeting.
-4. **Layer lookalikes into your campaign structure** — Run your top creative against the 1% lookalike first. Once performance stabilizes, expand to 1-3% with slightly lower CPA expectations. Use 3-5% as a volume play when you need to scale aggressively. Exclude existing customers and website visitors from all lookalike campaigns.
-5. **Refresh seeds quarterly** — Customer behavior changes over time. A seed list from 12 months ago reflects who your customers were, not who they are. Rebuild seeds every 60-90 days with fresh transaction data. Compare new lookalike performance against the previous version to confirm improvement.
+On Meta, lookalikes still exist, but with Advantage+ audience they often act as a suggestion. The system can deliver beyond them when it predicts better results. Google retired Similar Audiences in 2023. On Google, you upload customer lists as audience signals and let optimized targeting expand from there.
 
-## Key Metrics
+## How to do it
 
-- **Seed Match Rate** — The percentage of your uploaded customer list that the platform can match to user profiles; below 50% indicates data quality issues that will degrade lookalike quality
-- **CPA by Lookalike Percentage** — Track acquisition cost at each tier (1%, 1-3%, 3-5%) to understand your efficiency-to-scale tradeoff and identify the point of diminishing returns
-- **Lookalike vs. Interest-Based CPA** — Compare your lookalike campaigns against interest-targeted campaigns to quantify the value premium of first-party data modeling
+1. Build a seed from your best customers: top customers by lifetime value, repeat buyers, or high order value buyers.
+2. Avoid "all customers" as a seed. One-time discount buyers and frequent refunders weaken the signal.
+3. Upload customer lists with email, phone, and name to get the best match rate.
+4. Pass customer value with the list where the platform supports value-based seeds.
+5. Check the match rate. A low rate means your data needs cleaning before the lookalike is worth testing.
+6. Create lookalikes at a few size tiers from the same seed, for example 1%, 1-3%, and 3-5%.
+7. Launch your best creative against the smallest tier first. Expand to larger tiers when it stops scaling.
+8. Exclude current customers and recent site visitors from every lookalike campaign.
+9. Rebuild seeds every few months with fresh transaction data. Compare the new version against the old one.
 
-## Best Practices
+## What to measure
 
-- Use value-based lookalikes whenever possible — telling the platform which customers are worth the most produces dramatically better results than treating all customers equally
-- Build separate lookalikes from different seed types (purchasers, high-LTV, engaged email subscribers) and test them against each other; you'll often find that seed composition matters more than lookalike percentage
-- Exclude your seed audience and all lower-funnel remarketing audiences from lookalike campaigns to ensure you're only reaching true new prospects
+- **Seed match rate**: share of uploaded records the platform matched to user profiles.
+- **CPA by tier**: cost per acquisition for each lookalike size, compared side by side.
+- **Lookalike vs. broad CPA**: lookalike campaign CPA compared to a broad or Advantage+ audience campaign with the same creative.
 
-## Common Pitfalls
+## Best practices
 
-- Using too small a seed — Below 1,000 records, the algorithm doesn't have enough data points to identify meaningful patterns, producing lookalikes barely better than random
-- Never refreshing seeds — A 2-year-old customer list produces lookalikes based on outdated behavioral patterns; your best customers from 2022 may look nothing like your best customers today
-- Stacking lookalikes with interest targeting — Adding interest layers on top of a lookalike audience over-constrains the algorithm and shrinks your addressable pool; let the lookalike do the targeting work
+- Use value-based seeds when you can. They tell the platform which customers are worth the most.
+- Build lookalikes from different seed types (buyers, high-value customers, engaged subscribers) and test them against each other.
+- Seed composition often matters more than the percentage tier.
+- Test lookalikes against broad targeting. On many accounts, broad now performs as well or better.
+
+## Common pitfalls
+
+- Using a seed that is too small. The platform has too few examples to find a real pattern.
+- Never refreshing seeds. An old customer list describes who your customers were, not who they are.
+- Stacking interest targeting on top of a lookalike. It shrinks the pool and limits the algorithm.
+- Assuming a lookalike is a hard boundary on Meta. With Advantage+ audience, delivery can go beyond it.

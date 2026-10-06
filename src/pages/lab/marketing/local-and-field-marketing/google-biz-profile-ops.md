@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Google Business Profile Optimization"
-description: "Optimizing and managing Google Business Profile listings for local search visibility and conversion."
+description: "Set up and maintain your Google Business Profile so you show up and get chosen in local search."
 ---
 # Google Business Profile Optimization
 
-Google Business Profile (GBP) is the single most important asset in local marketing. It controls your appearance in Google Maps, the local pack (the map results that appear above organic listings), and the knowledge panel for branded searches. A fully optimized GBP with regular activity signals can generate more phone calls, direction requests, and website visits than the rest of your local marketing combined. It is free to use, but it requires ongoing operational attention to maintain peak performance.
+Google Business Profile (GBP) controls how your business appears in Google Maps, in the local map results above organic listings, and in the panel for searches of your name. It is free. It needs regular upkeep to stay accurate and competitive.
 
-## Core Concept
+## How it works
 
-Google's local ranking algorithm uses three primary factors: relevance (how well your profile matches the search query), distance (proximity to the searcher), and prominence (how well-known and trusted your business is online). You cannot control distance, but you can dramatically influence relevance and prominence through profile completeness, category selection, review volume and quality, regular posting, and accurate NAP (Name, Address, Phone) consistency. The businesses that treat GBP as a living marketing channel rather than a set-and-forget listing consistently dominate local pack results.
+Google says local ranking depends on three factors: relevance (how well the profile matches the search), distance (how close you are to the searcher), and prominence (how well known and trusted the business is). You cannot change distance. You can improve relevance and prominence with a complete profile, the right categories, steady reviews, regular updates, and consistent name, address, and phone (NAP) everywhere.
 
-## Implementation
+## How to do it
 
-1. Claim and verify your profile, then complete every available field: primary and secondary categories (choose the most specific category available), business description (750 characters using natural keywords), service areas, hours, attributes, and products/services
-2. Upload high-quality photos weekly — businesses with 100+ photos get 520% more calls than average; include exterior shots, interior shots, team photos, product images, and action shots of services being performed
-3. Publish Google Posts weekly — these appear directly in your profile and signal freshness to the algorithm; use posts for offers, events, updates, and product highlights with a clear CTA
-4. Build and manage reviews systematically: create a direct review link (search "Google review link generator"), embed it in post-service emails and SMS, and respond to every review (positive and negative) within 24 hours
-5. Monitor and correct GBP data monthly: check for unauthorized edits (competitors can suggest changes), ensure hours are updated for holidays, and verify that the map pin is in the correct location
+1. Claim and verify the profile. Fill in every field: the most specific primary category, secondary categories, description, service areas, hours, attributes, and products or services.
+2. Add photos regularly: exterior, interior, team, products, and work in progress.
+3. Publish updates (posts) on a regular schedule for offers, events, and news, each with a clear call to action.
+4. Ask for reviews with your direct review link in follow-up emails and texts. Reply to every review, positive or negative.
+5. Check the profile each month. Reject unwanted suggested edits, set holiday hours, and confirm the map pin is correct.
 
-## Key Metrics
+## What to measure
 
-- **Local pack ranking position** — track your position in the map results for your target keywords across multiple locations using a local rank tracker like BrightLocal or Whitespark
-- **GBP actions (calls, directions, website clicks)** — the direct engagement metrics available in GBP Insights that quantify how many customers your profile is driving
-- **Review count and average rating** — both the total number of reviews and the star rating influence ranking and click-through rate; track month-over-month growth
+- **Local map ranking**: your position in map results for target searches, measured across your area with a local rank tracker.
+- **Profile actions**: calls, direction requests, and website clicks from the GBP performance report.
+- **Reviews**: total count, monthly new reviews, and average rating.
 
-## Best Practices
+## Best practices
 
-- Choose your primary category with extreme precision — "Italian Restaurant" performs differently than "Restaurant," and the primary category has the strongest ranking weight
-- Use the Q&A section proactively by seeding it with common questions and your own answers before customers ask, which also provides keyword-rich content for the algorithm
-- Add UTM parameters to your GBP website link to track GBP traffic separately in Google Analytics
+- Choose the primary category carefully. "Italian restaurant" and "restaurant" rank for different searches.
+- Add UTM parameters to the profile's website link so GBP traffic shows separately in analytics.
+- Keep hours and services current. Wrong details cost visits and trust.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Neglecting review management — unanswered negative reviews signal disengagement to both the algorithm and potential customers
-- Stuffing keywords into the business name field (against Google's guidelines), which risks suspension of the entire profile
-- Treating GBP as a one-time setup rather than an ongoing channel — profiles without regular activity (posts, photos, review responses) lose ranking prominence over time
+- Leaving reviews unanswered, especially negative ones.
+- Adding keywords to the business name. This breaks Google's guidelines and can get the profile suspended.
+- Setting up the profile once and never updating it.

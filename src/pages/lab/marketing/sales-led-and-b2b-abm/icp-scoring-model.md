@@ -1,39 +1,39 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "ICP Scoring Model"
-description: "Building Ideal Customer Profile scoring models to prioritize accounts most likely to convert and retain."
+description: "A scoring model that ranks accounts by how closely they match your best customers."
 ---
 # ICP Scoring Model
 
-An ICP scoring model assigns a numerical score to every account in your pipeline and total addressable market based on how closely it matches your Ideal Customer Profile. Rather than treating all leads equally, an ICP score helps sales and marketing focus resources on accounts with the highest probability of closing, the shortest sales cycles, and the greatest long-term revenue potential. Companies with rigorous ICP scoring see 68% higher win rates on scored accounts compared to unscored pipeline.
+An ICP scoring model gives every account a number based on how closely it matches your Ideal Customer Profile. Instead of treating all leads equally, sales and marketing can focus on the accounts most likely to close, close quickly, and grow over time.
 
-## Core Concept
+## How it works
 
-Your ideal customer profile is built from the shared characteristics of your best existing customers — not who you hope to sell to, but who actually buys, stays, and expands. An ICP scoring model quantifies these characteristics into weighted attributes (industry, company size, technology stack, growth stage, funding status) and assigns each account a composite score. This score becomes the foundation for account prioritization, marketing spend allocation, and sales territory planning.
+Your ICP comes from your best existing customers: the ones who actually buy, stay, and expand, not the ones you wish you had. The model turns their shared traits (industry, company size, tech stack, growth stage, funding) into weighted attributes and adds them into one score. That score then drives account priority, spend, and territory planning.
 
-## Implementation
+## How to do it
 
-1. **Analyze your best customers:** Pull your top 20% of accounts by revenue, retention, and expansion rate. Identify the firmographic, technographic, and behavioral attributes they share. Look for patterns in industry, employee count, annual revenue, technology used, geographic location, and buying triggers.
-2. **Define scoring attributes and weights:** Select 8-12 attributes and assign weights based on their correlation with success. Example: Industry match (25 points), Company size 200-2000 employees (20 points), Uses complementary technology (15 points), Series B+ funded (10 points), Growth rate above 20% YoY (10 points), Title match on LinkedIn (10 points), Geographic fit (10 points).
-3. **Score your total addressable market:** Apply the model to your full account database and any third-party data sources (ZoomInfo, Clearbit, 6sense). Every account gets a score from 0-100. Sort into tiers: A (80-100), B (60-79), C (40-59), D (below 40).
-4. **Validate against historical data:** Back-test your model against closed-won and closed-lost deals from the past 12-24 months. If the model correctly ranks won deals higher than lost deals at least 70% of the time, it is directionally valid. If not, adjust attribute weights.
-5. **Operationalize and iterate quarterly:** Integrate the score into your CRM so sales sees it on every account record. Route marketing spend toward A and B accounts. Review model accuracy quarterly by comparing scores against actual pipeline conversion rates, and recalibrate weights as your customer base evolves.
+1. **Study your best customers.** Pull your top accounts by revenue, retention, and expansion. List the traits they share: industry, employee count, revenue, technology used, location, and buying triggers.
+2. **Pick attributes and weights.** Choose 8-12 attributes. Weight them by how strongly each one relates to won deals. Example: industry match 25 points, 200-2,000 employees 20, uses a complementary tool 15, Series B or later 10, strong growth 10, matching job titles 10, geographic fit 10.
+3. **Score your market.** Apply the model to your account database and any third-party data (for example ZoomInfo or 6sense). Score each account 0-100 and group into tiers: A (80-100), B (60-79), C (40-59), D (below 40).
+4. **Back-test it.** Score closed-won and closed-lost deals from the past 12-24 months. Check whether won deals consistently score higher than lost deals. If not, adjust the weights.
+5. **Put it in the CRM and review quarterly.** Show the score on every account record. Direct spend toward A and B accounts. Each quarter, compare scores with actual conversion and recalibrate.
 
-## Key Metrics
+## What to measure
 
-- **Score-to-Close Correlation** — the percentage of closed-won deals that came from A-tier accounts; target 60%+ of revenue from top-scored accounts
-- **Sales Cycle Length by Tier** — average days to close for each score tier; A-tier accounts should close 30-40% faster than C-tier
-- **Model Accuracy Rate** — percentage of back-tested deals where the model correctly predicted the outcome; 70%+ indicates a useful model
+- **Revenue share by tier**: closed-won revenue from A-tier accounts, divided by total closed-won revenue.
+- **Sales cycle by tier**: average days from opportunity to close, grouped by tier.
+- **Back-test accuracy**: share of historical deals where the score correctly ranked won above lost.
 
-## Best Practices
+## Best practices
 
-- Weight attributes by their actual predictive power, not gut feeling — run a correlation analysis between each attribute and closed-won outcomes before assigning points
-- Include negative scoring attributes — accounts in regulated industries with long procurement cycles, or companies currently in a known vendor contract, should receive point deductions
-- Combine firmographic scoring with behavioral intent signals (website visits, content downloads, G2 research) for a hybrid model that captures both fit and timing
-- Make the score visible to sales reps in their daily workflow — a score buried in a CRM field no one checks is worthless. Surface it on dashboards, in Slack notifications, and in lead assignment logic.
+- Weight attributes by data, not gut feel. Check how each attribute relates to closed-won outcomes before assigning points.
+- Add negative scores. Deduct points for traits that predict long or failed deals, such as a known multi-year competitor contract.
+- Combine fit with intent. Add behavioral signals (site visits, content downloads, review-site research) to capture timing as well as fit.
+- Put the score where reps work: dashboards, alerts, and lead routing. A hidden CRM field does nothing.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Building the model based on aspirational customers instead of actual customers — if you have never sold to enterprise companies, scoring enterprise accounts as "A-tier" sets sales up for failure
-- Using too many attributes — a model with 20+ factors is impossible to maintain and difficult to interpret. Stick to 8-12 high-signal attributes.
-- Scoring once and never updating — your ICP evolves as your product expands and your market shifts. A model built 18 months ago may be scoring the wrong profile today.
+- Scoring for aspirational customers. If you have never sold to enterprises, ranking enterprise accounts as A-tier sets sales up to fail.
+- Using too many attributes. A 20-factor model is hard to maintain and hard to explain. Stay with 8-12 strong signals.
+- Never updating the model. Your ICP shifts as the product and market change. An old model may be scoring the wrong profile.

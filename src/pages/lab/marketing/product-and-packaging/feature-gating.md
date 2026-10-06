@@ -1,38 +1,40 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Feature Gating"
-description: "Gating features behind plans and tiers to drive upgrades while maintaining a satisfying base experience."
+description: "Restrict features by plan so customers upgrade when they need more, while the base plan stays useful."
 ---
 # Feature Gating
 
-Feature gating is the practice of restricting access to specific product features based on the customer's subscription plan, tier, or payment level. It is the mechanical backbone of tiered pricing — the feature gates define what each tier actually means. Done well, gating creates a natural upgrade path where customers move to higher tiers because they genuinely need the gated capability. Done poorly, it creates frustration, perception of being nickeled-and-dimed, and churn to competitors who offer more at the same price.
+Feature gating limits access to certain features based on the customer's plan. The gates define what each pricing tier actually includes. Good gates create an upgrade path: customers move up because they need the gated feature. Bad gates make customers feel nickel-and-dimed and push them to competitors.
 
-## Core Concept
+## How it works
 
-Feature gating works because not all features deliver equal value to all users. A solopreneur needs basic email marketing; an enterprise team needs multi-user permissions, advanced analytics, and SSO. Gating allows you to price-discriminate based on value received: customers who get more value pay more, and customers with simpler needs pay less. The critical design principle is that the gate should align with value, not with effort. Gates should feel like a natural consequence of growing needs, not like an artificial wall placed to extract money. The best gates are ones where the customer thinks "Of course that is on the higher tier — I would expect to pay more for that."
+Not every customer gets the same value from every feature. A solo user needs basic email. An enterprise team needs user permissions, advanced reporting, and SSO. Gating lets you charge more to customers who get more value.
 
-## Implementation
+The gate should follow value, not effort. A good gate makes the customer think, "Of course that is on the higher plan."
 
-1. Categorize every feature in your product into three buckets: core (must be available on every tier to deliver the base value proposition), differentiating (features that separate tiers and drive upgrades), and delight (features that surprise and create loyalty, typically kept free). Aim for 60% core, 30% differentiating, 10% delight.
-2. Map differentiating features to natural upgrade triggers. The best gated features are ones that users discover they need as their usage matures: team collaboration features gate at team size, advanced analytics gate at data volume, automation gate at workflow complexity, and integrations gate at ecosystem maturity. Each gated feature should correspond to a measurable moment of growing value.
-3. Design the gate experience itself. When a user encounters a gated feature, show them: what the feature does (brief description or screenshot), which tier unlocks it, and a one-click path to upgrade or start a trial of the higher tier. Never show a blank wall or error message — the gate is a marketing moment. Some teams offer a "try this feature for 7 days" preview to let users experience the value before committing.
-4. Implement usage-based soft gates where appropriate. Instead of a hard lock ("You cannot use this feature"), consider a trial allowance ("You have 3 free uses of this feature this month — upgrade for unlimited"). Soft gates let users experience the value, which dramatically increases conversion compared to hard gates where the user never sees what they are missing.
-5. Monitor gate interaction data: how often users encounter each gate, what percentage click through to the upgrade page, what percentage actually upgrade, and what percentage of users who encounter a gate churn within 30 days. Gates with high encounter rates but low conversion and high churn are actively harmful — they frustrate users without driving revenue.
+## How to do it
 
-## Key Metrics
+1. Sort every feature into three groups: core (on every plan), differentiating (separates the plans), and delight (small extras that build loyalty, usually free).
+2. Tie each differentiating feature to a growth trigger: collaboration at team size, advanced analytics at data volume, automation at workflow complexity, integrations at tool stack size.
+3. Design the gate screen. Show what the feature does, which plan includes it, and a one-click path to upgrade or trial. Never show a blank wall or an error.
+4. Use soft gates where they fit. Instead of a hard lock, give a small allowance ("3 free uses this month, upgrade for unlimited") so users see the value first.
+5. Log every gate interaction: how often users hit it, how many click through, how many upgrade, and how many churn within 30 days.
 
-- **Gate encounter rate** — percentage of users on each tier who encounter a feature gate during a given period, indicating whether gated features are relevant to the current user base
-- **Gate-to-upgrade conversion rate** — percentage of gate encounters that result in an upgrade, measured per feature to identify which gates are effective upgrade drivers versus which are friction points
-- **Post-gate churn rate** — percentage of users who churn within 30 days of encountering a feature gate, compared to users who do not encounter gates, measuring whether gating is pushing users away
+## What to measure
 
-## Best Practices
+- **Gate encounter rate**: percent of users on each plan who hit a given gate in a period.
+- **Gate-to-upgrade conversion rate**: upgrades divided by gate encounters, tracked per feature.
+- **Post-gate churn rate**: 30-day churn for users who hit a gate versus users who did not.
 
-- Gate features that users discover they need, not features that users expect to have. Gating basic functionality (like exporting your own data or using more than one user account) feels punitive. Gating advanced functionality (like custom reporting, API access, or advanced permissions) feels like a natural premium.
-- Use "show, don't tell" gates. Instead of a locked icon, show the feature in a read-only or preview mode so the user can see the output (blurred report, sample dashboard, preview of the automated workflow) and understand the value. This converts at 2-3x the rate of a simple lock icon with an upgrade CTA.
-- Review and adjust gates quarterly based on the data. If a gated feature has a 0.5% conversion rate and high churn correlation, consider moving it to a lower tier or ungating it entirely. Feature gates are not permanent — they should evolve with your product and market.
+## Best practices
 
-## Common Pitfalls
+- Gate features users grow into, not features they expect. Gating data export or a second login feels punitive. Gating custom reports, API access, or advanced permissions feels fair.
+- Show the feature instead of a lock icon. A blurred report, sample dashboard, or read-only preview explains the value better than an upgrade button alone.
+- Review gates every quarter. If a gate converts poorly and correlates with churn, move the feature down a tier or remove the gate.
 
-- Gating too many features on the base tier. If free or starter users hit a gate every time they try something new, the base experience feels like a demo, not a product. Keep the base tier genuinely useful for its target user — gates should only appear when that user outgrows the tier.
-- Using feature gating as the sole upgrade driver without communicating the overall value of higher tiers. If the only time users hear about the next tier is when they hit a wall, upgrades feel reactive and grudging. Complement gating with proactive communication about the benefits of higher tiers through onboarding, in-app messaging, and email.
-- Gating features that create network effects or viral loops. If sharing, collaboration, or referral features are gated, you are throttling your own growth engine. Features that bring in new users should always be free, even if you gate the features that deepen individual usage.
+## Common pitfalls
+
+- Too many gates on the base plan. If starter users hit a wall every time they try something, the product feels like a demo.
+- Relying on gates as the only upgrade message. Explain the value of higher plans during onboarding, in-app, and by email too.
+- Gating sharing, collaboration, or referral features. These bring in new users. Keep them free and gate the features that deepen individual use.

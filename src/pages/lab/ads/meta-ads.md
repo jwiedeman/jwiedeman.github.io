@@ -1,70 +1,86 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "Meta Ads Playbook"
-description: "Setup guide for Meta Advantage+ campaigns spanning Facebook, Instagram, and Audience Network."
+description: "Setup guide for Meta ads on Facebook, Instagram, Messenger, and Audience Network, including Advantage+ campaigns and the Conversions API."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Advertising</p>
-  <h1>Meta Ads Playbook</h1>
-  <p class="intro">Meta’s ecosystem rewards signal density and creative variety. This playbook covers setup and optimization for Meta Advantage+ shopping, lead generation, and consideration campaigns.</p>
 
-  <section>
-    <h2>Account setup</h2>
-    <ul>
-      <li>Unify pixel, Conversions API, and offline events inside Events Manager with deduplication keys configured.</li>
-      <li>Use Advantage campaign budget (CBO) for scaled programs; reserve ABO for tight guardrails or incrementality tests.</li>
-      <li>Apply naming taxonomy: <span class="mono">[LOB]-[Geo]-[Funnel]-[Offer]-[Experiment]</span> at the ad set level for quick log reviews.</li>
-    </ul>
-  </section>
+[← Ads lab](/lab/ads/)
 
-  <section>
-    <h2>Audience playbooks</h2>
-    <ul>
-      <li>Seed lookalikes with high-quality first-party conversions (value-based when available). Maintain 1%, 2-3%, and 5% tiers.</li>
-      <li>Maintain stacked interest-based ad sets only if they outperform broad + Advantage audience benchmarks after two test cycles.</li>
-      <li>Refresh remarketing windows: 1-day, 7-day, 30-day site visitors plus product catalog retargeting when feeds are present.</li>
-    </ul>
-  </section>
+# Meta Ads Playbook
 
-  <section>
-    <h2>Creative systems</h2>
-    <p>Meta favors a healthy mix of lo-fi native content and polished assets.</p>
-    <ul>
-      <li>Develop modular asset kits: square, vertical, and landscape plus 15s and 30s video edits. Provide raw footage for Advantage+ creative remixes.</li>
-      <li>Use branded templates for Stories/Reels to maintain compliance while enabling text swaps.</li>
-      <li>Document best-performing hooks and CTAs in a shared creative results log.</li>
-    </ul>
-  </section>
+How to set up, track, and run Meta ads across Facebook, Instagram, Messenger, and Audience Network.
 
-  <section>
-    <h2>Signal integrity</h2>
-    <p>Bid automation relies on clean conversion data.</p>
-    <ul>
-      <li>Leverage Conversions API Gateway or direct server-side integration to reduce signal loss from privacy controls.</li>
-      <li>Map each conversion event to an onsite/CRM status, and deprecate redundant events in Events Manager.</li>
-      <li>Verify your domain in Business Manager so conversion events from iOS traffic are attributed correctly.</li>
-    </ul>
-  </section>
+## Account structure
 
-  <section>
-    <h2>Optimization cadences</h2>
-    <ul>
-      <li><strong>Twice weekly:</strong> Review learning phase progress, break out ad sets that cap budget too early.</li>
-      <li><strong>Weekly:</strong> Rotate creatives based on thumb-stop rate, hold-out brand lift tests for validation.</li>
-      <li><strong>Monthly:</strong> Review incrementality experiments or geo-holdouts to calibrate MMM or MER targets.</li>
-    </ul>
-  </section>
+- Own the Business portfolio (Meta Business Suite) yourself. Give agencies partner access instead of handing over accounts.
+- Verify your domain in Business settings.
+- Keep campaign count low. Fewer campaigns and ad sets give each one more conversion data.
+- Use a consistent naming pattern, for example `Geo-Objective-Audience-Offer`.
 
-  <section>
-    <h2>Pre-launch checklist</h2>
-    <ul>
-      <li>Pixel, CAPI, and offline events deduplicated and validated with the Test Events tool.</li>
-      <li>Commerce catalogs synced (if applicable) with proper domain verification.</li>
-      <li>All ads reviewed in Creative Hub mockups for compliance and accessibility (captions, safe zones).</li>
-      <li>Alerting configured in Ads Manager or third-party monitor for spend anomalies.</li>
-    </ul>
-  </section>
+## Tracking and measurement
+
+- Install the Meta Pixel and the Conversions API. Use the Conversions API Gateway or a server-side integration.
+- Send the same `event_id` from the pixel and the server so Meta can deduplicate events.
+- Check Event Match Quality in Events Manager. Send hashed email and phone where you have consent.
+- Optimize for the event closest to revenue that still fires often enough.
+- Confirm events with the Test Events tool before launch.
+- Validate results with a holdout, conversion lift, or geo test. Do not rely only on in-platform attribution.
+
+## Campaign types
+
+| Objective | Use it for |
+| --- | --- |
+| Sales | Purchases and other web or app conversions. Advantage+ sales campaigns automate audience, placement, and creative. |
+| Leads | Instant forms, Messenger, calls, or website leads. |
+| App promotion | Installs and in-app events. |
+| Traffic | Clicks to a site or app when conversions are too rare to optimize for. |
+| Engagement | Video views, messages, and post engagement. |
+| Awareness | Reach and frequency. |
+
+## Targeting
+
+- Start with Advantage+ audience. Add your customer lists and site visitors as suggestions.
+- Use lookalike audiences built from your best customers or highest-value purchasers.
+- Use detailed targeting only if it beats broad targeting in a direct test.
+- Exclude recent purchasers where repeat purchase is unlikely.
+- Leave Advantage+ placements on unless a placement is a brand safety problem.
+
+## Creative
+
+- Supply square (1:1), vertical (4:5 and 9:16), and landscape versions.
+- Keep text and logos out of the top and bottom of 9:16 assets so Reels and Stories UI does not cover them.
+- Add captions to every video. Many people watch without sound.
+- Test several distinct concepts, not small variations of one.
+- Review Advantage+ creative enhancements before turning them on. Turn off any that change your brand or claims.
+- Keep a shared log of which hooks, offers, and formats won.
+
+## Budget and bidding
+
+- Use Advantage campaign budget to let Meta move spend between ad sets. Use ad set budgets for strict tests.
+- An ad set exits the learning phase after about 50 optimization events in a week. Size budgets so each ad set can reach that.
+- Start on highest volume or highest value. Add a cost per result goal or ROAS goal only when you have a firm target.
+- Avoid large edits while an ad set is learning. Big changes restart learning.
+
+## Review cadence
+
+- **Daily:** spend, delivery errors, and rejected ads.
+- **Twice a week:** learning phase status and frequency.
+- **Weekly:** creative results; pause losers and add new concepts.
+- **Monthly:** lift or holdout results; adjust targets.
+
+## Pre-launch checklist
+
+- [ ] Domain verified.
+- [ ] Pixel and Conversions API both firing, with deduplication confirmed in Events Manager.
+- [ ] Optimization event selected and receiving data.
+- [ ] Catalog connected and synced (if selling products).
+- [ ] Custom audiences and exclusions built.
+- [ ] Creative in every needed aspect ratio, with captions and safe zones checked.
+- [ ] UTM parameters on all URLs.
+- [ ] Spending limit or automated rules set for overspend.
+
 </div>

@@ -8,7 +8,7 @@ export const sandboxes = [
   { title: 'Meta Pixel', href: '/lab/analytics/meta-pixel/', description: 'Meta Pixel base code and standard events.' },
   { title: 'LinkedIn Insight Tag', href: '/lab/analytics/linkedin-pixel/', description: 'LinkedIn Insight Tag and conversion events.' },
   { title: 'X Pixel', href: '/lab/analytics/x-pixel/', description: 'X (Twitter) pixel base code and events.' },
-].map((e, i) => ({ ...e, kind: 'Sandbox', id: `AN-${String(i + 1).padStart(2, '0')}` }));
+].map((e) => ({ ...e, kind: 'Sandbox' }));
 
 export const tools = [
   {
@@ -16,4 +16,4 @@ export const tools = [
     href: '/lab/analytics/tools/mock-player/',
     description: 'Fully instrumented video player: every device type, control, ad, and QoE event, mapped to GA4, Adobe, Segment, and the dataLayer.',
   },
-].map((e, i) => ({ ...e, kind: 'Tool', id: `TL-${String(i + 1).padStart(2, '0')}` }));
+].map((e) => ({ ...e, kind: 'Tool' }));

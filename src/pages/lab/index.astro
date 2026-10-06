@@ -5,40 +5,35 @@ import IndexList from '../../components/IndexList.astro';
 
 const modules = [
   {
-    id: 'LAB-01',
     title: 'Artificial Intelligence',
     href: '/lab/ai/',
-    description: 'Neural networks, generative models, and in-browser training demos.',
+    description: 'Neural network demos that run in the browser, and design notes for AI concepts.',
   },
   {
-    id: 'LAB-02',
     title: 'Analytics',
     href: '/lab/analytics/',
-    description: 'Tag sandboxes, pixel inspectors, and data layer prototypes.',
+    description: 'Tracking specs, tag sandboxes, and a mock video player for practicing analytics.',
   },
   {
-    id: 'LAB-03',
     title: 'Advertising',
     href: '/lab/ads/',
-    description: 'Platform playbooks for campaign structure, tracking, and QA.',
+    description: 'Setup playbooks for each ad platform: structure, tracking, and launch checklists.',
   },
   {
-    id: 'LAB-04',
     title: 'Marketing',
     href: '/lab/marketing/',
-    description: 'A catalog of 200 marketing tactics and techniques, organized by module.',
+    description: '200 marketing tactics, each with how it works, how to do it, and what to measure.',
   },
   {
-    id: 'LAB-05',
     title: 'Hardware',
     href: '/lab/hardware/',
-    description: 'Physical builds, boards, and instruments.',
+    description: 'Physical builds. Nothing here yet.',
   },
 ];
 ---
 <Layout title="Lab" headingTracker={false}>
   <div class="container">
-    <PageHeader title="Lab" dept="Research & Development" meta={[`${modules.length} sections`]} />
+    <PageHeader title="Lab" dept="Demos and reference" meta={[`${modules.length} sections`]} />
     <IndexList entries={modules} />
   </div>
 </Layout>

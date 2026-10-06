@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Narrative Hero Framing"
-description: "Positioning the customer as the hero of the story, with your brand as the guide."
+description: "Make the customer the hero of the story and position your brand as the guide."
 ---
 # Narrative Hero Framing
 
-Narrative hero framing, popularized by Donald Miller's StoryBrand framework, positions the customer as the protagonist of the story and your brand as the wise guide who helps them succeed. Rather than making your company the hero ("We are the best at X"), you make the customer the hero ("You have a problem. We can help you overcome it and win."). This reorientation transforms marketing from self-promotion into empowerment, which is dramatically more persuasive.
+Narrative hero framing, popularized by Donald Miller's StoryBrand framework, casts the customer as the main character and your brand as the guide who helps them succeed. Instead of "We are the best at X," the message becomes "You have a problem. We can help you solve it." Marketing shifts from self-promotion to helping the customer win.
 
-## Core Concept
+## How it works
 
-Humans are hardwired for narrative. The brain processes stories using the same neural pathways that process actual experiences, which is why a well-told story is more persuasive than a logical argument. The hero's journey — a character faces a problem, meets a guide, receives a plan, takes action, and achieves transformation — is the most universal story structure across cultures. When brands cast themselves as the hero, they compete with the customer for the protagonist role. When brands cast themselves as the guide (think Yoda to the customer's Luke Skywalker), they become indispensable allies in the customer's own story.
+People follow and remember stories more easily than arguments. The hero's journey is a common story shape across cultures: a character faces a problem, meets a guide, gets a plan, acts, and is changed. When a brand casts itself as the hero, it competes with the customer for the lead role. When it casts itself as the guide (Yoda to the customer's Luke Skywalker), it becomes an ally in the customer's story.
 
-## Implementation
+## How to do it
 
-1. Identify your customer's external problem (the tangible challenge), internal problem (how it makes them feel), and philosophical problem (why it is fundamentally wrong) — the best marketing addresses all three levels
-2. Rewrite your homepage and core messaging using the StoryBrand framework: hero (customer) has a problem, meets a guide (your brand) who has empathy and authority, gives them a plan, calls them to action, and helps them avoid failure and achieve success
-3. Shift all messaging from "we" language to "you" language: "We built the most advanced analytics platform" becomes "You will finally understand exactly what drives your revenue"
-4. Show transformation stories in case studies and testimonials — the before-and-after arc with the customer as the protagonist: where they were, what they struggled with, how they overcame it, and where they are now
-5. Use your guide positioning to convey authority without arrogance: empathy ("We understand how frustrating X is") combined with competence ("We have helped 500 companies solve X") is the guide's dual credential
+1. Write down the customer's external problem (the practical challenge), internal problem (how it makes them feel), and philosophical problem (why it should not be this way).
+2. Rewrite the homepage in this order: the customer has a problem, meets a guide (you) who shows empathy and competence, gets a plan, is asked to act, and sees what success and failure look like.
+3. Change "we" sentences to "you" sentences. "We built an advanced analytics platform" becomes "You will see exactly what drives your revenue."
+4. Structure case studies as before-and-after stories with the customer as the main character.
+5. Show both empathy ("We know how frustrating X is") and competence (specific, verifiable results) in your guide role.
 
-## Key Metrics
+## What to measure
 
-- **Message resonance in customer interviews** — when customers describe why they chose you, do they use hero-journey language? Do they see you as a guide or a vendor?
-- **Landing page conversion rate** — hero-framed pages should outperform brand-centric pages; A/B test your current messaging against a StoryBrand-structured version
-- **Content engagement and sharing** — customer-as-hero stories get shared more than self-promotional content because the audience sees themselves in the narrative
+- **Customer language**: in interviews, note whether customers describe you as a guide or as a vendor.
+- **Landing page conversion rate**: A/B test the current page against a hero-framed version.
+- **Content sharing**: compare shares of customer-story content against product-focused content.
 
-## Best Practices
+## Best practices
 
-- Open every piece of marketing by naming the customer's problem before talking about your solution — empathy before authority, always
-- Make the customer's success the climax of every case study and testimonial, not your product's features; the product is a tool in their journey, not the hero
-- Create a clear, simple plan (3 steps is ideal) that the customer can follow — the guide's job is to make the path forward obvious and achievable
+- Name the customer's problem before describing your solution.
+- End every case study on the customer's success, not on your features.
+- Give a simple plan, ideally three steps, that the customer can follow.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Paying lip service to hero framing while still making every story about your product's features — if your homepage says "We" more than "You," the framing is not working
-- Making the customer's problem sound too severe, which can feel condescending or fear-mongering rather than empathetic
-- Forgetting to define the stakes (failure and success) — without clear consequences of inaction and a vivid picture of transformation, the narrative lacks tension and motivation
+- Claiming hero framing while still making every story about features. If the homepage says "we" more than "you," it is not working.
+- Overstating the problem so the copy feels condescending or fear-driven.
+- Leaving out the stakes. Without clear costs of inaction and a clear picture of success, the story has no tension.

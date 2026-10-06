@@ -1,39 +1,40 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Review & UGC Requests"
-description: "Systematic post-purchase flows that solicit product reviews and user-generated content."
+description: "Automated post-purchase requests for reviews, photos, and videos from customers."
 ---
 # Review & UGC Requests
 
-Review and UGC request flows are automated post-purchase sequences designed to generate product reviews, photos, and videos from customers. Reviews are the single most influential factor in online purchase decisions — 93% of consumers say reviews impact their buying choices — and user-generated photos increase conversion rates by 25% when displayed on product pages. Building a systematic review collection engine turns your customer base into your most credible marketing channel.
+Review and UGC request flows are automated post-purchase messages that ask customers for reviews, photos, and videos. Reviews strongly influence online purchase decisions, and customer photos show the product in real use.
 
-## Core Concept
+## How it works
 
-Customers rarely leave reviews unprompted. The average voluntary review rate is under 2%. But when asked at the right moment, in the right way, review submission rates jump to 5-15%. The key insight is timing: you need to ask after the customer has had enough time to use the product but before the excitement of the purchase fades. For most products, this window is 7-14 days after delivery. Pairing the ask with a small incentive (loyalty points, discount on next order) further increases response rates without compromising review authenticity.
+Few customers leave reviews unless asked. Asking at the right time and making it easy raises the response rate. The right time is after the customer has used the product but while the purchase is still fresh. For most products that is one to two weeks after delivery. A small reward can raise response rates, but it must not depend on the rating given.
 
-## Implementation
+## How to do it
 
-1. **Trigger the request based on delivery confirmation:** Use carrier tracking data to identify when the package was delivered, then wait 7-14 days (varies by product category — skincare needs more time than a t-shirt). If you cannot access tracking data, use estimated delivery date plus a buffer.
-2. **Send a simple, focused email:** The email should have one job: get the customer to click through to leave a review. Include the product image, product name, a star-rating selector in the email (Klaviyo, Yotpo, and others support this), and a clear CTA. Subject line should be direct: "How is your [Product Name]?"
-3. **Make the review form frictionless:** The landing page should pre-populate the product and customer information. Offer a star rating as the minimum viable review, with optional text and photo upload. Reducing the required fields from five to two can double completion rates.
-4. **Incentivize photo and video submissions:** Offer tiered rewards — 50 loyalty points for a text review, 100 points for a photo review, 200 points for a video review. Photos and videos are dramatically more valuable for conversion, so the incentive should reflect that.
-5. **Follow up on non-responders once:** Send a single reminder 5-7 days after the initial request to customers who did not leave a review. Reframe the ask: "Your experience helps other shoppers decide." Do not send more than two requests total — three or more review asks generate complaints and unsubscribes.
+1. Trigger the request from the carrier's delivery confirmation. Wait 7 to 14 days, longer for products that take time to show results. If you lack tracking data, use the estimated delivery date plus a buffer.
+2. Send a short email with one job: get a review. Include the product image, the product name, and a clear button. Use a direct subject line such as "How is your [product name]?"
+3. Make the form short. Pre-fill the product and customer details. Require only a star rating and make text and photos optional.
+4. Offer a larger reward for photo and video reviews than for text-only reviews, such as more loyalty points.
+5. Send one reminder to non-responders about a week later. Stop after two requests total.
+6. Disclose incentives where reviews are shown, and never offer rewards only for positive reviews. The FTC's 2024 rule bans buying or conditioning rewards on review sentiment.
 
-## Key Metrics
+## What to measure
 
-- **Review Request Conversion Rate** — percentage of customers who receive a review request and submit a review; target 5-15% for email, 15-25% for SMS
-- **Photo/Video Attachment Rate** — percentage of submitted reviews that include a photo or video; target 20-40% with a visual incentive
-- **Review-Influenced Revenue** — revenue from product pages with reviews vs. pages without; products with 10+ reviews typically convert at 2-3x the rate of products with zero reviews
+- **Review request conversion rate**: reviews submitted divided by requests delivered, split by email and SMS.
+- **Photo and video attachment rate**: reviews with media divided by all reviews.
+- **Product page conversion by review count**: conversion rate of product pages grouped by how many reviews they have.
 
-## Best Practices
+## Best practices
 
-- Use SMS for the review request if the customer opted in — SMS review requests get 3-4x higher response rates than email because they feel personal and the link is one tap away
-- Syndicate reviews to Google Shopping, Amazon, and social platforms — reviews that appear across multiple surfaces multiply their impact on discovery and conversion
-- Respond to every negative review publicly and constructively — a thoughtful brand response to a 1-star review increases purchase likelihood among readers significantly
-- Feature UGC prominently on product pages, in email campaigns, and on social — showing customers that their content is used and valued encourages more submissions
+- Use SMS for the request when the customer has consented to texts. The link is one tap away.
+- Share reviews to Google and other platforms your review provider supports.
+- Respond to negative reviews publicly and constructively.
+- Feature customer photos on product pages, in email, and on social. People submit more when they see submissions used.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Asking for a review before the customer has received or used the product — this is the most common mistake and generates either no response or inauthentic reviews
-- Requiring too much information — every additional required field (title, pros, cons, fit, age) reduces completion rate by 10-15%. Start with star rating and optional text.
-- Gating reviews to only show positive ones — consumers can detect curated review sections, and a mix of ratings averaging 4.2-4.5 stars is actually more credible and converts better than a perfect 5.0
+- Asking before the customer has received or used the product.
+- Requiring too many fields, such as title, pros, cons, and fit. Each extra field lowers completion.
+- Hiding negative reviews. Shoppers distrust a wall of perfect ratings, and suppressing reviews can break FTC rules.

@@ -1,54 +1,54 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "Mushroom Forecasting Alerts"
-description: "Probabilistic growth predictions that combine weather, soil, and observation networks."
+description: "Design notes for a model that estimates when and where mushroom species are likely to fruit, from weather and sighting data."
 ---
 <div class="container">
   <header class="page-header">
-    <div class="page-header__meta">
-      <span class="section-index">Lab / AI / AI-006</span>
-      <span class="classification classification--accent">Concept</span>
-    </div>
     <h1 class="page-header__title">Mushroom Forecasting Alerts</h1>
-    <p class="page-header__subtitle">Predictive Fruiting Notifications</p>
+    <p class="page-header__subtitle">Estimate when and where a mushroom species is likely to fruit, and send an alert.</p>
   </header>
 
-  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
+  <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← AI lab</a></p>
 
-## Overview
+**Concept. Not built; this page describes a proposed design.**
 
-Mushroom Forecasting Alerts is a concept for "weather-style" notifications for foragers, land stewards, and researchers. The system would combine weather forecasts, soil sensor readings, and confirmed sightings to predict when and where particular species are likely to fruit.
+## What it would do
 
-## Core Capabilities
+- Combine weather forecasts, recent weather history, and past sightings.
+- Estimate, for each map grid cell and day, the chance that a chosen species is fruiting.
+- Let a user pick species and an area, and send an alert when the chance passes a threshold.
 
-- **Spatiotemporal modeling:** Uses Bayesian hierarchical models to produce probability surfaces at 1 km grid resolution.
-- **Species personalization:** Users subscribe to species profiles and receive alerts when environmental thresholds align with fruiting patterns.
-- **Field kit integration:** Links to the Mycology Classification app to validate sightings and automatically refine probability estimates.
+## How it would work
 
-## Data Pipeline
+1. Collect past sightings with date and location for each species.
+2. Join each sighting to the weather in the weeks before it: rainfall, temperature, soil moisture.
+3. Add fixed site data: elevation, land cover, and likely host trees.
+4. Fit a model per species that predicts the chance of a sighting from those inputs. A simple option is a logistic regression or gradient-boosted trees; a Bayesian model could add uncertainty ranges.
+5. Run the model daily on the weather forecast and publish a map.
 
-| Stream | Source | Update Cadence |
+## Data sources
+
+| Data | Possible source | Update rate |
 | --- | --- | --- |
-| Weather | NOAA NDFD forecasts, local mesonet stations | Hourly refresh with 7-day lookahead. |
-| Soil | In-ground moisture probes, lab-managed LoRaWAN gateways | Every 15 minutes. |
-| Observations | Community science submissions, ranger patrol logs | Event-driven with manual verification. |
+| Weather forecast | NOAA National Digital Forecast Database | Hourly |
+| Weather history | NOAA or local weather stations | Daily |
+| Soil moisture | Public soil moisture products, or own sensors | Daily |
+| Sightings | iNaturalist, Mushroom Observer | As submitted |
+| Terrain and land cover | USGS elevation, national land cover data | Rarely |
 
-## Alert Delivery
+## Outputs
 
-- **Push notifications:** Mobile alerts show the probability lift, recommended search radius, and best time window.
-- **Email digests:** Daily summaries list regional hotspots, upcoming trigger windows, and notable recent finds.
-- **GIS overlays:** ArcGIS-compatible layers allow land managers to overlay forecasts onto habitat management plans.
+- A map layer of fruiting chance per grid cell (target: about 1 km cells).
+- Alerts by email or push notification for chosen species and areas.
+- A daily summary listing areas with a high chance.
 
-## Stewardship & Impact
+## Risks and open questions
 
-- Encourages sustainable harvesting practices by highlighting conservation-sensitive areas and imposing collection limits.
-- Shares anonymized trends with academic partners to study climate impacts on fungal phenology.
-- Supports emergency response teams with toxicity risk alerts following extreme weather events.
-
-## Next Milestones
-
-1. Launch a notification API for third-party hiking and outdoor planning apps.
-2. Extend coverage beyond temperate forests to coastal ecosystems and alpine zones.
-3. Publish an annual "State of the Mycelium" report with longitudinal trend analysis.
+- Sightings show where people look, not where mushrooms grow. Popular trails will look like hotspots.
+- Many species have few records. The model may only work for common species.
+- Forecasts could send many people to the same small area. Sensitive or protected sites may need to be hidden.
+- An alert is not an identification. The app must not suggest that anything found is safe to eat.
+- How to check accuracy: hold out one recent season of sightings and compare predicted against actual.
 
 </div>

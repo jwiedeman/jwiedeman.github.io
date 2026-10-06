@@ -1,38 +1,41 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Reddit & Discord Presence"
-description: "Building authentic, value-first brand presence on Reddit and Discord where traditional marketing is rejected."
+description: "Building a helpful, transparent presence on Reddit and Discord, where overt marketing is rejected."
 ---
 # Reddit & Discord Presence
 
-Reddit and Discord are two of the most influential platforms for purchase decisions, product recommendations, and community-driven conversations — and they're also two of the most hostile environments for traditional marketing. Users on both platforms aggressively reject self-promotion and can spot inauthentic brand behavior instantly. Building a genuine presence on these platforms requires a fundamentally different approach: leading with value, earning credibility over months, and participating as a community member first and a brand representative second.
+People use Reddit and Discord to ask for product recommendations and compare options. Both communities also reject self-promotion and quickly spot accounts that aren't genuine. A presence there means leading with help, earning credibility over months, and acting as a community member first and a company representative second.
 
-## Core Concept
+## How it works
 
-Reddit and Discord communities are trust-based ecosystems with strong cultural norms. On Reddit, your post history is public and community members will check it — if your account only posts promotional content, you'll be downvoted, banned, or both. On Discord, members expect real-time, genuine interaction, not corporate announcements. The payoff for playing by these rules is enormous: a single well-received Reddit comment can drive thousands of site visits, and an active Discord presence creates a direct feedback loop with your most engaged users. The strategy is to become a genuinely valuable community member who happens to work for a relevant company.
+Both platforms run on trust and strong local norms. On Reddit, your post history is public and people check it. Accounts that only promote get downvoted or banned. On Discord, members expect real conversation, not announcements. If you follow the norms, a single useful Reddit answer can send steady traffic for a long time, and a Discord server gives you a direct line to your most engaged users. The goal is to be a useful member who happens to work at a relevant company.
 
-## Implementation
+## How to do it
 
-1. **Identify the relevant communities** — On Reddit, find the 5-10 subreddits where your target audience discusses topics related to your product. Use Reddit search and look at subreddit sidebars for related communities. On Discord, join servers related to your industry, customer niche, or complementary products. Lurk for at least 2 weeks before posting to understand the culture, norms, and moderation rules of each community.
-2. **Build an authentic account with transparent identity** — On Reddit, create an account or use a personal account (not a brand-named one) where you identify your role in your bio or flair. Being transparent about your affiliation is critical — covert marketing that gets exposed leads to community backlash. On Discord, join with your real name and company role visible. Both platforms value humans with expertise, not brand accounts pushing content.
-3. **Lead with value for 90% of your activity** — The 90/10 rule: 90% of your posts should provide genuine value with no mention of your product — answering questions, sharing expertise, recommending tools (including competitors when appropriate), and contributing to discussions. 10% can mention your product, but only when it's directly relevant to a question someone else asked. Never create posts that are thinly veiled advertisements.
-4. **Create owned spaces when you've earned the credibility** — Once you've built reputation in existing communities (typically 3-6 months of active participation), consider creating your own subreddit or Discord server. This becomes a hub for product support, feature requests, beta testing, and community building. Promote it subtly through your existing community activity, not through spam.
-5. **Monitor mentions and join conversations organically** — Set up monitoring for your brand name, product name, and relevant keywords across Reddit (using tools like Gummy Search, F5Bot, or Reddit's notification system) and Discord (through keyword alerts in relevant servers). When someone mentions your brand or asks a question you can answer, respond helpfully and transparently. These organic touchpoints are more valuable than any planned campaign.
+1. Find 5 to 10 subreddits where your audience discusses your problem space. Use Reddit search and the related communities listed in sidebars.
+2. Join Discord servers for your industry, customer niche, or complementary products.
+3. Read each community's rules and lurk for at least two weeks before posting.
+4. Post from a personal account, not a brand-named one. State your role in your bio or flair. On Discord, show your real name and company.
+5. Keep the large majority of your activity free of product mentions: answer questions, share expertise, and recommend tools, including competitors when they fit better.
+6. Mention your product only when it directly answers someone's question, and disclose that you work there.
+7. Set up alerts for your brand, product, and key terms (for example, F5Bot for Reddit, and keyword notifications in Discord servers). Respond helpfully when mentioned.
+8. After several months of steady participation, consider starting your own subreddit or Discord server for support, feature requests, and beta testing.
 
-## Key Metrics
+## What to measure
 
-- **Karma / Reputation Score** — On Reddit, track your account's karma growth and the upvote-to-downvote ratio on your posts; on Discord, track your "helpful" reactions and community role promotions; these are proxies for how the community perceives your contributions
-- **Referral Traffic from Community Platforms** — Use UTM parameters and analytics to track website visits, signups, and conversions that originate from Reddit and Discord; community-sourced traffic often converts at 2-5x the rate of paid traffic because of the trust transfer
-- **Mention Sentiment and Volume** — Track how often your brand is mentioned on Reddit and Discord and whether those mentions are positive, neutral, or negative; growing positive mention volume indicates successful community building
+- **Community reputation**: track Reddit karma and upvote ratio on your comments, and helpful reactions or roles earned on Discord.
+- **Referral traffic**: count sessions, signups, and conversions from Reddit and Discord using referrer data and UTM-tagged links.
+- **Mention volume and sentiment**: count monthly brand mentions on both platforms and label each positive, neutral, or negative.
 
-## Best Practices
+## Best practices
 
-- Recommend competitors when they're genuinely a better fit for someone's specific use case — this builds more credibility than any amount of product promotion because it signals honesty and expertise over salesmanship
-- Respond to criticism and product complaints publicly and constructively — "That's fair feedback, we're working on that feature. Here's our timeline." builds more trust than ignoring the comment or getting defensive
-- Contribute original, expert-level content to community discussions — detailed how-tos, industry analysis, and data-driven perspectives are the currency that earns community respect
+- Recommend competitors when they genuinely fit someone's need better. It shows honesty.
+- Answer criticism publicly and calmly. "Fair point, we're working on it, here's the timeline" earns trust.
+- Contribute detailed how-tos and analysis. Expertise is what earns respect in these communities.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Using fake accounts to astroturf positive sentiment — Reddit communities are extremely good at detecting fake accounts and coordinated promotion; if caught (and you likely will be), the brand damage is severe and long-lasting
-- Being too promotional too early — Entering a community and immediately posting about your product is the fastest way to get banned; earn credibility first, mention your product only when genuinely relevant
-- Abandoning the effort after a month — Community building on Reddit and Discord is a long game; meaningful results take 3-6 months of consistent, genuine participation; brands that expect immediate ROI will quit too early and waste their initial investment
+- Fake accounts or coordinated upvoting. Communities are good at spotting astroturfing, and getting caught does lasting damage. It also breaks Reddit's rules.
+- Promoting too early. Posting about your product on arrival is the fastest way to get banned.
+- Quitting after a month. Results usually take several months of consistent participation.

@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Decoy Effect"
-description: "Adding an inferior option to steer choice toward a target option."
+description: "Add a weaker option to make your target option look like the clear choice."
 ---
 # Decoy Effect
 
-The decoy effect (also called asymmetric dominance) occurs when adding a third, inferior option to a choice set makes one of the original options significantly more attractive. When a medium popcorn costs $6.50 and a large costs $7.00, the medium looks like a bad deal and the large feels like a steal — even though the large was the intended target all along. This pricing psychology technique is one of the most reliable ways to shift buyer preference toward your most profitable tier.
+The decoy effect (also called asymmetric dominance) happens when adding a third, weaker option makes one of the original options look better. For example, if a medium popcorn costs $6.50 and a large costs $7.00, the medium looks like a poor deal and the large looks like a bargain. The medium is the decoy; the large is the target.
 
-## Core Concept
+## How it works
 
-The decoy effect works because humans struggle to evaluate options in absolute terms and instead rely on relative comparisons. When two options are difficult to compare (different features, different price points), adding a third option that is clearly worse than one but comparable to the other creates an easy comparison. The brain gravitates toward the option that "wins" the comparison. The classic example is The Economist's pricing experiment: a print-only subscription for $125, a web-only for $59, and a print-plus-web for $125. Nobody chose print-only, but its presence made print-plus-web look like an incredible deal, shifting the majority of subscribers to the most expensive combined option.
+People compare options to each other rather than judging them on their own. When two options are hard to compare, a third option that is clearly worse than one of them creates an easy comparison, and people pick the option that wins it. In Dan Ariely's well-known test of The Economist's pricing, offers were web-only for $59, print-only for $125, and print plus web for $125. Almost nobody chose print-only, but its presence pushed most people to print plus web.
 
-## Implementation
+## How to do it
 
-1. Identify your target option — the plan, product, or package you want most customers to choose (usually the highest-margin mid-tier or premium option)
-2. Design a decoy that is slightly worse than your target on one dimension but priced similarly — the decoy must be clearly dominated by the target option but competitive with the alternative
-3. Position all three options side-by-side so the comparison is immediate and obvious; the decoy should visually sit between or near the target to facilitate direct comparison
-4. Test the decoy's impact by measuring plan selection distribution with and without the decoy present — a well-designed decoy should shift 20-30% of selections toward the target
-5. Iterate on the decoy's attributes — adjust price, features, and positioning until the target option captures the desired share of selections
+1. Pick the target option you want most buyers to choose, usually your highest-margin tier.
+2. Design a decoy that is priced close to the target but clearly worse on at least one feature.
+3. Show all three options side by side, with the decoy next to the target.
+4. Measure plan selection with and without the decoy.
+5. Adjust the decoy's price and features until the target gets the share you want.
 
-## Key Metrics
+## What to measure
 
-- **Target option selection rate** — the percentage of buyers choosing your intended option, measured with and without the decoy
-- **Average revenue per customer** — if the decoy is working, ARPC should increase as buyers shift to higher-value options
-- **Pricing page bounce rate** — a confusing decoy setup can increase bounces; monitor to ensure the decoy simplifies rather than complicates the decision
+- **Target option selection rate**: the percentage of buyers choosing the target, with and without the decoy.
+- **Average revenue per customer**: total revenue divided by number of customers, before and after adding the decoy.
+- **Pricing page bounce rate**: watch for increases that suggest the decoy is confusing people.
 
-## Best Practices
+## Best practices
 
-- The decoy should be obviously inferior to the target but not absurdly so — if the decoy looks like a joke, buyers feel manipulated rather than guided
-- Use the decoy to make your target option the "obvious" choice; the best decoy makes customers feel smart for choosing the target, not tricked into it
-- Apply the decoy effect beyond pricing — in content (offer three options where one is clearly best), in product configuration, and in upgrade prompts
+- Make the decoy clearly worse, but not absurd. A joke option makes buyers feel manipulated.
+- Aim for buyers to feel smart choosing the target, not tricked.
+- Use the same idea outside pricing: content offers, product configurations, and upgrade prompts.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Creating a decoy that is actually attractive to some buyers, which cannibalizes sales from the target option instead of boosting them
-- Making the pricing structure so complex that the decoy adds confusion rather than clarity — three options is ideal; four or more often overwhelms
-- Using the decoy effect on a pricing page where the core value proposition is unclear; the decoy optimizes choice, but only if buyers are already committed to purchasing
+- Building a decoy that some buyers actually want, which pulls sales away from the target.
+- Adding so many options that the decoy creates confusion. Three options is usually enough.
+- Using a decoy when the core offer is unclear. A decoy shapes the choice only for people already ready to buy.

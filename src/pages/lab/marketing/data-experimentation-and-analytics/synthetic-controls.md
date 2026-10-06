@@ -1,38 +1,38 @@
 ---
 layout: ../../../../layouts/Layout.astro
 title: "Synthetic Controls"
-description: "Creating synthetic control groups for causal measurement when true holdouts are impractical."
+description: "Build a weighted blend of untreated markets to estimate what would have happened without a campaign."
 ---
 # Synthetic Controls
 
-The synthetic control method constructs a mathematical "counterfactual" — a prediction of what would have happened in a treated market if no intervention had occurred — by creating a weighted combination of untreated markets that historically behaved like the treated one. When you cannot run a clean holdout (because leadership will not turn off ads in real markets), synthetic controls let you measure the causal impact of a marketing intervention by comparing actual results against this modeled baseline. It is the gold standard for quasi-experimental causal inference in marketing.
+The synthetic control method estimates what would have happened in a market without a campaign. It builds a weighted blend of other markets that behaved like the treated market in the past. Use it when you cannot run a clean holdout, for example when leadership will not turn off ads in real markets. Compare actual results to the blend to estimate the campaign's effect.
 
-## Core Concept
+## How it works
 
-Developed by Abadie and Gardeazabal (2003) and refined for tech applications by Google's CausalImpact package, synthetic controls solve a fundamental measurement problem: you cannot observe what would have happened if you had not run a campaign. The method works by identifying a set of "donor" markets (regions where the intervention did not occur) and computing optimal weights so that a blend of these donors closely matches the treated market's pre-intervention trend. After the intervention, any divergence between the actual outcome and the synthetic control's prediction is attributed to the intervention. Unlike simple before/after comparisons, this method accounts for seasonality, trends, and external factors.
+You cannot directly observe what would have happened without the campaign. The synthetic control method, introduced by Abadie and Gardeazabal in 2003, works around this. It takes a pool of "donor" markets where the campaign did not run and finds weights so their blend tracks the treated market closely before the campaign. After launch, the gap between the actual market and the blend is the estimated effect. Unlike a simple before-and-after comparison, this accounts for seasonality, trends, and outside events that hit all markets.
 
-## Implementation
+## How to do it
 
-1. Select the treated unit (the market, region, or segment where the campaign ran) and a pool of 10-30 donor units where the intervention did not occur
-2. Gather pre-intervention data for all units — at least 12 months of historical performance data on the outcome variable (revenue, conversions, etc.) plus relevant covariates (population, income, seasonality factors)
-3. Use the synthetic control algorithm (available in R's Synth package, Python's SparseSC, or Google's CausalImpact) to compute donor weights that minimize pre-intervention prediction error
-4. Validate the synthetic control's fit by checking that it closely tracks the treated unit during the pre-intervention period — a poor pre-period fit means the post-period estimates will be unreliable
-5. Measure the post-intervention gap between the actual treated unit and the synthetic control; this gap is your estimated causal effect, with confidence intervals derived from placebo tests on donor units
+1. Pick the treated market and a pool of 10 to 30 donor markets where the campaign did not run.
+2. Collect at least 12 months of pre-campaign data for every market: the outcome (revenue, conversions) and relevant covariates (population, income, seasonality).
+3. Compute donor weights that minimize pre-campaign error using a tool such as R's Synth package or Python's SparseSC. Google's CausalImpact package is a related approach.
+4. Check that the blend tracks the treated market closely before the campaign. A poor fit means the results will not be reliable.
+5. Measure the gap after launch. Get confidence intervals by running the same analysis on each donor market as a placebo.
 
-## Key Metrics
+## What to measure
 
-- **Pre-period fit (RMSPE)** — root mean squared prediction error during the pre-intervention period; lower values indicate a more reliable synthetic control
-- **Post-period causal effect** — the cumulative or average difference between actual and synthetic outcomes after the intervention
-- **Placebo test p-value** — run the same analysis on every donor unit; if many donors show gaps as large as the treated unit, the result is not statistically significant
+- **Pre-period fit (RMSPE)**: root mean squared prediction error before the campaign. Lower is better.
+- **Causal effect**: the average or cumulative gap between actual and synthetic outcomes after launch.
+- **Placebo p-value**: share of donor markets showing a gap as large as the treated market's. A high share means the result is not significant.
 
-## Best Practices
+## Best practices
 
-- Ensure a long pre-intervention period (at least 2x the post-intervention period) to build a stable synthetic control that captures seasonal patterns
-- Run placebo tests on all donor units to validate statistical significance — if the treated unit's gap is not exceptional relative to placebos, the result is not reliable
-- Use this method for high-impact interventions (market launches, major campaign shifts, pricing changes) where the expected effect is large enough to detect above noise
+- Use a pre-period at least twice as long as the post-period so the blend captures seasonal patterns.
+- Run placebo tests on every donor. If the treated market's gap is not unusual, do not trust the result.
+- Use the method for large changes (market launches, major campaign shifts, price changes) where the effect should stand out from noise.
 
-## Common Pitfalls
+## Common pitfalls
 
-- Using too few donor units, which limits the algorithm's ability to construct a close-fitting synthetic control
-- Ignoring pre-period fit quality and drawing conclusions from a poorly matched synthetic control, which produces unreliable causal estimates
-- Applying synthetic controls to interventions with very small expected effects, where the signal is indistinguishable from the natural variation between actual and synthetic outcomes
+- Too few donor markets to build a close match.
+- Drawing conclusions from a blend that fit poorly before the campaign.
+- Applying it to changes with very small expected effects, which get lost in normal variation.
