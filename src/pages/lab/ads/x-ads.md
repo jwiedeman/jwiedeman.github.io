@@ -1,27 +1,27 @@
 ---
 layout: ../../../layouts/Layout.astro
-title: "X Ads Operations Brief"
+title: "X Ads Playbook"
 description: "Guidance for awareness and performance programs on X (Twitter)."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Ads Platform Manual</p>
-  <h1>X Ads Operations Brief</h1>
-  <p class="intro">X Ads (formerly Twitter) excel when conversation and reach tactics are orchestrated together. This brief outlines how to structure campaigns, fuel the pixel, and manage brand safety.</p>
+  <p class="supertitle mono">Lab / Advertising</p>
+  <h1>X Ads Playbook</h1>
+  <p class="intro">X Ads (formerly Twitter Ads) work best when conversation and reach tactics are planned together. This playbook covers campaign structure, pixel setup, and brand safety.</p>
 
   <section>
     <h2>Campaign structure</h2>
     <ul>
-      <li>Create separate campaigns for Reach, Website Traffic, Conversions, and App objectives. Avoid mixing objectives within one flight.</li>
+      <li>Create separate campaigns for Reach, Website Traffic, Conversions, and App objectives. Avoid mixing objectives within one campaign.</li>
       <li>Use ad group naming: <span class="mono">[Objective]-[Audience]-[Creative]-[Flight]</span>.</li>
       <li>Enable Frequency Cap for Reach campaigns (1 per user per day unless testing high frequency launches).</li>
     </ul>
   </section>
 
   <section>
-    <h2>Audience systems</h2>
+    <h2>Audiences</h2>
     <ul>
       <li>Combine keyword targeting (15-25 terms) with follower look-alikes of influential accounts.</li>
       <li>Deploy tailored audiences from site visitors, customer lists, and app users; refresh lists every 7 days for active programs.</li>
@@ -30,7 +30,7 @@ headingTracker:
   </section>
 
   <section>
-    <h2>Creative payload</h2>
+    <h2>Creative formats</h2>
     <ul>
       <li>Leverage Website Cards and Conversation Cards for performance programs, Video Ads for awareness.</li>
       <li>Draft copy variations with clear CTAs; limit to 2 hashtags to avoid siphoning traffic.</li>
@@ -57,7 +57,7 @@ headingTracker:
   </section>
 
   <section>
-    <h2>Go / no-go checklist</h2>
+    <h2>Pre-launch checklist</h2>
     <ul>
       <li>Pixel and CAPI events validated across purchase funnel.</li>
       <li>Conversation reply macros reviewed by legal/PR.</li>

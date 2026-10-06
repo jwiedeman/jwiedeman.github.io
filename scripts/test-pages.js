@@ -45,6 +45,11 @@ function checkPage(filePath, content) {
   const pagePath = '/' + relative(DIST_DIR, filePath).replace('/index.html', '').replace('index.html', '/');
   const pageIssues = [];
 
+  // Redirect stubs (astro.config redirects) are a bare meta refresh; nothing else to check.
+  if (/http-equiv="refresh"/i.test(content) && content.length < 2000) {
+    return { pagePath, issues: pageIssues };
+  }
+
   // Check 1: Has DOCTYPE
   if (!content.toLowerCase().includes('<!doctype html>')) {
     pageIssues.push('Missing DOCTYPE');
@@ -95,7 +100,8 @@ function checkPage(filePath, content) {
   }
 
   // Check 7: No Astro errors rendered
-  if (content.includes('AstroError') || content.includes('Error:') && content.includes('at ')) {
+  // Astro's error overlay; page copy may legitimately mention errors such as 'TypeError:'.
+  if (content.includes('AstroError') || content.includes('astro-error')) {
     pageIssues.push('Astro error message found in output');
   }
 

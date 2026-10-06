@@ -6,8 +6,8 @@ description: "Probabilistic growth predictions that combine weather, soil, and o
 <div class="container">
   <header class="page-header">
     <div class="page-header__meta">
-      <span class="section-index">Lab / AI / AI-010</span>
-      <span class="classification classification--accent">Regional Rollout</span>
+      <span class="section-index">Lab / AI / AI-006</span>
+      <span class="classification classification--accent">Concept</span>
     </div>
     <h1 class="page-header__title">Mushroom Forecasting Alerts</h1>
     <p class="page-header__subtitle">Predictive Fruiting Notifications</p>
@@ -15,9 +15,9 @@ description: "Probabilistic growth predictions that combine weather, soil, and o
 
   <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
 
-## Mission Profile
+## Overview
 
-Mushroom Forecasting Alerts delivers "weather-style" notifications for foragers, land stewards, and researchers. The platform ingests meteorological feeds, sensor telemetry, and classification sightings to predict when and where particular species are likely to fruit.
+Mushroom Forecasting Alerts is a concept for "weather-style" notifications for foragers, land stewards, and researchers. The system would combine weather forecasts, soil sensor readings, and confirmed sightings to predict when and where particular species are likely to fruit.
 
 ## Core Capabilities
 
@@ -30,13 +30,13 @@ Mushroom Forecasting Alerts delivers "weather-style" notifications for foragers,
 | Stream | Source | Update Cadence |
 | --- | --- | --- |
 | Weather | NOAA NDFD forecasts, local mesonet stations | Hourly refresh with 7-day lookahead. |
-| Soil | In-ground moisture probes, lab-managed LoRaWAN gateways | 15-minute telemetry windows. |
+| Soil | In-ground moisture probes, lab-managed LoRaWAN gateways | Every 15 minutes. |
 | Observations | Community science submissions, ranger patrol logs | Event-driven with manual verification. |
 
 ## Alert Delivery
 
-- **Push notifications:** Mobile app pings highlight the probability lift, recommended search radius, and best time window.
-- **Email digests:** Daily briefs summarize regional hotspots, upcoming trigger windows, and notable recent finds.
+- **Push notifications:** Mobile alerts show the probability lift, recommended search radius, and best time window.
+- **Email digests:** Daily summaries list regional hotspots, upcoming trigger windows, and notable recent finds.
 - **GIS overlays:** ArcGIS-compatible layers allow land managers to overlay forecasts onto habitat management plans.
 
 ## Stewardship & Impact

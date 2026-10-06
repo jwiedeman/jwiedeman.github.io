@@ -1,14 +1,14 @@
 ---
 layout: ../../../layouts/Layout.astro
-title: "LinkedIn Ads Deployment Guide"
-description: "Runbook for B2B demand generation, ABM, and pipeline acceleration on LinkedIn."
+title: "LinkedIn Ads Playbook"
+description: "Guide to B2B demand generation, ABM, and pipeline acceleration on LinkedIn."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Ads Platform Manual</p>
-  <h1>LinkedIn Ads Deployment Guide</h1>
+  <p class="supertitle mono">Lab / Advertising</p>
+  <h1>LinkedIn Ads Playbook</h1>
   <p class="intro">LinkedIn’s professional graph is ideal for account-based marketing and pipeline acceleration. This guide documents campaign structure, targeting controls, and lead management.</p>
 
   <section>
@@ -30,10 +30,10 @@ headingTracker:
   </section>
 
   <section>
-    <h2>Creative payloads</h2>
+    <h2>Creative formats</h2>
     <p>Deliver value-forward creative that respects professional context.</p>
     <ul>
-      <li>Sponsor Document Ads for deep content (whitepapers, research) with ungated preview pages.</li>
+      <li>Use Document Ads for long-form content (whitepapers, research) with ungated preview pages.</li>
       <li>Use Conversation Ads for multi-path nurture; craft decision trees that map to buyer readiness.</li>
       <li>When using Lead Gen Forms, prefill custom questions for qualification. Sync responses to CRM within 15 minutes.</li>
     </ul>
@@ -58,7 +58,7 @@ headingTracker:
   </section>
 
   <section>
-    <h2>Pre-flight checklist</h2>
+    <h2>Pre-launch checklist</h2>
     <ul>
       <li>Insight Tag validated and matched audiences above minimum threshold (300 members).</li>
       <li>Lead Gen Form connectors tested for CRM/marketing automation sync.</li>

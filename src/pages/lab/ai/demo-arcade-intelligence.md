@@ -1,13 +1,13 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "Demo Arcade Intelligence"
-description: "Reinforcement learning sandbox with live human-versus-agent matchups and telemetry."
+description: "Reinforcement learning sandbox with live human-versus-agent matchups."
 ---
 <div class="container">
   <header class="page-header">
     <div class="page-header__meta">
       <span class="section-index">Lab / AI / AI-009</span>
-      <span class="classification classification--accent">Exhibition Ready</span>
+      <span class="classification classification--accent">Concept</span>
     </div>
     <h1 class="page-header__title">Demo Arcade Intelligence</h1>
     <p class="page-header__subtitle">Reinforcement Learning Showcase</p>
@@ -15,15 +15,15 @@ description: "Reinforcement learning sandbox with live human-versus-agent matchu
 
   <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
 
-## Mission Profile
+## Overview
 
-Demo Arcade Intelligence is an experiential lab installation that pits reinforcement learners against human challengers in retro-inspired arcade environments. Each game cabinet streams telemetry to the lab, enabling policy iteration, interpretability experiments, and a living leaderboard.
+Demo Arcade Intelligence is a concept for an installation that pits reinforcement learners against human challengers in retro-inspired arcade environments. Each game cabinet sends gameplay data to a training cluster, which supports policy updates, interpretability experiments, and a public leaderboard.
 
 ## Core Capabilities
 
 - **Continuous training loop:** Agents retrain after each tournament cycle using Proximal Policy Optimization with curriculum schedules.
 - **Human drop-in mode:** Visitors can instantly jump into the live environment; the system switches to inference-only mode while preserving fair scoring.
-- **Explainability layer:** Post-match briefings outline key decision branches, reward contributions, and input sensitivities for each agent run.
+- **Explainability layer:** Post-match summaries show key decision branches, reward contributions, and input sensitivities for each agent run.
 
 ## Systems Overview
 
@@ -31,13 +31,13 @@ Demo Arcade Intelligence is an experiential lab installation that pits reinforce
 | --- | --- | --- |
 | Cabinet hardware | FPGA-based controller boards, 120 Hz displays | Deterministic latency pipeline for both human and agent inputs. |
 | Training cluster | Kubernetes-managed GPU workers, Ray RLlib stack | Handles policy rollouts, evaluation, and checkpoint rotation. |
-| Leaderboard service | Astro-powered microsite, Supabase backend | Publishes rankings, highlights hero runs, and archives telemetry. |
+| Leaderboard service | Astro-powered microsite, Supabase backend | Publishes rankings, highlights top runs, and archives gameplay data. |
 
 ## Observability
 
-- **Run cards:** Automatically generated dossiers summarize score differentials, policy entropy, and notable events for each match.
+- **Run cards:** Automatically generated reports summarize score differentials, policy entropy, and notable events for each match.
 - **Spectator HUD:** Overlays agent attention heatmaps and reward accumulation so audiences can follow strategy shifts in real time.
-- **Operator console:** Allows lab staff to pause training, pin stable checkpoints, or trigger curated exhibition modes.
+- **Admin console:** Allows lab staff to pause training, pin stable checkpoints, or trigger curated exhibition modes.
 
 ## Safety & Fair Play
 
@@ -48,7 +48,7 @@ Demo Arcade Intelligence is an experiential lab installation that pits reinforce
 ## Next Milestones
 
 1. Add cooperative co-play scenarios where humans and agents collaborate toward shared objectives.
-2. Release a public telemetry API for researchers interested in strategy evolution data.
+2. Release a public gameplay data API for researchers interested in strategy evolution data.
 3. Explore portable cabinet kits for traveling exhibitions and partner campuses.
 
 </div>

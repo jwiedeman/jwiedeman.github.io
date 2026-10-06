@@ -1,0 +1,601 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import Ga4Flow from '../../../components/diagrams/Ga4Flow.astro';
+import '../../../styles/ga4-spec.css';
+import {
+  SPEC,
+  CATEGORIES,
+  TYPE_LABEL,
+  TYPE_HELP,
+  PLATFORM_LABEL,
+  PARAM_DOCS,
+  DO_NOT_TRACK,
+  ITEMS,
+  allEvents,
+  type ParamValue,
+  type EventType,
+} from '../../../data/ga4-spec';
+
+const MEASUREMENT_ID = 'G-DEMO12345';
+const events = allEvents();
+const groups = CATEGORIES.map((c) => ({ ...c, entries: SPEC.filter((e) => e.category === c.id) })).filter((g) => g.entries.length);
+const types: EventType[] = ['automatic', 'enhanced', 'recommended', 'custom'];
+
+const paramIndex = new Map<string, Set<string>>();
+for (const entry of SPEC)
+  for (const ev of entry.events) {
+    if (ev.type === 'command') continue;
+    for (const p of Object.keys(ev.params)) {
+      if (!paramIndex.has(p)) paramIndex.set(p, new Set());
+      paramIndex.get(p)!.add(ev.name);
+    }
+  }
+const params = [...paramIndex.entries()].sort(([a], [b]) => a.localeCompare(b));
+
+function show(v: ParamValue): string {
+  if (Array.isArray(v)) return `[${v.length} item${v.length === 1 ? '' : 's'}: ${Object.keys(v[0] ?? {}).join(', ')}]`;
+  if (typeof v === 'string') {
+    if (v === '{value}') return '‹user input›';
+    if (v === '{location}') return '‹current URL›';
+    if (v === '{title}') return '‹document title›';
+    return `"${v}"`;
+  }
+  return String(v);
+}
+---
+<Layout
+  title="GA4 Tracking Spec"
+  description="Every common web, app, and TV interaction mapped to Google Analytics 4 events and parameters, with live examples, validation, and generated gtag.js, Firebase, and Measurement Protocol code."
+  headingTracker={false}
+>
+  <script is:inline define:vars={{ MEASUREMENT_ID }}>
+    // The standard gtag.js snippet, on a private queue: the site's own GA4 tag owns window.dataLayer
+    // and window.gtag, so demo events go to window.specLayer and never reach Google.
+    window.specLayer = window.specLayer || [];
+    function specGtag() {
+      specLayer.push(arguments);
+    }
+    window.specGtag = specGtag;
+    specGtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      wait_for_update: 500,
+    });
+    specGtag('js', new Date());
+    specGtag('config', MEASUREMENT_ID);
+  </script>
+
+  <div class="container ga4spec">
+    <PageHeader title="GA4 Tracking Spec" dept="Analytics lab" meta={['Web · App · TV / OTT', `${SPEC.length} components · ${events.length} events`, 'Follows GA4 event model']} />
+
+    <p class="ga4spec__lede">
+      What to send to Google Analytics 4 for every common interface component, on websites, native apps, and TV apps. Each
+      component lists the event, its parameters, and when to fire it, with a working example. Every event you trigger appears in
+      the log with the code for gtag.js, Firebase on Android and iOS, and the Measurement Protocol, and is checked against GA4's
+      rules. Nothing is sent to Google.
+    </p>
+
+    <Ga4Flow queue="specLayer" send="specGtag" />
+
+    <div class="ga4spec__layout">
+      <div class="ga4spec__main">
+        <nav class="ga4spec__index" aria-label="Spec contents" data-pagefind-ignore>
+          <a href="#basics">Basics</a>
+          <a href="#rules">Rules</a>
+          <a href="#setup">Setup</a>
+          {groups.map((g) => <a href={`#cat-${g.id}`}>{g.title} <span>{g.entries.length}</span></a>)}
+          <a href="#avoid">Do not track</a>
+          <a href="#builder">Event builder</a>
+          <a href="#reference">Event reference</a>
+          <a href="#params">Parameters</a>
+        </nav>
+
+        <section id="basics" class="ga4spec__section">
+          <h2>Basics</h2>
+          <p>
+            GA4 records everything as an <strong>event</strong> with up to 25 <strong>parameters</strong>. Sessions, users, and
+            conversions are built from events during processing. Choose events in this order:
+          </p>
+          <ol class="ga4spec__order">
+            {types.map((t) => (
+              <li>
+                <span class={`ga4spec__type ga4spec__type--${t}`}>{TYPE_LABEL[t]}</span>
+                <span>{TYPE_HELP[t]}</span>
+              </li>
+            ))}
+          </ol>
+          <p>
+            A <span class="ga4spec__key">Key event</span> marker means the event is a business outcome you should mark as a key event
+            (formerly "conversion") in Admin. Use the same event names and parameters on web, app, and TV, so one report covers every
+            platform.
+          </p>
+        </section>
+
+        <section id="rules" class="ga4spec__section">
+          <h2>Rules</h2>
+          <dl class="ga4spec__rules">
+            <div><dt>Names</dt><dd>snake_case, start with a letter, letters, numbers, and underscores only, 40 characters or fewer. Names are case-sensitive: <code>Sign_Up</code> and <code>sign_up</code> are two events.</dd></div>
+            <div><dt>Reserved</dt><dd>Do not start event or parameter names with <code>_</code>, <code>firebase_</code>, <code>ga_</code>, <code>google_</code>, or <code>gtag.</code>, and do not send automatically collected names such as <code>first_open</code> or <code>session_start</code>.</dd></div>
+            <div><dt>Parameters</dt><dd>25 per event. Names up to 40 characters; values up to 100 characters (page_title 300, page_referrer 420, page_location 1,000).</dd></div>
+            <div><dt>Custom definitions</dt><dd>Parameters only appear in reports after you register them as custom dimensions or metrics, and only from that day forward. Standard properties allow 50 event-scoped dimensions, 25 user-scoped dimensions, and 50 metrics. BigQuery export receives every parameter regardless.</dd></div>
+            <div><dt>User properties</dt><dd>25 per property; names up to 24 characters, values up to 36. Use them for stable traits (plan, language), not for events.</dd></div>
+            <div><dt>Apps</dt><dd>500 distinct event names per app. Plan names up front; dynamic names such as <code>click_button_37</code> exhaust the limit.</dd></div>
+            <div><dt>Ecommerce</dt><dd>Send <code>currency</code> with every <code>value</code>, an <code>items</code> array on product events (each item with item_id or item_name, up to 200), and a unique <code>transaction_id</code> on purchase.</dd></div>
+            <div><dt>Personal data</dt><dd>Never send names, emails, phone numbers, or addresses, including inside URLs. <code>user_id</code> must be an internal ID.</dd></div>
+            <div><dt>Consent</dt><dd>Set Consent Mode defaults before any tag runs and update them when the user chooses. With analytics_storage denied, gtag.js sends cookieless pings.</dd></div>
+          </dl>
+        </section>
+
+        <section id="setup" class="ga4spec__section">
+          <h2>Setup</h2>
+          <p>Install once per platform. Everything else in this spec builds on these calls.</p>
+          <div class="ga4spec__setup">
+            <figure>
+              <figcaption>Web: consent defaults, tag, and identity</figcaption>
+              <pre><code>{`<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    ad_storage: 'denied', ad_user_data: 'denied',
+    ad_personalization: 'denied', analytics_storage: 'denied',
+    wait_for_update: 500
+  });
+  gtag('js', new Date());
+  gtag('config', '${MEASUREMENT_ID}', {
+    user_id: 'u_48213'   // only when signed in
+  });
+  gtag('set', 'user_properties', { plan: 'plus' });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}"></script>`}</code></pre>
+            </figure>
+            <figure>
+              <figcaption>Android (Kotlin, Firebase)</figcaption>
+              <pre><code>{`private lateinit var firebaseAnalytics: FirebaseAnalytics
+firebaseAnalytics = Firebase.analytics
+
+// After sign-in
+firebaseAnalytics.setUserId("u_48213")
+firebaseAnalytics.setUserProperty("plan", "plus")
+
+// Consent Mode
+firebaseAnalytics.setConsent(mapOf(
+  ConsentType.ANALYTICS_STORAGE to ConsentStatus.GRANTED,
+  ConsentType.AD_STORAGE to ConsentStatus.DENIED,
+  ConsentType.AD_USER_DATA to ConsentStatus.DENIED,
+  ConsentType.AD_PERSONALIZATION to ConsentStatus.DENIED
+))`}</code></pre>
+            </figure>
+            <figure>
+              <figcaption>iOS (Swift, Firebase)</figcaption>
+              <pre><code>{`import FirebaseAnalytics
+
+// After sign-in
+Analytics.setUserID("u_48213")
+Analytics.setUserProperty("plus", forName: "plan")
+
+// Consent Mode
+Analytics.setConsent([
+  .analyticsStorage: .granted,
+  .adStorage: .denied,
+  .adUserData: .denied,
+  .adPersonalization: .denied
+])`}</code></pre>
+            </figure>
+            <figure>
+              <figcaption>TV apps and servers (Measurement Protocol)</figcaption>
+              <pre><code>{`POST https://www.google-analytics.com/mp/collect
+     ?measurement_id=${MEASUREMENT_ID}&api_secret=<API_SECRET>
+
+{
+  "client_id": "1873301823.1728201600",  // generate once, store on device
+  "user_id": "u_48213",
+  "user_properties": { "plan": { "value": "plus" } },
+  "events": [{
+    "name": "screen_view",
+    "params": {
+      "screen_name": "Home",
+      "session_id": "1728201600",       // needed for sessions
+      "engagement_time_msec": 100       // needed for active users
+    }
+  }]
+}`}</code></pre>
+            </figure>
+          </div>
+          <p class="ga4spec__small">
+            The api_secret is created under Admin → Data streams → Measurement Protocol API secrets. Keep it on servers where you can;
+            a secret shipped inside a TV app can be extracted. Validate payloads against <code>/debug/mp/collect</code>, which returns
+            errors instead of the silent 204 of the real endpoint.
+          </p>
+        </section>
+
+        {groups.map((g) => (
+          <section id={`cat-${g.id}`} class="ga4spec__section">
+            <h2>{g.title}</h2>
+            {g.entries.map((entry) => (
+              <article class="ga4card" id={entry.id} data-entry={entry.id}>
+                <header class="ga4card__head">
+                  <h3>{entry.component}</h3>
+                  <ul class="ga4card__platforms" aria-label="Platforms">
+                    {(['web', 'app', 'tv'] as const).map((p) => (
+                      <li class={entry.platforms.includes(p) ? 'is-on' : ''}>{PLATFORM_LABEL[p]}</li>
+                    ))}
+                  </ul>
+                </header>
+                <p class="ga4card__summary">{entry.summary}</p>
+                <div class="ga4card__body">
+                  <div class="ga4card__demo" data-ui={entry.ui}>
+                    <span class="ga4card__label">Try it</span>
+
+                    {entry.ui === 'buttons' && (
+                      <div class="ga4demo__buttons">
+                        {entry.buttons!.map((b) => (
+                          <button type="button" class="ga4btn" data-fire={b.event} data-params={JSON.stringify(b.params ?? {})}>
+                            {b.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    {entry.ui === 'spa' && (
+                      <div class="ga4demo__buttons">
+                        <button type="button" class="ga4btn" data-fire="page_view" data-params={JSON.stringify({ page_location: '{origin}/pricing', page_title: 'Pricing', page_referrer: '{location}' })}>Go to /pricing</button>
+                        <button type="button" class="ga4btn" data-fire="page_view" data-params={JSON.stringify({ page_location: '{origin}/docs/setup', page_title: 'Setup guide', page_referrer: '{origin}/pricing' })}>Go to /docs/setup</button>
+                      </div>
+                    )}
+
+                    {entry.ui === 'scroll' && (
+                      <div class="ga4demo__scroll" tabindex="0" aria-label="Scrollable article">
+                        <div class="ga4demo__scroll-inner">
+                          {[25, 50, 75, 90].map((n) => <span class="ga4demo__mark" style={`top:${n}%`} data-mark={n}>{n}%</span>)}
+                          <p>Scroll this box. Thresholds fire once each as they pass the bottom of the box.</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {entry.ui === 'nav' && (
+                      <div class="ga4demo__nav">
+                        <nav aria-label="Example header menu">
+                          <a href="#" data-nav="header" data-url="/pricing">Pricing</a>
+                          <a href="#" data-nav="header" data-url="/docs">Docs</a>
+                          <a href="#" data-nav="header" data-url="/blog">Blog</a>
+                        </nav>
+                        <nav aria-label="Example breadcrumb" class="ga4demo__crumbs">
+                          <a href="#" data-nav="breadcrumb" data-url="/">Home</a> › <a href="#" data-nav="breadcrumb" data-url="/docs">Docs</a> › <span>GA4</span>
+                        </nav>
+                        <nav aria-label="Example footer menu" class="ga4demo__foot">
+                          <a href="#" data-nav="footer" data-url="/privacy">Privacy</a>
+                          <a href="#" data-nav="footer" data-url="/careers">Careers</a>
+                        </nav>
+                      </div>
+                    )}
+
+                    {entry.ui === 'outbound' && (
+                      <p><a href="https://developers.google.com/analytics" class="docs-link" data-outbound>Google Analytics developer docs ↗</a></p>
+                    )}
+
+                    {entry.ui === 'tabs' && (
+                      <div class="ga4demo__tabs">
+                        <div role="tablist" aria-label="Product information">
+                          <button type="button" role="tab" aria-selected="true" data-tab="overview">Overview</button>
+                          <button type="button" role="tab" aria-selected="false" data-tab="specifications">Specifications</button>
+                          <button type="button" role="tab" aria-selected="false" data-tab="reviews">Reviews</button>
+                        </div>
+                        <p class="ga4demo__panel" data-panel>Overview panel (shown by default, not tracked).</p>
+                      </div>
+                    )}
+
+                    {entry.ui === 'accordion' && (
+                      <div class="ga4demo__accordion">
+                        <details data-faq="return_policy"><summary>What is the return policy?</summary><p>Returns are accepted within 30 days.</p></details>
+                        <details data-faq="shipping_times"><summary>How long does shipping take?</summary><p>Two to five business days.</p></details>
+                        <details data-faq="warranty"><summary>Is there a warranty?</summary><p>One year on all footwear.</p></details>
+                      </div>
+                    )}
+
+                    {entry.ui === 'carousel' && (
+                      <div class="ga4demo__carousel" data-carousel>
+                        <div class="ga4demo__slide" data-slide-label>Slide 1 of 3: New arrivals</div>
+                        <div class="ga4demo__carousel-ctl">
+                          <button type="button" class="ga4btn" data-dir="-1" aria-label="Previous slide">←</button>
+                          <span data-dots>{[0, 1, 2].map((i) => <button type="button" class="ga4demo__dot" data-dot={i} aria-label={`Slide ${i + 1}`}></button>)}</span>
+                          <button type="button" class="ga4btn" data-dir="1" aria-label="Next slide">→</button>
+                        </div>
+                        <p class="ga4demo__hint">Autoplay advances every 6 s and is not tracked.</p>
+                      </div>
+                    )}
+
+                    {entry.ui === 'search' && (
+                      <form class="ga4demo__search" role="search">
+                        <label for="ga4-search-input" class="visually-hidden">Search</label>
+                        <input id="ga4-search-input" type="search" placeholder="Search products" value="Trail Shoes " />
+                        <button type="submit" class="ga4btn">Search</button>
+                      </form>
+                    )}
+
+                    {entry.ui === 'filters' && (
+                      <div class="ga4demo__filters">
+                        <label>Size <select data-filter="size"><option value="">Any</option><option>9</option><option>10</option><option>11</option></select></label>
+                        <label><input type="checkbox" data-filter="in_stock" value="true" /> In stock</label>
+                        <label>Sort <select data-sort><option value="relevance">Relevance</option><option value="price_low_high">Price: low to high</option><option value="newest">Newest</option></select></label>
+                      </div>
+                    )}
+
+                    {entry.ui === 'form' && (
+                      <form class="ga4demo__form" id="contact" name="Contact sales" action="https://example.com/api/contact" novalidate>
+                        <label>Company size
+                          <select name="size"><option>1–50</option><option>51–500</option><option>500+</option></select>
+                        </label>
+                        <label>Work email
+                          <input name="email" type="email" placeholder="you@company.com" autocomplete="off" />
+                        </label>
+                        <button type="submit" class="ga4btn">Send</button>
+                        <p class="ga4demo__hint" data-form-status>Leave the email empty or invalid to see form_error. The address is never sent.</p>
+                      </form>
+                    )}
+
+                    {entry.ui === 'login' && (
+                      <div class="ga4demo__buttons">
+                        <button type="button" class="ga4btn" data-login="google">Sign in with Google</button>
+                        <button type="button" class="ga4btn" data-login="email">Sign in with email</button>
+                        <button type="button" class="ga4btn" data-logout>Sign out</button>
+                        <p class="ga4demo__hint" data-login-status>Signed out. user_id is not set.</p>
+                      </div>
+                    )}
+
+                    {entry.ui === 'upload' && (
+                      <label class="ga4demo__upload">Attach a file
+                        <input type="file" data-upload />
+                        <span class="ga4demo__hint">Only the extension and size are sent; the file stays in your browser.</span>
+                      </label>
+                    )}
+
+                    {entry.ui === 'promo' && (
+                      <div class="ga4demo__promo" data-promo tabindex="0" role="link">
+                        <strong>Spring sale: 25% off running gear</strong>
+                        <span>Use code SPRING25 · Shop now →</span>
+                      </div>
+                    )}
+
+                    {entry.ui === 'dialog' && (
+                      <div>
+                        <button type="button" class="ga4btn" data-open-dialog>Show offer dialog</button>
+                        <dialog class="ga4demo__dialog" data-dialog>
+                          <form method="dialog">
+                            <h4>Before you go</h4>
+                            <p>Get 10% off your first order.</p>
+                            <div class="ga4demo__buttons">
+                              <button type="submit" class="ga4btn" value="action">Claim offer</button>
+                              <button type="submit" class="ga4btn" value="button">No thanks</button>
+                            </div>
+                            <p class="ga4demo__hint">Esc and clicking outside also close it.</p>
+                          </form>
+                        </dialog>
+                      </div>
+                    )}
+
+                    {entry.ui === 'consent' && (
+                      <div class="ga4demo__consent">
+                        <p>We use cookies to measure site usage and to personalize ads.</p>
+                        <div class="ga4demo__buttons">
+                          <button type="button" class="ga4btn" data-consent="all">Accept all</button>
+                          <button type="button" class="ga4btn" data-consent="analytics">Analytics only</button>
+                          <button type="button" class="ga4btn" data-consent="none">Reject all</button>
+                        </div>
+                        <p class="ga4demo__hint" data-consent-status>Default: everything denied.</p>
+                      </div>
+                    )}
+
+                    {entry.ui === 'download' && (
+                      <p><a href="#download" data-download="/files/ga4-tracking-spec.pdf">Download the spec (PDF)</a></p>
+                    )}
+
+                    {entry.ui === 'reactions' && (
+                      <div class="ga4demo__reactions">
+                        <div class="ga4demo__stars" role="group" aria-label="Rate this article">
+                          {[1, 2, 3, 4, 5].map((n) => <button type="button" data-rate={n} aria-label={`${n} star${n > 1 ? 's' : ''}`}>★</button>)}
+                        </div>
+                        <div class="ga4demo__buttons">
+                          <button type="button" class="ga4btn" data-like aria-pressed="false">Like</button>
+                          <button type="button" class="ga4btn" data-fire="content_save" data-params="{}">Save</button>
+                          <button type="button" class="ga4btn" data-fire="join_group" data-params="{}">Follow topic</button>
+                        </div>
+                      </div>
+                    )}
+
+                    {entry.ui === 'video' && (
+                      <div class="ga4demo__video" data-video>
+                        <div class="ga4demo__screen"><span data-video-state>Product tour · 2:00</span></div>
+                        <div class="ga4demo__video-ctl">
+                          <button type="button" class="ga4btn" data-video-play>Play</button>
+                          <input type="range" min="0" max="120" step="1" value="0" aria-label="Seek" data-video-seek />
+                          <span class="ga4demo__time" data-video-time>0:00</span>
+                          <button type="button" class="ga4btn" data-video-error>Fail</button>
+                        </div>
+                        <p class="ga4demo__hint">Plays at 10× speed for the demo.</p>
+                      </div>
+                    )}
+
+                    {entry.ui === 'store' && (
+                      <div class="ga4demo__store" data-store>
+                        <p class="ga4demo__hint">The list sends view_item_list when it scrolls into view.</p>
+                        <ul class="ga4demo__products" data-product-list>
+                          {ITEMS.map((it, i) => (
+                            <li><button type="button" data-product={i}><strong>{it.item_name}</strong><span>${it.price}</span></button></li>
+                          ))}
+                        </ul>
+                        <div class="ga4demo__detail" data-detail hidden>
+                          <strong data-detail-name></strong>
+                          <div class="ga4demo__buttons">
+                            <button type="button" class="ga4btn" data-store-action="wishlist">Add to wishlist</button>
+                            <button type="button" class="ga4btn" data-store-action="cart">Add to cart</button>
+                          </div>
+                        </div>
+                        <div class="ga4demo__cart">
+                          <div class="ga4demo__cart-head"><strong>Cart</strong> <span data-cart-total>$0</span></div>
+                          <ul data-cart></ul>
+                          <div class="ga4demo__buttons">
+                            <button type="button" class="ga4btn" data-store-action="view_cart">View cart</button>
+                            <button type="button" class="ga4btn" data-store-action="checkout">Checkout</button>
+                            <button type="button" class="ga4btn" data-store-action="shipping">Ground shipping</button>
+                            <button type="button" class="ga4btn" data-store-action="payment">Pay by card</button>
+                            <button type="button" class="ga4btn" data-store-action="purchase">Place order</button>
+                            <button type="button" class="ga4btn" data-store-action="refund">Refund last order</button>
+                          </div>
+                          <p class="ga4demo__hint" data-store-status>Select a product to begin.</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {entry.ui === 'tv' && (
+                      <div class="ga4demo__tv" data-tv tabindex="0" aria-label="TV home rows. Use arrow keys to move and Enter to select.">
+                        {['Continue watching', 'Trending'].map((row, r) => (
+                          <div class="ga4demo__row">
+                            <span>{row}</span>
+                            <div>
+                              {[1, 2, 3, 4].map((n, c) => (
+                                <button type="button" tabindex="-1" class={r === 0 && c === 0 ? 'is-focus' : ''} data-tile={`${r}:${c}`} data-row={row} data-content={r === 0 ? `show_42_s1e${n}` : `movie_${100 + n}`}>
+                                  {r === 0 ? `S1 · E${n}` : `Film ${n}`}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                        <p class="ga4demo__hint">Click here, then use arrow keys and Enter. Focus moves not sent: <strong data-tv-focus>0</strong></p>
+                      </div>
+                    )}
+
+                    {entry.ui === 'vitals' && (
+                      <div class="ga4demo__buttons">
+                        <button type="button" class="ga4btn" data-vitals>Report this page's LCP</button>
+                        <p class="ga4demo__hint" data-vitals-status>Uses the browser's own Largest Contentful Paint measurement.</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div class="ga4card__events">
+                    {entry.events.map((ev, i) => (
+                      <button type="button" class="ga4ev" data-spec={`${entry.id}:${i}`} title="Show the code for this event">
+                        <span class="ga4ev__head">
+                          <code class="ga4ev__name">{ev.name}</code>
+                          <span class={`ga4spec__type ga4spec__type--${ev.type}`}>{TYPE_LABEL[ev.type]}</span>
+                          {ev.key && <span class="ga4spec__key">Key event</span>}
+                        </span>
+                        <span class="ga4ev__when">{ev.when}</span>
+                        {Object.keys(ev.params).length > 0 && (
+                          <span class="ga4ev__params">
+                            {Object.entries(ev.params).map(([k, v]) => (
+                              <span><b>{k}</b> {show(v)}</span>
+                            ))}
+                          </span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {entry.notes && (
+                  <ul class="ga4card__notes">
+                    {entry.notes.map((n) => <li>{n}</li>)}
+                  </ul>
+                )}
+              </article>
+            ))}
+          </section>
+        ))}
+
+        <section id="avoid" class="ga4spec__section">
+          <h2>Do not track</h2>
+          <dl class="ga4spec__rules">
+            {DO_NOT_TRACK.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
+          </dl>
+        </section>
+
+        <section id="builder" class="ga4spec__section">
+          <h2>Event builder</h2>
+          <p>Write an event for something this spec does not cover. It is checked against the same rules and converted for every platform.</p>
+          <div class="ga4builder">
+            <label>Event name <input type="text" data-b-name value="checklist_complete" spellcheck="false" autocomplete="off" /></label>
+            <label>Parameters (JSON)
+              <textarea rows="6" data-b-params spellcheck="false">{`{
+  "checklist_id": "onboarding_v3",
+  "items_completed": 5,
+  "duration_sec": 312
+}`}</textarea>
+            </label>
+            <div class="ga4demo__buttons">
+              <button type="button" class="ga4btn" data-b-check>Check and show code</button>
+              <button type="button" class="ga4btn" data-b-send>Send to log</button>
+            </div>
+            <ul class="ga4findings" data-b-findings></ul>
+          </div>
+        </section>
+
+        <section id="reference" class="ga4spec__section">
+          <h2>Event reference</h2>
+          <div class="ga4spec__table-wrap">
+            <table class="ga4spec__table">
+              <thead><tr><th>Event</th><th>Type</th><th>Parameters</th><th>Used for</th></tr></thead>
+              <tbody>
+                {events.map((e) => (
+                  <tr>
+                    <td><code>{e.name}</code>{e.key && <span class="ga4spec__key">Key</span>}</td>
+                    <td><span class={`ga4spec__type ga4spec__type--${e.type}`}>{TYPE_LABEL[e.type]}</span></td>
+                    <td class="ga4spec__mono">{[...e.params].join(', ') || '—'}</td>
+                    <td>{e.components.join('; ')}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="params" class="ga4spec__section">
+          <h2>Parameters</h2>
+          <div class="ga4spec__table-wrap">
+            <table class="ga4spec__table">
+              <thead><tr><th>Parameter</th><th>Meaning</th><th>Events</th></tr></thead>
+              <tbody>
+                {params.map(([p, evs]) => (
+                  <tr>
+                    <td><code>{p}</code></td>
+                    <td>{PARAM_DOCS[p] ?? ''}</td>
+                    <td class="ga4spec__mono">{[...evs].join(', ')}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <aside class="ga4console" aria-label="Event log" data-pagefind-ignore data-console>
+        <div class="ga4console__head">
+          <button type="button" class="ga4console__toggle" data-console-toggle aria-expanded="false">Event log <span data-log-count>0</span></button>
+          <button type="button" class="ga4btn" data-console-clear>Clear</button>
+        </div>
+        <dl class="ga4console__id" data-identity></dl>
+        <ol class="ga4console__list" data-log></ol>
+        <div class="ga4console__detail" data-detail-pane>
+          <div class="ga4console__title"><code data-d-name>Select an event</code> <span data-d-type></span></div>
+          <ul class="ga4findings" data-d-findings></ul>
+          <div class="ga4console__tabs" role="tablist" aria-label="Code format">
+            <button type="button" role="tab" aria-selected="true" data-code="web">Web</button>
+            <button type="button" role="tab" aria-selected="false" data-code="android">Android</button>
+            <button type="button" role="tab" aria-selected="false" data-code="ios">iOS</button>
+            <button type="button" role="tab" aria-selected="false" data-code="mp">TV / server</button>
+            <button type="button" role="tab" aria-selected="false" data-code="request">Request</button>
+          </div>
+          <pre class="ga4console__code"><code data-d-code>Trigger any example, or click an event in a card to see its code.</code></pre>
+          <button type="button" class="ga4btn" data-copy>Copy</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import { initSpecPage } from '../../../scripts/ga4-spec/page';
+  initSpecPage();
+</script>

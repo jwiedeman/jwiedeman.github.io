@@ -1,15 +1,15 @@
 ---
 layout: ../../../layouts/Layout.astro
-title: "Snapchat Ads Mission Checklist"
+title: "Snapchat Ads Playbook"
 description: "Framework for Snap Ads, AR Lens campaigns, and pixel instrumentation."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Ads Platform Manual</p>
-  <h1>Snapchat Ads Mission Checklist</h1>
-  <p class="intro">Snapchat delivers high-impact storytelling through vertical video and augmented reality. This checklist keeps creative, pixel data, and pacing aligned.</p>
+  <p class="supertitle mono">Lab / Advertising</p>
+  <h1>Snapchat Ads Playbook</h1>
+  <p class="intro">Snapchat ads run as full-screen vertical video and augmented reality. This playbook covers creative, pixel data, and pacing.</p>
 
   <section>
     <h2>Campaign structure</h2>
@@ -42,7 +42,7 @@ headingTracker:
     <h2>Pixel and measurement</h2>
     <ul>
       <li>Implement Snap Pixel events: PAGE_VIEW, VIEW_CONTENT, ADD_CART, START_CHECKOUT, PURCHASE, SIGN_UP.</li>
-      <li>Enable Advanced Conversions (CAPI) for stronger attribution.</li>
+      <li>Enable the Conversions API (CAPI) for server-side events.</li>
       <li>Configure conversion windows: 1/7 for upper funnel, 1/28 for conversion programs.</li>
     </ul>
   </section>

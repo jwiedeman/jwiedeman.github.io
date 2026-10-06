@@ -1,30 +1,30 @@
 ---
 layout: ../../../layouts/Layout.astro
-title: "TikTok Ads Launch Kit"
-description: "Procedures for Spark Ads, creator collaborations, and TikTok pixel instrumentation."
+title: "TikTok Ads Playbook"
+description: "Guide to Spark Ads, creator collaborations, and TikTok pixel instrumentation."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Ads Platform Manual</p>
-  <h1>TikTok Ads Launch Kit</h1>
-  <p class="intro">TikTok’s algorithm thrives on creative velocity and strong conversion signals. This kit covers how to prepare assets, partner with creators, and ensure measurement fidelity.</p>
+  <p class="supertitle mono">Lab / Advertising</p>
+  <h1>TikTok Ads Playbook</h1>
+  <p class="intro">TikTok’s algorithm thrives on creative velocity and strong conversion signals. This playbook covers how to prepare assets, partner with creators, and ensure measurement fidelity.</p>
 
   <section>
-    <h2>Flight plan</h2>
+    <h2>Campaign structure</h2>
     <ul>
       <li>Segment campaigns by objective: Reach, Traffic, Lead, App Install, or Conversion. Avoid mixing optimization events within one campaign.</li>
       <li>Adopt ad group naming: <span class="mono">[Objective]-[Audience]-[Offer]-[Iteration]</span>.</li>
-      <li>Enable automated creative optimization for discovery flights; use manual placements for retargeting.</li>
+      <li>Enable automated creative optimization for prospecting campaigns; use manual placements for retargeting.</li>
     </ul>
   </section>
 
   <section>
-    <h2>Creative operating system</h2>
+    <h2>Creative process</h2>
     <ul>
-      <li>Maintain a creative sprint cadence: drop 3-5 new assets each week. Use the “3-second hook, 15-second story, 3-second CTA” framework.</li>
-      <li>Leverage Spark Ads to whitelist top-performing organic posts or creator collaborations.</li>
+      <li>Ship 3-5 new assets each week. Use the “3-second hook, 15-second story, 3-second CTA” framework.</li>
+      <li>Use Spark Ads to promote top-performing organic posts or creator collaborations.</li>
       <li>Generate scripts and storyboards with clear product demos, native captions, and trending audio guidance.</li>
     </ul>
   </section>
@@ -33,7 +33,7 @@ headingTracker:
     <h2>Creator and community strategy</h2>
     <ul>
       <li>Source creators through TikTok Creator Marketplace or vetted agencies; capture usage rights durations in contracts.</li>
-      <li>Provide creative briefs with mission goals, messaging pillars, and compliance guardrails.</li>
+      <li>Provide creative briefs with campaign goals, messaging pillars, and compliance guardrails.</li>
       <li>Monitor comments for product questions and respond within 1 hour during launch windows.</li>
     </ul>
   </section>

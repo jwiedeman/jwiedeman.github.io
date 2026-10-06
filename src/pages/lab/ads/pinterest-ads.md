@@ -1,15 +1,15 @@
 ---
 layout: ../../../layouts/Layout.astro
-title: "Pinterest Ads Flight Plan"
-description: "Guide for discovery commerce campaigns, Idea Pins, and conversion tracking on Pinterest."
+title: "Pinterest Ads Playbook"
+description: "Guide to discovery commerce campaigns, video and carousel Pins, and conversion tracking on Pinterest."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Ads Platform Manual</p>
-  <h1>Pinterest Ads Flight Plan</h1>
-  <p class="intro">Pinterest is a visual discovery engine. This flight plan keeps creative storytelling, product feed hygiene, and conversion tracking synchronized.</p>
+  <p class="supertitle mono">Lab / Advertising</p>
+  <h1>Pinterest Ads Playbook</h1>
+  <p class="intro">Pinterest is a visual discovery engine. This playbook covers creative, product feed quality, and conversion tracking.</p>
 
   <section>
     <h2>Campaign architecture</h2>
@@ -23,7 +23,7 @@ headingTracker:
   <section>
     <h2>Creative system</h2>
     <ul>
-      <li>Produce Idea Pins with 5-7 pages telling a cohesive story. Include instructional steps, product highlights, and clear CTA.</li>
+      <li>Produce carousel and video Pins that tell a single story. Include instructional steps, product highlights, and a clear CTA.</li>
       <li>Vertical video specs: 9:16 ratio, 6-30 seconds, high-resolution imagery, captions for accessibility.</li>
       <li>Ensure all creatives include tasteful branding and text within safe zones to avoid cropping.</li>
     </ul>
@@ -51,7 +51,7 @@ headingTracker:
     <h2>Optimization cadence</h2>
     <ul>
       <li><strong>Weekly:</strong> Review top search queries and adjust keyword targeting or negatives.</li>
-      <li><strong>Bi-weekly:</strong> Refresh Idea Pins and video assets to maintain engagement.</li>
+      <li><strong>Bi-weekly:</strong> Refresh carousel and video assets to maintain engagement.</li>
       <li><strong>Monthly:</strong> Evaluate assisted conversions and halo impact across discovery channels.</li>
     </ul>
   </section>

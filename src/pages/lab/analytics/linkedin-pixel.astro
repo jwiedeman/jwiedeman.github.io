@@ -6,10 +6,18 @@ import '../../../styles/analytics-sandbox.css';
   <div class="analytics-sandbox linkedin-sandbox">
     <header class="sandbox-header hairline-bottom">
       <p class="supertitle mono">Analytics Lab / Instrumentation</p>
-      <h1>LinkedIn Insight Tag Sandbox</h1>
+      <h1>LinkedIn Insight Tag sandbox</h1>
       <p class="intro">
-        Inspect how the LinkedIn Insight Tag records conversions across key interface elements. Activate the
-        controls to see the mock payloads generated for each conversion ID.
+        The Insight Tag records page views and conversions for LinkedIn ads. Each conversion is created in
+        Campaign Manager, which assigns it a numeric ID. The page then fires
+        <code>lintrk('track', &#123; conversion_id: ID &#125;)</code> when the action happens. Use the controls
+        below to see the call each interaction would make.
+      </p>
+      <p class="intro">
+        The tag call only needs <code>conversion_id</code>. The extra fields on each card show the context the
+        page has at that moment. A fixed conversion value can be set on the conversion in Campaign Manager.
+        Per-event value and currency, hashed identifiers and offline events are sent server side through the
+        Conversions API.
       </p>
       <dl class="sandbox-meta">
         <div>
@@ -25,26 +33,26 @@ import '../../../styles/analytics-sandbox.css';
 
     <div class="sandbox-grid">
       <section class="sandbox-panel" aria-labelledby="linkedin-interface-heading">
-        <h2 id="linkedin-interface-heading">Tracked interface elements</h2>
+        <h2 id="linkedin-interface-heading">Tracked interactions</h2>
         <p>
-          Trigger each conversion to observe how <code>lintrk('track')</code> payloads are constructed for the
-          Insight Tag. The sections below cover acquisition CTAs, engagement signals, and revenue events.
+          Each card fires one <code>lintrk('track')</code> call. LinkedIn reports conversions for ad attribution,
+          so in production you would tag business outcomes such as leads, sign-ups and purchases. The later
+          sections apply the same pattern to smaller interactions.
         </p>
 
         <div class="linkedin-section">
-          <h3 class="linkedin-section__title">High-priority conversions</h3>
+          <h3 class="linkedin-section__title">Lead generation</h3>
           <p class="linkedin-section__intro">
-            Buttons and forms that map directly to your core demand-generation KPIs.
+            Buttons and forms that create leads.
           </p>
           <div class="linkedin-grid">
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 1</p>
-                <h3>Primary mission CTA</h3>
+                <h3>Demo request</h3>
               </header>
               <p>
-                Represents the highest priority conversion on a landing surface. Includes mission metadata for
-                downstream segmentation.
+                The main call to action on a landing page.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -53,22 +61,22 @@ import '../../../styles/analytics-sandbox.css';
                 </div>
                 <div>
                   <dt>Label</dt>
-                  <dd class="mono">Mission Brief Request</dd>
+                  <dd class="mono">Request a demo</dd>
                 </div>
               </dl>
               <button
                 class="sandbox-action"
                 data-li-event="click"
                 data-li-conversion-id="1"
-                data-li-payload='{"content_type":"cta","cta_label":"Request Mission Brief","priority":"primary"}'
+                data-li-payload='{"content_type":"cta","cta_label":"Request a demo","priority":"primary"}'
                 data-li-status="li-cta-status"
                 type="button"
               >
-                Request mission brief
+                Request a demo
               </button>
-              <p id="li-cta-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <p id="li-cta-status" class="linkedin-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -76,11 +84,11 @@ import '../../../styles/analytics-sandbox.css';
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 4</p>
-                <h3>Strategy consultation</h3>
+                <h3>Sales call booking</h3>
               </header>
               <p>
-                Fires when a visitor books a mission strategy call. Useful for validating offline conversions
-                piped in via Conversions API.
+                Fires when a visitor books a sales call. Compare it with offline conversions sent through the
+                Conversions API.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -96,15 +104,15 @@ import '../../../styles/analytics-sandbox.css';
                 class="sandbox-action"
                 data-li-event="click"
                 data-li-conversion-id="4"
-                data-li-payload='{"content_type":"cta","cta_label":"Schedule Strategy Call","mission_window":"Q3","priority":"secondary"}'
+                data-li-payload='{"content_type":"cta","cta_label":"Book a sales call","priority":"secondary"}'
                 data-li-status="li-strategy-status"
                 type="button"
               >
-                Schedule strategy call
+                Book a sales call
               </button>
-              <p id="li-strategy-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <p id="li-strategy-status" class="linkedin-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -112,10 +120,11 @@ import '../../../styles/analytics-sandbox.css';
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 3</p>
-                <h3>Lead qualification form</h3>
+                <h3>Lead form</h3>
               </header>
               <p>
-                Demonstrates a lightweight lead capture flow with hashed identifiers and mission intent fields.
+                A short lead form. The form values are added to the payload on submit. The hashed email is a
+                placeholder; the Conversions API expects a SHA-256 hash.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -123,8 +132,8 @@ import '../../../styles/analytics-sandbox.css';
                   <dd class="mono">submit</dd>
                 </div>
                 <div>
-                  <dt>Mission focus</dt>
-                  <dd class="mono">Dynamic (form value)</dd>
+                  <dt>Company size</dt>
+                  <dd class="mono">From form value</dd>
                 </div>
               </dl>
               <form
@@ -136,22 +145,22 @@ import '../../../styles/analytics-sandbox.css';
                 data-li-status="li-form-status"
               >
                 <label>
-                  Mission focus
-                  <select name="mission_focus">
-                    <option value="orbital">Orbital research</option>
-                    <option value="deep-space">Deep space comms</option>
-                    <option value="earth-observation">Earth observation</option>
+                  Company size
+                  <select name="company_size">
+                    <option value="1-50">1–50 employees</option>
+                    <option value="51-500">51–500 employees</option>
+                    <option value="500+">500+ employees</option>
                   </select>
                 </label>
                 <label>
-                  Mission identifier
-                  <input type="text" name="mission_id" placeholder="mission-041" required />
+                  Company name
+                  <input type="text" name="company_name" placeholder="Example Co" required />
                 </label>
-                <button type="submit" class="sandbox-action">Transmit lead</button>
+                <button type="submit" class="sandbox-action">Submit form</button>
               </form>
-              <p id="li-form-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <p id="li-form-status" class="linkedin-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -159,19 +168,19 @@ import '../../../styles/analytics-sandbox.css';
         </div>
 
         <div class="linkedin-section">
-          <h3 class="linkedin-section__title">Content &amp; community</h3>
+          <h3 class="linkedin-section__title">Content engagement</h3>
           <p class="linkedin-section__intro">
-            Mid-funnel interactions used for audience building, nurture, and engagement scoring.
+            Mid-funnel interactions used to build retargeting audiences.
           </p>
           <div class="linkedin-grid">
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 2</p>
-                <h3>Reference link</h3>
+                <h3>Pricing page link</h3>
               </header>
               <p>
-                Captures mid-funnel navigation interest. Prevents navigation in this demo so you can review the
-                outbound payload.
+                Tracks a click to the pricing page. Navigation is blocked in this demo so you can read the
+                payload.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -180,7 +189,7 @@ import '../../../styles/analytics-sandbox.css';
                 </div>
                 <div>
                   <dt>Destination</dt>
-                  <dd class="mono">/resources/mission-overview</dd>
+                  <dd class="mono">/pricing</dd>
                 </div>
               </dl>
               <a
@@ -189,14 +198,14 @@ import '../../../styles/analytics-sandbox.css';
                 data-li-event="click"
                 data-li-conversion-id="2"
                 data-li-prevent-default="true"
-                data-li-payload='{"destination":"/resources/mission-overview","link_type":"supporting"}'
+                data-li-payload='{"destination":"/pricing","link_type":"internal"}'
                 data-li-status="li-link-status"
               >
-                View mission overview
+                View pricing
               </a>
-              <p id="li-link-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <p id="li-link-status" class="linkedin-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -204,11 +213,11 @@ import '../../../styles/analytics-sandbox.css';
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 5</p>
-                <h3>Video milestone</h3>
+                <h3>Video 50% milestone</h3>
               </header>
               <p>
-                Logs when a visitor watches at least half of a mission briefing video. Ideal for creating
-                high-intent retargeting audiences.
+                Fires when a visitor watches half of the product overview video. Useful for a retargeting
+                audience of engaged viewers.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -224,15 +233,15 @@ import '../../../styles/analytics-sandbox.css';
                 class="sandbox-action"
                 data-li-event="click"
                 data-li-conversion-id="5"
-                data-li-payload='{"content_type":"video","video_title":"Mission Brief 01","milestone":"50%"}'
+                data-li-payload='{"content_type":"video","video_title":"Product overview","milestone":"50%"}'
                 data-li-status="li-video-status"
                 type="button"
               >
                 Log 50% milestone
               </button>
-              <p id="li-video-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <p id="li-video-status" class="linkedin-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -240,36 +249,35 @@ import '../../../styles/analytics-sandbox.css';
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 6</p>
-                <h3>Newsletter opt-in</h3>
+                <h3>Newsletter sign-up</h3>
               </header>
               <p>
-                Mimics a content subscription flow that passes hashed identifiers and preference metadata to the
-                Insight Tag.
+                A newsletter sign-up form. The payload includes a hashed email and the selected preferences.
               </p>
               <form
                 class="sandbox-form"
                 data-li-event="submit"
                 data-li-conversion-id="6"
                 data-li-prevent-default="true"
-                data-li-payload='{"subscription_tier":"mission-updates","hashed_email":"bd2b1aaf7ef4f70f20caba940c19"}'
+                data-li-payload='{"subscription_tier":"product-updates","hashed_email":"bd2b1aaf7ef4f70f20caba940c19"}'
                 data-li-status="li-subscribe-status"
               >
                 <label>
-                  Preferred cadence
+                  Frequency
                   <select name="cadence">
                     <option value="weekly">Weekly</option>
                     <option value="monthly">Monthly</option>
                   </select>
                 </label>
                 <label>
-                  Mission speciality
-                  <input type="text" name="mission_speciality" placeholder="Orbital telemetry" />
+                  Job role
+                  <input type="text" name="job_role" placeholder="Analytics engineer" />
                 </label>
-                <button type="submit" class="sandbox-action">Record opt-in</button>
+                <button type="submit" class="sandbox-action">Sign up</button>
               </form>
-              <p id="li-subscribe-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <p id="li-subscribe-status" class="linkedin-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -277,9 +285,9 @@ import '../../../styles/analytics-sandbox.css';
         </div>
 
         <div class="linkedin-section">
-          <h3 class="linkedin-section__title">Commerce &amp; pipeline</h3>
+          <h3 class="linkedin-section__title">Commerce</h3>
           <p class="linkedin-section__intro">
-            Commerce events reflecting catalog engagement and completed transactions.
+            Cart, checkout and purchase events.
           </p>
           <div class="linkedin-grid">
             <article class="sandbox-card linkedin-card" data-li-card>
@@ -288,22 +296,21 @@ import '../../../styles/analytics-sandbox.css';
                 <h3>Add to cart</h3>
               </header>
               <p>
-                Signals a piece of mission hardware has been staged in the cart. Includes value and currency for
-                ROI calculations.
+                Fires when a product is added to the cart. Value and currency are shown for reference.
               </p>
               <button
                 class="sandbox-action"
                 data-li-event="click"
                 data-li-conversion-id="7"
-                data-li-payload='{"content_type":"product","content_id":"telemetry-kit","value":199,"currency":"USD"}'
+                data-li-payload='{"content_type":"product","content_id":"pro-plan-annual","value":199,"currency":"USD"}'
                 data-li-status="li-cart-status"
                 type="button"
               >
-                Add telemetry kit
+                Add Pro plan to cart
               </button>
-              <p id="li-cart-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <p id="li-cart-status" class="linkedin-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -314,7 +321,7 @@ import '../../../styles/analytics-sandbox.css';
                 <h3>Checkout start</h3>
               </header>
               <p>
-                Tracks when a visitor initiates checkout, unlocking optimisation for drop-off analysis.
+                Fires when a visitor starts checkout. Compare with purchases to measure drop-off.
               </p>
               <button
                 class="sandbox-action"
@@ -324,11 +331,11 @@ import '../../../styles/analytics-sandbox.css';
                 data-li-status="li-checkout-status"
                 type="button"
               >
-                Begin secure checkout
+                Start checkout
               </button>
-              <p id="li-checkout-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <p id="li-checkout-status" class="linkedin-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -336,10 +343,11 @@ import '../../../styles/analytics-sandbox.css';
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 9</p>
-                <h3>Purchase confirmation</h3>
+                <h3>Purchase</h3>
               </header>
               <p>
-                Finalises the transaction with order identifiers that can be reconciled against backend systems.
+                Fires on the order confirmation page. The order ID lets you match the event to backend orders
+                and deduplicate it against a Conversions API event.
               </p>
               <button
                 class="sandbox-action"
@@ -349,11 +357,11 @@ import '../../../styles/analytics-sandbox.css';
                 data-li-status="li-purchase-status"
                 type="button"
               >
-                Log completed purchase
+                Log purchase
               </button>
-              <p id="li-purchase-status" class="linkedin-status">Idle — waiting for interaction.</p>
+              <p id="li-purchase-status" class="linkedin-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -361,20 +369,18 @@ import '../../../styles/analytics-sandbox.css';
         </div>
 
         <div class="linkedin-section">
-          <h3 class="linkedin-section__title">Experience instrumentation</h3>
+          <h3 class="linkedin-section__title">Interface interactions</h3>
           <p class="linkedin-section__intro">
-            Preference changes, overlays, and satisfaction checkpoints that round out an exhaustive conversion
-            plan for Insight Tag deployments.
+            Preference changes, modals, help text and ratings.
           </p>
           <div class="linkedin-grid">
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 10</p>
-                <h3>Theme preference toggle</h3>
+                <h3>Theme toggle</h3>
               </header>
               <p>
-                Records interface theme toggles so downstream personalisation can respond. The payload captures
-                previous and next state when the visitor flips the control.
+                Records a light/dark theme change. The payload includes the previous and next state.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -399,11 +405,11 @@ import '../../../styles/analytics-sandbox.css';
                 data-li-status="li-theme-status"
                 type="button"
               >
-                Toggle interface theme
+                Toggle theme
               </button>
               <p id="li-theme-status" class="linkedin-status">Theme set to light.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -411,11 +417,10 @@ import '../../../styles/analytics-sandbox.css';
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 11</p>
-                <h3>Consent update</h3>
+                <h3>Email consent</h3>
               </header>
               <p>
-                Capture optional mission communications preferences with explicit consent state so privacy
-                compliance is auditable within Insight Tag exports.
+                Records an email preference change with its consent state.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -428,22 +433,22 @@ import '../../../styles/analytics-sandbox.css';
                 </div>
               </dl>
               <label class="linkedin-consent">
-                <span>Email mission updates</span>
+                <span>Email me product updates</span>
                 <input
                   type="checkbox"
                   class="linkedin-consent__toggle"
-                  value="mission-updates"
+                  value="product-updates"
                   checked
                   data-li-event="change"
                   data-li-conversion-id="11"
-                  data-li-payload='{"preference":"mission-updates","consent":"granted"}'
+                  data-li-payload='{"preference":"product-updates","consent":"granted"}'
                   data-li-dynamic="consent"
                   data-li-status="li-consent-status"
                 />
               </label>
               <p id="li-consent-status" class="linkedin-status">Consent granted.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -451,11 +456,11 @@ import '../../../styles/analytics-sandbox.css';
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 12</p>
-                <h3>Mission alert modal</h3>
+                <h3>Webinar modal</h3>
               </header>
               <p>
-                Opening the alert emits a conversion for ID 12. Buttons inside the dialog showcase dismiss and
-                acknowledgement follow-ups as separate conversions.
+                Opening the modal fires conversion 12. Dismiss fires 20 and Register fires 21. Only the
+                registration would normally be a LinkedIn conversion.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -464,23 +469,23 @@ import '../../../styles/analytics-sandbox.css';
                 </div>
                 <div>
                   <dt>Actions</dt>
-                  <dd class="mono">open / dismiss / acknowledge</dd>
+                  <dd class="mono">open / dismiss / register</dd>
                 </div>
               </dl>
               <button
                 class="sandbox-action"
                 data-li-event="click"
                 data-li-conversion-id="12"
-                data-li-payload='{"modal_id":"mission-alert","interaction":"open"}'
+                data-li-payload='{"modal_id":"webinar-registration","interaction":"open"}'
                 data-li-modal-target="li-alert-modal"
                 data-li-status="li-modal-status"
                 type="button"
               >
-                Launch mission alert
+                Open webinar modal
               </button>
-              <p id="li-modal-status" class="linkedin-status">Modal idle — closed.</p>
+              <p id="li-modal-status" class="linkedin-status">Modal closed.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -488,11 +493,11 @@ import '../../../styles/analytics-sandbox.css';
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 13</p>
-                <h3>Inline tooltip</h3>
+                <h3>Inline help</h3>
               </header>
               <p>
-                Toggle the contextual helper to log visibility state. Insight Tag receives the content reference
-                plus whether the tooltip is currently displayed.
+                Shows or hides a pricing FAQ answer. The payload records the content ID and whether it is
+                visible.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -509,20 +514,20 @@ import '../../../styles/analytics-sandbox.css';
                 aria-pressed="false"
                 data-li-event="click"
                 data-li-conversion-id="13"
-                data-li-payload='{"component":"tooltip","content_id":"mission-tooling","visibility":"hidden"}'
+                data-li-payload='{"component":"tooltip","content_id":"pricing-faq","visibility":"hidden"}'
                 data-li-dynamic="tooltip"
                 data-li-tooltip-target="li-tooltip-panel"
                 data-li-status="li-tooltip-status"
                 type="button"
               >
-                Toggle tooling primer
+                Can I cancel an annual plan?
               </button>
               <div id="li-tooltip-panel" class="linkedin-tooltip" hidden>
-                <p>The tooling primer highlights tagging order, QA cadence, and roll-out strategy.</p>
+                <p>Yes. Annual plans can be cancelled at any time and stay active until the end of the term.</p>
               </div>
-              <p id="li-tooltip-status" class="linkedin-status">Tooltip hidden.</p>
+              <p id="li-tooltip-status" class="linkedin-status">Answer hidden.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -530,11 +535,11 @@ import '../../../styles/analytics-sandbox.css';
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 14</p>
-                <h3>Feedback slider</h3>
+                <h3>Article rating</h3>
               </header>
               <p>
-                Capture qualitative sentiment by logging a 1&ndash;5 clarity score. The payload records the
-                selected rating and scale maximum for consistent reporting.
+                Records a 1&ndash;5 rating for a help-center article. The payload includes the rating and the
+                scale maximum.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -547,7 +552,7 @@ import '../../../styles/analytics-sandbox.css';
                 </div>
               </dl>
               <label class="linkedin-rating">
-                <span>Clarity score</span>
+                <span>Was this article helpful?</span>
                 <input
                   type="range"
                   min="1"
@@ -556,14 +561,14 @@ import '../../../styles/analytics-sandbox.css';
                   step="1"
                   data-li-event="change"
                   data-li-conversion-id="14"
-                  data-li-payload='{"component":"mission-module","rating":3,"scale_max":5}'
+                  data-li-payload='{"component":"help-article","rating":3,"scale_max":5}'
                   data-li-dynamic="range"
                   data-li-status="li-rating-status"
                 />
               </label>
-              <p id="li-rating-status" class="linkedin-status">Awaiting feedback.</p>
+              <p id="li-rating-status" class="linkedin-status">No rating yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -571,36 +576,34 @@ import '../../../styles/analytics-sandbox.css';
         </div>
 
         <div class="linkedin-section">
-          <h3 class="linkedin-section__title">Visibility &amp; advocacy</h3>
+          <h3 class="linkedin-section__title">Sharing, scroll depth and errors</h3>
           <p class="linkedin-section__intro">
-            Sharing, print, error logging, and scroll-depth checks that show how intelligence propagates beyond
-            the initial session.
+            Copy, share, print, scroll depth and error events.
           </p>
           <div class="linkedin-grid">
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 15</p>
-                <h3>Copy mission brief</h3>
+                <h3>Copy link</h3>
               </header>
               <p>
-                Copy-to-clipboard actions reveal organic sharing behaviour. The helper mirrors a custom Insight
-                Tag conversion that tracks copied URLs.
+                Copies the article URL to the clipboard and records the URL in the payload.
               </p>
               <button
                 class="sandbox-action"
                 data-li-event="click"
                 data-li-conversion-id="15"
-                data-li-payload='{"share_method":"copy","content_id":"mission-brief","content_url":"https://intranet.example/missions/briefing-01"}'
+                data-li-payload='{"share_method":"copy","content_id":"help-center-faq","content_url":"https://example.com/help/faq"}'
                 data-li-dynamic="copy"
-                data-li-copy-text="https://intranet.example/missions/briefing-01"
+                data-li-copy-text="https://example.com/help/faq"
                 data-li-status="li-copy-status"
                 type="button"
               >
-                Copy briefing URL
+                Copy article URL
               </button>
-              <p id="li-copy-status" class="linkedin-status">No copy attempts recorded.</p>
+              <p id="li-copy-status" class="linkedin-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -611,22 +614,21 @@ import '../../../styles/analytics-sandbox.css';
                 <h3>Share to X</h3>
               </header>
               <p>
-                Emits a conversion for social propagation when operators share briefing intel to external
-                channels. Swap the channel when mapping to other destinations.
+                Records a social share. Change <code>channel</code> for other networks.
               </p>
               <button
                 class="sandbox-action"
                 data-li-event="click"
                 data-li-conversion-id="16"
-                data-li-payload='{"share_method":"social","channel":"x","content_id":"mission-brief","value":0}'
+                data-li-payload='{"share_method":"social","channel":"x","content_id":"help-center-faq","value":0}'
                 data-li-status="li-social-status"
                 type="button"
               >
-                Stage social share payload
+                Share to X
               </button>
-              <p id="li-social-status" class="linkedin-status">Awaiting share interaction.</p>
+              <p id="li-social-status" class="linkedin-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -634,25 +636,24 @@ import '../../../styles/analytics-sandbox.css';
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 17</p>
-                <h3>Print briefing packet</h3>
+                <h3>Print article</h3>
               </header>
               <p>
-                Printing or saving to PDF still counts as content distribution. Track this behaviour to reconcile
-                offline dissemination with your measurement plan.
+                Records a print or save-to-PDF action.
               </p>
               <button
                 class="sandbox-action"
                 data-li-event="click"
                 data-li-conversion-id="17"
-                data-li-payload='{"share_method":"print","content_id":"mission-brief","value":0}'
+                data-li-payload='{"share_method":"print","content_id":"help-center-faq","value":0}'
                 data-li-status="li-print-status"
                 type="button"
               >
-                Log print intent
+                Print article
               </button>
-              <p id="li-print-status" class="linkedin-status">No print intents logged.</p>
+              <p id="li-print-status" class="linkedin-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -660,11 +661,10 @@ import '../../../styles/analytics-sandbox.css';
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 18</p>
-                <h3>Scroll depth sentinel</h3>
+                <h3>Scroll depth</h3>
               </header>
               <p>
-                Intersection Observer fires once when operators reach the footer sentinel, demonstrating how to
-                wire depth milestones into Insight Tag conversions.
+                An IntersectionObserver fires once when the marker below is fully in view.
               </p>
               <div class="linkedin-scroll" role="status">
                 <div
@@ -672,15 +672,15 @@ import '../../../styles/analytics-sandbox.css';
                   data-li-event="observe"
                   data-li-trigger="observe"
                   data-li-conversion-id="18"
-                  data-li-payload='{"component":"scroll_sentinel","threshold":0.9}'
+                  data-li-payload='{"component":"scroll_marker","threshold":0.9}'
                   data-li-status="li-scroll-status"
                 >
-                  Scroll sentinel — fires once at 90% depth
+                  Scroll marker: fires once at 90% depth
                 </div>
               </div>
-              <p id="li-scroll-status" class="linkedin-status">Sentinel armed — scroll to trigger.</p>
+              <p id="li-scroll-status" class="linkedin-status">Waiting for scroll.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -688,25 +688,24 @@ import '../../../styles/analytics-sandbox.css';
             <article class="sandbox-card linkedin-card" data-li-card>
               <header>
                 <p class="sandbox-card__tag mono">Conversion ID: 19</p>
-                <h3>Error capture</h3>
+                <h3>Non-fatal error</h3>
               </header>
               <p>
-                Non-fatal anomalies deserve visibility. Trigger the helper to log a warning state so operations
-                teams can reconcile support workload with Insight Tag data.
+                Records a recoverable error, such as a checkout request timing out.
               </p>
               <button
                 class="sandbox-action"
                 data-li-event="click"
                 data-li-conversion-id="19"
-                data-li-payload='{"error_code":"mission-timeout","severity":"warning","component":"mission-briefing"}'
+                data-li-payload='{"error_code":"checkout-timeout","severity":"warning","component":"checkout"}'
                 data-li-status="li-error-status"
                 type="button"
               >
-                Log non-fatal error
+                Log error
               </button>
-              <p id="li-error-status" class="linkedin-status">No anomalies detected.</p>
+              <p id="li-error-status" class="linkedin-status">No errors logged.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Payload</summary>
                 <pre class="linkedin-pre" data-li-payload-preview></pre>
               </details>
             </article>
@@ -728,12 +727,11 @@ import '../../../styles/analytics-sandbox.css';
       >
         <div class="linkedin-modal__dialog">
           <header class="linkedin-modal__header">
-            <h2 id="li-alert-title">Mission readiness alert</h2>
+            <h2 id="li-alert-title">Upcoming webinar</h2>
           </header>
           <div class="linkedin-modal__body" id="li-alert-body">
             <p>
-              Telemetry processing latency has exceeded the expected threshold. Dismiss or acknowledge the
-              alert to keep Insight Tag instrumentation aligned with operator response.
+              Server-side tagging in practice. Thursday, 2:00 pm ET. Register to get the recording.
             </p>
           </div>
           <footer class="linkedin-modal__actions">
@@ -741,33 +739,33 @@ import '../../../styles/analytics-sandbox.css';
               class="sandbox-action"
               data-li-event="click"
               data-li-conversion-id="20"
-              data-li-payload='{"modal_id":"mission-alert","interaction":"dismiss"}'
+              data-li-payload='{"modal_id":"webinar-registration","interaction":"dismiss"}'
               data-li-modal-close="true"
               data-li-status="li-modal-status"
               type="button"
             >
-              Dismiss alert
+              Dismiss
             </button>
             <button
               class="sandbox-action"
               data-li-event="click"
               data-li-conversion-id="21"
-              data-li-payload='{"modal_id":"mission-alert","interaction":"acknowledge"}'
+              data-li-payload='{"modal_id":"webinar-registration","interaction":"register"}'
               data-li-modal-close="true"
               data-li-status="li-modal-status"
               type="button"
             >
-              Acknowledge alert
+              Register
             </button>
           </footer>
         </div>
       </div>
 
       <aside class="sandbox-console linkedin-console" data-console-panel aria-labelledby="linkedin-console-heading">
-        <h2 id="linkedin-console-heading">Mock Insight Tag console</h2>
+        <h2 id="linkedin-console-heading">Insight Tag console</h2>
         <p>
-          Displays the payload that would be sent to <code class="mono">https://px.ads.linkedin.com/collect</code>
-          along with a timestamp.
+          Shows each simulated call with its conversion ID and a timestamp. No requests are sent to
+          <code class="mono">https://px.ads.linkedin.com/collect</code>.
         </p>
         <div class="sandbox-console__toolbar" role="group" aria-label="LinkedIn console controls">
           <button type="button" class="console-control" data-console-scroll disabled>Jump to latest</button>
@@ -780,19 +778,20 @@ import '../../../styles/analytics-sandbox.css';
           role="log"
           tabindex="0"
         >
-          <p class="console-empty" data-console-empty>Awaiting Insight Tag activity…</p>
+          <p class="console-empty" data-console-empty>No calls yet.</p>
         </div>
         <noscript>
-          <p class="console-empty">Enable JavaScript to observe the simulated conversions.</p>
+          <p class="console-empty">Enable JavaScript to see the simulated calls.</p>
         </noscript>
       </aside>
     </div>
 
     <section class="sandbox-snippet" aria-labelledby="linkedin-snippet-heading">
-      <h2 id="linkedin-snippet-heading">LinkedIn Insight Tag snippet</h2>
+      <h2 id="linkedin-snippet-heading">Insight Tag snippet</h2>
       <p>
-        Load the Insight Tag asynchronously and configure the partner ID before firing conversions with
-        <code>lintrk('track', &#123;&#123; conversion_id &#125;&#125;)</code>.
+        The base tag sets <code>_linkedin_partner_id</code> and loads <code>insight.min.js</code>
+        asynchronously. Page views are recorded automatically. Calls made before the script loads are queued in
+        <code>lintrk.q</code>.
       </p>
       <pre class="mono"><code>{`&lt;script type="text/javascript"&gt;
   _linkedin_partner_id = 'LINKEDIN-ID';
@@ -812,6 +811,15 @@ import '../../../styles/analytics-sandbox.css';
     s.parentNode.insertBefore(b, s);
   })(window.lintrk);
 &lt;/script&gt;`}</code></pre>
+      <p>
+        An event-specific conversion is created in Campaign Manager and fired from the page with its ID:
+      </p>
+      <pre class="mono"><code>{`window.lintrk('track', { conversion_id: 1234567 });`}</code></pre>
+      <p>
+        Server-side events go to the Conversions API instead. They reference the same conversion rule, carry
+        hashed user identifiers and an optional <code>conversionValue</code>, and can be deduplicated against
+        tag events with a shared event ID.
+      </p>
     </section>
   </div>
 

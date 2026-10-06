@@ -15,7 +15,7 @@ description: "CPU-only handwritten digit generator distilled into a compact soft
 
   <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
 
-## Mission Profile
+## Overview
 
 The Mini Digits GAN is a distilled generator derived from a handwriting adversarial model. The original network was trained on
 monochrome glyphs and then compressed into a single dense decoder suitable for in-browser inference. The generator accepts a

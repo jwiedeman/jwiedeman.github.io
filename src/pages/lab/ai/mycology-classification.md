@@ -7,7 +7,7 @@ description: "Vision transformer tuned for field-grade fungal identification and
   <header class="page-header">
     <div class="page-header__meta">
       <span class="section-index">Lab / AI / AI-007</span>
-      <span class="classification classification--accent">Field Trials</span>
+      <span class="classification classification--accent">Concept</span>
     </div>
     <h1 class="page-header__title">Mycology Classification</h1>
     <p class="page-header__subtitle">Vision Transformer for Fungal Identification</p>
@@ -15,15 +15,15 @@ description: "Vision transformer tuned for field-grade fungal identification and
 
   <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
 
-## Mission Profile
+## Overview
 
 The mycology classifier augments field researchers and foragers with instant, high-accuracy identification. It couples a transformer backbone with curated datasets from herbariums, community science uploads, and lab-grown exemplars, producing species-level predictions and contextual safety notes even in offline conditions.
 
 ## Core Capabilities
 
 - **Hierarchical taxonomy:** Predicts kingdom through species, surfacing genus-level confidence intervals when ambiguity is detected.
-- **Risk envelopes:** Maps each identification against toxicity databases and generates a color-coded advisory with edible, caution, or danger flags.
-- **Habitat intelligence:** Merges geospatial layers—soil composition, host trees, and climate history—to recommend likely co-located species.
+- **Toxicity flags:** Maps each identification against toxicity databases and generates a color-coded advisory with edible, caution, or danger flags.
+- **Habitat context:** Merges geospatial layers—soil composition, host trees, and climate history—to recommend likely co-located species.
 
 ## Model Development
 
@@ -55,6 +55,6 @@ The mycology classifier augments field researchers and foragers with instant, hi
 
 1. Ship multilingual interface layers for Spanish, Japanese, and German partners.
 2. Expand spore print recognition from lab captures to crowd-sourced macro lens attachments.
-3. Publish an interpretability brief outlining key morphological differentiators per class.
+3. Publish a write-up on key morphological differentiators per class.
 
 </div>

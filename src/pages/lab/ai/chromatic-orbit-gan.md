@@ -1,7 +1,7 @@
 ---
 layout: ../../../layouts/Layout.astro
 title: "Chromatic Orbit GAN"
-description: "Spiral-and-wavefield GAN that paints 64×64 orbital textures directly in the browser."
+description: "Generator that blends spiral, radial, and interference fields into 64×64 color textures in the browser."
 ---
 <div class="container">
   <header class="page-header">
@@ -10,14 +10,14 @@ description: "Spiral-and-wavefield GAN that paints 64×64 orbital textures direc
       <span class="classification classification--accent">Interactive Demo</span>
     </div>
     <h1 class="page-header__title">Chromatic Orbit GAN</h1>
-    <p class="page-header__subtitle">64×64 Orbital Texture Generator</p>
+    <p class="page-header__subtitle">64×64 Color Texture Generator</p>
   </header>
 
   <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
 
-## Mission Profile
+## Overview
 
-Chromatic Orbit GAN renders psychedelic orbital textures by blending six handcrafted color basis fields. The generator accepts
+Chromatic Orbit GAN renders color textures by blending six handcrafted color basis fields. The generator accepts
 an eight-dimensional latent vector, runs it through a two-layer mixer, and outputs signed coefficients that steer spiral, radial,
 and interference fields. Everything executes in vanilla JavaScript with typed arrays—no WebGL, no WASM, and no heavyweight
 runtime.
@@ -27,7 +27,7 @@ runtime.
 | Stage | Details |
 | --- | --- |
 | Latent sampler | 8 uniform components in \[-1, 1] seeded with Mulberry32 for deterministic playback. |
-| Hidden mixer | Dense 8×8 layer with tanh activation produces intermediate orbital descriptors. |
+| Hidden mixer | Dense 8×8 layer with tanh activation produces intermediate features. |
 | Coefficient head | Dense 6×8 layer with tanh output, normalized to maintain balanced color energy. |
 | Basis decoder | Six 64×64 RGB basis fields generated analytically (spirals, beams, ripples, interference). |
 | Output | Canvas rendering with configurable temperature (energy) and optional autoplay loop. |
@@ -69,7 +69,7 @@ runtime.
 
 ## Implementation Notes
 
-- Basis fields are generated analytically from sine, cosine, and polar transforms, keeping the payload at pure code.
+- Basis fields are generated analytically from sine, cosine, and polar transforms, so no image files are shipped.
 - Coefficient normalization preserves relative intensity so colors stay vivid without clipping.
 - Autoplay increments the seed with a prime stride so loops explore the latent space evenly over long runs.
 

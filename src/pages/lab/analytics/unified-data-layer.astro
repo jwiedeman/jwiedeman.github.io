@@ -5,11 +5,13 @@ import '../../../styles/analytics-sandbox.css';
 <Layout title="Unified Data Layer">
   <div class="analytics-sandbox udl-sandbox">
     <header class="sandbox-header hairline-bottom">
-      <p class="supertitle mono">Analytics Lab / Instrumentation</p>
-      <h1>Unified Data Layer Sandbox</h1>
+      <p class="supertitle mono">Analytics Lab / Data layer</p>
+      <h1>Unified data layer</h1>
       <p class="intro">
-        Prototype a normalized event model that can power any analytics or marketing endpoint. Engage with
-        the controls to observe the structured payloads delivered to <code>window.dataLayer</code>.
+        A unified data layer defines each event once, in a vendor-neutral schema. Tag Manager or a mapping script
+        translates that event into GA4, Adobe Analytics, Meta, and other vendor calls. This page uses GA4
+        recommended event names and the GA4 <code>items</code> array as the canonical shape. Use the controls to
+        see what each interaction pushes to <code>window.dataLayer</code>.
       </p>
       <dl class="sandbox-meta">
         <div>
@@ -26,10 +28,10 @@ import '../../../styles/analytics-sandbox.css';
     <div class="sandbox-grid">
       <section class="sandbox-panel">
         <section class="sandbox-card udl-context" aria-labelledby="udl-context-heading">
-          <h2 id="udl-context-heading">Base context snapshot</h2>
+          <h2 id="udl-context-heading">Base context</h2>
           <p>
-            Session, user, and page objects are seeded once per visit. Every interaction extends this payload
-            so downstream tags inherit a shared vocabulary.
+            Session, user, and page objects are set once per page load. Every event includes them, so each vendor
+            mapping reads the same values.
           </p>
           <div class="udl-context__grid">
             <article>
@@ -45,7 +47,7 @@ import '../../../styles/analytics-sandbox.css';
               <pre class="mono">{`{
   "auth_state": "anonymous",
   "persona": "analyst",
-  "account_tier": "explorer"
+  "account_tier": "free"
 }`}</pre>
             </article>
             <article>
@@ -62,133 +64,136 @@ import '../../../styles/analytics-sandbox.css';
         <section class="sandbox-card udl-interactions" aria-labelledby="udl-interactions-heading">
           <h2 id="udl-interactions-heading">Tracked interactions</h2>
           <p>
-            Buttons, links, and forms declare their instrumentation through data attributes. A helper maps the
-            DOM metadata into normalized payloads pushed into the data layer.
+            Buttons, links, and forms declare their event in <code>data-udl-*</code> attributes. A script reads the
+            attributes and pushes one event per interaction.
           </p>
 
           <div class="udl-interactions__section">
-            <h3>Acquisition &amp; navigation</h3>
-            <p class="udl-interactions__intro">Hero CTAs, navigation links, and internal search queries.</p>
+            <h3>Navigation and search</h3>
+            <p class="udl-interactions__intro">Calls to action, help links, and site search.</p>
             <div class="udl-interactions__grid">
               <button
                 class="sandbox-action"
                 data-udl-event="cta_click"
-                data-udl-element="Launch Primary CTA"
+                data-udl-element="Request a demo"
                 data-udl-module="udl-sandbox.cta"
                 data-udl-value="primary"
                 data-udl-metadata='{"placement":"hero","priority":"primary"}'
               >
-                Initiate launch sequence
+                Request a demo
               </button>
               <a
                 href="#"
                 class="sandbox-link"
                 data-udl-event="documentation_open"
-                data-udl-element="Sandbox Documentation Link"
+                data-udl-element="Help: Installing the tracking snippet"
                 data-udl-module="udl-sandbox.navigation"
                 data-udl-prevent-default="true"
-                data-udl-metadata='{"destination":"/docs/implementation","link_type":"supporting"}'
+                data-udl-metadata='{"destination":"/help/install-snippet","link_type":"help_article"}'
               >
-                View implementation checklist
+                Read: Installing the tracking snippet
               </a>
               <form
                 class="sandbox-form"
-                data-udl-event="search_execute"
-                data-udl-element="Knowledge Base Search"
+                data-udl-event="search"
+                data-udl-element="Help center search"
                 data-udl-module="udl-sandbox.search"
                 data-udl-trigger="submit"
-                data-udl-metadata='{"search_type":"site","results_returned":12}'
+                data-udl-metadata='{"search_type":"site","results_count":12}'
               >
-                <label for="udl-search">Search query</label>
-                <input id="udl-search" name="search_query" placeholder="Telemetry protocols" required />
-                <button type="submit" class="sandbox-action">Run search</button>
+                <label for="udl-search">Search term</label>
+                <input id="udl-search" name="search_term" placeholder="reset password" required />
+                <button type="submit" class="sandbox-action">Search</button>
               </form>
             </div>
           </div>
 
           <div class="udl-interactions__section">
-            <h3>Media &amp; documents</h3>
-            <p class="udl-interactions__intro">Video milestones and download tracking for resource hubs.</p>
+            <h3>Video and downloads</h3>
+            <p class="udl-interactions__intro">Video start and progress, and file downloads.</p>
             <div class="udl-interactions__grid">
               <button
                 class="sandbox-action"
-                data-udl-event="media_start"
-                data-udl-element="Mission Briefing Video"
+                data-udl-event="video_start"
+                data-udl-element="Product overview video"
                 data-udl-module="udl-sandbox.media"
-                data-udl-metadata='{"media_type":"video","media_title":"Mission Brief 01","position":"hero"}'
+                data-udl-metadata='{"video_title":"Product overview","video_provider":"self-hosted","video_duration":184}'
               >
-                Start mission briefing
+                Start video
               </button>
               <button
                 class="sandbox-action"
-                data-udl-event="media_milestone"
-                data-udl-element="Mission Briefing Video"
+                data-udl-event="video_progress"
+                data-udl-element="Product overview video"
                 data-udl-module="udl-sandbox.media"
-                data-udl-metadata='{"media_type":"video","media_title":"Mission Brief 01","percent":50}'
+                data-udl-metadata='{"video_title":"Product overview","video_provider":"self-hosted","video_percent":50}'
               >
-                Log 50% milestone
+                Log 50% progress
               </button>
               <a
                 href="#"
                 class="sandbox-link"
-                data-udl-event="asset_download"
-                data-udl-element="Telemetry Specification PDF"
+                data-udl-event="file_download"
+                data-udl-element="Pricing sheet PDF"
                 data-udl-module="udl-sandbox.downloads"
                 data-udl-prevent-default="true"
-                data-udl-metadata='{"file_name":"mission-telemetry-kit.pdf","file_size":2480,"file_type":"pdf"}'
+                data-udl-metadata='{"file_name":"pricing-2024.pdf","file_extension":"pdf","link_url":"/files/pricing-2024.pdf"}'
               >
-                Download telemetry kit (PDF)
+                Download pricing sheet (PDF)
               </a>
             </div>
           </div>
 
           <div class="udl-interactions__section">
-            <h3>Commerce &amp; pipeline</h3>
-            <p class="udl-interactions__intro">Add to cart through purchase confirmation using shared product IDs.</p>
+            <h3>Ecommerce</h3>
+            <p class="udl-interactions__intro">
+              Add to cart, checkout, and purchase share one <code>items</code> array. Each ecommerce push is preceded
+              by <code>{`{ ecommerce: null }`}</code> to clear the previous event's items.
+            </p>
             <div class="udl-interactions__grid">
               <button
                 class="sandbox-action"
-                data-udl-event="commerce_add"
-                data-udl-element="Telemetry Kit"
+                data-udl-event="add_to_cart"
+                data-udl-element="Pro plan, annual"
                 data-udl-module="udl-sandbox.commerce"
-                data-udl-metadata='{"sku":"telemetry-kit","value":199,"currency":"USD"}'
+                data-udl-metadata='{"ecommerce":{"currency":"USD","value":199,"items":[{"item_id":"PLAN-PRO-ANNUAL","item_name":"Pro plan, annual","item_category":"Subscriptions","price":199,"quantity":1}]}}'
               >
-                Add telemetry kit
+                Add Pro plan to cart
               </button>
               <button
                 class="sandbox-action"
-                data-udl-event="commerce_checkout"
-                data-udl-element="Telemetry Kit"
+                data-udl-event="begin_checkout"
+                data-udl-element="Pro plan, annual"
                 data-udl-module="udl-sandbox.commerce"
-                data-udl-metadata='{"sku":"telemetry-kit","step":1,"value":199,"currency":"USD"}'
+                data-udl-metadata='{"ecommerce":{"currency":"USD","value":199,"items":[{"item_id":"PLAN-PRO-ANNUAL","item_name":"Pro plan, annual","item_category":"Subscriptions","price":199,"quantity":1}]}}'
               >
-                Begin secure checkout
+                Begin checkout
               </button>
               <button
                 class="sandbox-action"
-                data-udl-event="commerce_purchase"
-                data-udl-element="Telemetry Kit"
+                data-udl-event="purchase"
+                data-udl-element="Pro plan, annual"
                 data-udl-module="udl-sandbox.commerce"
-                data-udl-metadata='{"sku":"telemetry-kit","order_id":"UDL-DEMO-001","value":199,"currency":"USD"}'
+                data-udl-metadata='{"ecommerce":{"transaction_id":"UDL-DEMO-001","currency":"USD","value":199,"tax":0,"items":[{"item_id":"PLAN-PRO-ANNUAL","item_name":"Pro plan, annual","item_category":"Subscriptions","price":199,"quantity":1}]}}'
               >
-                Confirm purchase
+                Complete purchase
               </button>
             </div>
           </div>
 
           <div class="udl-interactions__section">
-            <h3>Experience signals</h3>
-            <p class="udl-interactions__intro">Feedback loops that monitor quality, consent, and reliability.</p>
+            <h3>Feedback, consent, and errors</h3>
+            <p class="udl-interactions__intro">Content ratings, consent changes, and client-side errors.</p>
             <div class="udl-interactions__grid">
               <label class="udl-rating">
-                <span>Module clarity score</span>
+                <span>Was this article helpful? (1-5)</span>
                 <input
                   type="range"
                   min="1"
                   max="5"
                   value="3"
                   data-udl-event="content_rate"
-                  data-udl-element="Analytics Module"
+                  data-udl-element="Help article: Installing the tracking snippet"
                   data-udl-module="udl-sandbox.feedback"
                   data-udl-trigger="change"
                   data-udl-dynamic="range"
@@ -200,24 +205,54 @@ import '../../../styles/analytics-sandbox.css';
                   type="checkbox"
                   checked
                   data-udl-event="consent_update"
-                  data-udl-element="Mission Communications Opt-in"
+                  data-udl-element="Product email opt-in"
                   data-udl-module="udl-sandbox.consent"
                   data-udl-trigger="change"
                   data-udl-dynamic="toggle"
                   data-udl-metadata='{"consent_channel":"email"}'
                 />
-                <span>Email mission updates</span>
+                <span>Email product updates</span>
               </label>
               <button
                 class="sandbox-action"
-                data-udl-event="exception_raise"
-                data-udl-element="Telemetry Feed"
+                data-udl-event="exception"
+                data-udl-element="Pricing API request"
                 data-udl-module="udl-sandbox.reliability"
-                data-udl-metadata='{"exception_code":"telemetry-timeout","severity":"warning"}'
+                data-udl-metadata='{"error_code":"request_timeout","error_message":"GET /api/pricing timed out after 10s","fatal":false}'
               >
-                Simulate timeout exception
+                Simulate request timeout
               </button>
             </div>
+          </div>
+        </section>
+
+        <section class="sandbox-card udl-mapping" aria-labelledby="udl-mapping-heading">
+          <h2 id="udl-mapping-heading">Vendor mapping</h2>
+          <p>
+            Each canonical event maps to one call per vendor. Keep the mapping in Tag Manager or in one script, not in
+            page code.
+          </p>
+          <div class="udl-map__scroll">
+            <table class="udl-map">
+              <thead>
+                <tr>
+                  <th scope="col">Data layer event</th>
+                  <th scope="col">GA4</th>
+                  <th scope="col">Adobe Analytics</th>
+                  <th scope="col">Meta Pixel</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>page_view</td><td>page_view</td><td>s.t()</td><td>PageView</td></tr>
+                <tr><td>search</td><td>search (search_term)</td><td>s.tl() with an internal search eVar</td><td>Search (search_string)</td></tr>
+                <tr><td>video_start, video_progress</td><td>video_start, video_progress</td><td>Media Analytics trackPlay, milestones</td><td>Custom event</td></tr>
+                <tr><td>file_download</td><td>file_download</td><td>s.tl(this, 'd', name)</td><td>Not sent</td></tr>
+                <tr><td>add_to_cart</td><td>add_to_cart (items)</td><td>scAdd with s.products</td><td>AddToCart (content_ids, value, currency)</td></tr>
+                <tr><td>begin_checkout</td><td>begin_checkout</td><td>scCheckout</td><td>InitiateCheckout</td></tr>
+                <tr><td>purchase</td><td>purchase (transaction_id)</td><td>purchase with s.purchaseID</td><td>Purchase (value, currency)</td></tr>
+                <tr><td>consent_update</td><td>gtag('consent', 'update')</td><td>Opt-in service</td><td>fbq('consent', 'grant' or 'revoke')</td></tr>
+              </tbody>
+            </table>
           </div>
         </section>
       </section>
@@ -225,7 +260,7 @@ import '../../../styles/analytics-sandbox.css';
       <aside class="sandbox-console udl-console" data-console-panel aria-labelledby="udl-console-heading">
         <h2 id="udl-console-heading">Data layer stream</h2>
         <p>
-          Shows the most recent <code>dataLayer.push</code> operations. Newest entries appear first.
+          Shows the most recent <code>dataLayer.push</code> calls. Newest entries appear first.
         </p>
         <div class="sandbox-console__toolbar" role="group" aria-label="Data layer console controls">
           <button type="button" class="console-control" data-console-scroll disabled>Jump to latest</button>
@@ -238,16 +273,16 @@ import '../../../styles/analytics-sandbox.css';
           role="log"
           tabindex="0"
         >
-          <p class="console-empty" data-console-empty>No events yet. Trigger an interaction to populate the stream.</p>
+          <p class="console-empty" data-console-empty>No events yet. Use a control on the left to push one.</p>
         </div>
       </aside>
     </div>
 
     <section class="sandbox-snippet" aria-labelledby="udl-snippet-heading">
-      <h2 id="udl-snippet-heading">Bootstrap snippet</h2>
+      <h2 id="udl-snippet-heading">Initialization snippet</h2>
       <p>
-        Initialize the data layer early and push the session, user, and page context before registering
-        interaction handlers.
+        Create the data layer and push the base context before the tag manager loads and before any interaction
+        handlers run.
       </p>
       <pre class="mono"><code>{`&lt;script&gt;
   window.dataLayer = window.dataLayer || [];
@@ -371,7 +406,7 @@ import '../../../styles/analytics-sandbox.css';
       user: {
         auth_state: 'anonymous',
         persona: 'visitor',
-        account_tier: 'explorer',
+        account_tier: 'free',
       },
       page: {
         template: 'lab-sandbox',
@@ -389,7 +424,7 @@ import '../../../styles/analytics-sandbox.css';
       entry.innerHTML = `
         <header class="console-entry__meta">
           <span class="console-entry__method">dataLayer.push</span>
-          <span>${payload.event}</span>
+          <span>${payload.event || 'clear ecommerce'}</span>
           <span>${new Date().toLocaleTimeString()}</span>
         </header>
         <pre class="console-entry__body">${JSON.stringify(payload, null, 2)}</pre>
@@ -427,6 +462,10 @@ import '../../../styles/analytics-sandbox.css';
         };
       }
 
+      if (formValues && formValues.search_term) {
+        detail = { ...detail, search_term: formValues.search_term };
+      }
+
       if (dynamicType === 'toggle') {
         detail = {
           ...detail,
@@ -450,6 +489,13 @@ import '../../../styles/analytics-sandbox.css';
         detail: Object.keys(detail).length ? detail : null,
       };
 
+      // Ecommerce data sits at the top level under `ecommerce`, the shape GA4 expects.
+      if (basePayload.detail && basePayload.detail.ecommerce) {
+        const { ecommerce, ...rest } = basePayload.detail;
+        basePayload.ecommerce = ecommerce;
+        basePayload.detail = Object.keys(rest).length ? rest : null;
+      }
+
       if (basePayload.detail === null) {
         delete basePayload.detail;
       }
@@ -467,6 +513,10 @@ import '../../../styles/analytics-sandbox.css';
         }
 
         const payload = buildInteractionPayload(element);
+        if (payload.ecommerce) {
+          // Clear the previous ecommerce object so items do not carry over between events.
+          pushToDataLayer({ ecommerce: null });
+        }
         pushToDataLayer(payload);
 
         if (element.tagName === 'FORM') {
@@ -481,7 +531,7 @@ import '../../../styles/analytics-sandbox.css';
       event: 'page_view',
       ...baseContext,
       interaction: {
-        element: 'Unified Data Layer Sandbox',
+        element: 'Unified data layer',
         module: 'udl-sandbox.page',
         value: null,
         trigger: 'view',
@@ -589,6 +639,30 @@ import '../../../styles/analytics-sandbox.css';
     .udl-sandbox .udl-interactions__grid {
       display: grid;
       gap: var(--space-3);
+    }
+
+    .udl-sandbox .udl-map__scroll {
+      overflow-x: auto;
+    }
+
+    .udl-sandbox .udl-map {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: var(--text-12);
+    }
+
+    .udl-sandbox .udl-map th,
+    .udl-sandbox .udl-map td {
+      text-align: left;
+      vertical-align: top;
+      padding: var(--space-1) var(--space-2) var(--space-1) 0;
+      border-bottom: 1px solid var(--color-rule);
+    }
+
+    .udl-sandbox .udl-map th {
+      color: var(--color-muted);
+      font-weight: 400;
     }
   </style>
 </Layout>

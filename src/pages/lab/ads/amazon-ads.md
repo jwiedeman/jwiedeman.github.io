@@ -1,15 +1,15 @@
 ---
 layout: ../../../layouts/Layout.astro
-title: "Amazon Ads Deployment Brief"
-description: "Operating procedure for Sponsored Ads, DSP, and retail readiness on Amazon."
+title: "Amazon Ads Playbook"
+description: "Setup guide for Sponsored Ads, DSP, and retail readiness on Amazon."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Ads Platform Manual</p>
-  <h1>Amazon Ads Deployment Brief</h1>
-  <p class="intro">Amazon Ads thrives when retail operations and media work in lockstep. This brief ensures the product detail page, inventory, and DSP activations stay synchronized.</p>
+  <p class="supertitle mono">Lab / Advertising</p>
+  <h1>Amazon Ads Playbook</h1>
+  <p class="intro">Amazon Ads performs best when retail operations and media are planned together. This playbook keeps product detail pages, inventory, and DSP campaigns in sync.</p>
 
   <section>
     <h2>Retail readiness</h2>
@@ -34,7 +34,7 @@ headingTracker:
     <ul>
       <li>Construct separate orders for Prospecting, Remarketing, and Loyalty with unique frequency caps.</li>
       <li>Leverage Amazon Marketing Cloud (AMC) audiences for high-value segments.</li>
-      <li>Deploy third-party measurement pixels via Sizmek container when using external verification.</li>
+      <li>Add third-party verification and measurement tags in the DSP when using external verification.</li>
     </ul>
   </section>
 
@@ -60,7 +60,7 @@ headingTracker:
     <h2>Pre-launch checklist</h2>
     <ul>
       <li>Sponsored Ads tracking templates tested; budgets allocated per ASIN priority.</li>
-      <li>DSP creatives approved and trafficking complete via Amazon Ad Console.</li>
+      <li>DSP creatives approved and trafficking complete in the Amazon DSP console.</li>
       <li>Inventory, pricing, and promotions aligned with campaign calendar.</li>
       <li>Attribution and AMC reporting dashboards configured for stakeholders.</li>
     </ul>

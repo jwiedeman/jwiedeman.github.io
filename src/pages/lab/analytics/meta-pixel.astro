@@ -8,8 +8,8 @@ import '../../../styles/analytics-sandbox.css';
       <p class="supertitle mono">Analytics Lab / Instrumentation</p>
       <h1>Meta Pixel Sandbox</h1>
       <p class="intro">
-        Observe how Meta Pixel events bind to common interface elements. Trigger any interaction to inspect
-        the exact payload that would reach Events Manager in a production deployment.
+        Example Meta Pixel calls attached to common page elements. Each interaction runs a local
+        <code>fbq</code> stub and prints the event in the Conversions API request format. No data is sent.
       </p>
       <dl class="sandbox-meta">
         <div>
@@ -21,7 +21,11 @@ import '../../../styles/analytics-sandbox.css';
           <dd class="mono">META-SANDBOX</dd>
         </div>
         <div>
-          <dt>Endpoint</dt>
+          <dt>Browser endpoint</dt>
+          <dd class="mono">https://www.facebook.com/tr</dd>
+        </div>
+        <div>
+          <dt>Conversions API endpoint</dt>
           <dd class="mono">https://graph.facebook.com/v18.0/&lt;pixel-id&gt;/events</dd>
         </div>
       </dl>
@@ -30,46 +34,47 @@ import '../../../styles/analytics-sandbox.css';
     <nav class="sandbox-outline" aria-label="Interaction index">
       <h2 class="sandbox-outline__title">Interaction index</h2>
       <ol class="sandbox-outline__list">
-        <li><a href="#meta-interface-heading">Tracked interface elements</a></li>
-        <li><a href="#meta-mission-critical">Mission-critical conversions</a></li>
+        <li><a href="#meta-interface-heading">Tracked elements</a></li>
+        <li><a href="#meta-lead-conversions">Lead and sign-up events</a></li>
         <li><a href="#meta-content-engagement">Content engagement</a></li>
-        <li><a href="#meta-commerce-lifecycle">Commerce &amp; lifecycle</a></li>
-        <li><a href="#meta-retention-support">Retention &amp; support</a></li>
-        <li><a href="#meta-experience-instrumentation">Experience instrumentation</a></li>
-        <li><a href="#meta-console-heading">Virtual pixel console</a></li>
-        <li><a href="#meta-snippet-heading">Meta Pixel base snippet</a></li>
+        <li><a href="#meta-commerce-lifecycle">Commerce</a></li>
+        <li><a href="#meta-retention-support">Support</a></li>
+        <li><a href="#meta-experience-instrumentation">Interface events</a></li>
+        <li><a href="#meta-sharing">Sharing and page events</a></li>
+        <li><a href="#meta-console-heading">Event console</a></li>
+        <li><a href="#meta-snippet-heading">Base code</a></li>
       </ol>
     </nav>
 
     <div class="sandbox-grid">
       <section class="sandbox-panel meta-panel" aria-labelledby="meta-interface-heading">
-        <h2 id="meta-interface-heading">Tracked interface elements</h2>
+        <h2 id="meta-interface-heading">Tracked elements</h2>
         <p>
-          Each component below mirrors a production instrumentation pattern. Data attributes declare the
-          <code>fbq</code> command, action source, and payload blueprint so you can map the UI directly to the
-          Events Manager feed.
+          Each element declares its <code>fbq</code> command, event name and parameters in
+          <code>data-meta-*</code> attributes. Standard events use <code>fbq('track')</code>. Anything else uses
+          <code>fbq('trackCustom')</code> so it does not mix with standard event reporting.
         </p>
 
         <div class="meta-section">
-          <h3 class="meta-section__title" id="meta-mission-critical">Mission-critical conversions</h3>
+          <h3 class="meta-section__title" id="meta-lead-conversions">Lead and sign-up events</h3>
           <p class="meta-section__intro">
-            Buttons and forms that power acquisition programmes. These examples cover hero CTAs, meeting
-            bookings, and lead capture flows.
+            Trial starts, demo bookings and lead forms. These are the events most often used as campaign
+            optimization goals.
           </p>
           <div class="meta-grid">
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'LaunchCTA')</p>
-                <h3>Primary call-to-action</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'StartTrial')</p>
+                <h3>Start free trial</h3>
               </header>
               <p>
-                Simulates a mission-critical conversion button. Useful for validating revenue metadata before a
-                high-intent launch.
+                Standard <code>StartTrial</code> event. Send <code>value</code>, <code>currency</code> and
+                optionally <code>predicted_ltv</code> so the trial can be valued in reporting.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
                   <dt>Event</dt>
-                  <dd class="mono">LaunchCTA</dd>
+                  <dd class="mono">StartTrial</dd>
                 </div>
                 <div>
                   <dt>Interaction</dt>
@@ -82,34 +87,34 @@ import '../../../styles/analytics-sandbox.css';
               </dl>
               <button
                 class="sandbox-action meta-action"
-                data-meta-event="LaunchCTA"
+                data-meta-event="StartTrial"
                 data-meta-interaction="click"
-                data-meta-payload='{"component":"cta","cta_label":"Initiate Launch Sequence","priority":"primary","value":1250,"currency":"USD"}'
+                data-meta-payload='{"content_name":"Pro plan trial","value":0,"currency":"USD","predicted_ltv":540}'
                 data-meta-feedback="cta-status"
                 type="button"
               >
-                Initiate launch sequence
+                Start free trial
               </button>
-              <p id="cta-status" class="meta-status">Idle — waiting for interaction.</p>
+              <p id="cta-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
 
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'ScheduleConsultation')</p>
-                <h3>Consultation scheduling</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'Schedule')</p>
+                <h3>Book a demo</h3>
               </header>
               <p>
-                Demonstrates a meeting-booking CTA that passes context about the requested mission review. Use it
-                to validate custom conversion goals before launch.
+                Standard <code>Schedule</code> event, fired when a visitor books a meeting. Fire it on the
+                booking confirmation, not on the button that opens the calendar.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
                   <dt>Event</dt>
-                  <dd class="mono">ScheduleConsultation</dd>
+                  <dd class="mono">Schedule</dd>
                 </div>
                 <div>
                   <dt>Interaction</dt>
@@ -122,69 +127,73 @@ import '../../../styles/analytics-sandbox.css';
               </dl>
               <button
                 class="sandbox-action meta-action"
-                data-meta-event="ScheduleConsultation"
+                data-meta-event="Schedule"
                 data-meta-interaction="click"
-                data-meta-payload='{"component":"cta","cta_label":"Book Flight Readiness Review","priority":"secondary","mission_window":"Q3","value":0}'
+                data-meta-payload='{"content_name":"Product demo","content_category":"sales","value":0,"currency":"USD"}'
                 data-meta-feedback="schedule-status"
                 type="button"
               >
-                Book readiness review
+                Book a demo
               </button>
-              <p id="schedule-status" class="meta-status">Idle — waiting for interaction.</p>
+              <p id="schedule-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
 
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'LeadSubmission')</p>
-                <h3>Qualified lead form</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'Lead')</p>
+                <h3>Demo request form</h3>
               </header>
               <p>
-                Mimics a short lead capture flow with hashed identifiers. Submission is intercepted so you can
-                review the outbound payload without leaving the page.
+                Standard <code>Lead</code> event on form submit. Do not put personal data in event parameters.
+                Pass hashed identifiers through advanced matching in <code>fbq('init')</code> instead.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
                   <dt>Event</dt>
-                  <dd class="mono">LeadSubmission</dd>
+                  <dd class="mono">Lead</dd>
                 </div>
                 <div>
                   <dt>Interaction</dt>
                   <dd class="mono">submit</dd>
                 </div>
                 <div>
-                  <dt>Identifiers</dt>
-                  <dd class="mono">SHA-256 placeholders</dd>
+                  <dt>Matching</dt>
+                  <dd class="mono">em, external_id via init</dd>
                 </div>
               </dl>
               <form
                 class="sandbox-form meta-form meta-action"
-                data-meta-event="LeadSubmission"
+                data-meta-event="Lead"
                 data-meta-interaction="submit"
                 data-meta-prevent-default="true"
-                data-meta-payload='{"form_id":"lead-capture-sandbox","lead_type":"enterprise","advanced_matching":{"email":"4b825dc642cb6eb9a060e54bf8d69288","external_id":"9f5738f9c2d64f7fa2cb"}}'
+                data-meta-payload='{"content_name":"demo_request","content_category":"enterprise","value":0,"currency":"USD"}'
                 data-meta-feedback="form-status"
               >
                 <label>
-                  Mission focus
-                  <select name="mission_focus">
-                    <option value="orbital">Orbital research</option>
-                    <option value="deep-space">Deep space comms</option>
-                    <option value="earth-observation">Earth observation</option>
+                  Company size
+                  <select name="company_size">
+                    <option value="1-50">1-50 employees</option>
+                    <option value="51-500">51-500 employees</option>
+                    <option value="500+">500+ employees</option>
                   </select>
                 </label>
                 <label>
-                  Mission email (hashed)
-                  <input type="text" name="hashed_email" value="4b825dc642cb6eb9a060e54bf8d69288" readonly />
+                  Role
+                  <select name="role">
+                    <option value="marketing">Marketing</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="other">Other</option>
+                  </select>
                 </label>
-                <button type="submit" class="sandbox-action">Transmit lead</button>
+                <button type="submit" class="sandbox-action">Request demo</button>
               </form>
-              <p id="form-status" class="meta-status">Idle — waiting for interaction.</p>
+              <p id="form-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
@@ -194,23 +203,23 @@ import '../../../styles/analytics-sandbox.css';
         <div class="meta-section">
           <h3 class="meta-section__title" id="meta-content-engagement">Content engagement</h3>
           <p class="meta-section__intro">
-            Mid-funnel behaviors spanning resource downloads, media milestones, and newsletter sign-ups. These
-            events power retargeting and propensity models.
+            Downloads, video progress and newsletter sign-ups. These are typically used for retargeting
+            audiences rather than as optimization goals.
           </p>
           <div class="meta-grid">
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'ViewSpecifications')</p>
-                <h3>Specification link</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'file_download')</p>
+                <h3>File download link</h3>
               </header>
               <p>
-                Represents a mid-funnel content click. The payload records link context and document
-                classification for downstream attribution.
+                Meta has no standard download event, so this is a custom event. The parameters record the file
+                and where the link sits on the page.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
                   <dt>Event</dt>
-                  <dd class="mono">ViewSpecifications</dd>
+                  <dd class="mono">file_download</dd>
                 </div>
                 <div>
                   <dt>Interaction</dt>
@@ -224,101 +233,106 @@ import '../../../styles/analytics-sandbox.css';
               <a
                 href="#"
                 class="sandbox-link meta-action meta-action--link"
-                data-meta-event="ViewSpecifications"
+                data-meta-command="trackCustom"
+                data-meta-event="file_download"
                 data-meta-interaction="click"
                 data-meta-prevent-default="true"
-                data-meta-payload='{"component":"document_link","destination":"mission-brief.pdf","content_category":"mission-overview","position":2}'
+                data-meta-payload='{"file_name":"pricing-guide.pdf","file_extension":"pdf","content_category":"pricing","link_position":2}'
                 data-meta-feedback="link-status"
               >
-                Download mission brief (PDF)
+                Download pricing guide (PDF)
               </a>
-              <p id="link-status" class="meta-status">Idle — waiting for interaction.</p>
+              <p id="link-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
 
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'VideoView')</p>
-                <h3>Video milestones</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'video_start')</p>
+                <h3>Video progress</h3>
               </header>
               <p>
-                Trigger start, midpoint, and completion signals for a mission briefing. Mid-roll checkpoints use
-                <code>trackCustom</code> to avoid polluting standard reporting.
+                Start, 50% and complete for a product video. Meta has no standard video events, so all three
+                use <code>trackCustom</code>.
               </p>
               <div class="meta-milestones">
                 <button
                   class="sandbox-action meta-action"
                   type="button"
-                  data-meta-event="VideoView"
-                  data-meta-payload='{"content_type":"mission_briefing","video_title":"Mission Brief 01","position":"hero","value":0}'
+                  data-meta-command="trackCustom"
+                  data-meta-event="video_start"
+                  data-meta-payload='{"content_type":"video","content_name":"Product overview","video_duration":185}'
                   data-meta-feedback="video-status"
                 >
-                  Start playback
+                  Start video
                 </button>
                 <button
                   class="sandbox-action meta-action"
                   type="button"
                   data-meta-command="trackCustom"
-                  data-meta-event="VideoMidpoint"
-                  data-meta-payload='{"content_type":"mission_briefing","video_title":"Mission Brief 01","percent":50}'
+                  data-meta-event="video_progress"
+                  data-meta-payload='{"content_type":"video","content_name":"Product overview","video_percent":50}'
                   data-meta-feedback="video-status"
                 >
-                  Hit 50% milestone
+                  Reach 50%
                 </button>
                 <button
                   class="sandbox-action meta-action"
                   type="button"
                   data-meta-command="trackCustom"
-                  data-meta-event="VideoComplete"
-                  data-meta-payload='{"content_type":"mission_briefing","video_title":"Mission Brief 01","duration":185}'
+                  data-meta-event="video_complete"
+                  data-meta-payload='{"content_type":"video","content_name":"Product overview","video_duration":185}'
                   data-meta-feedback="video-status"
                 >
-                  Complete playback
+                  Complete video
                 </button>
               </div>
-              <p id="video-status" class="meta-status">Idle — waiting for interaction.</p>
+              <p id="video-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
 
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'Subscribe')</p>
-                <h3>Newsletter subscription</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'CompleteRegistration')</p>
+                <h3>Newsletter sign-up</h3>
               </header>
               <p>
-                Captures lifecycle engagement by logging a newsletter opt-in. The payload includes consent and
-                topic preferences for downstream syncing.
+                A free newsletter sign-up maps to <code>CompleteRegistration</code> (or <code>Lead</code>).
+                Meta's <code>Subscribe</code> event is meant for paid subscriptions.
               </p>
               <form
                 class="sandbox-form meta-form meta-action"
-                data-meta-event="Subscribe"
+                data-meta-event="CompleteRegistration"
                 data-meta-interaction="submit"
                 data-meta-prevent-default="true"
-                data-meta-payload='{"form_id":"newsletter-opt-in","topics":["analytics","mission-updates"],"consent":"granted"}'
+                data-meta-payload='{"content_name":"newsletter","status":true,"value":0,"currency":"USD"}'
                 data-meta-feedback="subscribe-status"
               >
                 <label>
-                  Email (hashed)
-                  <input type="text" name="hashed_email" value="bd2b1aaf7ef4f70f20caba940c19" readonly />
+                  Topic
+                  <select name="topic">
+                    <option value="product-updates">Product updates</option>
+                    <option value="analytics-tips">Analytics tips</option>
+                  </select>
                 </label>
                 <label>
-                  Preferred cadence
+                  Frequency
                   <select name="cadence">
                     <option value="weekly">Weekly</option>
                     <option value="monthly">Monthly</option>
                   </select>
                 </label>
-                <button type="submit" class="sandbox-action">Record subscription</button>
+                <button type="submit" class="sandbox-action">Sign up</button>
               </form>
-              <p id="subscribe-status" class="meta-status">Idle — waiting for interaction.</p>
+              <p id="subscribe-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
@@ -326,10 +340,10 @@ import '../../../styles/analytics-sandbox.css';
         </div>
 
         <div class="meta-section">
-          <h3 class="meta-section__title" id="meta-commerce-lifecycle">Commerce &amp; lifecycle</h3>
+          <h3 class="meta-section__title" id="meta-commerce-lifecycle">Commerce</h3>
           <p class="meta-section__intro">
-            Full-funnel commerce events for catalog optimisation. Fire each step to validate attribution and
-            ensure value and currency properties map correctly.
+            Standard commerce events. <code>content_ids</code> must match the IDs in your product catalog for
+            dynamic ads. <code>value</code> and <code>currency</code> are required on <code>Purchase</code>.
           </p>
           <div class="meta-grid">
             <article class="sandbox-card meta-card" data-meta-card>
@@ -338,21 +352,21 @@ import '../../../styles/analytics-sandbox.css';
                 <h3>Add to cart</h3>
               </header>
               <p>
-                Signals that a payload containing mission hardware has been staged for purchase. Includes
-                product category metadata for catalog segmentation.
+                Fired when a product is added to the cart. <code>contents</code> lists each item with its
+                quantity and price.
               </p>
               <button
                 class="sandbox-action meta-action"
                 type="button"
                 data-meta-event="AddToCart"
-                data-meta-payload='{"content_type":"product","content_ids":["telemetry-kit"],"content_category":"hardware","value":199,"currency":"USD"}'
+                data-meta-payload='{"content_type":"product","content_ids":["SKU-1042"],"contents":[{"id":"SKU-1042","quantity":1,"item_price":129}],"content_name":"Trail running shoe","value":129,"currency":"USD"}'
                 data-meta-feedback="cart-status"
               >
-                Add telemetry kit
+                Add running shoe
               </button>
-              <p id="cart-status" class="meta-status">Idle — waiting for interaction.</p>
+              <p id="cart-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
@@ -360,24 +374,23 @@ import '../../../styles/analytics-sandbox.css';
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
                 <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'InitiateCheckout')</p>
-                <h3>Checkout initiation</h3>
+                <h3>Begin checkout</h3>
               </header>
               <p>
-                Represents a cart advancing to checkout. The payload mirrors required parameters for the Meta
-                Conversions API including item IDs and order value.
+                Fired when the visitor starts checkout. Send the cart contents, item count and cart value.
               </p>
               <button
                 class="sandbox-action meta-action"
                 type="button"
                 data-meta-event="InitiateCheckout"
-                data-meta-payload='{"content_type":"product","num_items":1,"value":199,"currency":"USD","checkout_step":1}'
+                data-meta-payload='{"content_type":"product","content_ids":["SKU-1042"],"contents":[{"id":"SKU-1042","quantity":1,"item_price":129}],"num_items":1,"value":129,"currency":"USD"}'
                 data-meta-feedback="checkout-status"
               >
-                Begin secure checkout
+                Begin checkout
               </button>
-              <p id="checkout-status" class="meta-status">Idle — waiting for interaction.</p>
+              <p id="checkout-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
@@ -385,24 +398,25 @@ import '../../../styles/analytics-sandbox.css';
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
                 <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'Purchase')</p>
-                <h3>Purchase confirmation</h3>
+                <h3>Purchase</h3>
               </header>
               <p>
-                Completes the funnel with a simulated purchase event. Toggle it last to confirm deduplication
-                logic downstream.
+                Fired on the order confirmation page. If the same order is also sent through the Conversions
+                API, pass a shared ID as <code>{'{'} eventID {'}'}</code> in the fourth argument so Meta can
+                deduplicate.
               </p>
               <button
                 class="sandbox-action meta-action"
                 type="button"
                 data-meta-event="Purchase"
-                data-meta-payload='{"content_type":"product","content_ids":["telemetry-kit"],"value":199,"currency":"USD","order_id":"META-DEMO-001"}'
+                data-meta-payload='{"content_type":"product","content_ids":["SKU-1042"],"contents":[{"id":"SKU-1042","quantity":1,"item_price":129}],"num_items":1,"value":129,"currency":"USD","order_id":"ORDER-10023"}'
                 data-meta-feedback="purchase-status"
               >
-                Log purchase
+                Complete purchase
               </button>
-              <p id="purchase-status" class="meta-status">Idle — waiting for interaction.</p>
+              <p id="purchase-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
@@ -410,80 +424,79 @@ import '../../../styles/analytics-sandbox.css';
         </div>
 
         <div class="meta-section">
-          <h3 class="meta-section__title" id="meta-retention-support">Retention &amp; support</h3>
+          <h3 class="meta-section__title" id="meta-retention-support">Support</h3>
           <p class="meta-section__intro">
-            Post-purchase experiences matter as much as acquisition. These interactions cover chat, case
-            resolution, and satisfaction tracking mapped to custom pixel events.
+            Post-purchase support interactions. Chat uses the standard <code>Contact</code> event. Case
+            resolution and surveys are custom events.
           </p>
           <div class="meta-grid">
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'ChatInitiated')</p>
-                <h3>Support chat escalation</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('track', 'Contact')</p>
+                <h3>Open support chat</h3>
               </header>
               <p>
-                Simulates launching a live chat from the command console. The payload includes channel and
-                issue taxonomy to help support teams triage inbound conversations.
+                Standard <code>Contact</code> event for chat, phone, email or SMS contact. The parameters record
+                the channel and topic.
               </p>
               <button
                 class="sandbox-action meta-action"
                 type="button"
-                data-meta-command="trackCustom"
-                data-meta-event="ChatInitiated"
-                data-meta-payload='{"channel":"widget","issue_type":"mission_support","priority":"standard"}'
+                data-meta-event="Contact"
+                data-meta-payload='{"contact_channel":"chat","content_category":"billing"}'
                 data-meta-feedback="meta-chat-status"
               >
-                Initiate support chat
+                Open chat
               </button>
-              <p id="meta-chat-status" class="meta-status">Idle — waiting for interaction.</p>
+              <p id="meta-chat-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
 
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'CaseResolved')</p>
-                <h3>Case resolution</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'support_case_resolved')</p>
+                <h3>Support case resolved</h3>
               </header>
               <p>
-                Records when a mission-critical ticket is closed. Feed this event into retention audiences to
-                suppress resolved users from additional outreach.
+                Records a closed support ticket. In production this is usually sent server-side through the
+                Conversions API, since the browser is rarely open when the case closes.
               </p>
               <button
                 class="sandbox-action meta-action"
                 type="button"
                 data-meta-command="trackCustom"
-                data-meta-event="CaseResolved"
-                data-meta-payload='{"case_id":"CASE-4421","resolution_time":37,"first_contact_resolution":true}'
+                data-meta-event="support_case_resolved"
+                data-meta-payload='{"case_id":"CASE-4421","resolution_minutes":37,"first_contact_resolution":true}'
                 data-meta-feedback="meta-case-status"
               >
-                Log case resolution
+                Resolve case
               </button>
-              <p id="meta-case-status" class="meta-status">Idle — waiting for interaction.</p>
+              <p id="meta-case-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
 
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'SatisfactionSurvey')</p>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'survey_submit')</p>
                 <h3>Satisfaction survey</h3>
               </header>
               <p>
-                Captures a post-engagement satisfaction score and verbatim. Pair it with case metadata to
-                unlock closed-loop reporting.
+                Records a satisfaction score and comment. Do not send free-text comments if they may contain
+                personal data.
               </p>
               <form
                 class="sandbox-form meta-form meta-action"
                 data-meta-command="trackCustom"
-                data-meta-event="SatisfactionSurvey"
+                data-meta-event="survey_submit"
                 data-meta-interaction="submit"
                 data-meta-prevent-default="true"
-                data-meta-payload='{"survey_id":"csat-2024-q1","rating":5,"comment":"Outstanding support"}'
+                data-meta-payload='{"survey_id":"csat-2026-q3","rating":5}'
                 data-meta-feedback="meta-survey-status"
               >
                 <label>
@@ -498,13 +511,13 @@ import '../../../styles/analytics-sandbox.css';
                 </label>
                 <label>
                   Comment
-                  <input type="text" name="comment" placeholder="Resolved within minutes" />
+                  <input type="text" name="comment" placeholder="Resolved quickly" />
                 </label>
                 <button type="submit" class="sandbox-action">Submit survey</button>
               </form>
-              <p id="meta-survey-status" class="meta-status">Idle — waiting for interaction.</p>
+              <p id="meta-survey-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
@@ -512,20 +525,20 @@ import '../../../styles/analytics-sandbox.css';
         </div>
 
         <div class="meta-section">
-          <h3 class="meta-section__title" id="meta-experience-instrumentation">Experience instrumentation</h3>
+          <h3 class="meta-section__title" id="meta-experience-instrumentation">Interface events</h3>
           <p class="meta-section__intro">
-            Operational telemetry for preferences, alerts, and contextual helpers. These patterns ensure
-            your measurement plan covers the nuance of day-to-day product usage.
+            Preferences, consent, dialogs and inline help. These are custom events and are mainly useful for
+            product analysis, not ad optimization.
           </p>
           <div class="meta-grid">
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'ThemePreference')</p>
-                <h3>Interface theme toggle</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'theme_change')</p>
+                <h3>Theme toggle</h3>
               </header>
               <p>
-                Records preference changes when visitors toggle between light and dark control room themes.
-                The payload captures previous and next state so personalisation systems can respond.
+                Records a switch between light and dark themes. The parameters include the previous and new
+                value.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -534,7 +547,7 @@ import '../../../styles/analytics-sandbox.css';
                 </div>
                 <div>
                   <dt>Dynamic</dt>
-                  <dd class="mono">toggle state + payload</dd>
+                  <dd class="mono">toggle state + parameters</dd>
                 </div>
               </dl>
               <div id="meta-theme-preview" class="meta-theme" data-theme="light">
@@ -544,29 +557,29 @@ import '../../../styles/analytics-sandbox.css';
                 class="sandbox-action meta-action"
                 type="button"
                 data-meta-command="trackCustom"
-                data-meta-event="ThemePreference"
+                data-meta-event="theme_change"
                 data-meta-payload='{"preference":"interface_theme","previous_state":"light","next_state":"dark"}'
                 data-meta-dynamic="toggle"
                 data-meta-toggle-target="meta-theme-preview"
                 data-meta-feedback="meta-theme-status"
               >
-                Toggle interface theme
+                Toggle theme
               </button>
               <p id="meta-theme-status" class="meta-status">Theme set to light.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
 
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'ConsentUpdate')</p>
-                <h3>Consent toggle</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'consent_update')</p>
+                <h3>Marketing email consent</h3>
               </header>
               <p>
-                Demonstrates how optional communications preferences should emit explicit consent status in
-                the payload for compliance-ready event streams.
+                Records a change to an email preference. This is separate from pixel consent, which is set with
+                <code>fbq('consent', 'grant')</code> or <code>fbq('consent', 'revoke')</code>.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -575,39 +588,39 @@ import '../../../styles/analytics-sandbox.css';
                 </div>
                 <div>
                   <dt>Fields</dt>
-                  <dd class="mono">preference + granted flag</dd>
+                  <dd class="mono">preference + consent</dd>
                 </div>
               </dl>
               <label class="sandbox-form meta-consent">
-                <span>Email mission updates</span>
+                <span>Email me product updates</span>
                 <input
                   type="checkbox"
                   class="meta-action"
-                  value="mission-updates"
+                  value="product-updates"
                   checked
                   data-meta-command="trackCustom"
-                  data-meta-event="ConsentUpdate"
+                  data-meta-event="consent_update"
                   data-meta-interaction="change"
                   data-meta-dynamic="consent"
-                  data-meta-payload='{"preference":"mission-updates","consent":"granted"}'
+                  data-meta-payload='{"preference":"product-updates","consent":"granted"}'
                   data-meta-feedback="meta-consent-status"
                 />
               </label>
               <p id="meta-consent-status" class="meta-status">Consent granted.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
 
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'ModalOpen')</p>
-                <h3>Mission alert modal</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'modal_open')</p>
+                <h3>Upgrade dialog</h3>
               </header>
               <p>
-                Launching the alert emits a <code>ModalOpen</code> payload. Buttons inside the dialog showcase
-                follow-up tracking for dismiss and acknowledge events.
+                Opening the dialog fires <code>modal_open</code>. The two buttons inside fire
+                <code>modal_dismiss</code> and <code>modal_accept</code>.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -616,35 +629,34 @@ import '../../../styles/analytics-sandbox.css';
                 </div>
                 <div>
                   <dt>Actions</dt>
-                  <dd class="mono">open / dismiss / acknowledge</dd>
+                  <dd class="mono">open / dismiss / accept</dd>
                 </div>
               </dl>
               <button
                 class="sandbox-action meta-action"
                 type="button"
                 data-meta-command="trackCustom"
-                data-meta-event="ModalOpen"
-                data-meta-payload='{"modal_id":"mission-alert","interaction":"open"}'
+                data-meta-event="modal_open"
+                data-meta-payload='{"modal_id":"plan-upgrade","interaction":"open"}'
                 data-meta-modal-target="meta-alert-modal"
                 data-meta-feedback="meta-modal-status"
               >
-                Launch mission alert
+                Open upgrade dialog
               </button>
-              <p id="meta-modal-status" class="meta-status">Modal idle — closed.</p>
+              <p id="meta-modal-status" class="meta-status">Dialog closed.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
 
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'TooltipToggle')</p>
-                <h3>Inline tooltip</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'tooltip_toggle')</p>
+                <h3>Inline help tooltip</h3>
               </header>
               <p>
-                Contextual helpers deserve instrumentation too. Toggle the tooltip to emit a payload that notes
-                visibility state and referenced knowledge article.
+                Records when a help tooltip is shown or hidden, and which help article it references.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -661,32 +673,32 @@ import '../../../styles/analytics-sandbox.css';
                 type="button"
                 aria-pressed="false"
                 data-meta-command="trackCustom"
-                data-meta-event="TooltipToggle"
-                data-meta-payload='{"component":"tooltip","content_id":"mission-tooling","visibility":"hidden"}'
+                data-meta-event="tooltip_toggle"
+                data-meta-payload='{"component":"tooltip","content_id":"billing-cycle-help","visibility":"hidden"}'
                 data-meta-dynamic="tooltip"
                 data-meta-tooltip-target="meta-tooltip-panel"
                 data-meta-feedback="meta-tooltip-status"
               >
-                Toggle tooling primer
+                Show billing help
               </button>
               <div id="meta-tooltip-panel" class="meta-tooltip" hidden>
-                <p>The tooling primer highlights script sequencing, event validation, and QA cadences.</p>
+                <p>Annual plans are billed once a year. Monthly plans renew on the same date each month.</p>
               </div>
               <p id="meta-tooltip-status" class="meta-status">Tooltip hidden.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
 
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'FeedbackScore')</p>
-                <h3>Module feedback slider</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'feedback_score')</p>
+                <h3>Article feedback slider</h3>
               </header>
               <p>
-                Capture qualitative satisfaction scores directly in the pixel payload. The range input emits the
-                selected score and upper bound for downstream dashboards.
+                Records a 1 to 5 rating for a help-center article. The parameters include the score and the
+                scale maximum.
               </p>
               <dl class="sandbox-card__meta">
                 <div>
@@ -699,7 +711,7 @@ import '../../../styles/analytics-sandbox.css';
                 </div>
               </dl>
               <label class="sandbox-form meta-rating">
-                <span>Clarity score</span>
+                <span>Was this article helpful?</span>
                 <input
                   type="range"
                   min="1"
@@ -707,16 +719,16 @@ import '../../../styles/analytics-sandbox.css';
                   step="1"
                   value="3"
                   data-meta-command="trackCustom"
-                  data-meta-event="FeedbackScore"
+                  data-meta-event="feedback_score"
                   data-meta-interaction="change"
                   data-meta-dynamic="range"
-                  data-meta-payload='{"component":"mission-module","scale_max":5,"rating":3}'
+                  data-meta-payload='{"component":"help_article","content_id":"reset-password","scale_max":5,"rating":3}'
                   data-meta-feedback="meta-rating-status"
                 />
               </label>
-              <p id="meta-rating-status" class="meta-status">Awaiting feedback.</p>
+              <p id="meta-rating-status" class="meta-status">No rating yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
@@ -724,142 +736,139 @@ import '../../../styles/analytics-sandbox.css';
         </div>
 
         <div class="meta-section">
-          <h3 class="meta-section__title">Visibility &amp; advocacy</h3>
+          <h3 class="meta-section__title" id="meta-sharing">Sharing and page events</h3>
           <p class="meta-section__intro">
-            Extend measurement beyond direct conversions with sharing, print, and scroll-depth signals that
-            illuminate how mission intelligence propagates across teams.
+            Sharing, printing, scroll depth and client-side errors. All are custom events.
           </p>
           <div class="meta-grid">
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'ShareLink')</p>
-                <h3>Copy mission brief</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'share')</p>
+                <h3>Copy link</h3>
               </header>
               <p>
-                Copy-to-clipboard events indicate organic sharing. The helper mirrors instrumentation wired to a
-                custom HTML tag with clipboard feedback.
+                Copies the page URL to the clipboard and records a share with method <code>copy</code>.
               </p>
               <button
                 class="sandbox-action meta-action"
                 type="button"
                 data-meta-command="trackCustom"
-                data-meta-event="ShareLink"
-                data-meta-payload='{"share_method":"copy","content_id":"mission-brief","content_url":"https://intranet.example/missions/briefing-01"}'
+                data-meta-event="share"
+                data-meta-payload='{"share_method":"copy","content_id":"pricing-page","content_url":"https://www.example.com/pricing"}'
                 data-meta-dynamic="copy"
-                data-meta-copy-text="https://intranet.example/missions/briefing-01"
+                data-meta-copy-text="https://www.example.com/pricing"
                 data-meta-feedback="meta-copy-status"
               >
-                Copy briefing URL
+                Copy pricing page URL
               </button>
-              <p id="meta-copy-status" class="meta-status">No copy attempts recorded.</p>
+              <p id="meta-copy-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
 
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'ShareSocial')</p>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'share')</p>
                 <h3>Share to X</h3>
               </header>
               <p>
-                Emits a channel-specific sharing payload for social amplification. Replace the medium when
-                integrating with other paid media platforms.
+                The same <code>share</code> event with method <code>social</code> and the destination network.
               </p>
               <button
                 class="sandbox-action meta-action"
                 type="button"
                 data-meta-command="trackCustom"
-                data-meta-event="ShareSocial"
-                data-meta-payload='{"share_method":"social","channel":"x","content_id":"mission-brief","value":0}'
+                data-meta-event="share"
+                data-meta-payload='{"share_method":"social","channel":"x","content_id":"pricing-page"}'
                 data-meta-feedback="meta-social-status"
               >
-                Stage social share payload
+                Share to X
               </button>
-              <p id="meta-social-status" class="meta-status">Awaiting share interaction.</p>
+              <p id="meta-social-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
 
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'SharePrint')</p>
-                <h3>Print briefing packet</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'page_print')</p>
+                <h3>Print page</h3>
               </header>
               <p>
-                Printing is often overlooked in analytics implementations. This example logs the method so you
-                can reconcile offline dissemination in downstream tools.
+                Records a print action. In production, attach it to the print button or the
+                <code>beforeprint</code> window event.
               </p>
               <button
                 class="sandbox-action meta-action"
                 type="button"
                 data-meta-command="trackCustom"
-                data-meta-event="SharePrint"
-                data-meta-payload='{"share_method":"print","content_id":"mission-brief","value":0}'
+                data-meta-event="page_print"
+                data-meta-payload='{"content_id":"pricing-page"}'
                 data-meta-feedback="meta-print-status"
               >
-                Log print intent
+                Print page
               </button>
-              <p id="meta-print-status" class="meta-status">No print intents logged.</p>
+              <p id="meta-print-status" class="meta-status">Not fired yet.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
 
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'ScrollDepth')</p>
-                <h3>Scroll depth sentinel</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'scroll_depth')</p>
+                <h3>Scroll depth</h3>
               </header>
               <p>
-                The sentinel toggles when 90% depth is reached, mirroring an Intersection Observer trigger used
-                in production to gauge deep content engagement.
+                An Intersection Observer fires once when the marker below is fully visible. In production the
+                marker sits at 90% of the page height.
               </p>
               <div class="meta-scroll" role="status">
                 <div
                   class="meta-scroll__sentinel"
                   data-meta-command="trackCustom"
-                  data-meta-event="ScrollDepth"
+                  data-meta-event="scroll_depth"
                   data-meta-trigger="observe"
-                  data-meta-payload='{"component":"scroll_sentinel","threshold":0.9}'
+                  data-meta-payload='{"percent_scrolled":90}'
                   data-meta-feedback="meta-scroll-status"
                 >
-                  Scroll sentinel — fires once at 90% depth
+                  Scroll marker (fires once)
                 </div>
               </div>
-              <p id="meta-scroll-status" class="meta-status">Sentinel armed — scroll to trigger.</p>
+              <p id="meta-scroll-status" class="meta-status">Waiting for scroll.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
 
             <article class="sandbox-card meta-card" data-meta-card>
               <header>
-                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'SystemAnomaly')</p>
-                <h3>Error capture</h3>
+                <p class="sandbox-card__tag mono" data-meta-call>fbq('trackCustom', 'client_error')</p>
+                <h3>Client error</h3>
               </header>
               <p>
-                Mission-critical experiences should bubble anomalies to analytics stacks. Trigger the sample to
-                simulate logging a non-fatal issue.
+                Records a non-fatal error, such as a failed API call during checkout. Keep error messages free of
+                personal data.
               </p>
               <button
                 class="sandbox-action meta-action"
                 type="button"
                 data-meta-command="trackCustom"
-                data-meta-event="SystemAnomaly"
-                data-meta-payload='{"error_code":"mission-timeout","severity":"warning","component":"mission-briefing"}'
+                data-meta-event="client_error"
+                data-meta-payload='{"error_code":"request_timeout","severity":"warning","component":"checkout_form"}'
                 data-meta-feedback="meta-error-status"
               >
-                Log non-fatal error
+                Log error
               </button>
-              <p id="meta-error-status" class="meta-status">No anomalies detected.</p>
+              <p id="meta-error-status" class="meta-status">No errors logged.</p>
               <details>
-                <summary class="mono">Payload blueprint</summary>
+                <summary class="mono">Parameters</summary>
                 <pre class="meta-pre" data-meta-payload-preview></pre>
               </details>
             </article>
@@ -881,12 +890,11 @@ import '../../../styles/analytics-sandbox.css';
       >
         <div class="meta-modal__dialog">
           <header class="meta-modal__header">
-            <h2 id="meta-alert-title">Mission readiness alert</h2>
+            <h2 id="meta-alert-title">Upgrade your plan</h2>
           </header>
           <div class="meta-modal__body" id="meta-alert-body">
             <p>
-              Telemetry queue latency has exceeded the acceptable range. Acknowledge the alert or dismiss it to
-              keep mission control in sync with your instrumentation.
+              You have used 90% of this month's included seats. Upgrade to add more users.
             </p>
           </div>
           <footer class="meta-modal__actions">
@@ -894,33 +902,33 @@ import '../../../styles/analytics-sandbox.css';
               class="sandbox-action meta-action"
               type="button"
               data-meta-command="trackCustom"
-              data-meta-event="ModalDismiss"
-              data-meta-payload='{"modal_id":"mission-alert","interaction":"dismiss"}'
+              data-meta-event="modal_dismiss"
+              data-meta-payload='{"modal_id":"plan-upgrade","interaction":"dismiss"}'
               data-meta-modal-close="true"
               data-meta-feedback="meta-modal-status"
             >
-              Dismiss alert
+              Not now
             </button>
             <button
               class="sandbox-action meta-action"
               type="button"
               data-meta-command="trackCustom"
-              data-meta-event="ModalAcknowledge"
-              data-meta-payload='{"modal_id":"mission-alert","interaction":"acknowledge"}'
+              data-meta-event="modal_accept"
+              data-meta-payload='{"modal_id":"plan-upgrade","interaction":"accept"}'
               data-meta-modal-close="true"
               data-meta-feedback="meta-modal-status"
             >
-              Acknowledge alert
+              View plans
             </button>
           </footer>
         </div>
       </div>
 
       <aside class="sandbox-console meta-console" data-console-panel aria-labelledby="meta-console-heading">
-        <h2 id="meta-console-heading">Mock transmission console</h2>
+        <h2 id="meta-console-heading">Event console</h2>
         <p>
-          Displays the synthesized request body delivered to the Meta Events API. No network traffic leaves
-          this sandbox.
+          Shows each event in the Conversions API request format. The browser pixel itself sends these as
+          query parameters to <code>facebook.com/tr</code>. Nothing leaves this page.
         </p>
         <div class="sandbox-console__toolbar" role="group" aria-label="Meta console controls">
           <button type="button" class="console-control" data-console-scroll disabled>Jump to latest</button>
@@ -933,16 +941,17 @@ import '../../../styles/analytics-sandbox.css';
           role="log"
           tabindex="0"
         >
-          <p class="console-empty" data-console-empty>Awaiting transmissions. Trigger any element to populate this feed.</p>
+          <p class="console-empty" data-console-empty>No events yet. Interact with any element to log one.</p>
         </div>
       </aside>
     </div>
 
     <section class="sandbox-snippet" aria-labelledby="meta-snippet-heading">
-      <h2 id="meta-snippet-heading">Meta Pixel base snippet</h2>
+      <h2 id="meta-snippet-heading">Meta Pixel base code</h2>
       <p>
-        Deploy the base pixel early in the document head. Replace <code>META-PIXEL-ID</code> with your pixel
-        ID and add advanced matching parameters as needed.
+        Place the base code in the document head. Replace <code>META-PIXEL-ID</code> with your pixel ID. Pass
+        advanced matching fields (for example <code>em</code>, <code>external_id</code>) as the third argument
+        to <code>fbq('init')</code>.
       </p>
       <pre class="mono"><code>{`&lt;script&gt;
   !function(f,b,e,v,n,t,s){
@@ -1160,13 +1169,13 @@ import '../../../styles/analytics-sandbox.css';
         const [pixelId, advancedMatching = {}] = args;
         pushConsoleEntry({
           method: "fbq('init')",
-          label: 'Bootstrap',
+          label: 'init',
           body: prettyJson({ pixelId, advancedMatching })
         });
       } else {
         pushConsoleEntry({
           method: `fbq('${command}')`,
-          label: 'Meta pixel callback',
+          label: 'Other command',
           body: prettyJson({ command, args })
         });
       }
@@ -1200,7 +1209,7 @@ import '../../../styles/analytics-sandbox.css';
       try {
         return element.dataset.metaPayload ? JSON.parse(element.dataset.metaPayload) : {};
       } catch (error) {
-        return { error: 'Failed to parse payload', raw: element.dataset.metaPayload };
+        return { error: 'Failed to parse parameters', raw: element.dataset.metaPayload };
       }
     };
 
@@ -1283,7 +1292,7 @@ import '../../../styles/analytics-sandbox.css';
       }
 
       if (element.dataset.metaModalTarget) {
-        return `Modal opened at ${timestamp}.`;
+        return `Dialog opened at ${timestamp}.`;
       }
 
       if (element.dataset.metaModalClose === 'true') {
@@ -1382,7 +1391,7 @@ import '../../../styles/analytics-sandbox.css';
         if (event.target === modal) {
           closeModal(modal);
           const feedback = modal.dataset.metaModalFeedback;
-          updateFeedback(feedback, `Modal dismissed at ${formatTime()}.`);
+          updateFeedback(feedback, `Dialog dismissed at ${formatTime()}.`);
         }
       });
     });
@@ -1392,14 +1401,14 @@ import '../../../styles/analytics-sandbox.css';
         const modal = activeModal;
         closeModal(modal);
         if (modal && modal.dataset.metaModalFeedback) {
-          updateFeedback(modal.dataset.metaModalFeedback, `Modal dismissed via Escape at ${formatTime()}.`);
+          updateFeedback(modal.dataset.metaModalFeedback, `Dialog dismissed with Escape at ${formatTime()}.`);
         }
       }
     });
 
     fbq('init', metaPixelId, {
-      external_id: 'sandbox-visitor-0021',
-      email: 'a6f5c2f14bd54d90abca1b1c8b4123ff'
+      external_id: 'customer-10021',
+      em: '973dfe463ec85785f5f95af5ba3906eedb2d931c24e69824a89ea65dba4e813b' // SHA-256 of a normalized email
     });
 
     fbq('track', 'PageView', {

@@ -1,23 +1,23 @@
 ---
 layout: ../../../layouts/Layout.astro
-title: "Phone Agent"
+title: "Call Triage Agent"
 description: "Voice-first assistant that triages inbound calls, schedules follow-ups, and syncs with CRM systems."
 ---
 <div class="container">
   <header class="page-header">
     <div class="page-header__meta">
       <span class="section-index">Lab / AI / AI-008</span>
-      <span class="classification classification--accent">Production Beta</span>
+      <span class="classification classification--accent">Concept</span>
     </div>
-    <h1 class="page-header__title">Phone Agent</h1>
+    <h1 class="page-header__title">Call Triage Agent</h1>
     <p class="page-header__subtitle">Conversational Voice Assistant</p>
   </header>
 
   <p class="mono" style="margin-bottom: var(--space-4);"><a href="/lab/ai/">← Back to AI Lab index</a></p>
 
-## Mission Profile
+## Overview
 
-The Phone Agent is a conversational concierge that fields inbound calls, answers routine questions, and routes high-priority conversations to human staff. It blends speech recognition, large language model reasoning, and calendar/CRM automation into a compliant, monitored pipeline.
+These are design notes for a voice assistant concept. The agent answers inbound calls, answers routine questions, and routes high-priority conversations to human staff. It blends speech recognition, large language model reasoning, and calendar/CRM automation into one monitored pipeline.
 
 ## Core Capabilities
 
@@ -47,7 +47,7 @@ The Phone Agent is a conversational concierge that fields inbound calls, answers
 ## Next Milestones
 
 1. Expand language coverage to Spanish and French with locale-specific tone packs.
-2. Launch proactive callback capability tied to the lab's marketing automation engine.
-3. Integrate agent performance metrics into the shared Lab operations scorecard.
+2. Add scheduled callbacks triggered from marketing automation.
+3. Report agent performance metrics alongside other call-center metrics.
 
 </div>

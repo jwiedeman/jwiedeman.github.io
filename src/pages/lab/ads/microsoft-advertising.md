@@ -1,15 +1,15 @@
 ---
 layout: ../../../layouts/Layout.astro
-title: "Microsoft Advertising Deployment Manual"
+title: "Microsoft Advertising Playbook"
 description: "Checklist for Microsoft Search, Audience Network, and import automation."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Ads Platform Manual</p>
-  <h1>Microsoft Advertising Deployment Manual</h1>
-  <p class="intro">Microsoft Advertising complements Google coverage with search scale, audience network placements, and unique LinkedIn profile targeting. Use this manual to align launches with enterprise rigor.</p>
+  <p class="supertitle mono">Lab / Advertising</p>
+  <h1>Microsoft Advertising Playbook</h1>
+  <p class="intro">Microsoft Advertising complements Google coverage with search scale, audience network placements, and unique LinkedIn profile targeting. This playbook covers structure, Google Ads import, audiences, and measurement.</p>
 
   <section>
     <h2>Campaign structure</h2>
@@ -21,7 +21,7 @@ headingTracker:
   </section>
 
   <section>
-    <h2>Import and sync operations</h2>
+    <h2>Import and sync</h2>
     <ul>
       <li>Schedule Google Import with post-import checks (bid strategy compatibility, negative keyword lists, URL parameters).</li>
       <li>Audit automated rules to ensure budgets, bids, and ad schedules align with Microsoft auction patterns.</li>
@@ -39,7 +39,7 @@ headingTracker:
   </section>
 
   <section>
-    <h2>Telemetry and measurement</h2>
+    <h2>Tracking and measurement</h2>
     <ul>
       <li>Ensure Universal Event Tracking (UET) tag is firing on all key pages; configure conversion goals accordingly.</li>
       <li>Integrate offline conversions using the Microsoft Advertising API or automated CSV uploads.</li>

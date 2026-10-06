@@ -6,10 +6,11 @@ import '../../../styles/analytics-sandbox.css';
   <div class="analytics-sandbox adobe-sandbox">
     <header class="sandbox-header hairline-bottom">
       <p class="supertitle mono">Analytics Lab / Instrumentation</p>
-      <h1>Adobe Analytics Sandbox</h1>
+      <h1>Adobe Analytics sandbox</h1>
       <p class="intro">
-        Explore how AppMeasurement tracking fires across a miniature mission control interface. Engage the
-        components on the left and observe the simulated beacon payloads rendered in the console.
+        AppMeasurement sends two kinds of server calls. <code>s.t()</code> records a page view.
+        <code>s.tl()</code> records a link or custom interaction without counting a page view. Use the controls
+        below to see the call each interaction makes. The console shows a simulated beacon; nothing is sent.
       </p>
       <dl class="sandbox-meta">
         <div>
@@ -26,10 +27,12 @@ import '../../../styles/analytics-sandbox.css';
     <nav class="sandbox-outline" aria-label="Interaction index">
       <h2 class="sandbox-outline__title">Interaction index</h2>
       <ol class="sandbox-outline__list">
-        <li><a href="#adobe-cta-card">Primary CTA — Launch sequence</a></li>
-        <li><a href="#adobe-link-card">Secondary link — Telemetry logs</a></li>
-        <li><a href="#adobe-form-card">Telemetry upload form</a></li>
-        <li><a href="#adobe-pageview-card">Page load variables</a></li>
+        <li><a href="#adobe-cta-card">Custom link: demo request</a></li>
+        <li><a href="#adobe-link-card">Download link: pricing PDF</a></li>
+        <li><a href="#adobe-form-card">Custom link: newsletter sign-up</a></li>
+        <li><a href="#adobe-cart-card">Commerce: add to cart</a></li>
+        <li><a href="#adobe-pageview-card">Page view variables</a></li>
+        <li><a href="#adobe-reference-card">Variable reference</a></li>
       </ol>
     </nav>
 
@@ -37,12 +40,13 @@ import '../../../styles/analytics-sandbox.css';
       <section class="sandbox-panel">
         <article id="adobe-cta-card" class="sandbox-card adobe-card" aria-labelledby="adobe-cta-title">
           <header>
-            <p id="adobe-cta-title" class="sandbox-card__tag mono">linkName: cta:launch-sequence · linkType: o</p>
-            <h3>Primary CTA — Launch sequence</h3>
+            <p id="adobe-cta-title" class="sandbox-card__tag mono">linkName: cta:request-demo · linkType: o</p>
+            <h3>Custom link: demo request</h3>
           </header>
           <p>
-            Demonstrates a high-priority interaction within mission controls. The payload forwards event,
-            prop, eVar, and contextData bindings typical of conversion CTAs.
+            A button click tracked with <code>s.tl()</code> and link type <code>o</code> (custom link).
+            <code>linkTrackVars</code> and <code>linkTrackEvents</code> list the variables and events the call
+            may send. Anything not listed is dropped.
           </p>
           <dl class="sandbox-card__meta">
             <div>
@@ -51,37 +55,45 @@ import '../../../styles/analytics-sandbox.css';
             </div>
             <div>
               <dt>prop4</dt>
-              <dd class="mono">launch:cta</dd>
+              <dd class="mono">cta:request-demo</dd>
             </div>
             <div>
               <dt>eVar4</dt>
-              <dd class="mono">Launch — Primary</dd>
+              <dd class="mono">Request a demo</dd>
             </div>
             <div>
               <dt>contextData</dt>
-              <dd class="mono">component=mission-controls · priority=primary</dd>
+              <dd class="mono">component=pricing-page · priority=primary</dd>
             </div>
           </dl>
           <button
             id="aa-primary-cta"
             class="sandbox-action"
-            data-aa-component="mission-controls"
+            data-aa-component="pricing-page"
             data-aa-role="primary-cta"
             type="button"
           >
-            Initiate launch
+            Request a demo
           </button>
-          <pre class="adobe-code mono">{`s.tl(this, 'o', 'cta:launch-sequence', { events: 'event5', prop4: 'launch:cta', eVar4: 'Launch — Primary', contextData: { component: 'mission-controls', priority: 'primary' } });`}</pre>
+          <pre class="adobe-code mono">{`s.tl(this, 'o', 'cta:request-demo', {
+  linkTrackVars: 'events,prop4,eVar4,contextData.component,contextData.priority',
+  linkTrackEvents: 'event5',
+  events: 'event5',
+  prop4: 'cta:request-demo',
+  eVar4: 'Request a demo',
+  contextData: { component: 'pricing-page', priority: 'primary' }
+});`}</pre>
         </article>
 
         <article id="adobe-link-card" class="sandbox-card adobe-card" aria-labelledby="adobe-link-title">
           <header>
-            <p id="adobe-link-title" class="sandbox-card__tag mono">linkName: nav:telemetry-logs · linkType: o</p>
-            <h3>Secondary link — Telemetry logs</h3>
+            <p id="adobe-link-title" class="sandbox-card__tag mono">linkName: download:pricing-pdf · linkType: d</p>
+            <h3>Download link: pricing PDF</h3>
           </header>
           <p>
-            Mirrors navigation link tracking with module metadata and contextData to label destination
-            hierarchies.
+            Link type <code>d</code> reports the click as a file download. Type <code>e</code> is used for exit
+            links. AppMeasurement can track both automatically with <code>trackDownloadLinks</code> and
+            <code>trackExternalLinks</code>; the explicit call below adds custom variables.
           </p>
           <dl class="sandbox-card__meta">
             <div>
@@ -90,37 +102,44 @@ import '../../../styles/analytics-sandbox.css';
             </div>
             <div>
               <dt>prop6</dt>
-              <dd class="mono">nav:telemetry</dd>
+              <dd class="mono">download:pricing-pdf</dd>
             </div>
             <div>
               <dt>eVar6</dt>
-              <dd class="mono">Navigation Link</dd>
+              <dd class="mono">Pricing PDF</dd>
             </div>
             <div>
               <dt>contextData</dt>
-              <dd class="mono">component=global-nav · destination=telemetry</dd>
+              <dd class="mono">component=pricing-page · file=pricing.pdf</dd>
             </div>
           </dl>
           <a
             id="aa-secondary-link"
             class="sandbox-link"
             href="#"
-            data-aa-component="global-nav"
-            data-aa-role="secondary-link"
+            data-aa-component="pricing-page"
+            data-aa-role="download-link"
           >
-            View telemetry logs
+            Download pricing PDF
           </a>
-          <pre class="adobe-code mono">{`s.tl(this, 'o', 'nav:telemetry-logs', { events: 'event8', prop6: 'nav:telemetry', eVar6: 'Navigation Link', contextData: { component: 'global-nav', destination: 'telemetry' } });`}</pre>
+          <pre class="adobe-code mono">{`s.tl(this, 'd', 'download:pricing-pdf', {
+  linkTrackVars: 'events,prop6,eVar6,contextData.component,contextData.file',
+  linkTrackEvents: 'event8',
+  events: 'event8',
+  prop6: 'download:pricing-pdf',
+  eVar6: 'Pricing PDF',
+  contextData: { component: 'pricing-page', file: 'pricing.pdf' }
+});`}</pre>
         </article>
 
         <article id="adobe-form-card" class="sandbox-card adobe-card" aria-labelledby="adobe-form-title">
           <header>
-            <p id="adobe-form-title" class="sandbox-card__tag mono">linkName: form:telemetry-upload · linkType: o</p>
-            <h3>Telemetry upload form</h3>
+            <p id="adobe-form-title" class="sandbox-card__tag mono">linkName: form:newsletter-signup · linkType: o</p>
+            <h3>Custom link: newsletter sign-up</h3>
           </header>
           <p>
-            Captures a structured form submission including mission ID and channel selections. Prevents
-            default submission so you can inspect the payload inline.
+            A form submission tracked as a custom link. The selected topic is sent in eVar9. Submission is
+            blocked in this demo so you can read the payload.
           </p>
           <dl class="sandbox-card__meta">
             <div>
@@ -129,41 +148,93 @@ import '../../../styles/analytics-sandbox.css';
             </div>
             <div>
               <dt>prop9</dt>
-              <dd class="mono">form:telemetry</dd>
+              <dd class="mono">form:newsletter</dd>
             </div>
             <div>
               <dt>eVar9</dt>
-              <dd class="mono">Telemetry Upload</dd>
+              <dd class="mono">Newsletter topic (form value)</dd>
             </div>
             <div>
               <dt>contextData</dt>
-              <dd class="mono">component=telemetry · submission=form</dd>
+              <dd class="mono">component=newsletter · submission=form</dd>
             </div>
           </dl>
           <form
-            id="aa-telemetry-form"
+            id="aa-newsletter-form"
             class="sandbox-form"
-            data-aa-component="telemetry"
+            data-aa-component="newsletter"
             data-aa-role="form"
           >
-            <label for="aa-telemetry-id">Mission ID</label>
-            <input id="aa-telemetry-id" name="missionId" type="text" placeholder="e.g. apollo-204" required />
-            <label for="aa-telemetry-channel">Channel</label>
-            <select id="aa-telemetry-channel" name="channel">
-              <option value="orbital">Orbital</option>
-              <option value="lunar">Lunar</option>
-              <option value="deep-space">Deep space</option>
+            <label for="aa-newsletter-email">Work email</label>
+            <input id="aa-newsletter-email" name="email" type="email" placeholder="name@example.com" required />
+            <label for="aa-newsletter-topic">Topic</label>
+            <select id="aa-newsletter-topic" name="topic">
+              <option value="product-updates">Product updates</option>
+              <option value="webinars">Webinars</option>
+              <option value="engineering">Engineering blog</option>
             </select>
-            <button class="sandbox-action" type="submit">Upload telemetry packet</button>
+            <button class="sandbox-action" type="submit">Sign up</button>
           </form>
-          <pre class="adobe-code mono">{`s.tl(this, 'o', 'form:telemetry-upload', { events: 'event12', prop9: 'form:telemetry', eVar9: 'Telemetry Upload', contextData: { component: 'telemetry', submission: 'form' } });`}</pre>
+          <pre class="adobe-code mono">{`s.tl(this, 'o', 'form:newsletter-signup', {
+  linkTrackVars: 'events,prop9,eVar9,contextData.component,contextData.submission',
+  linkTrackEvents: 'event12',
+  events: 'event12',
+  prop9: 'form:newsletter',
+  eVar9: topic, // e.g. 'product-updates'
+  contextData: { component: 'newsletter', submission: 'form' }
+});`}</pre>
+        </article>
+
+        <article id="adobe-cart-card" class="sandbox-card adobe-card" aria-labelledby="adobe-cart-title">
+          <header>
+            <p id="adobe-cart-title" class="sandbox-card__tag mono">linkName: cart:add · linkType: o</p>
+            <h3>Commerce: add to cart</h3>
+          </header>
+          <p>
+            Commerce events use the reserved names <code>prodView</code>, <code>scOpen</code>,
+            <code>scAdd</code>, <code>scRemove</code>, <code>scCheckout</code> and <code>purchase</code>.
+            <code>s.products</code> is a comma-separated list of products in the form
+            <code>category;product;quantity;price;events;eVars</code>. Quantity and price are only counted on
+            <code>purchase</code>.
+          </p>
+          <dl class="sandbox-card__meta">
+            <div>
+              <dt>events</dt>
+              <dd class="mono">scAdd</dd>
+            </div>
+            <div>
+              <dt>products</dt>
+              <dd class="mono">Plans;pro-annual</dd>
+            </div>
+          </dl>
+          <button
+            id="aa-add-to-cart"
+            class="sandbox-action"
+            data-aa-component="product-page"
+            data-aa-role="add-to-cart"
+            type="button"
+          >
+            Add Pro plan to cart
+          </button>
+          <pre class="adobe-code mono">{`s.tl(this, 'o', 'cart:add', {
+  linkTrackVars: 'events,products',
+  linkTrackEvents: 'scAdd',
+  events: 'scAdd',
+  products: 'Plans;pro-annual'
+});
+
+// On the order confirmation page (s.t()):
+s.events = 'purchase';
+s.purchaseID = 'ORD-10042';
+s.products = 'Plans;pro-annual;1;199.00';`}</pre>
         </article>
 
         <section id="adobe-pageview-card" class="sandbox-card adobe-card adobe-pageview" aria-labelledby="adobe-pageview-title">
-          <h2 id="adobe-pageview-title">Page load variables</h2>
+          <h2 id="adobe-pageview-title">Page view variables</h2>
           <p>
-            Initial <code>s.t()</code> call seeds persistent classification variables for this sandbox view.
-            These values frame the report suite, channel, and template metadata.
+            The <code>s.t()</code> call on page load sends every variable that is set on the <code>s</code>
+            object. Props hold values for the current hit only. eVars persist according to their expiration
+            setting, so later conversions can be credited to them.
           </p>
           <ul class="sandbox-list mono">
             <li>pageName = lab:analytics:adobe-analytics</li>
@@ -171,10 +242,43 @@ import '../../../styles/analytics-sandbox.css';
             <li>eVar1 = Adobe Analytics Sandbox</li>
             <li>prop1 = lab:analytics</li>
             <li>events = event1</li>
-            <li>contextData.page.missionPhase = demo</li>
+            <li>contextData.page.section = analytics</li>
             <li>contextData.page.template = sandbox</li>
           </ul>
-          <pre class="adobe-code mono">{`s.t({ pageName: 'lab:analytics:adobe-analytics', channel: 'lab', events: 'event1', prop1: 'lab:analytics', eVar1: 'Adobe Analytics Sandbox', contextData: { 'page.missionPhase': 'demo', 'page.template': 'sandbox' } });`}</pre>
+          <pre class="adobe-code mono">{`s.pageName = 'lab:analytics:adobe-analytics';
+s.channel = 'lab';
+s.prop1 = 'lab:analytics';
+s.eVar1 = 'Adobe Analytics Sandbox';
+s.events = 'event1';
+s.contextData['page.section'] = 'analytics';
+s.contextData['page.template'] = 'sandbox';
+s.t();`}</pre>
+        </section>
+
+        <section id="adobe-reference-card" class="sandbox-card adobe-card" aria-labelledby="adobe-reference-title">
+          <h2 id="adobe-reference-title">Variable reference</h2>
+          <ul class="sandbox-list">
+            <li><code>propN</code>: traffic variable. Hit-scoped, used for pathing and counts.</li>
+            <li><code>eVarN</code>: conversion variable. Persists until it expires; success events are credited to it.</li>
+            <li><code>eventN</code>: custom success event. Counter by default; can be numeric or currency.</li>
+            <li><code>contextData</code>: key/value pairs mapped to props and eVars with processing rules.</li>
+            <li><code>s.tl(this, type, name)</code>: link call. <code>o</code> custom, <code>d</code> download, <code>e</code> exit.</li>
+          </ul>
+          <p>
+            With the Web SDK (alloy.js) the same data is sent as XDM. Page views and link clicks are both
+            <code>sendEvent</code> calls, distinguished by <code>eventType</code> and
+            <code>web.webInteraction</code>.
+          </p>
+          <pre class="adobe-code mono">{`alloy('sendEvent', {
+  xdm: {
+    eventType: 'web.webinteraction.linkClicks',
+    web: { webInteraction: { name: 'cta:request-demo', type: 'other', linkClicks: { value: 1 } } },
+    _experience: { analytics: {
+      customDimensions: { eVars: { eVar4: 'Request a demo' }, props: { prop4: 'cta:request-demo' } },
+      event1to100: { event5: { value: 1 } }
+    } }
+  }
+});`}</pre>
         </section>
       </section>
 
@@ -182,7 +286,9 @@ import '../../../styles/analytics-sandbox.css';
         <h2 id="adobe-console-heading">Beacon payloads</h2>
         <p>
           Simulated requests to <code class="mono">https://metrics-demo.sc.omtrdc.net/b/ss/jwiedeman.sandbox/1/JS-2.23.0/s</code>.
-          Entries render the raw query string along with the structured JSON payload.
+          Each entry shows the query string and the same data as JSON. Variable names are shown in their
+          AppMeasurement form; a real beacon abbreviates them (<code>eVar4</code> is <code>v4</code>,
+          <code>prop4</code> is <code>c4</code>).
         </p>
         <div class="sandbox-console__toolbar" role="group" aria-label="Adobe Analytics console controls">
           <button type="button" class="console-control" data-console-scroll disabled>Jump to latest</button>
@@ -196,10 +302,10 @@ import '../../../styles/analytics-sandbox.css';
           aria-relevant="additions"
           tabindex="0"
         >
-          <p class="console-empty" data-console-empty>Awaiting Adobe Analytics activity…</p>
+          <p class="console-empty" data-console-empty>No server calls yet.</p>
         </div>
         <noscript>
-          <p class="console-empty">Enable JavaScript to observe the simulated beacon output.</p>
+          <p class="console-empty">Enable JavaScript to see the simulated server calls.</p>
         </noscript>
       </aside>
     </div>
@@ -306,24 +412,23 @@ import '../../../styles/analytics-sandbox.css';
 
     const consoleUI = createSandboxConsole({ limit: MAX_ENTRIES });
 
+    // linkType 't' is a page view (s.t()); 'o', 'd' and 'e' are link calls (s.tl()).
     const buildPayload = (linkName, linkType, attributes) => {
+      const isPageView = linkType === 't';
       const query = new URLSearchParams({
         AQB: '1',
-        AQE: '1',
-        pe: linkType,
-        pev2: linkName,
-        ...attributes
+        ...(isPageView ? {} : { pe: `lnk_${linkType}`, pev2: linkName }),
+        ...attributes,
+        AQE: '1'
       });
 
       return {
         method: 'GET',
-        summary: `${linkType.toUpperCase()} · ${linkName}`,
+        summary: isPageView ? `s.t() · ${attributes.pageName}` : `s.tl() · ${linkType} · ${linkName}`,
         request: `${endpoint}?${query.toString()}`,
-        data: {
-          linkName,
-          linkType,
-          ...attributes
-        }
+        data: isPageView
+          ? { call: 's.t()', ...attributes }
+          : { call: 's.tl()', linkName, linkType, ...attributes }
       };
     };
 
@@ -353,36 +458,43 @@ import '../../../styles/analytics-sandbox.css';
 
     const bindingMap = {
       cta: {
-        linkName: 'cta:launch-sequence',
+        linkName: 'cta:request-demo',
         linkType: 'o',
         attributes: {
           events: 'event5',
-          prop4: 'launch:cta',
-          eVar4: 'Launch — Primary',
-          'contextData.component': 'mission-controls',
+          prop4: 'cta:request-demo',
+          eVar4: 'Request a demo',
+          'contextData.component': 'pricing-page',
           'contextData.priority': 'primary'
         }
       },
-      nav: {
-        linkName: 'nav:telemetry-logs',
-        linkType: 'o',
+      download: {
+        linkName: 'download:pricing-pdf',
+        linkType: 'd',
         attributes: {
           events: 'event8',
-          prop6: 'nav:telemetry',
-          eVar6: 'Navigation Link',
-          'contextData.component': 'global-nav',
-          'contextData.destination': 'telemetry'
+          prop6: 'download:pricing-pdf',
+          eVar6: 'Pricing PDF',
+          'contextData.component': 'pricing-page',
+          'contextData.file': 'pricing.pdf'
         }
       },
       form: {
-        linkName: 'form:telemetry-upload',
+        linkName: 'form:newsletter-signup',
         linkType: 'o',
         attributes: {
           events: 'event12',
-          prop9: 'form:telemetry',
-          eVar9: 'Telemetry Upload',
-          'contextData.component': 'telemetry',
+          prop9: 'form:newsletter',
+          'contextData.component': 'newsletter',
           'contextData.submission': 'form'
+        }
+      },
+      cart: {
+        linkName: 'cart:add',
+        linkType: 'o',
+        attributes: {
+          events: 'scAdd',
+          products: 'Plans;pro-annual'
         }
       }
     };
@@ -394,30 +506,41 @@ import '../../../styles/analytics-sandbox.css';
       });
     }
 
-    const secondaryLink = document.getElementById('aa-secondary-link');
-    if (secondaryLink) {
-      secondaryLink.addEventListener('click', (event) => {
+    const downloadLink = document.getElementById('aa-secondary-link');
+    if (downloadLink) {
+      downloadLink.addEventListener('click', (event) => {
         event.preventDefault();
-        fireLinkTracking(bindingMap.nav.linkName, bindingMap.nav.linkType, bindingMap.nav.attributes);
+        fireLinkTracking(bindingMap.download.linkName, bindingMap.download.linkType, bindingMap.download.attributes);
       });
     }
 
-    const telemetryForm = document.getElementById('aa-telemetry-form');
-    if (telemetryForm) {
-      telemetryForm.addEventListener('submit', (event) => {
+    const newsletterForm = document.getElementById('aa-newsletter-form');
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        fireLinkTracking(bindingMap.form.linkName, bindingMap.form.linkType, bindingMap.form.attributes);
+        const topic = new FormData(event.currentTarget).get('topic') || '';
+        fireLinkTracking(bindingMap.form.linkName, bindingMap.form.linkType, {
+          ...bindingMap.form.attributes,
+          eVar9: String(topic)
+        });
         event.currentTarget.reset();
       });
     }
 
-    const pageViewPayload = buildPayload('page:view', 't', {
+    const addToCart = document.getElementById('aa-add-to-cart');
+    if (addToCart) {
+      addToCart.addEventListener('click', () => {
+        fireLinkTracking(bindingMap.cart.linkName, bindingMap.cart.linkType, bindingMap.cart.attributes);
+      });
+    }
+
+    const pageViewPayload = buildPayload(null, 't', {
       events: 'event1',
       pageName: 'lab:analytics:adobe-analytics',
       channel: 'lab',
       prop1: 'lab:analytics',
       eVar1: 'Adobe Analytics Sandbox',
-      'contextData.page.missionPhase': 'demo',
+      'contextData.page.section': 'analytics',
       'contextData.page.template': 'sandbox'
     });
     logPayload(pageViewPayload);

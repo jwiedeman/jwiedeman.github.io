@@ -1,7 +1,7 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 ---
-<Layout title="NeuralGo" description="Self-play laboratory where neural networks learn the ancient game of Go through iterative policy improvement." headingTracker={false}>
+<Layout title="NeuralGo" description="Self-play Go on a 9×9 board, where small neural networks learn from the games they play." headingTracker={false}>
   <div id="app">
     <header>
       <div class="title">GO ARENA — NEURAL GARDEN</div>
@@ -130,7 +130,7 @@ import Layout from '../../../layouts/Layout.astro';
 
           <div class="training-column column-visuals">
             <div class="panel-card tab-card">
-              <div class="panel-sub">Training telemetry</div>
+              <div class="panel-sub">Training stats</div>
               <div class="tab-buttons">
                 <button class="tab-button active" data-tab="trend">Win probability trace</button>
                 <button class="tab-button" data-tab="history">Learning trajectory</button>

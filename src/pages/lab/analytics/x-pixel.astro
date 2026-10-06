@@ -8,18 +8,23 @@ import '../../../styles/analytics-sandbox.css';
       <p class="supertitle mono">Analytics Lab / Instrumentation</p>
       <h1>X Pixel Sandbox</h1>
       <p class="intro">
-        Explore how the X (Twitter) Pixel instruments on-page interactions. The left column outlines the
-        tracking metadata applied to each element, while the console on the right shows the payloads that
-        would be transmitted to the X endpoint.
+        Example X (Twitter) Pixel calls attached to common page elements. The X Pixel does not use event
+        names in code. Each conversion event is created in X Ads Manager, which assigns it an event ID of the
+        form <code>tw-&lt;pixel id&gt;-&lt;event id&gt;</code>. The page fires that ID with
+        <code>twq('event', ...)</code>. The console on the right shows each call and its parameters.
       </p>
       <dl class="sandbox-meta">
         <div>
           <dt>Pixel ID</dt>
-          <dd class="mono">TW-XXXXXXXXXX</dd>
+          <dd class="mono">abc12</dd>
         </div>
         <div>
-          <dt>Endpoint</dt>
-          <dd class="mono">https://ads-api.twitter.com/</dd>
+          <dt>Browser endpoints</dt>
+          <dd class="mono">https://analytics.twitter.com/i/adsct, https://t.co/i/adsct</dd>
+        </div>
+        <div>
+          <dt>Conversions API</dt>
+          <dd class="mono">https://ads-api.x.com/12/measurement/conversions/&lt;pixel-id&gt;</dd>
         </div>
       </dl>
     </header>
@@ -27,87 +32,99 @@ import '../../../styles/analytics-sandbox.css';
     <div class="sandbox-grid">
       <section class="sandbox-panel">
         <section class="sandbox-card x-map" aria-labelledby="x-map-heading">
-          <h2 id="x-map-heading">Instrumentation overview</h2>
+          <h2 id="x-map-heading">Tracking plan</h2>
           <p>
-            Each interactive element is annotated with <code>data-twq-*</code> attributes so the tracking plan
-            is transparent at a glance.
+            Each element carries a <code>data-twq-event</code> attribute with its event ID and a
+            <code>data-twq-parameters</code> attribute with its parameters. The event type (Purchase, Lead and
+            so on) is set on the event in Ads Manager, not in code.
           </p>
           <dl class="x-map__list">
             <div>
-              <dt>Primary call-to-action</dt>
+              <dt>Start free trial</dt>
               <dd>
-                <span class="label">Event</span>
-                <code>button_click</code>
+                <span class="label">Event ID</span>
+                <code>tw-abc12-trl01</code>
               </dd>
               <dd>
-                <span class="label">Parameters</span>
-                <code>{`{"content_name":"Sandbox CTA","value":1}`}</code>
-              </dd>
-            </div>
-            <div>
-              <dt>Strategy consultation CTA</dt>
-              <dd>
-                <span class="label">Event</span>
-                <code>schedule_call</code>
-              </dd>
-              <dd>
-                <span class="label">Parameters</span>
-                <code>{`{"content_name":"Strategy Call","value":0}`}</code>
+                <span class="label">Type</span>
+                <code>Start trial</code>
               </dd>
             </div>
             <div>
-              <dt>Annotated reference link</dt>
+              <dt>Book a demo</dt>
               <dd>
-                <span class="label">Event</span>
-                <code>link_click</code>
+                <span class="label">Event ID</span>
+                <code>tw-abc12-lde01</code>
               </dd>
               <dd>
-                <span class="label">Parameters</span>
-                <code>{`{"destination":"/lab/analytics"}`}</code>
-              </dd>
-            </div>
-            <div>
-              <dt>Video milestone</dt>
-              <dd>
-                <span class="label">Event</span>
-                <code>video_progress</code>
-              </dd>
-              <dd>
-                <span class="label">Parameters</span>
-                <code>{`{"video_title":"Mission Brief","percent":50}`}</code>
+                <span class="label">Type</span>
+                <code>Lead</code>
               </dd>
             </div>
             <div>
-              <dt>Add to cart</dt>
+              <dt>Internal link</dt>
               <dd>
-                <span class="label">Event</span>
-                <code>add_to_cart</code>
+                <span class="label">Event ID</span>
+                <code>tw-abc12-cus01</code>
               </dd>
               <dd>
-                <span class="label">Parameters</span>
-                <code>{`{"content_ids":["telemetry-kit"],"value":199}`}</code>
-              </dd>
-            </div>
-            <div>
-              <dt>Purchase confirmation</dt>
-              <dd>
-                <span class="label">Event</span>
-                <code>purchase</code>
-              </dd>
-              <dd>
-                <span class="label">Parameters</span>
-                <code>{`{"order_id":"TW-DEMO-001","value":199}`}</code>
+                <span class="label">Type</span>
+                <code>Custom</code>
               </dd>
             </div>
             <div>
-              <dt>Qualification form submission</dt>
+              <dt>Video start / 50%</dt>
               <dd>
-                <span class="label">Event</span>
-                <code>form_submit</code>
+                <span class="label">Event ID</span>
+                <code>tw-abc12-cus02, tw-abc12-cus03</code>
               </dd>
               <dd>
-                <span class="label">Parameters</span>
-                <code>{`{"form_name":"interest_capture"}`}</code>
+                <span class="label">Type</span>
+                <code>Custom</code>
+              </dd>
+            </div>
+            <div>
+              <dt>File download</dt>
+              <dd>
+                <span class="label">Event ID</span>
+                <code>tw-abc12-dwn01</code>
+              </dd>
+              <dd>
+                <span class="label">Type</span>
+                <code>Download</code>
+              </dd>
+            </div>
+            <div>
+              <dt>Add to cart / checkout / purchase</dt>
+              <dd>
+                <span class="label">Event ID</span>
+                <code>tw-abc12-atc01, tw-abc12-chk01, tw-abc12-pur01</code>
+              </dd>
+              <dd>
+                <span class="label">Type</span>
+                <code>Add to cart, Checkout initiated, Purchase</code>
+              </dd>
+            </div>
+            <div>
+              <dt>Demo request form</dt>
+              <dd>
+                <span class="label">Event ID</span>
+                <code>tw-abc12-lde02</code>
+              </dd>
+              <dd>
+                <span class="label">Type</span>
+                <code>Lead</code>
+              </dd>
+            </div>
+            <div>
+              <dt>Newsletter sign-up</dt>
+              <dd>
+                <span class="label">Event ID</span>
+                <code>tw-abc12-sgn01</code>
+              </dd>
+              <dd>
+                <span class="label">Type</span>
+                <code>Sign up</code>
               </dd>
             </div>
           </dl>
@@ -115,136 +132,158 @@ import '../../../styles/analytics-sandbox.css';
 
         <section class="sandbox-card x-interactive" aria-labelledby="x-interactive-heading">
           <h2 id="x-interactive-heading">Interactive elements</h2>
-          <p>Trigger an interaction to see a live payload appear in the mock endpoint console.</p>
+          <p>
+            Click an element to log its <code>twq('event')</code> call. Supported parameters include
+            <code>value</code>, <code>currency</code>, <code>contents</code>, <code>conversion_id</code>,
+            <code>description</code>, <code>email_address</code> and <code>phone_number</code>.
+          </p>
 
           <div class="x-interactive__section">
-            <h3>High-intent conversions</h3>
-            <p class="x-interactive__intro">Hero CTAs and meeting bookings mapped to lead-focused events.</p>
+            <h3>Lead events</h3>
+            <p class="x-interactive__intro">Trial starts and demo bookings.</p>
             <div class="x-interactive__actions">
               <button
                 id="x-button"
                 class="sandbox-action sandbox-element"
                 type="button"
-                data-twq-event="button_click"
-                data-twq-parameters='{"content_name":"Sandbox CTA","value":1,"placement":"hero"}'
+                data-twq-event="tw-abc12-trl01"
+                data-twq-type="Start trial"
+                data-twq-parameters='{"value":0,"currency":"USD","contents":[{"content_id":"plan-pro","content_name":"Pro plan"}]}'
               >
-                Initiate launch sequence
+                Start free trial
               </button>
               <button
                 class="sandbox-action sandbox-element"
                 type="button"
-                data-twq-event="schedule_call"
-                data-twq-parameters='{"content_name":"Strategy Call","value":0,"mission_window":"Q3"}'
+                data-twq-event="tw-abc12-lde01"
+                data-twq-type="Lead"
+                data-twq-parameters='{"value":0,"currency":"USD","description":"demo_booking"}'
               >
-                Schedule strategy call
+                Book a demo
               </button>
             </div>
           </div>
 
           <div class="x-interactive__section">
-            <h3>Content &amp; navigation</h3>
-            <p class="x-interactive__intro">Links and media milestones used for audience building.</p>
+            <h3>Content and navigation</h3>
+            <p class="x-interactive__intro">Links, video progress and downloads, mostly used to build audiences.</p>
             <div class="x-interactive__actions">
               <a
                 id="x-link"
                 class="sandbox-link sandbox-element"
                 href="/lab/analytics"
-                data-twq-event="link_click"
-                data-twq-parameters='{"destination":"/lab/analytics","link_type":"internal"}'
+                data-twq-event="tw-abc12-cus01"
+                data-twq-type="Custom"
+                data-twq-parameters='{"description":"analytics_index_link"}'
               >
                 View analytics lab index
               </a>
               <button
                 class="sandbox-action sandbox-element"
                 type="button"
-                data-twq-event="video_play"
-                data-twq-parameters='{"video_title":"Mission Brief","position":"hero"}'
+                data-twq-event="tw-abc12-cus02"
+                data-twq-type="Custom"
+                data-twq-parameters='{"description":"video_start","contents":[{"content_id":"vid-overview","content_name":"Product overview"}]}'
               >
-                Start mission briefing
+                Start product video
               </button>
               <button
                 class="sandbox-action sandbox-element"
                 type="button"
-                data-twq-event="video_progress"
-                data-twq-parameters='{"video_title":"Mission Brief","percent":50,"seconds":72}'
+                data-twq-event="tw-abc12-cus03"
+                data-twq-type="Custom"
+                data-twq-parameters='{"description":"video_50_percent","contents":[{"content_id":"vid-overview","content_name":"Product overview"}]}'
               >
-                Log 50% milestone
+                Reach 50% of video
               </button>
               <a
                 class="sandbox-link sandbox-element"
                 href="#"
-                data-twq-event="download_manual"
-                data-twq-parameters='{"asset":"mission-brief.pdf","content_type":"pdf"}'
+                data-twq-event="tw-abc12-dwn01"
+                data-twq-type="Download"
+                data-twq-parameters='{"description":"pricing-guide.pdf","contents":[{"content_id":"pricing-guide","content_type":"pdf"}]}'
               >
-                Download mission brief (PDF)
+                Download pricing guide (PDF)
               </a>
             </div>
           </div>
 
           <div class="x-interactive__section">
-            <h3>Commerce funnel</h3>
-            <p class="x-interactive__intro">Sequential events that measure product consideration to purchase.</p>
+            <h3>Commerce</h3>
+            <p class="x-interactive__intro">
+              Add to cart, checkout and purchase. On Purchase, <code>conversion_id</code> carries the order ID
+              and is used to deduplicate against the Conversions API.
+            </p>
             <div class="x-interactive__actions">
               <button
                 class="sandbox-action sandbox-element"
                 type="button"
-                data-twq-event="add_to_cart"
-                data-twq-parameters='{"content_ids":["telemetry-kit"],"content_type":"product","value":199,"currency":"USD"}'
+                data-twq-event="tw-abc12-atc01"
+                data-twq-type="Add to cart"
+                data-twq-parameters='{"value":129,"currency":"USD","contents":[{"content_id":"SKU-1042","content_name":"Trail running shoe","content_type":"product","content_price":129,"num_items":1}]}'
               >
-                Add telemetry kit
+                Add running shoe
               </button>
               <button
                 class="sandbox-action sandbox-element"
                 type="button"
-                data-twq-event="begin_checkout"
-                data-twq-parameters='{"num_items":1,"value":199,"currency":"USD"}'
+                data-twq-event="tw-abc12-chk01"
+                data-twq-type="Checkout initiated"
+                data-twq-parameters='{"value":129,"currency":"USD","contents":[{"content_id":"SKU-1042","content_price":129,"num_items":1}]}'
               >
-                Begin secure checkout
+                Begin checkout
               </button>
               <button
                 class="sandbox-action sandbox-element"
                 type="button"
-                data-twq-event="purchase"
-                data-twq-parameters='{"order_id":"TW-DEMO-001","value":199,"currency":"USD","content_ids":["telemetry-kit"]}'
+                data-twq-event="tw-abc12-pur01"
+                data-twq-type="Purchase"
+                data-twq-parameters='{"value":129,"currency":"USD","conversion_id":"ORDER-10023","contents":[{"content_id":"SKU-1042","content_price":129,"num_items":1}]}'
               >
-                Log purchase
+                Complete purchase
               </button>
             </div>
           </div>
 
           <div class="x-interactive__section">
-            <h3>Forms &amp; preferences</h3>
-            <p class="x-interactive__intro">Lead qualification and newsletter subscriptions.</p>
+            <h3>Forms</h3>
+            <p class="x-interactive__intro">
+              Demo request and newsletter sign-up. To improve matching, pass <code>email_address</code> or
+              <code>phone_number</code>. Send them SHA-256 hashed after trimming and lowercasing, or check X's
+              current documentation on client-side hashing before sending plain values.
+            </p>
             <div class="x-interactive__actions x-interactive__actions--column">
               <form
                 id="x-form"
                 class="sandbox-form sandbox-element sandbox-element--form"
-                data-twq-event="form_submit"
-                data-twq-parameters='{"form_name":"interest_capture","priority":"hot"}'
+                data-twq-event="tw-abc12-lde02"
+                data-twq-type="Lead"
+                data-twq-parameters='{"description":"demo_request_form","email_address":"973dfe463ec85785f5f95af5ba3906eedb2d931c24e69824a89ea65dba4e813b"}'
               >
-                <label for="mission-interest">Mission interest</label>
+                <label for="x-company">Company</label>
                 <input
-                  id="mission-interest"
-                  name="mission_interest"
+                  id="x-company"
+                  name="company"
                   type="text"
-                  placeholder="Telemetry optimization"
+                  placeholder="Example Co."
                   required
                 />
-                <label for="mission-size">Team size</label>
-                <select id="mission-size" name="mission_size">
+                <label for="x-team-size">Team size</label>
+                <select id="x-team-size" name="team_size">
                   <option value="1-10">1-10</option>
                   <option value="11-50">11-50</option>
                   <option value="51+">51+</option>
                 </select>
-                <button type="submit" class="sandbox-action">Submit signal</button>
+                <button type="submit" class="sandbox-action">Request demo</button>
               </form>
               <button
                 class="sandbox-action sandbox-element"
                 type="button"
-                data-twq-event="newsletter_signup"
-                data-twq-parameters='{"list":"mission-updates","method":"inline","value":0}'
+                data-twq-event="tw-abc12-sgn01"
+                data-twq-type="Sign up"
+                data-twq-parameters='{"description":"newsletter_product_updates","value":0,"currency":"USD"}'
               >
-                Record newsletter signup
+                Sign up for newsletter
               </button>
             </div>
           </div>
@@ -252,10 +291,10 @@ import '../../../styles/analytics-sandbox.css';
       </section>
 
       <aside class="sandbox-console x-console" data-console-panel aria-labelledby="x-console-heading">
-        <h2 id="x-console-heading">Mock X endpoint payloads</h2>
+        <h2 id="x-console-heading">Event console</h2>
         <p>
-          Payloads below are synthetic representations of what would be transmitted to the X conversion
-          endpoint for each interaction.
+          Each entry shows the <code>twq</code> call, the event ID with its Ads Manager type, and the
+          parameters passed. Entries are generated locally.
         </p>
         <div class="sandbox-console__toolbar" role="group" aria-label="X pixel console controls">
           <button type="button" class="console-control" data-console-scroll disabled>Jump to latest</button>
@@ -268,16 +307,17 @@ import '../../../styles/analytics-sandbox.css';
           aria-live="polite"
           tabindex="0"
         >
-          <p class="console-empty" data-console-empty>Engage the interface to emit simulated X pixel payloads.</p>
+          <p class="console-empty" data-console-empty>No events yet. Interact with any element to log one.</p>
         </div>
       </aside>
     </div>
 
     <section class="sandbox-snippet" aria-labelledby="x-snippet-heading">
-      <h2 id="x-snippet-heading">X Pixel base snippet</h2>
+      <h2 id="x-snippet-heading">X Pixel base code</h2>
       <p>
-        Add the bootstrap script before closing <code>&lt;head&gt;</code> and call <code>twq('config')</code>
-        with your pixel ID. This sandbox decorates the queue to expose payloads locally.
+        Place the base code in the document head and call <code>twq('config')</code> with your pixel ID. The
+        config call also records the page view. Fire conversion events afterwards with
+        <code>twq('event', 'tw-&lt;pixel id&gt;-&lt;event id&gt;', {'{'} ... {'}'})</code>.
       </p>
       <pre class="mono"><code>{`&lt;script&gt;
   !function(e,t,n,s,u,a){
@@ -287,20 +327,22 @@ import '../../../styles/analytics-sandbox.css';
     u.src='https://static.ads-twitter.com/uwt.js', a=t.getElementsByTagName(n)[0],
     a.parentNode.insertBefore(u,a));
   }(window, document, 'script');
-  twq('config', 'TW-XXXXXXXXXX');
+  twq('config', 'abc12');
 &lt;/script&gt;`}</code></pre>
     </section>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      !function(e,t,n,s,u,a){
-        e.twq||(s=e.twq=function(){
-          s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments);
-        }, s.version='1.1', s.queue=[], u=t.createElement(n), u.async=!0,
-        u.src='https://static.ads-twitter.com/uwt.js', a=t.getElementsByTagName(n)[0],
-        a.parentNode.insertBefore(u,a));
-      }(window, document, 'script');
+      // The base code's queue, without loading uwt.js: calls are logged here and nothing is sent to X.
+      if (!window.twq) {
+        const q = function () {
+          q.queue.push(arguments);
+        };
+        q.version = '1.1';
+        q.queue = [];
+        window.twq = q;
+      }
 
       const baseTwq = window.twq;
 
@@ -401,6 +443,14 @@ import '../../../styles/analytics-sandbox.css';
 
       const consoleUI = createSandboxConsole({ limit: 6 });
       const sandboxElements = document.querySelectorAll('.sandbox-element');
+      const pixelId = 'abc12';
+      // Event ID -> event type as configured in X Ads Manager, for console labels only.
+      const eventTypes = {};
+      sandboxElements.forEach((element) => {
+        if (element.dataset.twqEvent && element.dataset.twqType) {
+          eventTypes[element.dataset.twqEvent] = element.dataset.twqType;
+        }
+      });
 
       const createConsoleEntry = (type, name, payload) => {
         if (!consoleUI) return;
@@ -410,7 +460,7 @@ import '../../../styles/analytics-sandbox.css';
         entry.innerHTML = `
           <header class="console-entry__meta">
             <span class="console-entry__method">${type}</span>
-            <span>${name}</span>
+            <span>${eventTypes[name] ? `${name} (${eventTypes[name]})` : name}</span>
             <time datetime="${timestamp.toISOString()}">${timestamp.toLocaleTimeString()}</time>
           </header>
           <pre class="console-entry__body">${JSON.stringify(payload, null, 2)}</pre>
@@ -427,7 +477,7 @@ import '../../../styles/analytics-sandbox.css';
         const [type, name, payload = {}] = args;
         if (type === 'config' || type === 'event') {
           createConsoleEntry(type, name, {
-            pixelId: 'TW-XXXXXXXXXX',
+            pixelId,
             timestamp: new Date().toISOString(),
             ...payload
           });
@@ -446,7 +496,7 @@ import '../../../styles/analytics-sandbox.css';
       });
       window.twq = decoratedTwq;
 
-      twq('config', 'TW-XXXXXXXXXX', { page_category: 'lab_sandbox' });
+      twq('config', pixelId);
 
       const buildPayload = (element) => {
         const { twqParameters } = element.dataset;
@@ -465,10 +515,7 @@ import '../../../styles/analytics-sandbox.css';
           element.addEventListener('submit', (event) => {
             event.preventDefault();
             highlightElement(element);
-            twq('event', eventName, {
-              ...buildPayload(element),
-              form_values: Object.fromEntries(new FormData(element))
-            });
+            twq('event', eventName, buildPayload(element));
           });
           return;
         }

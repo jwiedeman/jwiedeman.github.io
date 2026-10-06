@@ -1,23 +1,23 @@
 ---
 layout: ../../../layouts/Layout.astro
-title: "Google Ads Mission Plan"
-description: "Activation checklist and optimization rituals for Google Ads Search, Performance Max, and Display."
+title: "Google Ads Playbook"
+description: "Setup checklist and review cadence for Google Ads Search, Performance Max, and Display."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Ads Platform Manual</p>
-  <h1>Google Ads Mission Plan</h1>
-  <p class="intro">This playbook keeps Google Ads launches aligned with NASA-grade rigor. It covers account structure, conversion telemetry, and optimization loops for Search, Performance Max, and Display inventory.</p>
+  <p class="supertitle mono">Lab / Advertising</p>
+  <h1>Google Ads Playbook</h1>
+  <p class="intro">This playbook covers account structure, conversion tracking, and the optimization routine for Google Ads Search, Performance Max, and Display campaigns.</p>
 
   <section>
-    <h2>Mission profile</h2>
-    <p>Establish a modular campaign architecture so each conversion signal is traceable and budget shifts can happen without downtime.</p>
+    <h2>Account structure</h2>
+    <p>Build a modular campaign structure so each conversion signal is traceable and budgets can move without pausing campaigns.</p>
     <ul>
-      <li>Separate Search, Performance Max, and Display into mission groupings with shared budgets and naming syntax: <span class="mono">[LOB]-[Geo]-[Objective]-[Stage]</span>.</li>
-      <li>Use campaign experiments for incremental testing; reserve 10% of budget for variant flights.</li>
-      <li>Pin hero assets in responsive formats only when compliance demands; otherwise allow ML to rotate freely.</li>
+      <li>Separate Search, Performance Max, and Display into separate campaign groups with shared budgets and naming syntax: <span class="mono">[LOB]-[Geo]-[Objective]-[Stage]</span>.</li>
+      <li>Use campaign experiments for incremental testing; reserve 10% of budget for test variants.</li>
+      <li>Pin hero assets in responsive formats only when compliance demands; otherwise let Google rotate them.</li>
     </ul>
   </section>
 
@@ -32,17 +32,17 @@ headingTracker:
   </section>
 
   <section>
-    <h2>Creative payload</h2>
+    <h2>Creative assets</h2>
     <p>Ensure each campaign has enough assets for Google’s combinatorial systems while retaining brand consistency.</p>
     <ul>
       <li>Responsive Search Ads: 12 headlines, 4 descriptions, include keyword variants, proof points, and compliance copy.</li>
       <li>Performance Max: provide at least 5 images, 5 logos, 5 headlines, 4 descriptions, and 1 short-form video or auto-generated video approval.</li>
-      <li>Display: adopt 1x1, 4x5, and 16x9 aspect ratios plus HTML5 creative when rich interactions are required.</li>
+      <li>Display: supply 1:1, 4:5, and 1.91:1 image ratios plus HTML5 creative when rich interactions are required.</li>
     </ul>
   </section>
 
   <section>
-    <h2>Telemetry and measurement</h2>
+    <h2>Tracking and measurement</h2>
     <p>Keep bid automation anchored to high-fidelity conversions.</p>
     <ul>
       <li>Route conversions through Google Tag Manager or the gtag interface with <strong>enhanced conversions</strong> enabled when policy allows.</li>
@@ -52,18 +52,18 @@ headingTracker:
   </section>
 
   <section>
-    <h2>Optimization rituals</h2>
-    <p>Schedule recurring reviews so campaign telemetry stays within mission tolerances.</p>
+    <h2>Review cadence</h2>
+    <p>Schedule recurring reviews so spend and performance stay within agreed targets.</p>
     <ul>
-      <li><strong>Daily:</strong> Guardrails on spend, policy issues, and sudden CPC spikes.</li>
+      <li><strong>Daily:</strong> Check spend, policy issues, and sudden CPC spikes.</li>
       <li><strong>Weekly:</strong> Search term analysis with negative keyword sync across match-type pods.</li>
       <li><strong>Bi-weekly:</strong> Asset performance rating review, rotating in new creatives for “Low” rated elements.</li>
-      <li><strong>Monthly:</strong> Performance Max placement and listing group audits. Adjust budgets across mission groupings based on MER (marketing efficiency ratio).</li>
+      <li><strong>Monthly:</strong> Performance Max placement and listing group audits. Adjust budgets across campaign groups based on MER (marketing efficiency ratio).</li>
     </ul>
   </section>
 
   <section>
-    <h2>Go / no-go checklist</h2>
+    <h2>Pre-launch checklist</h2>
     <ul>
       <li>All conversions verified in Google Tag Assistant and testing environment.</li>
       <li>Audiences synced: Customer Match, remarketing pools, and data segments refreshed within last 30 days.</li>

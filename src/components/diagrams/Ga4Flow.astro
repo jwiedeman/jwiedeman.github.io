@@ -11,6 +11,14 @@
  * App and TV traffic is simulated. Downstream stages batch on a compressed
  * clock (1 s ≈ 1 h).
  */
+interface Props {
+  /** Global array of gtag() calls made before the diagram loaded (replayed as hits). */
+  queue?: string;
+  /** Global gtag-style function the "Web hit" button calls. Without it, the hit is only animated. */
+  send?: string;
+}
+const { queue, send } = Astro.props;
+
 const stages = {
   ui: {
     title: 'Page and UI',
@@ -114,7 +122,7 @@ const procSteps = [
   ['p-thresholds', 'custom definitions, thresholds'],
 ];
 ---
-<figure class="ga4flow" data-ga4flow aria-labelledby="ga4flow-caption">
+<figure class="ga4flow" data-ga4flow data-queue={queue} data-send={send} aria-labelledby="ga4flow-caption">
   <div class="ga4flow__bar">
     <span class="ga4flow__kicker">How GA4 data travels</span>
     <span class="ga4flow__clock" data-clock>day 1 · 00:00</span>
@@ -536,7 +544,8 @@ const procSteps = [
       const d = (e as CustomEvent<{ command: string; name: string }>).detail;
       webHit(d.name, d.command);
     });
-    const early = (window as unknown as { dataLayer?: unknown[] }).dataLayer ?? [];
+    const globals = window as unknown as Record<string, unknown>;
+    const early = (root.dataset.queue ? (globals[root.dataset.queue] as unknown[] | undefined) : undefined) ?? [];
     early.forEach((args, i) => {
       const a = Array.from(args as ArrayLike<unknown>);
       const command = String(a[0] ?? '');
@@ -546,7 +555,7 @@ const procSteps = [
     // Controls.
     const btn = (action: string) => root.querySelector<HTMLButtonElement>(`[data-action="${action}"]`)!;
     btn('web').onclick = () => {
-      const gtag = (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag;
+      const gtag = root.dataset.send ? (globals[root.dataset.send] as ((...a: unknown[]) => void) | undefined) : undefined;
       if (gtag) gtag('event', 'diagram_test_hit', { source: 'data_flow_diagram' });
       else webHit('diagram_test_hit', 'event');
     };

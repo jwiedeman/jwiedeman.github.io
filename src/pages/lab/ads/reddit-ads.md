@@ -1,15 +1,15 @@
 ---
 layout: ../../../layouts/Layout.astro
-title: "Reddit Ads Mission Manual"
+title: "Reddit Ads Playbook"
 description: "Playbook for community-driven reach and conversion programs on Reddit."
 headingTracker:
   enabled: true
   contentId: tracked-content
 ---
 <div class="container" id="tracked-content">
-  <p class="supertitle mono">Lab / Ads Platform Manual</p>
-  <h1>Reddit Ads Mission Manual</h1>
-  <p class="intro">Reddit demands authenticity and community alignment. This manual ensures campaigns respect subreddit culture while meeting acquisition targets.</p>
+  <p class="supertitle mono">Lab / Advertising</p>
+  <h1>Reddit Ads Playbook</h1>
+  <p class="intro">Reddit demands authenticity and community alignment. This playbook keeps campaigns aligned with subreddit culture while meeting acquisition targets.</p>
 
   <section>
     <h2>Campaign structure</h2>
@@ -48,11 +48,11 @@ headingTracker:
   </section>
 
   <section>
-    <h2>Optimization rituals</h2>
+    <h2>Review cadence</h2>
     <ul>
       <li><strong>Daily:</strong> Check comment sentiment and escalate issues to community or PR teams.</li>
       <li><strong>Weekly:</strong> Adjust bids based on cost per qualified visit and conversion rate; rotate creative variants.</li>
-      <li><strong>Monthly:</strong> Host AMA or community engagement events to support awareness flight.</li>
+      <li><strong>Monthly:</strong> Host AMA or community engagement events to support awareness campaigns.</li>
     </ul>
   </section>
 
