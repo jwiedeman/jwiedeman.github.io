@@ -1,148 +1,294 @@
 ---
 /**
- * Animated GA4 data flow: browser (page → dataLayer → gtag.js) → collection
- * → processing → reporting / BigQuery export → warehouses and BI.
+ * Animated GA4 data flow, from every kind of source to every destination.
  *
- * Packets are real: every gtag() call on the page dispatches a `ga4:hit`
- * event, and each one travels the pipeline labelled with its event name.
- * Downstream stages batch on a compressed clock (shown in the legend).
+ * Sources: web (page → dataLayer → gtag.js / GTM), apps (Firebase SDK), and
+ * TV / OTT / servers (Measurement Protocol), with optional server-side GTM.
+ * Then collection → property processing (each step clickable) → reporting,
+ * ad platforms, BigQuery export → warehouses, plus data import flowing in.
+ *
+ * Web packets are real: every gtag() call on the page dispatches `ga4:hit`.
+ * App and TV traffic is simulated. Downstream stages batch on a compressed
+ * clock (1 s ≈ 1 h).
  */
 const stages = {
   ui: {
     title: 'Page and UI',
-    body: 'A click, view, or form submit on the page. Tagging code (or GTM) reacts to it by calling gtag() with an event name and parameters.',
+    body: 'A click, view, scroll, or form submit on a web page. Tagging code (or a GTM trigger) reacts by calling gtag() with an event name and parameters. Enhanced measurement adds page_view, scroll, outbound click, site search, video, and file download events without any code.',
   },
   datalayer: {
     title: 'dataLayer',
-    body: 'gtag() pushes every command onto window.dataLayer, a plain array. It works as a queue: commands made before gtag.js loads are replayed when it does, so no early event is lost.',
+    body: 'gtag() and GTM both push onto window.dataLayer, a plain array that works as a queue: anything pushed before the library loads is replayed when it does, so no early event is lost. GTM reads the same queue to fire tags.',
   },
   sdk: {
-    title: 'gtag.js (GA4 SDK)',
-    body: 'Reads the queue, attaches the client ID (_ga cookie), session ID and count (_ga_<ID> cookie), page, and consent state, then batches events into a hit and sends it with sendBeacon or fetch. With analytics consent denied it sends cookieless pings instead.',
+    title: 'gtag.js / Google Tag Manager',
+    body: 'Reads the queue and adds the client ID (_ga cookie), session ID and count (_ga_<ID> cookie), page location, and consent state. Events are batched for a moment and sent with sendBeacon or fetch. If analytics consent is denied (Consent Mode), it sends cookieless pings with no identifiers instead.',
+  },
+  app: {
+    title: 'Firebase SDK (iOS / Android apps)',
+    body: 'Apps use the Google Analytics for Firebase SDK instead of gtag.js. It identifies the install with an app_instance_id, logs automatic events (first_open, session_start, screen_view, in_app_purchase, app_update), and stores events on the device. Batches upload to app-measurement.com about once an hour, or sooner when the app goes to the background, so app data arrives in bursts and survives being offline.',
+  },
+  mp: {
+    title: 'Measurement Protocol (TV, OTT, servers)',
+    body: "Devices with no Google SDK (Roku, smart TVs, game consoles, kiosks) and back-end systems (refunds, subscription renewals, call-center sales) send events as JSON over HTTPS to /mp/collect with an api_secret. You must supply the client_id or app_instance_id and session_id yourself, so these hits only join a user's journey if your IDs match what the device or browser uses.",
+  },
+  sgtm: {
+    title: 'Server-side GTM (optional)',
+    body: 'A tagging server you run on your own subdomain (for example on Cloud Run). The browser sends GA4 requests to it in the same /g/collect format; it can drop or hash personal data, add server-only data, set first-party cookies, and forward the hit to GA4 and to other vendors. Toggle "via sGTM" to route web hits through it.',
   },
   collect: {
-    title: 'Collection (/g/collect)',
-    body: 'An HTTPS POST to region1.google-analytics.com, answered by the nearest Google edge. The request carries the measurement ID, client ID, session, and every event parameter as query fields. GA4 accepts it with a 204 and no body; there is no error if the data is malformed.',
+    title: 'Collection endpoints',
+    body: 'Three front doors, all answered by the nearest Google edge: /g/collect for web, app-measurement.com/a for the Firebase SDK, and /mp/collect for the Measurement Protocol. They reply 204 with no body and do not validate anything, so a misspelled parameter is accepted silently. Use DebugView, Tag Assistant, or the validation endpoint /debug/mp/collect while building.',
   },
   processing: {
-    title: 'Processing',
-    body: 'Google stitches hits into sessions, assigns traffic-source attribution, adds geography and device from the IP and user agent, filters known bots, models behaviour for consent-denied traffic, and applies thresholds to protect privacy. Standard reports finish processing in 24 to 48 hours.',
+    title: 'GA4 property processing',
+    body: 'One property collects many data streams (a website, an iOS app, an Android app) so the same person can be counted once across all of them. Click any step inside the box to see what it does. Most standard reports finish processing within a day, sometimes up to 48 hours.',
+  },
+  'p-identity': {
+    title: 'Identity',
+    body: 'Reporting identity decides who a "user" is. Blended identity uses your user_id when someone signs in, falls back to the device (client ID on web, app_instance_id in apps), then to modeling for consent-denied traffic. Sending user_id is what lets web, app, and TV activity join into one person.',
+  },
+  'p-session': {
+    title: 'Sessions',
+    body: 'Events are grouped into sessions using the session ID set by the client. A session ends after 30 minutes of inactivity (configurable). Engaged sessions are those over 10 seconds, with a key event, or with two or more page or screen views; engagement rate is built from them.',
+  },
+  'p-attribution': {
+    title: 'Attribution',
+    body: 'Assigns traffic source (utm parameters, gclid auto-tagging, referrer) to each user and session, groups sources into default channels, and credits key events to channels with data-driven or last-click models over a lookback window (30 to 90 days).',
+  },
+  'p-key': {
+    title: 'Key events',
+    body: 'Events you mark as important (purchase, sign_up, generate_lead) are counted as key events, formerly called conversions. They drive attribution reports and can be imported into Google Ads as conversions for bidding.',
+  },
+  'p-audiences': {
+    title: 'Audiences',
+    body: 'Users who match conditions (watched 3+ videos, abandoned cart, high predicted purchase probability) are added to audiences as their events arrive. Audiences can trigger audience events and, with a Google Ads or DV360 link, are shared for remarketing.',
+  },
+  'p-enrich': {
+    title: 'Geo and device',
+    body: 'Country, region, and city come from the IP address, which GA4 does not log or store. Browser, OS, device category, and screen size come from the user agent and client hints, or from the SDK in apps.',
+  },
+  'p-filters': {
+    title: 'Filters',
+    body: 'Known bots and spiders are excluded automatically. Data filters you configure remove internal traffic (by IP rule) and developer traffic (debug_mode). Filtered data is gone permanently, so filters are usually tested in "Testing" state first.',
+  },
+  'p-consent': {
+    title: 'Consent modeling',
+    body: 'When Consent Mode reports analytics storage denied, GA4 gets cookieless pings. With enough traffic, behavioral modeling estimates the users and key events those pings represent and blends them into reports.',
+  },
+  'p-thresholds': {
+    title: 'Custom definitions and thresholds',
+    body: 'Event and user parameters only appear in reports once registered as custom dimensions or metrics, and only from that point forward. Thresholds hide rows with very few users when demographic or signals data is involved, to protect privacy. Explorations then read data within your retention window (2 or 14 months).',
+  },
+  import: {
+    title: 'Data import and product links',
+    body: 'Data flows in as well as out: cost data from non-Google ad platforms, CRM and user data keyed by user_id, item metadata, and offline events can be uploaded by file or SFTP. Linked Google Ads, Search Console, Merchant Center, and BigQuery accounts exchange data with the property.',
   },
   reporting: {
     title: 'Reporting',
-    body: 'The GA4 interface, the Data API, and tools built on it such as Looker Studio read the processed tables. Realtime reports read a separate fast path and show the last 30 minutes within seconds; everything else waits for processing.',
+    body: 'Standard reports, Explorations, and the Data API (which Looker Studio and other BI tools use) read the processed tables. Realtime shows the last 30 minutes and DebugView shows events from debug devices within seconds, both through a fast path that skips most processing.',
+  },
+  ads: {
+    title: 'Ad platforms',
+    body: 'With product links, audiences are shared to Google Ads, Display & Video 360, and Search Ads 360 for targeting, and key events are imported as conversions so bidding optimizes toward them. Ads cost and click data flows back into GA4 acquisition reports.',
   },
   bigquery: {
     title: 'BigQuery export',
-    body: 'Raw, event-level rows land in your own Google Cloud project: a daily table (events_YYYYMMDD) after the day closes, plus an optional streaming table (events_intraday_) within minutes. No sampling or thresholds apply, so this is where analysts go for SQL-level detail.',
+    body: 'Raw, event-level rows in your own Google Cloud project: a daily events_YYYYMMDD table after the day closes, an optional streaming events_intraday_ table within minutes, and user tables (pseudonymous_users_, users_). No sampling or thresholds apply. Standard properties can export up to 1 million events a day.',
   },
   warehouse: {
     title: 'Warehouses and BI',
-    body: 'Scheduled loads copy BigQuery tables onward to Snowflake, Databricks, Postgres, or a data lake, where they join CRM, ad spend, and product data. BI tools and reverse-ETL jobs read from there.',
+    body: 'Scheduled loads copy BigQuery tables onward to Snowflake, Databricks, Redshift, or a data lake, where they join CRM, ad spend, and product data. BI tools read from there, and reverse-ETL jobs push modeled segments back into CRM and ad platforms.',
   },
 };
+
+const procSteps = [
+  ['p-identity', 'identity: user_id › device'],
+  ['p-session', 'sessions (30 min timeout)'],
+  ['p-attribution', 'attribution + channels'],
+  ['p-key', 'key events'],
+  ['p-audiences', 'audiences'],
+  ['p-enrich', 'geo + device'],
+  ['p-filters', 'filters: bots, internal, dev'],
+  ['p-consent', 'consent modeling'],
+  ['p-thresholds', 'custom definitions, thresholds'],
+];
 ---
 <figure class="ga4flow" data-ga4flow aria-labelledby="ga4flow-caption">
   <div class="ga4flow__bar">
-    <span class="ga4flow__kicker">How a GA4 hit travels</span>
+    <span class="ga4flow__kicker">How GA4 data travels</span>
     <span class="ga4flow__clock" data-clock>day 1 · 00:00</span>
     <span class="ga4flow__spacer"></span>
-    <button type="button" class="ga4flow__btn" data-action="hit">Send test hit</button>
+    <button type="button" class="ga4flow__btn" data-action="web">Web hit</button>
+    <button type="button" class="ga4flow__btn" data-action="app">App batch</button>
+    <button type="button" class="ga4flow__btn" data-action="mp">TV / server hit</button>
+    <button type="button" class="ga4flow__btn" data-action="sgtm" aria-pressed="false">via sGTM</button>
+    <button type="button" class="ga4flow__btn" data-action="auto" aria-pressed="true">Auto traffic</button>
     <button type="button" class="ga4flow__btn" data-action="pause" aria-pressed="false">Pause</button>
   </div>
 
   <div class="ga4flow__scroll">
-  <svg class="ga4flow__svg" viewBox="0 0 1000 360" role="img" aria-labelledby="ga4flow-title ga4flow-desc">
+  <svg class="ga4flow__svg" viewBox="0 0 1200 600" role="img" aria-labelledby="ga4flow-title ga4flow-desc">
     <title id="ga4flow-title">GA4 data flow</title>
-    <desc id="ga4flow-desc">The browser page calls gtag, which pushes to the dataLayer; gtag.js sends hits to Google's collection endpoint. Processing builds sessions and attribution, then feeds reporting and the BigQuery export, which is loaded onward to data warehouses and BI tools. A realtime path goes from collection straight to reporting.</desc>
+    <desc id="ga4flow-desc">Three kinds of sources send events to Google Analytics 4: websites through the dataLayer and gtag.js or Google Tag Manager, mobile apps through the Firebase SDK, and TVs, OTT devices, and servers through the Measurement Protocol. Web hits can pass through an optional server-side GTM container. All arrive at collection endpoints, then the GA4 property processes them: identity, sessions, attribution, key events, audiences, geo and device, filters, consent modeling, and custom definitions. Processed data feeds reporting, ad platforms, and the BigQuery export, which loads onward to warehouses and BI tools. A realtime path goes from collection straight to reporting, and data import flows into processing.</desc>
     <defs>
       <marker id="ga4flow-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
         <path d="M0 0 L8 4 L0 8 z" class="ga4flow__arrowhead" />
       </marker>
     </defs>
 
-    <!-- client container -->
-    <g class="ga4flow__group">
-      <rect x="16" y="24" width="250" height="316" class="ga4flow__frame" />
-      <text x="28" y="44" class="ga4flow__label">CLIENT · BROWSER</text>
-      <text x="28" y="330" class="ga4flow__note">cookies: _ga (client id) · _ga_&lt;ID&gt; (session)</text>
-    </g>
+    <!-- column headings -->
+    <text x="16" y="16" class="ga4flow__col">1 · SOURCES</text>
+    <text x="350" y="16" class="ga4flow__col">2 · COLLECTION</text>
+    <text x="590" y="16" class="ga4flow__col">3 · GA4 PROPERTY</text>
+    <text x="880" y="16" class="ga4flow__col">4 · DESTINATIONS</text>
 
-    <!-- paths (drawn first, under nodes) -->
-    <path id="ga4p-ui-dl" d="M141 104 L141 140" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
-    <path id="ga4p-dl-sdk" d="M141 184 L141 216" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
-    <path id="ga4p-sdk-collect" d="M246 246 C 290 246, 300 236, 336 236" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
-    <path id="ga4p-collect-proc" d="M476 236 L540 236" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
-    <path id="ga4p-realtime" d="M406 206 C 406 120, 560 70, 766 70" class="ga4flow__link ga4flow__link--dashed" marker-end="url(#ga4flow-arrow)" />
-    <path id="ga4p-proc-report" d="M712 196 C 740 196, 740 92, 766 92" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
-    <path id="ga4p-proc-bq" d="M712 236 C 740 236, 740 196, 766 196" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
-    <path id="ga4p-bq-wh" d="M876 230 L876 262" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
-    <text x="560" y="60" class="ga4flow__note">realtime · seconds</text>
-    <text x="268" y="230" class="ga4flow__note">HTTPS</text>
+    <!-- source frames -->
+    <rect x="16" y="28" width="284" height="262" class="ga4flow__frame" />
+    <text x="28" y="46" class="ga4flow__label">WEB · BROWSER</text>
+    <text x="28" y="280" class="ga4flow__note">cookies: _ga (client id) · _ga_&lt;ID&gt; (session)</text>
+    <rect x="16" y="302" width="284" height="138" class="ga4flow__frame" />
+    <text x="28" y="320" class="ga4flow__label">APP · iOS / ANDROID</text>
+    <rect x="16" y="452" width="284" height="138" class="ga4flow__frame" />
+    <text x="28" y="470" class="ga4flow__label">TV · OTT · SERVER</text>
 
-    <!-- nodes -->
+    <!-- links (under nodes) -->
+    <path id="ga4p-ui-dl" d="M158 100 L158 124" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
+    <path id="ga4p-dl-sdk" d="M158 168 L158 192" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
+    <path id="ga4p-sdk-collect" d="M284 230 C 318 230, 318 290, 350 290" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
+    <path id="ga4p-sdk-sgtm" d="M284 210 C 318 210, 318 168, 350 168" class="ga4flow__link ga4flow__link--dashed" marker-end="url(#ga4flow-arrow)" />
+    <path id="ga4p-sgtm-collect" d="M430 206 L430 250" class="ga4flow__link ga4flow__link--dashed" marker-end="url(#ga4flow-arrow)" />
+    <path id="ga4p-app-collect" d="M284 384 C 318 384, 318 360, 350 360" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
+    <path id="ga4p-mp-collect" d="M284 534 C 318 534, 318 430, 350 430" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
+    <path id="ga4p-collect-proc" d="M540 340 L590 340" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
+    <path id="ga4p-realtime" d="M530 250 C 530 60, 700 50, 880 74" class="ga4flow__link ga4flow__link--dashed" marker-end="url(#ga4flow-arrow)" />
+    <path id="ga4p-import-proc" d="M710 534 L710 504" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
+    <path id="ga4p-proc-report" d="M830 150 C 856 150, 856 110, 880 110" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
+    <path id="ga4p-proc-ads" d="M830 250 C 856 250, 856 214, 880 214" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
+    <path id="ga4p-proc-bq" d="M830 360 C 856 360, 856 318, 880 318" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
+    <path id="ga4p-bq-wh" d="M1032 366 L1032 404" class="ga4flow__link" marker-end="url(#ga4flow-arrow)" />
+    <text x="600" y="62" class="ga4flow__note">realtime · DebugView · seconds</text>
+    <text x="304" y="262" class="ga4flow__note">HTTPS</text>
+
+    <!-- web -->
     <g class="ga4flow__node" data-stage="ui" tabindex="0" role="button" aria-label="Page and UI">
-      <rect x="36" y="60" width="210" height="44" />
-      <text x="48" y="80" class="ga4flow__name">Page / UI</text>
-      <text x="48" y="96" class="ga4flow__sub">gtag('event', …)</text>
-      <text x="234" y="80" class="ga4flow__count" text-anchor="end" data-count="ui">0</text>
+      <rect x="32" y="56" width="252" height="44" />
+      <text x="44" y="76" class="ga4flow__name">Page / UI</text>
+      <text x="44" y="92" class="ga4flow__sub">click, view, scroll, submit</text>
+      <text x="272" y="76" class="ga4flow__count" text-anchor="end" data-count="ui">0</text>
     </g>
     <g class="ga4flow__node" data-stage="datalayer" tabindex="0" role="button" aria-label="dataLayer">
-      <rect x="36" y="140" width="210" height="44" />
-      <text x="48" y="160" class="ga4flow__name">dataLayer</text>
-      <text x="48" y="176" class="ga4flow__sub">queue of commands</text>
-      <text x="234" y="160" class="ga4flow__count" text-anchor="end" data-count="datalayer">0</text>
+      <rect x="32" y="124" width="252" height="44" />
+      <text x="44" y="144" class="ga4flow__name">dataLayer</text>
+      <text x="44" y="160" class="ga4flow__sub">gtag() / GTM queue</text>
+      <text x="272" y="144" class="ga4flow__count" text-anchor="end" data-count="datalayer">0</text>
     </g>
-    <g class="ga4flow__node" data-stage="sdk" tabindex="0" role="button" aria-label="gtag.js GA4 SDK">
-      <rect x="36" y="216" width="210" height="60" />
-      <text x="48" y="236" class="ga4flow__name">gtag.js · GA4 SDK</text>
-      <text x="48" y="252" class="ga4flow__sub">ids, consent, batching</text>
-      <text x="48" y="267" class="ga4flow__sub">sendBeacon / fetch</text>
-      <text x="234" y="236" class="ga4flow__count" text-anchor="end" data-count="sdk">0</text>
+    <g class="ga4flow__node" data-stage="sdk" tabindex="0" role="button" aria-label="gtag.js or Google Tag Manager">
+      <rect x="32" y="192" width="252" height="62" />
+      <text x="44" y="212" class="ga4flow__name">gtag.js · GTM</text>
+      <text x="44" y="228" class="ga4flow__sub">ids, session, consent</text>
+      <text x="44" y="244" class="ga4flow__sub">batch · sendBeacon / fetch</text>
+      <text x="272" y="212" class="ga4flow__count" text-anchor="end" data-count="sdk">0</text>
     </g>
-    <g class="ga4flow__node" data-stage="collect" tabindex="0" role="button" aria-label="Collection endpoint">
-      <rect x="336" y="206" width="140" height="60" />
-      <text x="348" y="226" class="ga4flow__name">Collect</text>
-      <text x="348" y="242" class="ga4flow__sub">/g/collect · 204</text>
-      <text x="348" y="257" class="ga4flow__sub">nearest edge</text>
-      <text x="466" y="226" class="ga4flow__count" text-anchor="end" data-count="collect">0</text>
+
+    <!-- app -->
+    <g class="ga4flow__node" data-stage="app" tabindex="0" role="button" aria-label="Firebase SDK">
+      <rect x="32" y="330" width="252" height="96" />
+      <text x="44" y="350" class="ga4flow__name">Firebase SDK</text>
+      <text x="44" y="368" class="ga4flow__sub">app_instance_id · auto events</text>
+      <text x="44" y="384" class="ga4flow__sub">stores events on device</text>
+      <text x="44" y="400" class="ga4flow__sub">uploads ~hourly or on background</text>
+      <text x="44" y="416" class="ga4flow__sub">stored <tspan class="ga4flow__count" data-count="appq">0</tspan></text>
+      <text x="272" y="350" class="ga4flow__count" text-anchor="end" data-count="app">0</text>
     </g>
-    <g class="ga4flow__node" data-stage="processing" tabindex="0" role="button" aria-label="Processing">
-      <rect x="540" y="140" width="172" height="190" />
-      <text x="552" y="160" class="ga4flow__name">Processing</text>
-      <text x="552" y="182" class="ga4flow__sub">· sessionize</text>
-      <text x="552" y="198" class="ga4flow__sub">· attribution</text>
-      <text x="552" y="214" class="ga4flow__sub">· geo + device</text>
-      <text x="552" y="230" class="ga4flow__sub">· bot filtering</text>
-      <text x="552" y="246" class="ga4flow__sub">· consent modeling</text>
-      <text x="552" y="262" class="ga4flow__sub">· thresholds</text>
-      <text x="552" y="288" class="ga4flow__sub">queued</text>
-      <text x="700" y="288" class="ga4flow__count" text-anchor="end" data-count="queue">0</text>
-      <rect x="552" y="300" width="148" height="6" class="ga4flow__meter" />
-      <rect x="552" y="300" width="0" height="6" class="ga4flow__meter-fill" data-meter />
-      <text x="552" y="322" class="ga4flow__note">standard reports: 24–48 h</text>
+
+    <!-- tv / server -->
+    <g class="ga4flow__node" data-stage="mp" tabindex="0" role="button" aria-label="Measurement Protocol">
+      <rect x="32" y="480" width="252" height="96" />
+      <text x="44" y="500" class="ga4flow__name">Measurement Protocol</text>
+      <text x="44" y="518" class="ga4flow__sub">Roku, smart TV, console, kiosk</text>
+      <text x="44" y="534" class="ga4flow__sub">backend: refunds, renewals</text>
+      <text x="44" y="550" class="ga4flow__sub">JSON POST + api_secret</text>
+      <text x="44" y="566" class="ga4flow__sub">you supply client_id / user_id</text>
+      <text x="272" y="500" class="ga4flow__count" text-anchor="end" data-count="mp">0</text>
     </g>
+
+    <!-- collection -->
+    <g class="ga4flow__node ga4flow__node--optional" data-stage="sgtm" tabindex="0" role="button" aria-label="Server-side GTM, optional">
+      <rect x="350" y="140" width="170" height="66" />
+      <text x="362" y="160" class="ga4flow__name">Server-side GTM</text>
+      <text x="362" y="176" class="ga4flow__sub">optional · own domain</text>
+      <text x="362" y="192" class="ga4flow__sub">edit + forward hits</text>
+      <text x="510" y="192" class="ga4flow__count" text-anchor="end" data-count="sgtm">0</text>
+    </g>
+    <g class="ga4flow__node" data-stage="collect" tabindex="0" role="button" aria-label="Collection endpoints">
+      <rect x="350" y="250" width="190" height="210" />
+      <text x="362" y="270" class="ga4flow__name">Collection</text>
+      <text x="528" y="270" class="ga4flow__count" text-anchor="end" data-count="collect">0</text>
+      <text x="362" y="294" class="ga4flow__sub">web  /g/collect</text>
+      <text x="362" y="364" class="ga4flow__sub">app  app-measurement.com/a</text>
+      <text x="362" y="434" class="ga4flow__sub">mp   /mp/collect</text>
+      <text x="362" y="318" class="ga4flow__note">nearest Google edge</text>
+      <text x="362" y="388" class="ga4flow__note">204, no validation</text>
+      <text x="362" y="450" class="ga4flow__note">debug: /debug/mp/collect</text>
+    </g>
+
+    <!-- property -->
+    <g class="ga4flow__node" data-stage="processing" tabindex="0" role="button" aria-label="GA4 property processing">
+      <rect x="590" y="110" width="240" height="394" />
+      <text x="602" y="132" class="ga4flow__name">Processing</text>
+      <text x="602" y="148" class="ga4flow__sub">1 property · web + app streams</text>
+      <text x="602" y="440" class="ga4flow__sub">queued</text>
+      <text x="818" y="440" class="ga4flow__count" text-anchor="end" data-count="queue">0</text>
+      <rect x="602" y="452" width="216" height="6" class="ga4flow__meter" />
+      <rect x="602" y="452" width="0" height="6" class="ga4flow__meter-fill" data-meter />
+      <text x="602" y="480" class="ga4flow__note">standard reports: within 24–48 h</text>
+      <text x="602" y="494" class="ga4flow__note">click a step for detail</text>
+    </g>
+    {procSteps.map(([key, label], i) => (
+      <g class="ga4flow__step" data-stage={key} data-step={i} tabindex="0" role="button" aria-label={label}>
+        <rect x="598" y={164 + i * 28} width="224" height="24" />
+        <text x="608" y={180 + i * 28} class="ga4flow__step-text">{label}</text>
+      </g>
+    ))}
+    <g class="ga4flow__node" data-stage="import" tabindex="0" role="button" aria-label="Data import and product links">
+      <rect x="590" y="534" width="240" height="56" />
+      <text x="602" y="554" class="ga4flow__name">Data import · links</text>
+      <text x="602" y="570" class="ga4flow__sub">cost, CRM, offline events</text>
+      <text x="602" y="584" class="ga4flow__sub">Google Ads, Search Console</text>
+      <text x="818" y="554" class="ga4flow__count" text-anchor="end" data-count="import">0</text>
+    </g>
+
+    <!-- destinations -->
     <g class="ga4flow__node" data-stage="reporting" tabindex="0" role="button" aria-label="Reporting">
-      <rect x="766" y="40" width="218" height="72" />
-      <text x="778" y="60" class="ga4flow__name">Reporting</text>
-      <text x="778" y="76" class="ga4flow__sub">GA4 UI · Data API</text>
-      <text x="778" y="92" class="ga4flow__sub">Looker Studio</text>
-      <text x="972" y="60" class="ga4flow__count" text-anchor="end" data-count="reporting">0</text>
-      <text x="972" y="92" class="ga4flow__sub" text-anchor="end">realtime <tspan class="ga4flow__count" data-count="realtime">0</tspan></text>
+      <rect x="880" y="40" width="304" height="96" />
+      <text x="892" y="60" class="ga4flow__name">Reporting</text>
+      <text x="892" y="78" class="ga4flow__sub">standard reports · Explorations</text>
+      <text x="892" y="94" class="ga4flow__sub">Data API · Looker Studio</text>
+      <text x="892" y="110" class="ga4flow__sub">Realtime (30 min) · DebugView</text>
+      <text x="892" y="128" class="ga4flow__note">events reported <tspan class="ga4flow__count" data-count="reporting">0</tspan>  ·  realtime <tspan class="ga4flow__count" data-count="realtime">0</tspan></text>
+    </g>
+    <g class="ga4flow__node" data-stage="ads" tabindex="0" role="button" aria-label="Ad platforms">
+      <rect x="880" y="170" width="304" height="76" />
+      <text x="892" y="190" class="ga4flow__name">Ad platforms</text>
+      <text x="892" y="208" class="ga4flow__sub">Google Ads · DV360 · SA360</text>
+      <text x="892" y="224" class="ga4flow__sub">audiences + key events as conversions</text>
+      <text x="1172" y="190" class="ga4flow__count" text-anchor="end" data-count="ads">0</text>
     </g>
     <g class="ga4flow__node" data-stage="bigquery" tabindex="0" role="button" aria-label="BigQuery export">
-      <rect x="766" y="160" width="218" height="70" />
-      <text x="778" y="180" class="ga4flow__name">BigQuery export</text>
-      <text x="778" y="196" class="ga4flow__sub">events_intraday_ · minutes</text>
-      <text x="778" y="212" class="ga4flow__sub">events_YYYYMMDD · daily</text>
-      <text x="972" y="180" class="ga4flow__count" text-anchor="end" data-count="bigquery">0</text>
+      <rect x="880" y="276" width="304" height="90" />
+      <text x="892" y="296" class="ga4flow__name">BigQuery export</text>
+      <text x="892" y="314" class="ga4flow__sub">events_intraday_ · streaming</text>
+      <text x="892" y="330" class="ga4flow__sub">events_YYYYMMDD · daily</text>
+      <text x="892" y="346" class="ga4flow__sub">pseudonymous_users_ · users_</text>
+      <text x="1172" y="296" class="ga4flow__count" text-anchor="end" data-count="bigquery">0</text>
     </g>
     <g class="ga4flow__node" data-stage="warehouse" tabindex="0" role="button" aria-label="Warehouses and BI">
-      <rect x="766" y="262" width="218" height="68" />
-      <text x="778" y="282" class="ga4flow__name">Warehouses · BI</text>
-      <text x="778" y="298" class="ga4flow__sub">Snowflake · Databricks</text>
-      <text x="778" y="314" class="ga4flow__sub">Postgres · reverse ETL</text>
-      <text x="972" y="282" class="ga4flow__count" text-anchor="end" data-count="warehouse">0</text>
+      <rect x="880" y="404" width="304" height="76" />
+      <text x="892" y="424" class="ga4flow__name">Warehouses · BI</text>
+      <text x="892" y="442" class="ga4flow__sub">Snowflake · Databricks · Redshift</text>
+      <text x="892" y="458" class="ga4flow__sub">reverse ETL → CRM, ads</text>
+      <text x="1172" y="424" class="ga4flow__count" text-anchor="end" data-count="warehouse">0</text>
     </g>
 
     <g data-packets></g>
@@ -150,25 +296,36 @@ const stages = {
   </div>
 
   <div class="ga4flow__explain" aria-live="polite">
-    <strong data-explain-title>Click any stage</strong>
-    <p data-explain-body>Each dot is a real gtag() call from this page; on a narrow screen, swipe the diagram sideways. Use the controls below the diagram (or the button above) and follow it from the page to the warehouse.</p>
+    <strong data-explain-title>Click any box or processing step</strong>
+    <p data-explain-body>Round dots are real gtag() calls from this page; squares are app batches and diamonds are TV or server hits (simulated). Follow one from its source to the warehouse. On a narrow screen, swipe the diagram sideways.</p>
   </div>
 
   <figcaption id="ga4flow-caption" class="ga4flow__legend">
-    <span><i class="ga4flow__dot"></i> hit (labelled with its event name)</span>
-    <span><i class="ga4flow__dot ga4flow__dot--batch"></i> batch / export</span>
-    <span><i class="ga4flow__dash"></i> realtime path</span>
-    <span>clock compressed: 1 s ≈ 1 h; a "day" closes every 24 s</span>
+    <span><i class="ga4flow__shape"></i> web hit</span>
+    <span><i class="ga4flow__shape ga4flow__shape--sq"></i> app batch</span>
+    <span><i class="ga4flow__shape ga4flow__shape--dia"></i> TV / server hit</span>
+    <span><i class="ga4flow__shape ga4flow__shape--batch"></i> processed batch / export</span>
+    <span><i class="ga4flow__dash"></i> realtime or optional path</span>
+    <span>clock compressed: 1 s ≈ 1 h; a day closes every 24 s</span>
   </figcaption>
 </figure>
 
 <script define:vars={{ stages }}>
-  // Kept as an inline script so it can catch gtag() calls from the sandbox below.
   window.__ga4FlowStages = stages;
 </script>
 
 <script>
   type Stage = { title: string; body: string };
+  type Shape = 'circle' | 'square' | 'diamond' | 'batch';
+
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const SHAPES: Record<Shape, string> = {
+    circle: 'M-4.5 0 a4.5 4.5 0 1 0 9 0 a4.5 4.5 0 1 0 -9 0',
+    square: 'M-5 -5 h10 v10 h-10 z',
+    diamond: 'M0 -6 L6 0 L0 6 L-6 0 z',
+    batch: 'M-7 0 a7 7 0 1 0 14 0 a7 7 0 1 0 -14 0',
+  };
+  const MP_EVENTS = ['video_start', 'video_progress', 'video_complete', 'subscription_renewal', 'refund', 'channel_change'];
 
   function init(root: HTMLElement) {
     const stages = (window as unknown as { __ga4FlowStages: Record<string, Stage> }).__ga4FlowStages;
@@ -177,66 +334,65 @@ const stages = {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const path = (id: string) => svg.querySelector<SVGPathElement>(`#${id}`)!;
     const counts: Record<string, number> = {};
-    const bump = (k: string, by = 1) => {
-      counts[k] = (counts[k] ?? 0) + by;
-      const el = root.querySelector(`[data-count="${k}"]`);
-      if (el) el.textContent = String(counts[k]);
-      const pulseKey = k === 'realtime' ? 'reporting' : k;
-      const pulse = root.querySelector(`[data-stage="${pulseKey}"]`);
-      if (pulse && !reduce) {
-        pulse.classList.remove('is-pulse');
-        void (pulse as SVGGElement).getBBox();
-        pulse.classList.add('is-pulse');
-      }
-    };
+    const PULSE_OF: Record<string, string> = { realtime: 'reporting', appq: 'app', queue: 'processing' };
+
     const setCount = (k: string, v: number) => {
       counts[k] = v;
       const el = root.querySelector(`[data-count="${k}"]`);
       if (el) el.textContent = String(v);
     };
+    const pulse = (stage: string) => {
+      const node = root.querySelector(`[data-stage="${stage}"]`);
+      if (!node || reduce) return;
+      node.classList.remove('is-pulse');
+      void (node as SVGGElement).getBBox();
+      node.classList.add('is-pulse');
+    };
+    const bump = (k: string, by = 1) => {
+      setCount(k, (counts[k] ?? 0) + by);
+      pulse(PULSE_OF[k] ?? k);
+    };
 
     let paused = false;
-    let queue = 0; // processed-but-unreported events
-    let streamPending = 0; // events waiting for the intraday export
-    let dailyRows = 0; // rows in today's BigQuery table, loaded onward at day close
+    let viaSgtm = false;
+    let auto = true;
+    let queue = 0; // processed, not yet in standard reports
+    let streamPending = 0; // waiting for the intraday export
+    let appStored = 0; // events waiting on the device
 
-    /** Move a dot along one or more paths; resolves at the end. */
-    function travel(ids: string[], opts: { label?: string; batch?: boolean; speed?: number } = {}) {
+    /** Move a shape along one or more paths; resolves at the end. */
+    function travel(ids: string[], opts: { label?: string; shape?: Shape; speed?: number } = {}) {
       return new Promise<void>((resolve) => {
         if (reduce) return resolve();
-        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        dot.setAttribute('r', opts.batch ? '7' : '4.5');
-        dot.setAttribute('class', opts.batch ? 'ga4flow__packet ga4flow__packet--batch' : 'ga4flow__packet');
-        g.append(dot);
-        let text: SVGTextElement | null = null;
+        const g = document.createElementNS(SVGNS, 'g');
+        const shape = opts.shape ?? 'circle';
+        const mark = document.createElementNS(SVGNS, 'path');
+        mark.setAttribute('d', SHAPES[shape]);
+        mark.setAttribute('class', shape === 'batch' ? 'ga4flow__packet ga4flow__packet--batch' : 'ga4flow__packet');
+        g.append(mark);
         if (opts.label) {
-          text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          const text = document.createElementNS(SVGNS, 'text');
           text.setAttribute('class', 'ga4flow__packet-label');
-          text.textContent = opts.label.length > 22 ? `${opts.label.slice(0, 21)}…` : opts.label;
+          text.setAttribute('x', '9');
+          text.setAttribute('y', '-8');
+          text.textContent = opts.label.length > 24 ? `${opts.label.slice(0, 23)}…` : opts.label;
           g.append(text);
         }
         layer.append(g);
         const segments = ids.map(path);
         const lengths = segments.map((p) => p.getTotalLength());
         const total = lengths.reduce((a, b) => a + b, 0);
-        const speed = opts.speed ?? 0.32; // svg units per ms
+        const speed = opts.speed ?? 0.3; // svg units per ms
         let travelled = 0;
         let last = performance.now();
         const step = (now: number) => {
-          const dt = now - last;
+          if (!paused) travelled += (now - last) * speed;
           last = now;
-          if (!paused) travelled += dt * speed;
           let d = Math.min(travelled, total);
           let i = 0;
           while (i < segments.length - 1 && d > lengths[i]) d -= lengths[i++];
           const pt = segments[i].getPointAtLength(Math.min(d, lengths[i]));
-          dot.setAttribute('cx', String(pt.x));
-          dot.setAttribute('cy', String(pt.y));
-          if (text) {
-            text.setAttribute('x', String(pt.x + 8));
-            text.setAttribute('y', String(pt.y - 7));
-          }
+          g.setAttribute('transform', `translate(${pt.x} ${pt.y})`);
           if (travelled < total) requestAnimationFrame(step);
           else {
             g.remove();
@@ -247,11 +403,11 @@ const stages = {
       });
     }
 
+    /** setTimeout that respects Pause. */
     const wait = (ms: number) =>
       new Promise<void>((r) => {
-        const t0 = performance.now();
         let acc = 0;
-        let last = t0;
+        let last = performance.now();
         const iv = window.setInterval(() => {
           const now = performance.now();
           if (!paused) acc += now - last;
@@ -263,94 +419,165 @@ const stages = {
         }, 50);
       });
 
-    /** One gtag() call: page → dataLayer → SDK → collect → processing (+ realtime). */
-    async function hit(name: string, command: string) {
-      const fromPage = command === 'event';
-      if (fromPage) {
+    /** Collection → processing, plus the realtime / DebugView fast path. */
+    async function arrive(n: number, label: string, shape: Shape) {
+      bump('collect', n);
+      travel(['ga4p-realtime'], { speed: 0.6, shape }).then(() => bump('realtime', n));
+      await travel(['ga4p-collect-proc'], { shape, label });
+      queue += n;
+      streamPending += n;
+      setCount('queue', queue);
+    }
+
+    /** A real gtag() call from the page. */
+    async function webHit(name: string, command: string) {
+      if (command === 'event') {
         bump('ui');
         await travel(['ga4p-ui-dl'], { label: name });
       }
       bump('datalayer');
-      if (command !== 'event' && command !== 'config') return; // js / consent stay in the browser
+      if (command !== 'event' && command !== 'config') return; // js / consent commands stay in the browser
       await travel(['ga4p-dl-sdk'], { label: name });
       bump('sdk');
-      await wait(120); // SDK batches for a moment before sending
-      await travel(['ga4p-sdk-collect'], { label: name });
-      bump('collect');
-      travel(['ga4p-realtime'], { speed: 0.6 }).then(() => bump('realtime'));
-      await travel(['ga4p-collect-proc']);
-      queue += 1;
-      streamPending += 1;
-      setCount('queue', queue);
+      await wait(120); // gtag.js batches briefly before sending
+      if (viaSgtm) {
+        await travel(['ga4p-sdk-sgtm'], { label: name });
+        bump('sgtm');
+        await wait(150);
+        await travel(['ga4p-sgtm-collect'], { label: name });
+      } else {
+        await travel(['ga4p-sdk-collect'], { label: name });
+      }
+      await arrive(1, name, 'circle');
     }
 
-    // Compressed clock: 1 s ≈ 1 h. Streaming export every 3 "hours", reports and the daily table at day close.
+    /** App events pile up on the device, then upload together. */
+    function appEvent() {
+      appStored += 1;
+      bump('app');
+      setCount('appq', appStored);
+    }
+    async function appUpload() {
+      if (appStored === 0) appEvent();
+      const n = appStored;
+      appStored = 0;
+      setCount('appq', 0);
+      const label = `batch · ${n} event${n === 1 ? '' : 's'}`;
+      await travel(['ga4p-app-collect'], { shape: 'square', label });
+      await arrive(n, label, 'square');
+    }
+
+    async function mpHit(name = MP_EVENTS[Math.floor(Math.random() * MP_EVENTS.length)]) {
+      bump('mp');
+      await travel(['ga4p-mp-collect'], { shape: 'diamond', label: name });
+      await arrive(1, name, 'diamond');
+    }
+
+    /** Light up each processing step in turn. */
+    async function runSteps() {
+      const steps = [...root.querySelectorAll<SVGGElement>('.ga4flow__step')];
+      for (const s of steps) {
+        s.classList.add('is-active');
+        await wait(110);
+        s.classList.remove('is-active');
+      }
+    }
+
+    // Compressed clock: 1 s ≈ 1 h.
     let hours = 0;
     let day = 1;
     const clock = root.querySelector<HTMLElement>('[data-clock]')!;
     const meter = root.querySelector<SVGRectElement>('[data-meter]')!;
+    let busy = false;
     window.setInterval(async () => {
-      if (paused) return;
+      if (paused || busy) return;
       hours += 1;
-      meter.setAttribute('width', String((148 * (hours % 24)) / 24));
-      if (hours % 24 === 0) {
-        day += 1;
-        // Day closes: processed data reaches standard reports, and the daily export table is written.
-        if (queue > 0) {
-          const n = queue;
-          queue = 0;
-          setCount('queue', 0);
-          dailyRows += n;
-          await Promise.all([
-            travel(['ga4p-proc-report'], { batch: true, label: `${n} events · day ${day - 1}` }).then(() => bump('reporting', n)),
-            travel(['ga4p-proc-bq'], { batch: true, label: `events_${String(day - 1).padStart(2, '0')}` }).then(() => bump('bigquery', n)),
-          ]);
-          if (dailyRows > 0) {
-            const rows = dailyRows;
-            dailyRows = 0;
-            await travel(['ga4p-bq-wh'], { batch: true, label: `load ${rows} rows` });
-            bump('warehouse', rows);
-          }
-        }
-      } else if (hours % 3 === 0 && streamPending > 0) {
-        // Intraday streaming export: a small batch every few minutes (compressed).
+      const h = hours % 24;
+      meter.setAttribute('width', String((216 * h) / 24));
+      clock.textContent = `day ${day} · ${String(h).padStart(2, '0')}:00`;
+
+      if (auto) {
+        if (Math.random() < 0.55) appEvent();
+        if (h % 5 === 2) appUpload();
+        if (h % 4 === 1) mpHit();
+      }
+      if (h === 6) {
+        // Daily cost / CRM import lands in the property.
+        travel(['ga4p-import-proc'], { shape: 'batch', label: 'cost + CRM import' }).then(() => bump('import'));
+      }
+      if (h % 3 === 0 && h !== 0 && streamPending > 0) {
         const n = streamPending;
         streamPending = 0;
         travel(['ga4p-proc-bq'], { label: `intraday +${n}`, speed: 0.4 });
       }
-      clock.textContent = `day ${day} · ${String(hours % 24).padStart(2, '0')}:00`;
+      if (h === 0) {
+        day += 1;
+        clock.textContent = `day ${day} · 00:00`;
+        if (queue === 0) return;
+        busy = true;
+        const n = queue;
+        queue = 0;
+        setCount('queue', 0);
+        streamPending = 0;
+        await runSteps();
+        await Promise.all([
+          travel(['ga4p-proc-report'], { shape: 'batch', label: `${n} events · day ${day - 1}` }).then(() => bump('reporting', n)),
+          travel(['ga4p-proc-ads'], { shape: 'batch', label: 'audiences · key events' }).then(() => bump('ads')),
+          travel(['ga4p-proc-bq'], { shape: 'batch', label: `events_day${day - 1}` }).then(() => bump('bigquery', n)),
+        ]);
+        await travel(['ga4p-bq-wh'], { shape: 'batch', label: `load ${n} rows` });
+        bump('warehouse', n);
+        busy = false;
+      }
     }, 1000);
 
-    // Real hits from the page.
+    // Real hits from the page, plus anything gtag() queued before this script ran.
     window.addEventListener('ga4:hit', (e) => {
       const d = (e as CustomEvent<{ command: string; name: string }>).detail;
-      hit(d.name, d.command);
+      webHit(d.name, d.command);
     });
-    // Replay anything gtag() queued before this script ran.
     const early = (window as unknown as { dataLayer?: unknown[] }).dataLayer ?? [];
     early.forEach((args, i) => {
       const a = Array.from(args as ArrayLike<unknown>);
       const command = String(a[0] ?? '');
-      const name = command === 'event' ? String(a[1]) : command;
-      window.setTimeout(() => hit(name, command), 400 + i * 450);
+      window.setTimeout(() => webHit(command === 'event' ? String(a[1]) : command, command), 400 + i * 450);
     });
 
-    // Controls and explanations.
-    root.querySelector<HTMLButtonElement>('[data-action="hit"]')!.onclick = () => {
+    // Controls.
+    const btn = (action: string) => root.querySelector<HTMLButtonElement>(`[data-action="${action}"]`)!;
+    btn('web').onclick = () => {
       const gtag = (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag;
       if (gtag) gtag('event', 'diagram_test_hit', { source: 'data_flow_diagram' });
-      else hit('diagram_test_hit', 'event');
+      else webHit('diagram_test_hit', 'event');
     };
-    const pauseBtn = root.querySelector<HTMLButtonElement>('[data-action="pause"]')!;
-    pauseBtn.onclick = () => {
-      paused = !paused;
-      pauseBtn.setAttribute('aria-pressed', String(paused));
-      pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+    btn('app').onclick = () => {
+      const n = 2 + Math.floor(Math.random() * 4);
+      for (let i = 0; i < n; i++) appEvent();
+      appUpload();
     };
+    btn('mp').onclick = () => mpHit();
+    const toggle = (action: string, set: (on: boolean) => void, labels?: [string, string]) => {
+      const b = btn(action);
+      b.onclick = () => {
+        const on = b.getAttribute('aria-pressed') !== 'true';
+        b.setAttribute('aria-pressed', String(on));
+        if (labels) b.textContent = on ? labels[1] : labels[0];
+        set(on);
+      };
+    };
+    toggle('sgtm', (on) => {
+      viaSgtm = on;
+      root.classList.toggle('is-sgtm', on);
+    });
+    toggle('auto', (on) => (auto = on));
+    toggle('pause', (on) => (paused = on), ['Pause', 'Resume']);
+
+    // Explanations.
     const title = root.querySelector<HTMLElement>('[data-explain-title]')!;
     const body = root.querySelector<HTMLElement>('[data-explain-body]')!;
     root.querySelectorAll<SVGGElement>('[data-stage]').forEach((node) => {
-      const show = () => {
+      const show = (e: Event) => {
+        e.stopPropagation();
         const s = stages[node.dataset.stage!];
         if (!s) return;
         root.querySelectorAll('.is-selected').forEach((n) => n.classList.remove('is-selected'));
@@ -362,7 +589,7 @@ const stages = {
       node.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          show();
+          show(e);
         }
       });
     });
@@ -383,7 +610,7 @@ const stages = {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 6px 12px;
+    gap: 6px 8px;
     margin-bottom: var(--space-1);
   }
 
@@ -397,6 +624,7 @@ const stages = {
   .ga4flow__clock {
     font-size: var(--text-11);
     font-variant-numeric: tabular-nums;
+    margin-left: 6px;
   }
 
   .ga4flow__spacer {
@@ -419,6 +647,10 @@ const stages = {
     color: var(--color-bg);
   }
 
+  .ga4flow__scroll {
+    overflow-x: auto;
+  }
+
   .ga4flow__svg {
     display: block;
     width: 100%;
@@ -426,14 +658,16 @@ const stages = {
     font-family: var(--font-mono);
   }
 
-  .ga4flow__scroll {
-    overflow-x: auto;
+  @media (max-width: 900px) {
+    .ga4flow__svg {
+      width: 900px;
+    }
   }
 
-  @media (max-width: 760px) {
-    .ga4flow__svg {
-      width: 760px;
-    }
+  .ga4flow__col {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    fill: var(--color-text);
   }
 
   .ga4flow__frame {
@@ -449,7 +683,7 @@ const stages = {
   }
 
   .ga4flow__note {
-    font-size: 9.5px;
+    font-size: 10px;
     fill: var(--color-muted);
   }
 
@@ -467,28 +701,38 @@ const stages = {
     fill: #6a6a6a;
   }
 
-  .ga4flow__node {
+  .ga4flow__node,
+  .ga4flow__step {
     cursor: pointer;
     outline: none;
   }
 
-  .ga4flow__node rect:first-child {
+  .ga4flow__node > rect:first-child {
     fill: #000;
     stroke: var(--color-text);
     stroke-width: 1;
-    transition: fill 0.4s;
   }
 
-  .ga4flow__node:hover rect:first-child,
-  .ga4flow__node:focus-visible rect:first-child {
+  .ga4flow__node--optional > rect:first-child {
+    stroke-dasharray: 4 3;
+    stroke: #8a8a8a;
+  }
+
+  .is-sgtm .ga4flow__node--optional > rect:first-child {
+    stroke: var(--color-text);
+    stroke-dasharray: none;
+  }
+
+  .ga4flow__node:hover > rect:first-child,
+  .ga4flow__node:focus-visible > rect:first-child {
     fill: #161616;
   }
 
-  .ga4flow__node.is-selected rect:first-child {
+  .ga4flow__node.is-selected > rect:first-child {
     stroke-width: 2.5;
   }
 
-  .ga4flow__node.is-pulse rect:first-child {
+  .ga4flow__node.is-pulse > rect:first-child {
     animation: ga4flow-pulse 0.6s ease-out;
   }
 
@@ -501,14 +745,43 @@ const stages = {
     }
   }
 
+  .ga4flow__step rect {
+    fill: transparent;
+    stroke: #2a2a2a;
+  }
+
+  .ga4flow__step:hover rect,
+  .ga4flow__step:focus-visible rect {
+    stroke: var(--color-text);
+  }
+
+  .ga4flow__step.is-selected rect {
+    stroke: var(--color-text);
+    stroke-width: 2;
+  }
+
+  .ga4flow__step.is-active rect {
+    fill: var(--color-text);
+  }
+
+  .ga4flow__step-text {
+    font-size: 11.5px;
+    fill: var(--color-text);
+    pointer-events: none;
+  }
+
+  .ga4flow__step.is-active .ga4flow__step-text {
+    fill: #000;
+  }
+
   .ga4flow__name {
-    font-size: 13px;
+    font-size: 14px;
     fill: var(--color-text);
   }
 
   .ga4flow__sub {
-    font-size: 10px;
-    fill: var(--color-muted);
+    font-size: 11px;
+    fill: #9a9a9a;
   }
 
   .ga4flow__count {
@@ -534,7 +807,7 @@ const stages = {
   }
 
   .ga4flow__packet-label {
-    font-size: 9.5px;
+    font-size: 10px;
     fill: #fff;
     paint-order: stroke;
     stroke: #000;
@@ -546,13 +819,13 @@ const stages = {
     margin-top: var(--space-1);
     padding-top: var(--space-1);
     font-size: var(--text-12);
-    min-height: 4.5em;
+    min-height: 5.5em;
   }
 
   .ga4flow__explain p {
     margin: 2px 0 0;
     color: var(--color-muted);
-    max-width: 70rem;
+    max-width: 75rem;
   }
 
   .ga4flow__legend {
@@ -567,18 +840,27 @@ const stages = {
   .ga4flow__legend span {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
   }
 
-  .ga4flow__dot {
-    width: 8px;
-    height: 8px;
+  .ga4flow__shape {
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     background: #fff;
     display: inline-block;
   }
 
-  .ga4flow__dot--batch {
+  .ga4flow__shape--sq {
+    border-radius: 0;
+  }
+
+  .ga4flow__shape--dia {
+    border-radius: 0;
+    transform: rotate(45deg) scale(0.85);
+  }
+
+  .ga4flow__shape--batch {
     background: #f2d230;
   }
 
@@ -589,7 +871,7 @@ const stages = {
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .ga4flow__node.is-pulse rect:first-child {
+    .ga4flow__node.is-pulse > rect:first-child {
       animation: none;
     }
   }

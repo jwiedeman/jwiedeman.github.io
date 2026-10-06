@@ -2284,7 +2284,7 @@ const tutorialBaseParams = {
       updateControls();
 
       return {
-        append(entry) {
+        append(entry, { focus = true } = {}) {
           hideEmpty();
           entry.classList.add('console-entry--recent');
           entry.addEventListener(
@@ -2303,12 +2303,15 @@ const tutorialBaseParams = {
           } else {
             stream.scrollTop = 0;
           }
-          focusPanel();
+          if (focus) {
+            focusPanel();
+          }
         }
       };
     }
 
     const consoleUI = createSandboxConsole({ limit: 12 });
+    let pageReady = false;
 
     function formatPayload(args) {
       const [command, param1, param2] = args;
@@ -2363,7 +2366,10 @@ const tutorialBaseParams = {
         </header>
         <pre class="console-entry__body">${payload.preformatted}</pre>
       `;
-      consoleUI.append(entry);
+      // Hits sent from the header diagram log quietly instead of scrolling to the console.
+      // Startup calls also log quietly, so the page does not jump on load.
+      const fromDiagram = args[2] && args[2].source === 'data_flow_diagram';
+      consoleUI.append(entry, { focus: pageReady && !fromDiagram });
     }
 
     function gtag() {
@@ -2391,6 +2397,7 @@ const tutorialBaseParams = {
       page_location: window.location.href,
       page_title: document.title
     });
+    pageReady = true;
 
     function parseParams(node) {
       const raw = node.dataset.ga4Params;
